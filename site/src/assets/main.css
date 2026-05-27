@@ -392,7 +392,7 @@ pre code {
 .markdown-body hr {
   border: none;
   border-top: var(--border-width-thick) solid var(--color-border);
-  margin: 2em 0;
+  margin: 2.5em 0;
 }
 
 .markdown-body .header-anchor {
@@ -429,6 +429,17 @@ pre code {
   background: var(--color-tertiary);
   padding: 0.1em 0.3em;
   color: var(--color-text);
+}
+
+.markdown-body strong {
+  color: var(--color-primary);
+}
+
+.markdown-body h3 + p strong,
+.markdown-body h3 + p + p strong {
+  font-family: var(--font-display);
+  font-size: 0.95em;
+  letter-spacing: 0.02em;
 }
 
 ::-webkit-scrollbar {
