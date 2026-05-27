@@ -510,7 +510,88 @@ steps:
    - 合并到 main 分支：部署到测试环境
    - 打标签：部署到生产环境
 
-## 10. 与其他 CI/CD 工具对比
+## 10. GitHub Pages 部署
+
+### 10.1 启用 GitHub Pages
+
+1. 进入仓库 **Settings** > **Pages**
+2. 选择源分支（通常是 `gh-pages` 或 `main`）
+3. 选择目录（通常是 `/` 或 `/docs`）
+4. 点击 **Save**
+
+### 10.2 自动部署到 GitHub Pages
+
+```yaml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build
+      run: npm run build
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
+```
+
+### 10.3 使用 GitHub Actions 官方 Pages 部署
+
+```yaml
+name: Deploy Pages
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/configure-pages@v5
+    - uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+    - uses: actions/deploy-pages@v4
+      id: deployment
+```
+
+## 11. 与其他 CI/CD 工具对比
 
 | 工具 | 优势 | 劣势 |
 |------|------|------|
