@@ -1,4 +1,4 @@
-# 哈希表
+﻿# 哈希表
 
 > @Version: v4.0.0
 > @Author: fanquanpp
@@ -553,8 +553,7 @@ class LFUCache:
             del self.freq_to_keys[freq]
             if self.min_freq == freq:
                 self.min_freq += 1
-        self.freq_to_keys[freq + 1][key] = True
-        self.key_to_val_freq[key] = (val, freq + 1)
+        self.freq_to_keys[freq + 1][key] =          self.key_to_val_freq[key] = (val, freq + 1)
         return val
 
     def put(self, key, value):
@@ -569,8 +568,7 @@ class LFUCache:
             del self.key_to_val_freq[evict_key]
             self.size -= 1
         self.key_to_val_freq[key] = (value, 1)
-        self.freq_to_keys[1][key] = True
-        self.min_freq = 1
+        self.freq_to_keys[1][key] =          self.min_freq = 1
         self.size += 1
 ```
 
@@ -632,15 +630,13 @@ class BloomFilter:
     def add(self, item):
         for i in range(self.hash_count):
             idx = mmh3.hash(str(item), i) % self.size
-            self.bit_array[idx] = True
-
+            self.bit_array[idx] =  
     def contains(self, item):
         for i in range(self.hash_count):
             idx = mmh3.hash(str(item), i) % self.size
             if not self.bit_array[idx]:
                 return False
-        return True
-```
+        return  ```
 
 **最优参数选择**：给定预期元素数n和假阳性率p：
 - m = -n * ln(p) / (ln2)^2

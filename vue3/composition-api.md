@@ -1,527 +1,412 @@
-# 02-组合式 API | Composition API
- False
- False> @Author: fanquanpp
- False> @Category: Vue3 Basics
- False> @Description: 02-组合式 API | Composition API
- False> @Updated: 2026-05-03
- False
- False---
- False
- False## 目录
- False
- False1. [组合式 API 概述 | Composition API Overview](#组合式-api-概述-|-composition-api-overview)
- False2. [setup 函数 | Setup Function](#setup-函数-|-setup-function)
- False3. [响应式 API | Reactive APIs](#响应式-api-|-reactive-apis)
- False4. [生命周期钩子 | Lifecycle Hooks](#生命周期钩子-|-lifecycle-hooks)
- False5. [组合函数 | Composables](#组合函数-|-composables)
- False6. [依赖注入 | Dependency Injection](#依赖注入-|-dependency-injection)
- False7. [模板引用 | Template Refs](#模板引用-|-template-refs)
- False8. [响应式工具 | Reactive Utilities](#响应式工具-|-reactive-utilities)
- False9. [最佳实践 | Best Practices](#最佳实践-|-best-practices)
- False10. [示例 | Examples](#示例-|-examples)
- False11. [小结 | Summary](#小结-|-summary)
- False
- False---
- False
- False## 1. 组合式 API 概述 | Composition API Overview
- False
- False组合式 API 是 Vue3 引入的新特性，它提供了一种新的方式来组织组件逻辑，使代码更易于维护和复用。与选项式 API（Options API）相比，组合式 API 具有以下优势：
- False
- False- **更好的代码组织**：可以将相关的逻辑组合在一起，而不是分散在不同的选项中
- False- **更好的类型推导**：TypeScript 类型推断更加准确
- False- **更好的逻辑复用**：可以通过组合函数（Composables）来复用逻辑
- False- **更灵活的代码结构**：不再受选项式 API 的限制
- False
- False## 2. setup 函数 | Setup Function
- False
- False`setup` 函数是组合式 API 的入口点，它在组件创建之前执行，返回的对象会暴露给模板和其他选项。
- False
- False### 2.1 基本用法
- False
+﻿# 02-组合式 API | Composition API
+> @Author: fanquanpp
+> @Category: Vue3 Basics
+> @Description: 02-组合式 API | Composition API
+> @Updated: 2026-05-03
+---
+## 目录
+1. [组合式 API 概述 | Composition API Overview](#组合式-api-概述-|-composition-api-overview)
+2. [setup 函数 | Setup Function](#setup-函数-|-setup-function)
+3. [响应式 API | Reactive APIs](#响应式-api-|-reactive-apis)
+4. [生命周期钩子 | Lifecycle Hooks](#生命周期钩子-|-lifecycle-hooks)
+5. [组合函数 | Composables](#组合函数-|-composables)
+6. [依赖注入 | Dependency Injection](#依赖注入-|-dependency-injection)
+7. [模板引用 | Template Refs](#模板引用-|-template-refs)
+8. [响应式工具 | Reactive Utilities](#响应式工具-|-reactive-utilities)
+9. [最佳实践 | Best Practices](#最佳实践-|-best-practices)
+10. [示例 | Examples](#示例-|-examples)
+11. [小结 | Summary](#小结-|-summary)
+---
+## 1. 组合式 API 概述 | Composition API Overview
+组合式 API 是 Vue3 引入的新特性，它提供了一种新的方式来组织组件逻辑，使代码更易于维护和复用。与选项式 API（Options API）相比，组合式 API 具有以下优势：
+- **更好的代码组织**：可以将相关的逻辑组合在一起，而不是分散在不同的选项中
+- **更好的类型推导**：TypeScript 类型推断更加准确
+- **更好的逻辑复用**：可以通过组合函数（Composables）来复用逻辑
+- **更灵活的代码结构**：不再受选项式 API 的限制
+## 2. setup 函数 | Setup Function
+`setup` 函数是组合式 API 的入口点，它在组件创建之前执行，返回的对象会暴露给模板和其他选项。
+### 2.1 基本用法
 ```vue
- True<template>
- True <div>
- True <p>Count: {{ count }}</p>
- True <button @click="increment">Increment</button>
- True </div>
- True</template>
- True
- True<script>
- Trueimport { ref, onMounted } from 'vue'
- True
- Trueexport default {
- True setup() {
- True // 创建响应式数据
- True const count = ref(0)
- True
- True // 定义方法
- True const increment = () => {
- True count.value++
- True }
- True
- True // 生命周期钩子
- True onMounted(() => {
- True console.log('Component mounted')
- True })
- True
- True // 返回暴露给模板的内容
- True return {
- True count,
- True increment
- True }
- True }
+ <template>
+  <div>
+  <p>Count: {{ count }}</p>
+  <button @click="increment">Increment</button>
+  </div>
+ </template>
+ <script>
+ import { ref, onMounted } from 'vue'
+ export default {
+  setup() {
+  // 创建响应式数据
+  const count = ref(0)
+  // 定义方法
+  const increment = () => {
+  count.value++
+  }
+  // 生命周期钩子
+  onMounted(() => {
+  console.log('Component mounted')
+  })
+  // 返回暴露给模板的内容
+  return {
+  count,
+  increment
+  }
+  }
  True}
- True</script>
- True```
+ </script>
+ ```
 
- False### 2.2 script setup 语法糖
- False
- FalseVue3.2+ 提供了 `script setup` 语法糖，使组合式 API 的使用更加简洁：
- False
+### 2.2 script setup 语法糖
+Vue3.2+ 提供了 `script setup` 语法糖，使组合式 API 的使用更加简洁：
 ```vue
- True<template>
- True <div>
- True <p>Count: {{ count }}</p>
- True <button @click="increment">Increment</button>
- True </div>
- True</template>
- True
- True<script setup>
- Trueimport { ref, onMounted } from 'vue'
- True
- True// 直接定义响应式数据
- Trueconst count = ref(0)
- True
- True// 直接定义方法
- Trueconst increment = () => {
- True count.value++
+ <template>
+  <div>
+  <p>Count: {{ count }}</p>
+  <button @click="increment">Increment</button>
+  </div>
+ </template>
+ <script setup>
+ import { ref, onMounted } from 'vue'
+ // 直接定义响应式数据
+ const count = ref(0)
+ // 直接定义方法
+ const increment = () => {
+  count.value++
  True}
- True
- True// 直接使用生命周期钩子
- TrueonMounted(() => {
- True console.log('Component mounted')
+ // 直接使用生命周期钩子
+ onMounted(() => {
+  console.log('Component mounted')
  True})
- True</script>
- True```
+ </script>
+ ```
 
- False## 3. 响应式 API | Reactive APIs
- False
- False### 3.1 ref
- False
- False`ref` 用于创建响应式的基本类型数据：
- False
+## 3. 响应式 API | Reactive APIs
+### 3.1 ref
+`ref` 用于创建响应式的基本类型数据：
 ```javascript
- Trueimport { ref } from 'vue'
- True
- Trueconst count = ref(0)
- Trueconsole.log(count.value) // 0
- True
+ import { ref } from 'vue'
+ const count = ref(0)
+ console.log(count.value) // 0
  Truecount.value++
- Trueconsole.log(count.value) // 1
- True```
+ console.log(count.value) // 1
+ ```
 
- False### 3.2 reactive
- False
- False`reactive` 用于创建响应式的对象：
- False
+### 3.2 reactive
+`reactive` 用于创建响应式的对象：
 ```javascript
- Trueimport { reactive } from 'vue'
- True
- Trueconst state = reactive({
- True count: 0,
- True message: 'Hello'
+ import { reactive } from 'vue'
+ const state = reactive({
+  count: 0,
+  message: 'Hello'
  True})
- True
- Trueconsole.log(state.count) // 0
- Truestate.count++
- Trueconsole.log(state.count) // 1
- True```
+ console.log(state.count) // 0
+ state.count++
+ console.log(state.count) // 1
+ ```
 
- False### 3.3 computed
- False
- False`computed` 用于创建计算属性：
- False
+### 3.3 computed
+`computed` 用于创建计算属性：
 ```javascript
- Trueimport { ref, computed } from 'vue'
- True
- Trueconst count = ref(0)
- Trueconst doubleCount = computed(() => count.value * 2)
- True
- Trueconsole.log(doubleCount.value) // 0
+ import { ref, computed } from 'vue'
+ const count = ref(0)
+ const doubleCount = computed(() => count.value * 2)
+ console.log(doubleCount.value) // 0
  Truecount.value++
- Trueconsole.log(doubleCount.value) // 2
- True```
+ console.log(doubleCount.value) // 2
+ ```
 
- False### 3.4 watch
- False
- False`watch` 用于监听数据变化：
- False
+### 3.4 watch
+`watch` 用于监听数据变化：
 ```javascript
- Trueimport { ref, watch } from 'vue'
- True
- Trueconst count = ref(0)
- True
- Truewatch(count, (newValue, oldValue) => {
- True console.log(`Count changed from ${oldValue} to ${newValue}`)
+ import { ref, watch } from 'vue'
+ const count = ref(0)
+ watch(count, (newValue, oldValue) => {
+  console.log(`Count changed from ${oldValue} to ${newValue}`)
  True})
- True
  Truecount.value++ // 输出: Count changed from 0 to 1
- True```
+ ```
 
- False### 3.5 watchEffect
- False
- False`watchEffect` 用于自动追踪响应式依赖：
- False
+### 3.5 watchEffect
+`watchEffect` 用于自动追踪响应式依赖：
 ```javascript
- Trueimport { ref, watchEffect } from 'vue'
- True
- Trueconst count = ref(0)
- True
- TruewatchEffect(() => {
- True console.log(`Count is ${count.value}`)
+ import { ref, watchEffect } from 'vue'
+ const count = ref(0)
+ watchEffect(() => {
+  console.log(`Count is ${count.value}`)
  True})
- True
  Truecount.value++ // 输出: Count is 1
- True```
+ ```
 
- False## 4. 生命周期钩子 | Lifecycle Hooks
- False
- False组合式 API 提供了与选项式 API 对应的生命周期钩子：
- False
- False- `onMounted`：组件挂载后
- False- `onUpdated`：组件更新后
- False- `onUnmounted`：组件卸载后
- False- `onBeforeMount`：组件挂载前
- False- `onBeforeUpdate`：组件更新前
- False- `onBeforeUnmount`：组件卸载前
- False- `onErrorCaptured`：捕获子组件错误
- False- `onRenderTracked`：响应式依赖被追踪时
- False- `onRenderTriggered`：响应式依赖被触发时
- False
+## 4. 生命周期钩子 | Lifecycle Hooks
+组合式 API 提供了与选项式 API 对应的生命周期钩子：
+- `onMounted`：组件挂载后
+- `onUpdated`：组件更新后
+- `onUnmounted`：组件卸载后
+- `onBeforeMount`：组件挂载前
+- `onBeforeUpdate`：组件更新前
+- `onBeforeUnmount`：组件卸载前
+- `onErrorCaptured`：捕获子组件错误
+- `onRenderTracked`：响应式依赖被追踪时
+- `onRenderTriggered`：响应式依赖被触发时
 ```javascript
- Trueimport { onMounted, onUpdated, onUnmounted } from 'vue'
- True
- TrueonMounted(() => {
- True console.log('Component mounted')
+ import { onMounted, onUpdated, onUnmounted } from 'vue'
+ onMounted(() => {
+  console.log('Component mounted')
  True})
- True
  TrueonUpdated(() => {
- True console.log('Component updated')
+  console.log('Component updated')
  True})
- True
- TrueonUnmounted(() => {
- True console.log('Component unmounted')
+ onUnmounted(() => {
+  console.log('Component unmounted')
  True})
- True```
+ ```
 
- False## 5. 组合函数 | Composables
- False
- False组合函数是组合式 API 的核心概念，用于复用逻辑：
- False
+## 5. 组合函数 | Composables
+组合函数是组合式 API 的核心概念，用于复用逻辑：
 ```javascript
- True// composables/useCounter.js
- Trueimport { ref, computed } from 'vue'
- True
- Trueexport function useCounter(initialValue = 0) {
- True const count = ref(initialValue)
- True const doubleCount = computed(() => count.value * 2)
- True
- True const increment = () => {
- True count.value++
- True }
- True
- True const decrement = () => {
- True count.value--
- True }
- True
- True return {
- True count,
- True doubleCount,
- True increment,
- True decrement
- True }
+ // composables/useCounter.js
+ import { ref, computed } from 'vue'
+ export function useCounter(initialValue = 0) {
+  const count = ref(initialValue)
+  const doubleCount = computed(() => count.value * 2)
+  const increment = () => {
+  count.value++
+  }
+  const decrement = () => {
+  count.value--
+  }
+  return {
+  count,
+  doubleCount,
+  increment,
+  decrement
+  }
  True}
- True```
+ ```
 
- False使用组合函数：
- False
+使用组合函数：
 ```vue
- True<template>
- True <div>
- True <p>Count: {{ count }}</p>
- True <p>Double Count: {{ doubleCount }}</p>
- True <button @click="increment">Increment</button>
- True <button @click="decrement">Decrement</button>
- True </div>
- True</template>
- True
- True<script setup>
- Trueimport { useCounter } from './composables/useCounter'
- True
- Trueconst { count, doubleCount, increment, decrement } = useCounter(0)
- True</script>
- True```
+ <template>
+  <div>
+  <p>Count: {{ count }}</p>
+  <p>Double Count: {{ doubleCount }}</p>
+  <button @click="increment">Increment</button>
+  <button @click="decrement">Decrement</button>
+  </div>
+ </template>
+ <script setup>
+ import { useCounter } from './composables/useCounter'
+ const { count, doubleCount, increment, decrement } = useCounter(0)
+ </script>
+ ```
 
- False## 6. 依赖注入 | Dependency Injection
- False
- False### 6.1 provide
- False
- False`provide` 用于向子组件提供数据：
- False
+## 6. 依赖注入 | Dependency Injection
+### 6.1 provide
+`provide` 用于向子组件提供数据：
 ```vue
- True<!-- ParentComponent.vue -->
- True<script setup>
- Trueimport { provide, ref } from 'vue'
- True
- Trueconst message = ref('Hello from parent')
- True
- Trueprovide('message', message)
- True</script>
- True```
+ <!-- ParentComponent.vue -->
+ <script setup>
+ import { provide, ref } from 'vue'
+ const message = ref('Hello from parent')
+ provide('message', message)
+ </script>
+ ```
 
- False### 6.2 inject
- False
- False`inject` 用于从父组件获取数据：
- False
+### 6.2 inject
+`inject` 用于从父组件获取数据：
 ```vue
- True<!-- ChildComponent.vue -->
- True<script setup>
- Trueimport { inject } from 'vue'
- True
- Trueconst message = inject('message', 'Default message')
- True</script>
- True
- True<template>
- True <p>{{ message }}</p>
- True</template>
- True```
+ <!-- ChildComponent.vue -->
+ <script setup>
+ import { inject } from 'vue'
+ const message = inject('message', 'Default message')
+ </script>
+ <template>
+  <p>{{ message }}</p>
+ </template>
+ ```
 
- False## 7. 模板引用 | Template Refs
- False
- False使用 `ref` 可以获取DOM元素或组件实例：
- False
+## 7. 模板引用 | Template Refs
+使用 `ref` 可以获取DOM元素或组件实例：
 ```vue
- True<template>
- True <div ref="container">Hello</div>
- True <MyComponent ref="myComponent" />
- True</template>
- True
- True<script setup>
- Trueimport { ref, onMounted } from 'vue'
- Trueimport MyComponent from './MyComponent.vue'
- True
- Trueconst container = ref(null)
- Trueconst myComponent = ref(null)
- True
- TrueonMounted(() => {
- True console.log(container.value) // DOM元素
- True console.log(myComponent.value) // 组件实例
+ <template>
+  <div ref="container">Hello</div>
+  <MyComponent ref="myComponent" />
+ </template>
+ <script setup>
+ import { ref, onMounted } from 'vue'
+ import MyComponent from './MyComponent.vue'
+ const container = ref(null)
+ const myComponent = ref(null)
+ onMounted(() => {
+  console.log(container.value) // DOM元素
+  console.log(myComponent.value) // 组件实例
  True})
- True</script>
- True```
+ </script>
+ ```
 
- False## 8. 响应式工具 | Reactive Utilities
- False
- False### 8.1 toRefs
- False
- False`toRefs` 用于将响应式对象转换为普通对象，其中每个属性都是一个 ref：
- False
+## 8. 响应式工具 | Reactive Utilities
+### 8.1 toRefs
+`toRefs` 用于将响应式对象转换为普通对象，其中每个属性都是一个 ref：
 ```javascript
- Trueimport { reactive, toRefs } from 'vue'
- True
- Trueconst state = reactive({
- True count: 0,
- True message: 'Hello'
+ import { reactive, toRefs } from 'vue'
+ const state = reactive({
+  count: 0,
+  message: 'Hello'
  True})
- True
- Trueconst refs = toRefs(state)
- Trueconsole.log(refs.count.value) // 0
- Trueconsole.log(refs.message.value) // Hello
- True```
+ const refs = toRefs(state)
+ console.log(refs.count.value) // 0
+ console.log(refs.message.value) // Hello
+ ```
 
- False### 8.2 toRef
- False
- False`toRef` 用于为响应式对象的单个属性创建 ref：
- False
+### 8.2 toRef
+`toRef` 用于为响应式对象的单个属性创建 ref：
 ```javascript
- Trueimport { reactive, toRef } from 'vue'
- True
- Trueconst state = reactive({
- True count: 0,
- True message: 'Hello'
+ import { reactive, toRef } from 'vue'
+ const state = reactive({
+  count: 0,
+  message: 'Hello'
  True})
- True
- Trueconst countRef = toRef(state, 'count')
- Trueconsole.log(countRef.value) // 0
- True```
+ const countRef = toRef(state, 'count')
+ console.log(countRef.value) // 0
+ ```
 
- False### 8.3 unref
- False
- False`unref` 用于获取 ref 的值，如果参数不是 ref，则直接返回参数：
- False
+### 8.3 unref
+`unref` 用于获取 ref 的值，如果参数不是 ref，则直接返回参数：
 ```javascript
- Trueimport { ref, unref } from 'vue'
- True
- Trueconst count = ref(0)
- Trueconst message = 'Hello'
- True
- Trueconsole.log(unref(count)) // 0
- Trueconsole.log(unref(message)) // Hello
- True```
+ import { ref, unref } from 'vue'
+ const count = ref(0)
+ const message = 'Hello'
+ console.log(unref(count)) // 0
+ console.log(unref(message)) // Hello
+ ```
 
- False### 8.4 isRef
- False
- False`isRef` 用于检查一个值是否是 ref：
- False
+### 8.4 isRef
+`isRef` 用于检查一个值是否是 ref：
 ```javascript
- Trueimport { ref, isRef } from 'vue'
- True
- Trueconst count = ref(0)
- Trueconst message = 'Hello'
- True
- Trueconsole.log(isRef(count)) // true
- Trueconsole.log(isRef(message)) // false
- True```
+ import { ref, isRef } from 'vue'
+ const count = ref(0)
+ const message = 'Hello'
+ console.log(isRef(count)) //  
+ console.log(isRef(message)) // false
+ ```
 
- False## 9. 最佳实践 | Best Practices
- False
- False1. **使用 script setup**：简洁明了，推荐使用
- False2. **组织逻辑**：将相关的逻辑组合在一起
- False3. **使用组合函数**：复用逻辑，提高代码可维护性
- False4. **合理使用响应式 API**：根据需要选择 ref 或 reactive
- False5. **避免过度使用 watch**：优先使用 computed
- False6. **注意响应式陷阱**：了解响应式系统的工作原理，避免常见陷阱
- False
- False## 10. 示例 | Examples
- False
- False### 10.1 计数器示例
- False
+## 9. 最佳实践 | Best Practices
+1. **使用 script setup**：简洁明了，推荐使用
+2. **组织逻辑**：将相关的逻辑组合在一起
+3. **使用组合函数**：复用逻辑，提高代码可维护性
+4. **合理使用响应式 API**：根据需要选择 ref 或 reactive
+5. **避免过度使用 watch**：优先使用 computed
+6. **注意响应式陷阱**：了解响应式系统的工作原理，避免常见陷阱
+## 10. 示例 | Examples
+### 10.1 计数器示例
 ```vue
- True<template>
- True <div class="counter">
- True <h2>Counter</h2>
- True <p>Count: {{ count }}</p>
- True <p>Double: {{ doubleCount }}</p>
- True <div>
- True <button @click="increment">+</button>
- True <button @click="decrement">-</button>
- True <button @click="reset">Reset</button>
- True </div>
- True </div>
- True</template>
- True
- True<script setup>
- Trueimport { ref, computed } from 'vue'
- True
- Trueconst count = ref(0)
- Trueconst doubleCount = computed(() => count.value * 2)
- True
- Trueconst increment = () => count.value++
- Trueconst decrement = () => count.value--
- Trueconst reset = () => count.value = 0
- True</script>
- True
- True<style scoped>
- True.counter {
- True text-align: center;
- True padding: 20px;
- True border: 1px solid #ddd;
- True border-radius: 8px;
- True max-width: 300px;
- True margin: 0 auto;
+ <template>
+  <div class="counter">
+  <h2>Counter</h2>
+  <p>Count: {{ count }}</p>
+  <p>Double: {{ doubleCount }}</p>
+  <div>
+  <button @click="increment">+</button>
+  <button @click="decrement">-</button>
+  <button @click="reset">Reset</button>
+  </div>
+  </div>
+ </template>
+ <script setup>
+ import { ref, computed } from 'vue'
+ const count = ref(0)
+ const doubleCount = computed(() => count.value * 2)
+ const increment = () => count.value++
+ const decrement = () => count.value--
+ const reset = () => count.value = 0
+ </script>
+ <style scoped>
+ .counter {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-width: 300px;
+  margin: 0 auto;
  True}
- True
  Truebutton {
- True margin: 0 5px;
- True padding: 5px 10px;
- True font-size: 16px;
+  margin: 0 5px;
+  padding: 5px 10px;
+  font-size: 16px;
  True}
- True</style>
- True```
+ </style>
+ ```
 
- False### 10.2 表单示例
- False
+### 10.2 表单示例
 ```vue
- True<template>
- True <div class="form">
- True <h2>Form</h2>
- True <div>
- True <label>Name:</label>
- True <input v-model="form.name" type="text" />
- True </div>
- True <div>
- True <label>Email:</label>
- True <input v-model="form.email" type="email" />
- True </div>
- True <div>
- True <label>Message:</label>
- True <textarea v-model="form.message"></textarea>
- True </div>
- True <button @click="submitForm">Submit</button>
- True <div v-if="submitted">
- True <h3>Submitted Data:</h3>
- True <pre>{{ form }}</pre>
- True </div>
- True </div>
- True</template>
- True
- True<script setup>
- Trueimport { reactive, ref } from 'vue'
- True
- Trueconst form = reactive({
- True name: '',
- True email: '',
- True message: ''
+ <template>
+  <div class="form">
+  <h2>Form</h2>
+  <div>
+  <label>Name:</label>
+  <input v-model="form.name" type="text" />
+  </div>
+  <div>
+  <label>Email:</label>
+  <input v-model="form.email" type="email" />
+  </div>
+  <div>
+  <label>Message:</label>
+  <textarea v-model="form.message"></textarea>
+  </div>
+  <button @click="submitForm">Submit</button>
+  <div v-if="submitted">
+  <h3>Submitted Data:</h3>
+  <pre>{{ form }}</pre>
+  </div>
+  </div>
+ </template>
+ <script setup>
+ import { reactive, ref } from 'vue'
+ const form = reactive({
+  name: '',
+  email: '',
+  message: ''
  True})
- True
- Trueconst submitted = ref(false)
- True
- Trueconst submitForm = () => {
- True console.log('Form submitted:', form)
- True submitted.value = true
+ const submitted = ref(false)
+ const submitForm = () => {
+  console.log('Form submitted:', form)
+  submitted.value =  
  True}
- True</script>
- True
- True<style scoped>
- True.form {
- True max-width: 400px;
- True margin: 0 auto;
- True padding: 20px;
- True border: 1px solid #ddd;
- True border-radius: 8px;
+ </script>
+ <style scoped>
+ .form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
  True}
- True
  Truediv {
- True margin-bottom: 10px;
+  margin-bottom: 10px;
  True}
- True
  Truelabel {
- True display: inline-block;
- True width: 80px;
+  display: inline-block;
+  width: 80px;
  True}
- True
- Trueinput, textarea {
- True width: 300px;
- True padding: 5px;
+ input, textarea {
+  width: 300px;
+  padding: 5px;
  True}
- True
  Truebutton {
- True margin-top: 10px;
- True padding: 5px 10px;
+  margin-top: 10px;
+  padding: 5px 10px;
  True}
- True</style>
- True```
+ </style>
+ ```
 
- False## 11. 小结 | Summary
- False
- False组合式 API 是 Vue3 的重要特性，它提供了一种更灵活、更强大的方式来组织组件逻辑。通过本章节的学习，你已经了解了组合式 API 的基本概念和使用方法，包括 setup 函数、响应式 API、生命周期钩子、组合函数等。
- False
- False组合式 API 的核心优势在于它允许你根据逻辑关注点组织代码，而不是根据选项类型。这使得代码更加模块化、可复用，并且更易于理解和维护。
- False
- False在实际开发中，建议使用 `script setup` 语法糖，它使组合式 API 的使用更加简洁明了。同时，要善于使用组合函数来复用逻辑，提高代码的可维护性。
+## 11. 小结 | Summary
+组合式 API 是 Vue3 的重要特性，它提供了一种更灵活、更强大的方式来组织组件逻辑。通过本章节的学习，你已经了解了组合式 API 的基本概念和使用方法，包括 setup 函数、响应式 API、生命周期钩子、组合函数等。
+组合式 API 的核心优势在于它允许你根据逻辑关注点组织代码，而不是根据选项类型。这使得代码更加模块化、可复用，并且更易于理解和维护。
+在实际开发中，建议使用 `script setup` 语法糖，它使组合式 API 的使用更加简洁明了。同时，要善于使用组合函数来复用逻辑，提高代码的可维护性。
 
 ## 延伸阅读
 
 - [[javascript/functions-and-scope|JS 函数与作用域]]
 - [[javascript/async-programming|JS 异步编程]]
- False

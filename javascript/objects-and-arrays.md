@@ -1,906 +1,709 @@
-# 对象与数组 (Objects & Arrays)
- False
- False> @Version: v3.5.0
- False
- False> @Author: Anonymous
- False> @Category: JS Basics
- False> @Description: 对象字面量、原型链、数组常用方法及解构赋值。 | Object literals, prototype, array methods, and destructuring.
- False
- False---
- False
- False## 目录
- False
- False1. [对象](#对象)
- False2. [数组](#数组)
- False3. [解构赋值](#解构赋值)
- False4. [展开/剩余运算符](#展开/剩余运算符)
- False5. [最佳实践](#最佳实践)
- False6. [实际应用示例](#实际应用示例)
- False
- False---
- False
- False## 1. 对象 (Objects)
- False
- False### 1.1 对象的创建
- False
- False#### 1.1.1 对象字面量
- False
- False**语法**：
- False
+﻿# 对象与数组 (Objects & Arrays)
+> @Version: v3.5.0
+> @Author: Anonymous
+> @Category: JS Basics
+> @Description: 对象字面量、原型链、数组常用方法及解构赋值。 | Object literals, prototype, array methods, and destructuring.
+---
+## 目录
+1. [对象](#对象)
+2. [数组](#数组)
+3. [解构赋值](#解构赋值)
+4. [展开/剩余运算符](#展开/剩余运算符)
+5. [最佳实践](#最佳实践)
+6. [实际应用示例](#实际应用示例)
+---
+## 1. 对象 (Objects)
+### 1.1 对象的创建
+#### 1.1.1 对象字面量
+**语法**：
 ```javascript
- Trueconst obj = {
- True property1: value1,
- True property2: value2,
- True method() {
- True // 方法体
- True }
+ const obj = {
+  property1: value1,
+  property2: value2,
+  method() {
+  // 方法体
+  }
  True};
- True```
+ ```
 
- False**示例**：
- False
+**示例**：
 ```javascript
- Trueconst person = {
- True name: '张三',
- True age: 30,
- True city: '北京',
- True greet() {
- True return `Hello, my name is ${this.name}`;
- True }
+ const person = {
+  name: '张三',
+  age: 30,
+  city: '北京',
+  greet() {
+  return `Hello, my name is ${this.name}`;
+  }
  True};
- True
- Trueconsole.log(person.name); // 输出: 张三
- Trueconsole.log(person.greet()); // 输出: Hello, my name is 张三
- True```
+ console.log(person.name); // 输出: 张三
+ console.log(person.greet()); // 输出: Hello, my name is 张三
+ ```
 
- False#### 1.1.2 构造函数
- False
- False**语法**：
- False
+#### 1.1.2 构造函数
+**语法**：
 ```javascript
- Truefunction Person(name, age) {
- True this.name = name;
- True this.age = age;
- True this.greet = function() {
- True return `Hello, my name is ${this.name}`;
- True };
+ function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.greet = function() {
+  return `Hello, my name is ${this.name}`;
+  };
  True}
- True
- Trueconst person = new Person('张三', 30);
- True```
+ const person = new Person('张三', 30);
+ ```
 
- False**示例**：
- False
+**示例**：
 ```javascript
- Truefunction Car(make, model, year) {
- True this.make = make;
- True this.model = model;
- True this.year = year;
- True this.getDescription = function() {
- True return `${this.year} ${this.make} ${this.model}`;
- True };
+ function Car(make, model, year) {
+  this.make = make;
+  this.model = model;
+  this.year = year;
+  this.getDescription = function() {
+  return `${this.year} ${this.make} ${this.model}`;
+  };
  True}
- True
- Trueconst car = new Car('Toyota', 'Camry', 2020);
- Trueconsole.log(car.getDescription()); // 输出: 2020 Toyota Camry
- True```
+ const car = new Car('Toyota', 'Camry', 2020);
+ console.log(car.getDescription()); // 输出: 2020 Toyota Camry
+ ```
 
- False#### 1.1.3 Object.create()
- False
- False**语法**：
- False
+#### 1.1.3 Object.create()
+**语法**：
 ```javascript
- Trueconst obj = Object.create(prototype, propertiesObject);
- True```
+ const obj = Object.create(prototype, propertiesObject);
+ ```
 
- False**示例**：
- False
+**示例**：
 ```javascript
- Trueconst personPrototype = {
- True greet() {
- True return `Hello, my name is ${this.name}`;
- True }
+ const personPrototype = {
+  greet() {
+  return `Hello, my name is ${this.name}`;
+  }
  True};
- True
- Trueconst person = Object.create(personPrototype);
+ const person = Object.create(personPrototype);
  Trueperson.name = '张三';
  Trueperson.age = 30;
- True
- Trueconsole.log(person.greet()); // 输出: Hello, my name is 张三
- True```
+ console.log(person.greet()); // 输出: Hello, my name is 张三
+ ```
 
- False#### 1.1.4 ES6 类
- False
- False**语法**：
- False
+#### 1.1.4 ES6 类
+**语法**：
 ```javascript
- Trueclass Person {
- True constructor(name, age) {
- True this.name = name;
- True this.age = age;
- True }
- True 
- True greet() {
- True return `Hello, my name is ${this.name}`;
- True }
+ class Person {
+  constructor(name, age) {
+  this.name = name;
+  this.age = age;
+  }
+  greet() {
+  return `Hello, my name is ${this.name}`;
+  }
  True}
- True
- Trueconst person = new Person('张三', 30);
- True```
+ const person = new Person('张三', 30);
+ ```
 
- False**示例**：
- False
+**示例**：
 ```javascript
- Trueclass Student extends Person {
- True constructor(name, age, grade) {
- True super(name, age);
- True this.grade = grade;
- True }
- True 
- True study() {
- True return `${this.name} is studying in grade ${this.grade}`;
- True }
+ class Student extends Person {
+  constructor(name, age, grade) {
+  super(name, age);
+  this.grade = grade;
+  }
+  study() {
+  return `${this.name} is studying in grade ${this.grade}`;
+  }
  True}
- True
- Trueconst student = new Student('李四', 15, 9);
- Trueconsole.log(student.greet()); // 输出: Hello, my name is 李四
- Trueconsole.log(student.study()); // 输出: 李四 is studying in grade 9
- True```
+ const student = new Student('李四', 15, 9);
+ console.log(student.greet()); // 输出: Hello, my name is 李四
+ console.log(student.study()); // 输出: 李四 is studying in grade 9
+ ```
 
- False### 1.2 对象的属性操作
- False
- False#### 1.2.1 访问属性
- False
+### 1.2 对象的属性操作
+#### 1.2.1 访问属性
 ```javascript
- True// 点表示法
- Trueconst name = person.name;
- True
- True// 方括号表示法
- Trueconst age = person['age'];
- True
- True// 动态属性名
- Trueconst propName = 'city';
- Trueconst city = person[propName];
- True```
+ // 点表示法
+ const name = person.name;
+ // 方括号表示法
+ const age = person['age'];
+ // 动态属性名
+ const propName = 'city';
+ const city = person[propName];
+ ```
 
- False#### 1.2.2 修改属性
- False
+#### 1.2.2 修改属性
 ```javascript
  Trueperson.name = '王五'; // 修改现有属性
  Trueperson.city = '上海'; // 添加新属性
- True```
+ ```
 
- False#### 1.2.3 删除属性
- False
+#### 1.2.3 删除属性
 ```javascript
- Truedelete person.city;
- True```
+ delete person.city;
+ ```
 
- False#### 1.2.4 检查属性
- False
+#### 1.2.4 检查属性
 ```javascript
- True// 检查属性是否存在
- Trueconsole.log('name' in person); // 输出: true
- True
- True// 检查属性是否是对象自身的
- Trueconsole.log(person.hasOwnProperty('name')); // 输出: true
- True```
+ // 检查属性是否存在
+ console.log('name' in person); // 输出:  
+ // 检查属性是否是对象自身的
+ console.log(person.hasOwnProperty('name')); // 输出:  
+ ```
 
- False### 1.3 原型与原型链
- False
- False#### 1.3.1 原型的概念
- False
- False**定义**：每个对象都有一个原型对象，对象可以从原型继承属性和方法。
- False
- False**示例**：
- False
+### 1.3 原型与原型链
+#### 1.3.1 原型的概念
+**定义**：每个对象都有一个原型对象，对象可以从原型继承属性和方法。
+**示例**：
 ```javascript
- Truefunction Person(name) {
- True this.name = name;
+ function Person(name) {
+  this.name = name;
  True}
- True
- True// 在原型上添加方法
+ // 在原型上添加方法
  TruePerson.prototype.greet = function() {
- True return `Hello, my name is ${this.name}`;
+  return `Hello, my name is ${this.name}`;
  True};
- True
- Trueconst person1 = new Person('张三');
- Trueconst person2 = new Person('李四');
- True
- Trueconsole.log(person1.greet()); // 输出: Hello, my name is 张三
- Trueconsole.log(person2.greet()); // 输出: Hello, my name is 李四
- True
- True// 检查原型
- Trueconsole.log(Object.getPrototypeOf(person1) === Person.prototype); // 输出: true
- True```
+ const person1 = new Person('张三');
+ const person2 = new Person('李四');
+ console.log(person1.greet()); // 输出: Hello, my name is 张三
+ console.log(person2.greet()); // 输出: Hello, my name is 李四
+ // 检查原型
+ console.log(Object.getPrototypeOf(person1) === Person.prototype); // 输出:  
+ ```
 
- False#### 1.3.2 原型链
- False
- False**定义**：当访问一个对象的属性时，如果该对象没有这个属性，JavaScript 会沿着原型链向上查找，直到找到该属性或到达原型链的末端（null）。
- False
- False**示例**：
- False
+#### 1.3.2 原型链
+**定义**：当访问一个对象的属性时，如果该对象没有这个属性，JavaScript 会沿着原型链向上查找，直到找到该属性或到达原型链的末端（null）。
+**示例**：
 ```javascript
- Truefunction Person(name) {
- True this.name = name;
+ function Person(name) {
+  this.name = name;
  True}
- True
  TruePerson.prototype.greet = function() {
- True return `Hello, my name is ${this.name}`;
+  return `Hello, my name is ${this.name}`;
  True};
- True
- Truefunction Student(name, grade) {
- True Person.call(this, name);
- True this.grade = grade;
+ function Student(name, grade) {
+  Person.call(this, name);
+  this.grade = grade;
  True}
- True
- True// 继承 Person 的原型
+ // 继承 Person 的原型
  TrueStudent.prototype = Object.create(Person.prototype);
  TrueStudent.prototype.constructor = Student;
- True
  TrueStudent.prototype.study = function() {
- True return `${this.name} is studying`;
+  return `${this.name} is studying`;
  True};
- True
- Trueconst student = new Student('王五', 9);
- Trueconsole.log(student.greet()); // 输出: Hello, my name is 王五 (继承自 Person)
- Trueconsole.log(student.study()); // 输出: 王五 is studying (Student 自身的方法)
- True```
+ const student = new Student('王五', 9);
+ console.log(student.greet()); // 输出: Hello, my name is 王五 (继承自 Person)
+ console.log(student.study()); // 输出: 王五 is studying (Student 自身的方法)
+ ```
 
- False### 1.4 对象的方法
- False
- False#### 1.4.1 Object.keys()
- False
- False**作用**：返回对象自身的可枚举属性的键数组。
- False
+### 1.4 对象的方法
+#### 1.4.1 Object.keys()
+**作用**：返回对象自身的可枚举属性的键数组。
 ```javascript
- Trueconst person = { name: '张三', age: 30, city: '北京' };
- Trueconst keys = Object.keys(person);
- Trueconsole.log(keys); // 输出: ['name', 'age', 'city']
- True```
+ const person = { name: '张三', age: 30, city: '北京' };
+ const keys = Object.keys(person);
+ console.log(keys); // 输出: ['name', 'age', 'city']
+ ```
 
- False#### 1.4.2 Object.values()
- False
- False**作用**：返回对象自身的可枚举属性的值数组。
- False
+#### 1.4.2 Object.values()
+**作用**：返回对象自身的可枚举属性的值数组。
 ```javascript
- Trueconst person = { name: '张三', age: 30, city: '北京' };
- Trueconst values = Object.values(person);
- Trueconsole.log(values); // 输出: ['张三', 30, '北京']
- True```
+ const person = { name: '张三', age: 30, city: '北京' };
+ const values = Object.values(person);
+ console.log(values); // 输出: ['张三', 30, '北京']
+ ```
 
- False#### 1.4.3 Object.entries()
- False
- False**作用**：返回对象自身的可枚举属性的键值对数组。
- False
+#### 1.4.3 Object.entries()
+**作用**：返回对象自身的可枚举属性的键值对数组。
 ```javascript
- Trueconst person = { name: '张三', age: 30, city: '北京' };
- Trueconst entries = Object.entries(person);
- Trueconsole.log(entries); // 输出: [['name', '张三'], ['age', 30], ['city', '北京']]
- True```
+ const person = { name: '张三', age: 30, city: '北京' };
+ const entries = Object.entries(person);
+ console.log(entries); // 输出: [['name', '张三'], ['age', 30], ['city', '北京']]
+ ```
 
- False#### 1.4.4 Object.assign()
- False
- False**作用**：将一个或多个源对象的属性复制到目标对象。
- False
+#### 1.4.4 Object.assign()
+**作用**：将一个或多个源对象的属性复制到目标对象。
 ```javascript
- Trueconst target = { a: 1 };
- Trueconst source1 = { b: 2 };
- Trueconst source2 = { c: 3 };
- True
+ const target = { a: 1 };
+ const source1 = { b: 2 };
+ const source2 = { c: 3 };
  TrueObject.assign(target, source1, source2);
- Trueconsole.log(target); // 输出: { a: 1, b: 2, c: 3 }
- True```
+ console.log(target); // 输出: { a: 1, b: 2, c: 3 }
+ ```
 
- False## 2. 数组 (Arrays)
- False
- False### 2.1 数组的创建
- False
- False#### 2.1.1 数组字面量
- False
+## 2. 数组 (Arrays)
+### 2.1 数组的创建
+#### 2.1.1 数组字面量
 ```javascript
- Trueconst fruits = ['apple', 'banana', 'orange'];
- True```
+ const fruits = ['apple', 'banana', 'orange'];
+ ```
 
- False#### 2.1.2 Array 构造函数
- False
+#### 2.1.2 Array 构造函数
 ```javascript
- Trueconst numbers = new Array(1, 2, 3, 4, 5);
- Trueconst emptyArray = new Array(5); // 创建长度为 5 的空数组
- True```
+ const numbers = new Array(1, 2, 3, 4, 5);
+ const emptyArray = new Array(5); // 创建长度为 5 的空数组
+ ```
 
- False#### 2.1.3 Array.from()
- False
- False**作用**：从类数组对象或可迭代对象创建一个新的数组实例。
- False
+#### 2.1.3 Array.from()
+**作用**：从类数组对象或可迭代对象创建一个新的数组实例。
 ```javascript
- Trueconst str = 'hello';
- Trueconst arr = Array.from(str);
- Trueconsole.log(arr); // 输出: ['h', 'e', 'l', 'l', 'o']
- True
- Trueconst set = new Set([1, 2, 3]);
- Trueconst arrFromSet = Array.from(set);
- Trueconsole.log(arrFromSet); // 输出: [1, 2, 3]
- True```
+ const str = 'hello';
+ const arr = Array.from(str);
+ console.log(arr); // 输出: ['h', 'e', 'l', 'l', 'o']
+ const set = new Set([1, 2, 3]);
+ const arrFromSet = Array.from(set);
+ console.log(arrFromSet); // 输出: [1, 2, 3]
+ ```
 
- False#### 2.1.4 Array.of()
- False
- False**作用**：创建一个包含任意数量参数的新数组实例，无论参数的数量或类型。
- False
+#### 2.1.4 Array.of()
+**作用**：创建一个包含任意数量参数的新数组实例，无论参数的数量或类型。
 ```javascript
- Trueconst arr = Array.of(1, 2, 3, 4, 5);
- Trueconsole.log(arr); // 输出: [1, 2, 3, 4, 5]
- True```
+ const arr = Array.of(1, 2, 3, 4, 5);
+ console.log(arr); // 输出: [1, 2, 3, 4, 5]
+ ```
 
- False### 2.2 数组的基础操作
- False
- False#### 2.2.1 增删操作
- False
- False| 方法 | 描述 | 示例 |
- False|------|------|------|
- False| push() | 向数组末尾添加一个或多个元素 | `fruits.push('grape')` |
- False| pop() | 移除并返回数组的最后一个元素 | `const last = fruits.pop()` |
- False| unshift() | 向数组开头添加一个或多个元素 | `fruits.unshift('strawberry')` |
- False| shift() | 移除并返回数组的第一个元素 | `const first = fruits.shift()` |
- False| splice() | 从数组中添加或删除元素 | `fruits.splice(1, 1, 'pear')` |
- False
- False**示例**：
- False
+### 2.2 数组的基础操作
+#### 2.2.1 增删操作
+| 方法 | 描述 | 示例 |
+|------|------|------|
+| push() | 向数组末尾添加一个或多个元素 | `fruits.push('grape')` |
+| pop() | 移除并返回数组的最后一个元素 | `const last = fruits.pop()` |
+| unshift() | 向数组开头添加一个或多个元素 | `fruits.unshift('strawberry')` |
+| shift() | 移除并返回数组的第一个元素 | `const first = fruits.shift()` |
+| splice() | 从数组中添加或删除元素 | `fruits.splice(1, 1, 'pear')` |
+**示例**：
 ```javascript
- Trueconst fruits = ['apple', 'banana', 'orange'];
- True
- True// push
+ const fruits = ['apple', 'banana', 'orange'];
+ // push
  Truefruits.push('grape');
- Trueconsole.log(fruits); // 输出: ['apple', 'banana', 'orange', 'grape']
- True
- True// pop
- Trueconst lastFruit = fruits.pop();
- Trueconsole.log(lastFruit); // 输出: grape
- Trueconsole.log(fruits); // 输出: ['apple', 'banana', 'orange']
- True
- True// unshift
+ console.log(fruits); // 输出: ['apple', 'banana', 'orange', 'grape']
+ // pop
+ const lastFruit = fruits.pop();
+ console.log(lastFruit); // 输出: grape
+ console.log(fruits); // 输出: ['apple', 'banana', 'orange']
+ // unshift
  Truefruits.unshift('strawberry');
- Trueconsole.log(fruits); // 输出: ['strawberry', 'apple', 'banana', 'orange']
- True
- True// shift
- Trueconst firstFruit = fruits.shift();
- Trueconsole.log(firstFruit); // 输出: strawberry
- Trueconsole.log(fruits); // 输出: ['apple', 'banana', 'orange']
- True
- True// splice
+ console.log(fruits); // 输出: ['strawberry', 'apple', 'banana', 'orange']
+ // shift
+ const firstFruit = fruits.shift();
+ console.log(firstFruit); // 输出: strawberry
+ console.log(fruits); // 输出: ['apple', 'banana', 'orange']
+ // splice
  Truefruits.splice(1, 1, 'pear');
- Trueconsole.log(fruits); // 输出: ['apple', 'pear', 'orange']
- True```
+ console.log(fruits); // 输出: ['apple', 'pear', 'orange']
+ ```
 
- False#### 2.2.2 访问和修改元素
- False
+#### 2.2.2 访问和修改元素
 ```javascript
- Trueconst fruits = ['apple', 'banana', 'orange'];
- True
- True// 访问元素
- Trueconsole.log(fruits[0]); // 输出: apple
- True
- True// 修改元素
+ const fruits = ['apple', 'banana', 'orange'];
+ // 访问元素
+ console.log(fruits[0]); // 输出: apple
+ // 修改元素
  Truefruits[1] = 'pear';
- Trueconsole.log(fruits); // 输出: ['apple', 'pear', 'orange']
- True```
+ console.log(fruits); // 输出: ['apple', 'pear', 'orange']
+ ```
 
- False#### 2.2.3 数组长度
- False
+#### 2.2.3 数组长度
 ```javascript
- Trueconst fruits = ['apple', 'banana', 'orange'];
- Trueconsole.log(fruits.length); // 输出: 3
- True
- True// 修改长度
+ const fruits = ['apple', 'banana', 'orange'];
+ console.log(fruits.length); // 输出: 3
+ // 修改长度
  Truefruits.length = 2;
- Trueconsole.log(fruits); // 输出: ['apple', 'banana']
- True```
+ console.log(fruits); // 输出: ['apple', 'banana']
+ ```
 
- False### 2.3 数组的迭代方法
- False
- False#### 2.3.1 forEach()
- False
- False**作用**：遍历数组的每个元素，并对每个元素执行回调函数。
- False
+### 2.3 数组的迭代方法
+#### 2.3.1 forEach()
+**作用**：遍历数组的每个元素，并对每个元素执行回调函数。
 ```javascript
- Trueconst numbers = [1, 2, 3, 4, 5];
+ const numbers = [1, 2, 3, 4, 5];
  Truenumbers.forEach((num, index) => {
- True console.log(`Index ${index}: ${num}`);
+  console.log(`Index ${index}: ${num}`);
  True});
- True// 输出:
- True// Index 0: 1
- True// Index 1: 2
- True// Index 2: 3
- True// Index 3: 4
- True// Index 4: 5
- True```
+ // 输出:
+ // Index 0: 1
+ // Index 1: 2
+ // Index 2: 3
+ // Index 3: 4
+ // Index 4: 5
+ ```
 
- False#### 2.3.2 map()
- False
- False**作用**：创建一个新数组，其中包含对原始数组每个元素调用回调函数的结果。
- False
+#### 2.3.2 map()
+**作用**：创建一个新数组，其中包含对原始数组每个元素调用回调函数的结果。
 ```javascript
- Trueconst numbers = [1, 2, 3, 4, 5];
- Trueconst doubled = numbers.map(num => num * 2);
- Trueconsole.log(doubled); // 输出: [2, 4, 6, 8, 10]
- True```
+ const numbers = [1, 2, 3, 4, 5];
+ const doubled = numbers.map(num => num * 2);
+ console.log(doubled); // 输出: [2, 4, 6, 8, 10]
+ ```
 
- False#### 2.3.3 filter()
- False
- False**作用**：创建一个新数组，其中包含通过测试函数的元素。
- False
+#### 2.3.3 filter()
+**作用**：创建一个新数组，其中包含通过测试函数的元素。
 ```javascript
- Trueconst numbers = [1, 2, 3, 4, 5];
- Trueconst evenNumbers = numbers.filter(num => num % 2 === 0);
- Trueconsole.log(evenNumbers); // 输出: [2, 4]
- True```
+ const numbers = [1, 2, 3, 4, 5];
+ const evenNumbers = numbers.filter(num => num % 2 === 0);
+ console.log(evenNumbers); // 输出: [2, 4]
+ ```
 
- False#### 2.3.4 reduce()
- False
- False**作用**：对数组中的所有元素执行一个 reducer 函数，将其简化为单个值。
- False
+#### 2.3.4 reduce()
+**作用**：对数组中的所有元素执行一个 reducer 函数，将其简化为单个值。
 ```javascript
- Trueconst numbers = [1, 2, 3, 4, 5];
- Trueconst sum = numbers.reduce((accumulator, currentValue) => {
- True return accumulator + currentValue;
+ const numbers = [1, 2, 3, 4, 5];
+ const sum = numbers.reduce((accumulator, currentValue) => {
+  return accumulator + currentValue;
  True}, 0);
- Trueconsole.log(sum); // 输出: 15
- True```
+ console.log(sum); // 输出: 15
+ ```
 
- False#### 2.3.5 find()
- False
- False**作用**：返回数组中第一个通过测试函数的元素。
- False
+#### 2.3.5 find()
+**作用**：返回数组中第一个通过测试函数的元素。
 ```javascript
- Trueconst numbers = [1, 2, 3, 4, 5];
- Trueconst firstEven = numbers.find(num => num % 2 === 0);
- Trueconsole.log(firstEven); // 输出: 2
- True```
+ const numbers = [1, 2, 3, 4, 5];
+ const firstEven = numbers.find(num => num % 2 === 0);
+ console.log(firstEven); // 输出: 2
+ ```
 
- False#### 2.3.6 findIndex()
- False
- False**作用**：返回数组中第一个通过测试函数的元素的索引。
- False
+#### 2.3.6 findIndex()
+**作用**：返回数组中第一个通过测试函数的元素的索引。
 ```javascript
- Trueconst numbers = [1, 2, 3, 4, 5];
- Trueconst firstEvenIndex = numbers.findIndex(num => num % 2 === 0);
- Trueconsole.log(firstEvenIndex); // 输出: 1
- True```
+ const numbers = [1, 2, 3, 4, 5];
+ const firstEvenIndex = numbers.findIndex(num => num % 2 === 0);
+ console.log(firstEvenIndex); // 输出: 1
+ ```
 
- False#### 2.3.7 some()
- False
- False**作用**：检查数组中是否至少有一个元素通过测试函数。
- False
+#### 2.3.7 some()
+**作用**：检查数组中是否至少有一个元素通过测试函数。
 ```javascript
- Trueconst numbers = [1, 2, 3, 4, 5];
- Trueconst hasEven = numbers.some(num => num % 2 === 0);
- Trueconsole.log(hasEven); // 输出: true
- True```
+ const numbers = [1, 2, 3, 4, 5];
+ const hasEven = numbers.some(num => num % 2 === 0);
+ console.log(hasEven); // 输出:  
+ ```
 
- False#### 2.3.8 every()
- False
- False**作用**：检查数组中是否所有元素都通过测试函数。
- False
+#### 2.3.8 every()
+**作用**：检查数组中是否所有元素都通过测试函数。
 ```javascript
- Trueconst numbers = [2, 4, 6, 8, 10];
- Trueconst allEven = numbers.every(num => num % 2 === 0);
- Trueconsole.log(allEven); // 输出: true
- True```
+ const numbers = [2, 4, 6, 8, 10];
+ const allEven = numbers.every(num => num % 2 === 0);
+ console.log(allEven); // 输出:  
+ ```
 
- False#### 2.3.9 includes()
- False
- False**作用**：检查数组是否包含指定的元素。
- False
+#### 2.3.9 includes()
+**作用**：检查数组是否包含指定的元素。
 ```javascript
- Trueconst fruits = ['apple', 'banana', 'orange'];
- Trueconst hasApple = fruits.includes('apple');
- Trueconsole.log(hasApple); // 输出: true
- True```
+ const fruits = ['apple', 'banana', 'orange'];
+ const hasApple = fruits.includes('apple');
+ console.log(hasApple); // 输出:  
+ ```
 
- False#### 2.3.10 indexOf()
- False
- False**作用**：返回数组中指定元素的第一个索引，如果不存在则返回 -1。
- False
+#### 2.3.10 indexOf()
+**作用**：返回数组中指定元素的第一个索引，如果不存在则返回 -1。
 ```javascript
- Trueconst fruits = ['apple', 'banana', 'orange'];
- Trueconst bananaIndex = fruits.indexOf('banana');
- Trueconsole.log(bananaIndex); // 输出: 1
- True```
+ const fruits = ['apple', 'banana', 'orange'];
+ const bananaIndex = fruits.indexOf('banana');
+ console.log(bananaIndex); // 输出: 1
+ ```
 
- False#### 2.3.11 lastIndexOf()
- False
- False**作用**：返回数组中指定元素的最后一个索引，如果不存在则返回 -1。
- False
+#### 2.3.11 lastIndexOf()
+**作用**：返回数组中指定元素的最后一个索引，如果不存在则返回 -1。
 ```javascript
- Trueconst numbers = [1, 2, 3, 2, 1];
- Trueconst lastTwoIndex = numbers.lastIndexOf(2);
- Trueconsole.log(lastTwoIndex); // 输出: 3
- True```
+ const numbers = [1, 2, 3, 2, 1];
+ const lastTwoIndex = numbers.lastIndexOf(2);
+ console.log(lastTwoIndex); // 输出: 3
+ ```
 
- False### 2.4 数组的转换方法
- False
- False#### 2.4.1 join()
- False
- False**作用**：将数组的所有元素连接成一个字符串。
- False
+### 2.4 数组的转换方法
+#### 2.4.1 join()
+**作用**：将数组的所有元素连接成一个字符串。
 ```javascript
- Trueconst fruits = ['apple', 'banana', 'orange'];
- Trueconst fruitsString = fruits.join(', ');
- Trueconsole.log(fruitsString); // 输出: apple, banana, orange
- True```
+ const fruits = ['apple', 'banana', 'orange'];
+ const fruitsString = fruits.join(', ');
+ console.log(fruitsString); // 输出: apple, banana, orange
+ ```
 
- False#### 2.4.2 toString()
- False
- False**作用**：将数组转换为字符串。
- False
+#### 2.4.2 toString()
+**作用**：将数组转换为字符串。
 ```javascript
- Trueconst fruits = ['apple', 'banana', 'orange'];
- Trueconst fruitsString = fruits.toString();
- Trueconsole.log(fruitsString); // 输出: apple,banana,orange
- True```
+ const fruits = ['apple', 'banana', 'orange'];
+ const fruitsString = fruits.toString();
+ console.log(fruitsString); // 输出: apple,banana,orange
+ ```
 
- False#### 2.4.3 slice()
- False
- False**作用**：返回数组的一个子集，不会修改原数组。
- False
+#### 2.4.3 slice()
+**作用**：返回数组的一个子集，不会修改原数组。
 ```javascript
- Trueconst numbers = [1, 2, 3, 4, 5];
- Trueconst subset = numbers.slice(1, 4); // 从索引 1 到 3（不包括 4）
- Trueconsole.log(subset); // 输出: [2, 3, 4]
- Trueconsole.log(numbers); // 输出: [1, 2, 3, 4, 5]（原数组不变）
- True```
+ const numbers = [1, 2, 3, 4, 5];
+ const subset = numbers.slice(1, 4); // 从索引 1 到 3（不包括 4）
+ console.log(subset); // 输出: [2, 3, 4]
+ console.log(numbers); // 输出: [1, 2, 3, 4, 5]（原数组不变）
+ ```
 
- False#### 2.4.4 concat()
- False
- False**作用**：连接两个或多个数组，返回一个新数组。
- False
+#### 2.4.4 concat()
+**作用**：连接两个或多个数组，返回一个新数组。
 ```javascript
- Trueconst arr1 = [1, 2, 3];
- Trueconst arr2 = [4, 5, 6];
- Trueconst combined = arr1.concat(arr2);
- Trueconsole.log(combined); // 输出: [1, 2, 3, 4, 5, 6]
- True```
+ const arr1 = [1, 2, 3];
+ const arr2 = [4, 5, 6];
+ const combined = arr1.concat(arr2);
+ console.log(combined); // 输出: [1, 2, 3, 4, 5, 6]
+ ```
 
- False#### 2.4.5 reverse()
- False
- False**作用**：反转数组的顺序，会修改原数组。
- False
+#### 2.4.5 reverse()
+**作用**：反转数组的顺序，会修改原数组。
 ```javascript
- Trueconst numbers = [1, 2, 3, 4, 5];
+ const numbers = [1, 2, 3, 4, 5];
  Truenumbers.reverse();
- Trueconsole.log(numbers); // 输出: [5, 4, 3, 2, 1]
- True```
+ console.log(numbers); // 输出: [5, 4, 3, 2, 1]
+ ```
 
- False#### 2.4.6 sort()
- False
- False**作用**：对数组元素进行排序，会修改原数组。
- False
+#### 2.4.6 sort()
+**作用**：对数组元素进行排序，会修改原数组。
 ```javascript
- Trueconst numbers = [3, 1, 4, 1, 5, 9, 2, 6];
+ const numbers = [3, 1, 4, 1, 5, 9, 2, 6];
  Truenumbers.sort((a, b) => a - b); // 升序排序
- Trueconsole.log(numbers); // 输出: [1, 1, 2, 3, 4, 5, 6, 9]
- True
- Trueconst fruits = ['banana', 'apple', 'orange'];
+ console.log(numbers); // 输出: [1, 1, 2, 3, 4, 5, 6, 9]
+ const fruits = ['banana', 'apple', 'orange'];
  Truefruits.sort(); // 按字母顺序排序
- Trueconsole.log(fruits); // 输出: ['apple', 'banana', 'orange']
- True```
+ console.log(fruits); // 输出: ['apple', 'banana', 'orange']
+ ```
 
- False## 3. 解构赋值 (Destructuring)
- False
- False### 3.1 数组解构
- False
- False**语法**：
- False
+## 3. 解构赋值 (Destructuring)
+### 3.1 数组解构
+**语法**：
 ```javascript
- Trueconst [a, b, c] = [1, 2, 3];
- True```
+ const [a, b, c] = [1, 2, 3];
+ ```
 
- False**示例**：
- False
+**示例**：
 ```javascript
- Trueconst numbers = [1, 2, 3, 4, 5];
- True
- True// 基本解构
- Trueconst [first, second] = numbers;
- Trueconsole.log(first, second); // 输出: 1 2
- True
- True// 跳过元素
- Trueconst [, , third] = numbers;
- Trueconsole.log(third); // 输出: 3
- True
- True// 剩余元素
- Trueconst [firstNum, ...rest] = numbers;
- Trueconsole.log(firstNum); // 输出: 1
- Trueconsole.log(rest); // 输出: [2, 3, 4, 5]
- True
- True// 默认值
- Trueconst [x, y, z = 10] = [1, 2];
- Trueconsole.log(x, y, z); // 输出: 1 2 10
- True```
+ const numbers = [1, 2, 3, 4, 5];
+ // 基本解构
+ const [first, second] = numbers;
+ console.log(first, second); // 输出: 1 2
+ // 跳过元素
+ const [, , third] = numbers;
+ console.log(third); // 输出: 3
+ // 剩余元素
+ const [firstNum, ...rest] = numbers;
+ console.log(firstNum); // 输出: 1
+ console.log(rest); // 输出: [2, 3, 4, 5]
+ // 默认值
+ const [x, y, z = 10] = [1, 2];
+ console.log(x, y, z); // 输出: 1 2 10
+ ```
 
- False### 3.2 对象解构
- False
- False**语法**：
- False
+### 3.2 对象解构
+**语法**：
 ```javascript
- Trueconst { property1, property2 } = object;
- True```
+ const { property1, property2 } = object;
+ ```
 
- False**示例**：
- False
+**示例**：
 ```javascript
- Trueconst person = {
- True name: '张三',
- True age: 30,
- True city: '北京'
+ const person = {
+  name: '张三',
+  age: 30,
+  city: '北京'
  True};
- True
- True// 基本解构
- Trueconst { name, age } = person;
- Trueconsole.log(name, age); // 输出: 张三 30
- True
- True// 重命名属性
- Trueconst { name: personName, city: personCity } = person;
- Trueconsole.log(personName, personCity); // 输出: 张三 北京
- True
- True// 默认值
- Trueconst { name, gender = '男' } = person;
- Trueconsole.log(name, gender); // 输出: 张三 男
- True
- True// 剩余属性
- Trueconst { name, ...rest } = person;
- Trueconsole.log(name); // 输出: 张三
- Trueconsole.log(rest); // 输出: { age: 30, city: '北京' }
- True```
+ // 基本解构
+ const { name, age } = person;
+ console.log(name, age); // 输出: 张三 30
+ // 重命名属性
+ const { name: personName, city: personCity } = person;
+ console.log(personName, personCity); // 输出: 张三 北京
+ // 默认值
+ const { name, gender = '男' } = person;
+ console.log(name, gender); // 输出: 张三 男
+ // 剩余属性
+ const { name, ...rest } = person;
+ console.log(name); // 输出: 张三
+ console.log(rest); // 输出: { age: 30, city: '北京' }
+ ```
 
- False### 3.3 嵌套解构
- False
- False**示例**：
- False
+### 3.3 嵌套解构
+**示例**：
 ```javascript
- Trueconst user = {
- True name: '张三',
- True address: {
- True city: '北京',
- True district: '朝阳区'
- True },
- True hobbies: ['读书', '旅行', '运动']
+ const user = {
+  name: '张三',
+  address: {
+  city: '北京',
+  district: '朝阳区'
+  },
+  hobbies: ['读书', '旅行', '运动']
  True};
- True
- True// 嵌套对象解构
- Trueconst { name, address: { city } } = user;
- Trueconsole.log(name, city); // 输出: 张三 北京
- True
- True// 嵌套数组解构
- Trueconst { hobbies: [firstHobby, secondHobby] } = user;
- Trueconsole.log(firstHobby, secondHobby); // 输出: 读书 旅行
- True```
+ // 嵌套对象解构
+ const { name, address: { city } } = user;
+ console.log(name, city); // 输出: 张三 北京
+ // 嵌套数组解构
+ const { hobbies: [firstHobby, secondHobby] } = user;
+ console.log(firstHobby, secondHobby); // 输出: 读书 旅行
+ ```
 
- False### 3.4 函数参数解构
- False
- False**示例**：
- False
+### 3.4 函数参数解构
+**示例**：
 ```javascript
- True// 对象解构作为函数参数
- Truefunction printUser({ name, age }) {
- True console.log(`Name: ${name}, Age: ${age}`);
+ // 对象解构作为函数参数
+ function printUser({ name, age }) {
+  console.log(`Name: ${name}, Age: ${age}`);
  True}
- True
- Trueconst user = { name: '张三', age: 30 };
- TrueprintUser(user); // 输出: Name: 张三, Age: 30
- True
- True// 数组解构作为函数参数
- Truefunction sum([a, b, c]) {
- True return a + b + c;
+ const user = { name: '张三', age: 30 };
+ printUser(user); // 输出: Name: 张三, Age: 30
+ // 数组解构作为函数参数
+ function sum([a, b, c]) {
+  return a + b + c;
  True}
- True
- Trueconst numbers = [1, 2, 3];
- Trueconsole.log(sum(numbers)); // 输出: 6
- True```
+ const numbers = [1, 2, 3];
+ console.log(sum(numbers)); // 输出: 6
+ ```
 
- False## 4. 展开/剩余运算符 (`...`)
- False
- False### 4.1 展开运算符
- False
- False**作用**：将可迭代对象（如数组、字符串）展开为单个元素。
- False
- False#### 4.1.1 数组展开
- False
+## 4. 展开/剩余运算符 (`...`)
+### 4.1 展开运算符
+**作用**：将可迭代对象（如数组、字符串）展开为单个元素。
+#### 4.1.1 数组展开
 ```javascript
- Trueconst arr1 = [1, 2, 3];
- Trueconst arr2 = [4, 5, 6];
- Trueconst combined = [...arr1, ...arr2];
- Trueconsole.log(combined); // 输出: [1, 2, 3, 4, 5, 6]
- True
- True// 复制数组
- Trueconst original = [1, 2, 3];
- Trueconst copy = [...original];
- Trueconsole.log(copy); // 输出: [1, 2, 3]
- True```
+ const arr1 = [1, 2, 3];
+ const arr2 = [4, 5, 6];
+ const combined = [...arr1, ...arr2];
+ console.log(combined); // 输出: [1, 2, 3, 4, 5, 6]
+ // 复制数组
+ const original = [1, 2, 3];
+ const copy = [...original];
+ console.log(copy); // 输出: [1, 2, 3]
+ ```
 
- False#### 4.1.2 对象展开
- False
+#### 4.1.2 对象展开
 ```javascript
- Trueconst obj1 = { a: 1, b: 2 };
- Trueconst obj2 = { c: 3, d: 4 };
- Trueconst combined = { ...obj1, ...obj2 };
- Trueconsole.log(combined); // 输出: { a: 1, b: 2, c: 3, d: 4 }
- True
- True// 复制对象
- Trueconst original = { a: 1, b: 2 };
- Trueconst copy = { ...original };
- Trueconsole.log(copy); // 输出: { a: 1, b: 2 }
- True
- True// 合并对象并覆盖属性
- Trueconst obj1 = { a: 1, b: 2 };
- Trueconst obj2 = { b: 3, c: 4 };
- Trueconst combined = { ...obj1, ...obj2 };
- Trueconsole.log(combined); // 输出: { a: 1, b: 3, c: 4 }
- True```
+ const obj1 = { a: 1, b: 2 };
+ const obj2 = { c: 3, d: 4 };
+ const combined = { ...obj1, ...obj2 };
+ console.log(combined); // 输出: { a: 1, b: 2, c: 3, d: 4 }
+ // 复制对象
+ const original = { a: 1, b: 2 };
+ const copy = { ...original };
+ console.log(copy); // 输出: { a: 1, b: 2 }
+ // 合并对象并覆盖属性
+ const obj1 = { a: 1, b: 2 };
+ const obj2 = { b: 3, c: 4 };
+ const combined = { ...obj1, ...obj2 };
+ console.log(combined); // 输出: { a: 1, b: 3, c: 4 }
+ ```
 
- False#### 4.1.3 字符串展开
- False
+#### 4.1.3 字符串展开
 ```javascript
- Trueconst str = 'hello';
- Trueconst arr = [...str];
- Trueconsole.log(arr); // 输出: ['h', 'e', 'l', 'l', 'o']
- True```
+ const str = 'hello';
+ const arr = [...str];
+ console.log(arr); // 输出: ['h', 'e', 'l', 'l', 'o']
+ ```
 
- False### 4.2 剩余运算符
- False
- False**作用**：收集剩余的参数或属性。
- False
- False#### 4.2.1 函数参数中的剩余运算符
- False
+### 4.2 剩余运算符
+**作用**：收集剩余的参数或属性。
+#### 4.2.1 函数参数中的剩余运算符
 ```javascript
- Truefunction sum(...numbers) {
- True return numbers.reduce((total, num) => total + num, 0);
+ function sum(...numbers) {
+  return numbers.reduce((total, num) => total + num, 0);
  True}
- True
- Trueconsole.log(sum(1, 2, 3, 4, 5)); // 输出: 15
- True```
+ console.log(sum(1, 2, 3, 4, 5)); // 输出: 15
+ ```
 
- False#### 4.2.2 解构中的剩余运算符
- False
+#### 4.2.2 解构中的剩余运算符
 ```javascript
- True// 数组解构
- Trueconst [first, ...rest] = [1, 2, 3, 4, 5];
- Trueconsole.log(first); // 输出: 1
- Trueconsole.log(rest); // 输出: [2, 3, 4, 5]
- True
- True// 对象解构
- Trueconst { a, ...rest } = { a: 1, b: 2, c: 3 };
- Trueconsole.log(a); // 输出: 1
- Trueconsole.log(rest); // 输出: { b: 2, c: 3 }
- True```
+ // 数组解构
+ const [first, ...rest] = [1, 2, 3, 4, 5];
+ console.log(first); // 输出: 1
+ console.log(rest); // 输出: [2, 3, 4, 5]
+ // 对象解构
+ const { a, ...rest } = { a: 1, b: 2, c: 3 };
+ console.log(a); // 输出: 1
+ console.log(rest); // 输出: { b: 2, c: 3 }
+ ```
 
- False## 5. 最佳实践
- False
- False### 5.1 对象最佳实践
- False
- False1. **使用对象字面量**：对于简单对象，优先使用对象字面量创建。
- False
- False2. **使用 ES6 类**：对于复杂对象，优先使用 ES6 类语法。
- False
- False3. **使用 Object.keys()/values()/entries()**：遍历对象时，优先使用这些方法。
- False
- False4. **使用解构赋值**：从对象中提取属性时，使用解构赋值使代码更简洁。
- False
- False5. **使用展开运算符**：复制或合并对象时，使用展开运算符。
- False
- False6. **避免使用 **proto****：直接操作原型链可能导致性能问题，应使用 Object.getPrototypeOf() 和 Object.setPrototypeOf()。
- False
- False### 5.2 数组最佳实践
- False
- False1. **使用数组字面量**：创建数组时，优先使用数组字面量。
- False
- False2. **使用现代迭代方法**：遍历数组时，优先使用 forEach、map、filter 等现代方法。
- False
- False3. **使用解构赋值**：从数组中提取元素时，使用解构赋值。
- False
- False4. **使用展开运算符**：复制或合并数组时，使用展开运算符。
- False
- False5. **注意数组方法的副作用**：有些数组方法会修改原数组（如 push、pop、splice、reverse、sort），使用时要注意。
- False
- False6. **使用 includes() 检查元素**：检查数组是否包含某个元素时，优先使用 includes() 而不是 indexOf()。
- False
- False7. **使用 map() 转换数组**：当需要转换数组的每个元素时，使用 map() 方法。
- False
- False8. **使用 reduce() 进行累积计算**：当需要将数组简化为单个值时，使用 reduce() 方法。
- False
- False## 6. 实际应用示例
- False
- False### 6.1 示例 1：对象操作
- False
+## 5. 最佳实践
+### 5.1 对象最佳实践
+1. **使用对象字面量**：对于简单对象，优先使用对象字面量创建。
+2. **使用 ES6 类**：对于复杂对象，优先使用 ES6 类语法。
+3. **使用 Object.keys()/values()/entries()**：遍历对象时，优先使用这些方法。
+4. **使用解构赋值**：从对象中提取属性时，使用解构赋值使代码更简洁。
+5. **使用展开运算符**：复制或合并对象时，使用展开运算符。
+6. **避免使用 **proto****：直接操作原型链可能导致性能问题，应使用 Object.getPrototypeOf() 和 Object.setPrototypeOf()。
+### 5.2 数组最佳实践
+1. **使用数组字面量**：创建数组时，优先使用数组字面量。
+2. **使用现代迭代方法**：遍历数组时，优先使用 forEach、map、filter 等现代方法。
+3. **使用解构赋值**：从数组中提取元素时，使用解构赋值。
+4. **使用展开运算符**：复制或合并数组时，使用展开运算符。
+5. **注意数组方法的副作用**：有些数组方法会修改原数组（如 push、pop、splice、reverse、sort），使用时要注意。
+6. **使用 includes() 检查元素**：检查数组是否包含某个元素时，优先使用 includes() 而不是 indexOf()。
+7. **使用 map() 转换数组**：当需要转换数组的每个元素时，使用 map() 方法。
+8. **使用 reduce() 进行累积计算**：当需要将数组简化为单个值时，使用 reduce() 方法。
+## 6. 实际应用示例
+### 6.1 示例 1：对象操作
 ```javascript
- True// 合并多个对象
- Trueconst defaults = {
- True color: 'red',
- True size: 'medium'
+ // 合并多个对象
+ const defaults = {
+  color: 'red',
+  size: 'medium'
  True};
- True
- Trueconst options = {
- True color: 'blue',
- True quantity: 5
+ const options = {
+  color: 'blue',
+  quantity: 5
  True};
- True
- Trueconst finalConfig = { ...defaults, ...options };
- Trueconsole.log(finalConfig); // 输出: { color: 'blue', size: 'medium', quantity: 5 }
- True
- True// 提取对象属性
- Trueconst user = {
- True id: 1,
- True name: '张三',
- True age: 30,
- True email: 'zhangsan@example.com'
+ const finalConfig = { ...defaults, ...options };
+ console.log(finalConfig); // 输出: { color: 'blue', size: 'medium', quantity: 5 }
+ // 提取对象属性
+ const user = {
+  id: 1,
+  name: '张三',
+  age: 30,
+  email: 'zhangsan@example.com'
  True};
- True
- Trueconst { id, name, ...rest } = user;
- Trueconsole.log(id, name); // 输出: 1 张三
- Trueconsole.log(rest); // 输出: { age: 30, email: 'zhangsan@example.com' }
- True```
+ const { id, name, ...rest } = user;
+ console.log(id, name); // 输出: 1 张三
+ console.log(rest); // 输出: { age: 30, email: 'zhangsan@example.com' }
+ ```
 
- False### 6.2 示例 2：数组操作
- False
+### 6.2 示例 2：数组操作
 ```javascript
- True// 数据处理
- Trueconst users = [
- True { id: 1, name: '张三', age: 30, active: true },
- True { id: 2, name: '李四', age: 25, active: false },
- True { id: 3, name: '王五', age: 35, active: true },
- True { id: 4, name: '赵六', age: 28, active: true }
+ // 数据处理
+ const users = [
+  { id: 1, name: '张三', age: 30, active:  },
+  { id: 2, name: '李四', age: 25, active: false },
+  { id: 3, name: '王五', age: 35, active:  },
+  { id: 4, name: '赵六', age: 28, active:  }
  True];
- True
- True// 过滤活跃用户
- Trueconst activeUsers = users.filter(user => user.active);
- Trueconsole.log('活跃用户:', activeUsers);
- True
- True// 提取用户名
- Trueconst userNames = users.map(user => user.name);
- Trueconsole.log('用户名:', userNames);
- True
- True// 计算平均年龄
- Trueconst averageAge = users.reduce((sum, user) => sum + user.age, 0) / users.length;
- Trueconsole.log('平均年龄:', averageAge);
- True
- True// 查找年龄大于 30 的用户
- Trueconst olderUser = users.find(user => user.age > 30);
- Trueconsole.log('年龄大于 30 的用户:', olderUser);
- True```
+ // 过滤活跃用户
+ const activeUsers = users.filter(user => user.active);
+ console.log('活跃用户:', activeUsers);
+ // 提取用户名
+ const userNames = users.map(user => user.name);
+ console.log('用户名:', userNames);
+ // 计算平均年龄
+ const averageAge = users.reduce((sum, user) => sum + user.age, 0) / users.length;
+ console.log('平均年龄:', averageAge);
+ // 查找年龄大于 30 的用户
+ const olderUser = users.find(user => user.age > 30);
+ console.log('年龄大于 30 的用户:', olderUser);
+ ```
 
- False### 6.3 示例 3：解构与展开运算符
- False
+### 6.3 示例 3：解构与展开运算符
 ```javascript
- True// 函数参数解构
- Truefunction createUser({ name, age, email = 'unknown@example.com' }) {
- True return {
- True id: Math.random().toString(36).substr(2, 9),
- True name,
- True age,
- True email,
- True createdAt: new Date()
- True };
+ // 函数参数解构
+ function createUser({ name, age, email = 'unknown@example.com' }) {
+  return {
+  id: Math.random().toString(36).substr(2, 9),
+  name,
+  age,
+  email,
+  createdAt: new Date()
+  };
  True}
- True
- Trueconst userData = { name: '张三', age: 30 };
- Trueconst newUser = createUser(userData);
- Trueconsole.log('新用户:', newUser);
- True
- True// 数组展开与解构
- Trueconst numbers = [1, 2, 3, 4, 5];
- Trueconst [first, second, ...rest] = numbers;
- Trueconst newNumbers = [...rest, 6, 7];
- Trueconsole.log('原数组:', numbers);
- Trueconsole.log('第一个元素:', first);
- Trueconsole.log('第二个元素:', second);
- Trueconsole.log('剩余元素:', rest);
- Trueconsole.log('新数组:', newNumbers);
- True```
+ const userData = { name: '张三', age: 30 };
+ const newUser = createUser(userData);
+ console.log('新用户:', newUser);
+ // 数组展开与解构
+ const numbers = [1, 2, 3, 4, 5];
+ const [first, second, ...rest] = numbers;
+ const newNumbers = [...rest, 6, 7];
+ console.log('原数组:', numbers);
+ console.log('第一个元素:', first);
+ console.log('第二个元素:', second);
+ console.log('剩余元素:', rest);
+ console.log('新数组:', newNumbers);
+ ```
 
- False---
- False
- False### 更新日志 (Changelog)
- False
- False- 2026-04-05: 细化原型链与常用数组高阶函数。
- False- 2026-04-05: 扩写内容，增加详细的对象和数组操作、示例和最佳实践。
- False
+---
+### 更新日志 (Changelog)
+- 2026-04-05: 细化原型链与常用数组高阶函数。
+- 2026-04-05: 扩写内容，增加详细的对象和数组操作、示例和最佳实践。

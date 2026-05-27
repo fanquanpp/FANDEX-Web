@@ -1,4 +1,4 @@
-# HTML5 核心名词注释 (Core Glossary)
+﻿# HTML5 核心名词注释 (Core Glossary)
 
 > @Version: v4.0.0
 > @Module: HTML5
@@ -33,7 +33,7 @@
 | class 属性 | class Attribute | 元素类名，空格分隔多个值，CSS 和 JS 选择器的主要目标 |
 | charset | charset | 字符编码声明，`<meta charset="UTF-8">`，推荐使用 UTF-8 |
 | 语义化标签 | Semantic Tags | 具有明确含义的 HTML5 标签：`<header>`、`<nav>`、`<main>`、`<footer>` 等 |
-| contenteditable | contenteditable | 使元素内容可编辑的属性，值为 `true`/`false` |
+| contenteditable | contenteditable | 使元素内容可编辑的属性，值为 ``/`false` |
 | canvas 标签 | canvas Tag | `<canvas>` 画布元素，通过 JavaScript 绘制 2D/3D 图形 |
 
 ## D
@@ -45,7 +45,7 @@
 | details 标签 | details Tag | `<details>` 可折叠内容区域，`<summary>` 为可见标题 |
 | div 标签 | div Tag | `<div>` 通用块级容器，无语义，用于样式和脚本钩子 |
 | DOCTYPE | DOCTYPE | 文档类型声明，`<!DOCTYPE html>` 告知浏览器使用 HTML5 标准模式 |
-| draggable | draggable | 拖拽属性，`true`/`false`/`auto`，配合 Drag API 使用 |
+| draggable | draggable | 拖拽属性，``/`false`/`auto`，配合 Drag API 使用 |
 
 ## E
 
@@ -166,7 +166,7 @@
 | style 标签 | style Tag | `<style>` 内嵌样式表，`media` 属性指定适用媒体 |
 | script 标签 | script Tag | `<script>` 脚本标签，`src` 外部脚本、`defer` 延迟执行、`async` 异步加载 |
 | select 标签 | select Tag | `<select>` 下拉选择框，包含 `<option>` 子元素 |
-| spellcheck | spellcheck | 拼写检查属性，`true`/`false`，适用于可编辑元素 |
+| spellcheck | spellcheck | 拼写检查属性，``/`false`，适用于可编辑元素 |
 
 ## T
 

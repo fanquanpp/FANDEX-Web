@@ -1,4 +1,4 @@
-# 树
+﻿# 树
 
 > @Version: v4.0.0
 > @Author: fanquanpp
@@ -375,8 +375,7 @@ class BST:
     def is_valid_bst(self):
         def validate(node, lo, hi):
             if not node:
-                return True
-            if node.val <= lo or node.val >= hi:
+                return              if node.val <= lo or node.val >= hi:
                 return False
             return validate(node.left, lo, node.val) and validate(node.right, node.val, hi)
         return validate(self.root, float('-inf'), float('inf'))
@@ -719,8 +718,7 @@ class Trie:
             if ch not in node.children:
                 node.children[ch] = TrieNode()
             node = node.children[ch]
-        node.is_end = True
-
+        node.is_end =  
     def search(self, word):
         node = self._find(word)
         return node is not None and node.is_end

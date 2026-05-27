@@ -1,4 +1,4 @@
-# JavaScript 项目示例：待办事项应用
+﻿# JavaScript 项目示例：待办事项应用
 
 ## 项目概述
 
@@ -567,7 +567,7 @@ const TodoApp = (function () {
         const li = document.createElement("li");
         li.className = `todo-item${todo.completed ? " completed" : ""} entering`;
         li.dataset.id = todo.id;
-        li.setAttribute("draggable", "true");
+        li.setAttribute("draggable", "");
         li.setAttribute("role", "listitem");
 
         li.innerHTML = `

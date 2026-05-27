@@ -1,4 +1,4 @@
-# Matplotlib -- 折线图、柱状图、散点图与子图
+﻿# Matplotlib -- 折线图、柱状图、散点图与子图
 
 > @Version: v4.0.0
 > @Author: fanquanpp
@@ -395,7 +395,7 @@ plt.show()
 **输出说明**：
 - 正态分布的均值和中位数接近，直方图左右对称
 - 指数分布右偏，均值大于中位数，直方图向右拖尾
-- `axvline` 添加垂直参考线，`density=True` 可将 y 轴切换为概率密度
+- `axvline` 添加垂直参考线，`density=` 可将 y 轴切换为概率密度
 
 ### 6.2 密度直方图与叠加
 
@@ -417,7 +417,7 @@ ax.legend()
 plt.show()
 ```
 
-**输出说明**：`density=True` 将 y 轴从频数切换为概率密度，使不同样本量的分布可以直观对比。`alpha=0.5` 使重叠区域可见。
+**输出说明**：`density=` 将 y 轴从频数切换为概率密度，使不同样本量的分布可以直观对比。`alpha=0.5` 使重叠区域可见。
 
 > **为什么直方图的 bins 数量很重要？** bins 太少会掩盖分布细节，太多会引入噪声。经验法则：Sturges 公式 `bins = 1 + log2(n)`，或 Freedman-Diaconis 公式 `bin_width = 2 * IQR * n^(-1/3)`。在实践中，建议尝试 20-50 的范围。
 
@@ -495,7 +495,7 @@ plt.show()
 ```
 
 **输出说明**：
-- `sharex=True`/`sharey=True` 使子图共享坐标轴，减少重复标签
+- `sharex=`/`sharey=` 使子图共享坐标轴，减少重复标签
 - `axes.flat` 将二维数组展平为一维迭代器
 - `tight_layout` 自动调整间距
 

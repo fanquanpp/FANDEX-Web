@@ -1,796 +1,640 @@
-# JavaScript 模块化 (Modularity)
- False
- False> @Version: v4.0.0
- False> @Module: C08-模块化
- False
- False> @Author: Anonymous
- False> @Category: JS Basics
- False> @Description: 对比 CommonJS 与 ES Modules，讲清导入导出、默认/具名、动态加载、循环依赖与工程化落地。 | CommonJS vs ESM, exports/imports, dynamic import, circular deps, and practical tooling notes.
- False
- False---
- False
- False## 目录
- False
- False1. [为什么需要模块化](#为什么需要模块化)
- False2. [CommonJS（Node.js 传统模块）](#commonjsnodejs-传统模块)
- False3. [ES Modules（ESM，浏览器与现代 Node）](#es-modulesesm浏览器与现代-node)
- False4. [ESM vs CommonJS（关键差异）](#esm-vs-commonjs关键差异)
- False5. [AMD 与 CMD（历史方案）](#amd-与-cmd历史方案)
- False6. [模块打包工具](#模块打包工具)
- False7. [Node.js 中的 ESM 实践](#nodejs-中的-esm-实践)
- False8. [模块化最佳实践](#模块化最佳实践)
- False
- False---
- False
- False## 1. 为什么需要模块化 (Why Modules)
- False
- False### 1.1 没有模块化的痛点
- False
- False早期 JavaScript 没有原生模块系统，所有脚本共享全局作用域：
- False
+﻿# JavaScript 模块化 (Modularity)
+> @Version: v4.0.0
+> @Module: C08-模块化
+> @Author: Anonymous
+> @Category: JS Basics
+> @Description: 对比 CommonJS 与 ES Modules，讲清导入导出、默认/具名、动态加载、循环依赖与工程化落地。 | CommonJS vs ESM, exports/imports, dynamic import, circular deps, and practical tooling notes.
+---
+## 目录
+1. [为什么需要模块化](#为什么需要模块化)
+2. [CommonJS（Node.js 传统模块）](#commonjsnodejs-传统模块)
+3. [ES Modules（ESM，浏览器与现代 Node）](#es-modulesesm浏览器与现代-node)
+4. [ESM vs CommonJS（关键差异）](#esm-vs-commonjs关键差异)
+5. [AMD 与 CMD（历史方案）](#amd-与-cmd历史方案)
+6. [模块打包工具](#模块打包工具)
+7. [Node.js 中的 ESM 实践](#nodejs-中的-esm-实践)
+8. [模块化最佳实践](#模块化最佳实践)
+---
+## 1. 为什么需要模块化 (Why Modules)
+### 1.1 没有模块化的痛点
+早期 JavaScript 没有原生模块系统，所有脚本共享全局作用域：
 ```html
- True<script src="lib.js"></script>
- True<script src="utils.js"></script>
- True<script src="app.js"></script>
- True```
+ <script src="lib.js"></script>
+ <script src="utils.js"></script>
+ <script src="app.js"></script>
+ ```
 
- False问题：
- False
- False- **全局变量污染**：不同脚本中的同名变量互相覆盖
- False- **依赖关系不明确**：脚本加载顺序决定运行结果
- False- **难以维护**：项目变大后，变量来源无法追踪
- False
- False### 1.2 模块化的目标
- False
- False- 隔离作用域，避免全局变量污染
- False- 组织代码与依赖，提高可维护性
- False- 支持复用、测试、按需加载与打包优化
- False
- False### 1.3 模块化演进时间线
- False
+问题：
+- **全局变量污染**：不同脚本中的同名变量互相覆盖
+- **依赖关系不明确**：脚本加载顺序决定运行结果
+- **难以维护**：项目变大后，变量来源无法追踪
+### 1.2 模块化的目标
+- 隔离作用域，避免全局变量污染
+- 组织代码与依赖，提高可维护性
+- 支持复用、测试、按需加载与打包优化
+### 1.3 模块化演进时间线
 ```
  True全局函数 → 命名空间 → IIFE → CommonJS → AMD/CMD → ES Modules
- True(2005) (2007) (2009) (2009) (2011) (2015)
- True```
+ (2005) (2007) (2009) (2009) (2011) (2015)
+ ```
 
- False**IIFE（立即执行函数）**——早期模拟模块化的方式：
- False
+**IIFE（立即执行函数）**——早期模拟模块化的方式：
 ```js
- Trueconst module = (function () {
- True const private = 'secret'
- True function privateFn() { return private }
- True function publicFn() { return privateFn() }
- True return { publicFn }
+ const module = (function () {
+  const private = 'secret'
+  function privateFn() { return private }
+  function publicFn() { return privateFn() }
+  return { publicFn }
  True})()
- True
- Truemodule.publicFn()
- Truemodule.private
- True```
+ module.publicFn()
+ module.private
+ ```
 
- False---
- False
- False## 2. CommonJS（Node.js 传统模块）
- False
- False### 2.1 核心语法
- False
+---
+## 2. CommonJS（Node.js 传统模块）
+### 2.1 核心语法
 ```js
- True// add.cjs
- Truefunction add(a, b) { return a + b }
- Truemodule.exports = { add }
- True
- True// main.cjs
- Trueconst { add } = require('./add.cjs')
- Trueconsole.log(add(1, 2))
- True```
+ // add.cjs
+ function add(a, b) { return a + b }
+ module.exports = { add }
+ // main.cjs
+ const { add } = require('./add.cjs')
+ console.log(add(1, 2))
+ ```
 
- False特性要点：
- False
- False- `require()` 是运行时加载（可以写在条件分支中）
- False- 导出对象是可变引用：`module.exports` / `exports`
- False- 循环依赖时拿到的可能是"未完成初始化"的导出对象（半成品）
- False
- False### 2.2 `module.exports` vs `exports`
- False
+特性要点：
+- `require()` 是运行时加载（可以写在条件分支中）
+- 导出对象是可变引用：`module.exports` / `exports`
+- 循环依赖时拿到的可能是"未完成初始化"的导出对象（半成品）
+### 2.2 `module.exports` vs `exports`
 ```js
- Trueexports.add = function (a, b) { return a + b }
- Trueexports.sub = function (a, b) { return a - b }
- True
- Truemodule.exports = { add, sub }
- True```
+ exports.add = function (a, b) { return a + b }
+ exports.sub = function (a, b) { return a - b }
+ module.exports = { add, sub }
+ ```
 
- False**关键区别**：
- False
- False- `exports` 是 `module.exports` 的引用，`exports.x = ...` 等价于 `module.exports.x = ...`
- False- `exports = { ... }` 不会修改 `module.exports`，是无效写法
- False- `module.exports = { ... }` 会替换整个导出对象
- False
+**关键区别**：
+- `exports` 是 `module.exports` 的引用，`exports.x = ...` 等价于 `module.exports.x = ...`
+- `exports = { ... }` 不会修改 `module.exports`，是无效写法
+- `module.exports = { ... }` 会替换整个导出对象
 ```js
- Trueexports = { add }
- Truemodule.exports.add
- True
- Truemodule.exports = { add }
- Truemodule.exports.add
- True```
+ exports = { add }
+ module.exports.add
+ module.exports = { add }
+ module.exports.add
+ ```
 
- False### 2.3 `require()` 的工作机制
- False
+### 2.3 `require()` 的工作机制
 ```js
- Trueconst mod = require('./math')
- True```
+ const mod = require('./math')
+ ```
 
- False`require` 的解析规则：
- False
- False1. **核心模块**：`require('fs')` → 直接返回 Node.js 内置模块
- False2. **文件模块**：`require('./math')` → 按 `.js`/`.json`/`.node` 顺序查找
- False3. **目录模块**：`require('./dir')` → 查找 `dir/index.js` 或 `dir/package.json` 的 `main` 字段
- False4. **node_modules**：`require('lodash')` → 从当前目录向上逐级查找 `node_modules/lodash`
- False
- False### 2.4 模块缓存
- False
- FalseCommonJS 模块首次 `require` 后会被缓存，后续 `require` 返回同一对象：
- False
+`require` 的解析规则：
+1. **核心模块**：`require('fs')` → 直接返回 Node.js 内置模块
+2. **文件模块**：`require('./math')` → 按 `.js`/`.json`/`.node` 顺序查找
+3. **目录模块**：`require('./dir')` → 查找 `dir/index.js` 或 `dir/package.json` 的 `main` 字段
+4. **node_modules**：`require('lodash')` → 从当前目录向上逐级查找 `node_modules/lodash`
+### 2.4 模块缓存
+CommonJS 模块首次 `require` 后会被缓存，后续 `require` 返回同一对象：
 ```js
- Trueconst a = require('./counter')
- Trueconst b = require('./counter')
+ const a = require('./counter')
+ const b = require('./counter')
  Truea === b
- True
  Truea.increment()
  Trueb.getCount()
- True```
+ ```
 
 ```js
- Truelet count = 0
- Truefunction increment() { count++ }
- Truefunction getCount() { return count }
- Truemodule.exports = { increment, getCount }
- True```
+ let count = 0
+ function increment() { count++ }
+ function getCount() { return count }
+ module.exports = { increment, getCount }
+ ```
 
- False清除缓存（特殊场景）：
- False
+清除缓存（特殊场景）：
 ```js
- Truedelete require.cache[require.resolve('./counter')]
- True```
+ delete require.cache[require.resolve('./counter')]
+ ```
 
- False### 2.5 CommonJS 循环依赖详解
- False
+### 2.5 CommonJS 循环依赖详解
 ```js
- True// a.cjs
- Trueconst b = require('./b.cjs')
- Trueconsole.log('a: b.loaded =', b.loaded)
- Trueexports.loaded = true
- True
- True// b.cjs
- Trueconst a = require('./a.cjs')
- Trueconsole.log('b: a.loaded =', a.loaded)
- Trueexports.loaded = true
- True
- True// main.cjs
- Truerequire('./a.cjs')
- True```
+ // a.cjs
+ const b = require('./b.cjs')
+ console.log('a: b.loaded =', b.loaded)
+ exports.loaded =  
+ // b.cjs
+ const a = require('./a.cjs')
+ console.log('b: a.loaded =', a.loaded)
+ exports.loaded =  
+ // main.cjs
+ require('./a.cjs')
+ ```
 
- False执行流程：
- False
- False1. `main` 加载 `a.cjs`
- False2. `a.cjs` 执行到 `require('./b.cjs')`，暂停 `a` 的执行
- False3. `b.cjs` 执行到 `require('./a.cjs')`，此时 `a` 还没执行完，拿到的是**半成品**
- False4. `b.cjs` 输出 `a.loaded = undefined`，然后 `b` 执行完毕
- False5. 回到 `a.cjs`，`b.loaded = true`，`a` 执行完毕
- False
- False**应对策略**：
- False
- False- 避免在模块顶层立即执行依赖模块的逻辑
- False- 把依赖使用延迟到函数内部，降低循环依赖的初始化风险
- False- 重构模块结构，消除循环依赖
- False
+执行流程：
+1. `main` 加载 `a.cjs`
+2. `a.cjs` 执行到 `require('./b.cjs')`，暂停 `a` 的执行
+3. `b.cjs` 执行到 `require('./a.cjs')`，此时 `a` 还没执行完，拿到的是**半成品**
+4. `b.cjs` 输出 `a.loaded = undefined`，然后 `b` 执行完毕
+5. 回到 `a.cjs`，`b.loaded = `，`a` 执行完毕
+**应对策略**：
+- 避免在模块顶层立即执行依赖模块的逻辑
+- 把依赖使用延迟到函数内部，降低循环依赖的初始化风险
+- 重构模块结构，消除循环依赖
 ```js
- True// 改进：延迟使用依赖
- Trueconst b = require('./b.cjs')
- True
- Trueexports.doSomething = function () {
- True return b.doOther()
+ // 改进：延迟使用依赖
+ const b = require('./b.cjs')
+ exports.doSomething = function () {
+  return b.doOther()
  True}
- True```
+ ```
 
- False---
- False
- False## 3. ES Modules（ESM，浏览器与现代 Node）
- False
- False### 3.1 具名导出/导入 (Named)
- False
+---
+## 3. ES Modules（ESM，浏览器与现代 Node）
+### 3.1 具名导出/导入 (Named)
 ```js
- True// math.js
- Trueexport function add(a, b) { return a + b }
- Trueexport const PI = 3.14159
- True
- True// main.js
- Trueimport { add, PI } from './math.js'
- Trueconsole.log(add(1, 2), PI)
- True```
+ // math.js
+ export function add(a, b) { return a + b }
+ export const PI = 3.14159
+ // main.js
+ import { add, PI } from './math.js'
+ console.log(add(1, 2), PI)
+ ```
 
- False**重命名导入**：
- False
+**重命名导入**：
 ```js
- Trueimport { add as sum, PI as pi } from './math.js'
- Trueconsole.log(sum(1, 2), pi)
- True```
+ import { add as sum, PI as pi } from './math.js'
+ console.log(sum(1, 2), pi)
+ ```
 
- False**重命名导出**：
- False
+**重命名导出**：
 ```js
- Trueexport { add as sum, PI as pi }
- True```
+ export { add as sum, PI as pi }
+ ```
 
- False### 3.2 默认导出/导入 (Default)
- False
+### 3.2 默认导出/导入 (Default)
 ```js
- True// logger.js
- Trueexport default function log(msg) { console.log(msg) }
- True
- True// main.js
- Trueimport log from './logger.js'
+ // logger.js
+ export default function log(msg) { console.log(msg) }
+ // main.js
+ import log from './logger.js'
  Truelog('hello')
- True```
+ ```
 
- False实践建议：
- False
- False- 默认导出适合"一个模块一个核心能力"的场景
- False- 工程协作中更推荐具名导出，便于重构与自动补全
- False
- False**默认导出与具名导出可以共存**：
- False
+实践建议：
+- 默认导出适合"一个模块一个核心能力"的场景
+- 工程协作中更推荐具名导出，便于重构与自动补全
+**默认导出与具名导出可以共存**：
 ```js
- True// utils.js
- Trueexport default function main() { console.log('main') }
- Trueexport function helper() { console.log('helper') }
- True
- True// main.js
- Trueimport mainFn, { helper } from './utils.js'
+ // utils.js
+ export default function main() { console.log('main') }
+ export function helper() { console.log('helper') }
+ // main.js
+ import mainFn, { helper } from './utils.js'
  TruemainFn()
  Truehelper()
- True```
+ ```
 
- False### 3.3 `import * as ns`
- False
+### 3.3 `import * as ns`
 ```js
- Trueimport * as math from './math.js'
- Trueconsole.log(math.add(1, 2))
- True```
+ import * as math from './math.js'
+ console.log(math.add(1, 2))
+ ```
 
- False命名空间导入的对象是**只读视图**（live binding），不能修改：
- False
+命名空间导入的对象是**只读视图**（live binding），不能修改：
 ```js
  Truemath.add = null
- True```
+ ```
 
- False### 3.4 动态导入 (Dynamic import)
- False
- False动态导入返回 Promise，适合按需加载与拆包：
- False
+### 3.4 动态导入 (Dynamic import)
+动态导入返回 Promise，适合按需加载与拆包：
 ```js
- Trueasync function loadFeature() {
- True const mod = await import('./feature.js')
- True mod.run()
+ async function loadFeature() {
+  const mod = await import('./feature.js')
+  mod.run()
  True}
- True```
+ ```
 
- False**典型应用场景**：
- False
+**典型应用场景**：
 ```js
- True// 按路由懒加载
- Truerouter.addRoute('/dashboard', async () => {
- True const { Dashboard } = await import('./pages/Dashboard.js')
- True return Dashboard
+ // 按路由懒加载
+ router.addRoute('/dashboard', async () => {
+  const { Dashboard } = await import('./pages/Dashboard.js')
+  return Dashboard
  True})
- True
- True// 条件加载
- Trueif (supportsWebGL()) {
- True const { render3D } = await import('./renderer-3d.js')
- True render3D()
+ // 条件加载
+ if (supportsWebGL()) {
+  const { render3D } = await import('./renderer-3d.js')
+  render3D()
  True} else {
- True const { render2D } = await import('./renderer-2d.js')
- True render2D()
+  const { render2D } = await import('./renderer-2d.js')
+  render2D()
  True}
- True
- True// 错误降级
- Truetry {
- True const mod = await import('./feature.js')
- True mod.init()
+ // 错误降级
+ try {
+  const mod = await import('./feature.js')
+  mod.init()
  True} catch (err) {
- True console.warn('Feature unavailable, falling back')
+  console.warn('Feature unavailable, falling back')
  True}
- True```
+ ```
 
- False### 3.5 `import.meta`
- False
- FalseESM 模块中可访问模块自身元信息：
- False
+### 3.5 `import.meta`
+ESM 模块中可访问模块自身元信息：
 ```js
- Trueconsole.log(import.meta.url)
- True```
+ console.log(import.meta.url)
+ ```
 
- False在浏览器中返回模块的完整 URL；在 Node.js 中返回 `file://` 协议的路径。
- False
- False### 3.6 ESM 的静态分析特性
- False
- FalseESM 的 `import`/`export` 必须在顶层，这使得打包工具可以在编译时分析依赖图：
- False
+在浏览器中返回模块的完整 URL；在 Node.js 中返回 `file://` 协议的路径。
+### 3.6 ESM 的静态分析特性
+ESM 的 `import`/`export` 必须在顶层，这使得打包工具可以在编译时分析依赖图：
 ```js
- Trueimport { add } from './math.js'
- True```
+ import { add } from './math.js'
+ ```
 
- False**静态分析的优势**：
- False
- False- **Tree-shaking**：移除未使用的导出
- False- **提前发现错误**：拼写错误的导入路径在编译时就能报错
- False- **循环依赖检测**：构建工具可以提前警告
- False
+**静态分析的优势**：
+- **Tree-shaking**：移除未使用的导出
+- **提前发现错误**：拼写错误的导入路径在编译时就能报错
+- **循环依赖检测**：构建工具可以提前警告
 ```js
- Trueif (condition) {
- True import { add } from './math.js'
+ if (condition) {
+  import { add } from './math.js'
  True}
- True```
+ ```
 
- False### 3.7 ESM 的 Live Binding
- False
- FalseESM 的导入是**实时绑定**，而非值拷贝：
- False
+### 3.7 ESM 的 Live Binding
+ESM 的导入是**实时绑定**，而非值拷贝：
 ```js
- True// counter.js
- Trueexport let count = 0
- Trueexport function increment() { count++ }
- True
- True// main.js
- Trueimport { count, increment } from './counter.js'
- Trueconsole.log(count)
- Trueincrement()
- Trueconsole.log(count)
- True```
+ // counter.js
+ export let count = 0
+ export function increment() { count++ }
+ // main.js
+ import { count, increment } from './counter.js'
+ console.log(count)
+ increment()
+ console.log(count)
+ ```
 
- False这与 CommonJS 的值拷贝形成鲜明对比：
- False
+这与 CommonJS 的值拷贝形成鲜明对比：
 ```js
- True// counter.cjs
- Truelet count = 0
- Truefunction increment() { count++ }
- Truemodule.exports = { count, increment }
- True
- True// main.cjs
- Trueconst { count, increment } = require('./counter.cjs')
- Trueconsole.log(count)
- Trueincrement()
- Trueconsole.log(count)
- True```
+ // counter.cjs
+ let count = 0
+ function increment() { count++ }
+ module.exports = { count, increment }
+ // main.cjs
+ const { count, increment } = require('./counter.cjs')
+ console.log(count)
+ increment()
+ console.log(count)
+ ```
 
- False---
- False
- False## 4. ESM vs CommonJS（关键差异）
- False
- False| 维度 | CommonJS | ES Modules |
- False| :-- | :-- | :-- |
- False| 加载时机 | 运行时 | 静态分析 + 运行时 |
- False| 语法位置 | 可在任意位置 `require` | 顶层 `import/export`（动态导入除外） |
- False| 导出绑定 | 值拷贝/对象引用（可变） | 实时绑定（live binding） |
- False| 循环依赖 | 拿到半成品 | 拿到引用但可能未初始化 |
- False| Tree-shaking | 困难（运行时加载） | 原生支持 |
- False| `this` 顶层的值 | `module.exports` | `undefined` |
- False| 生态 | Node 传统 | 浏览器/现代 Node/打包器 |
- False| 文件扩展名 | `.cjs` / `.js` | `.mjs` / `.js`(type:module) |
- False
- False### 4.1 导出绑定差异示例
- False
+---
+## 4. ESM vs CommonJS（关键差异）
+| 维度 | CommonJS | ES Modules |
+| :-- | :-- | :-- |
+| 加载时机 | 运行时 | 静态分析 + 运行时 |
+| 语法位置 | 可在任意位置 `require` | 顶层 `import/export`（动态导入除外） |
+| 导出绑定 | 值拷贝/对象引用（可变） | 实时绑定（live binding） |
+| 循环依赖 | 拿到半成品 | 拿到引用但可能未初始化 |
+| Tree-shaking | 困难（运行时加载） | 原生支持 |
+| `this` 顶层的值 | `module.exports` | `undefined` |
+| 生态 | Node 传统 | 浏览器/现代 Node/打包器 |
+| 文件扩展名 | `.cjs` / `.js` | `.mjs` / `.js`(type:module) |
+### 4.1 导出绑定差异示例
 ```js
- True// CommonJS
- Truelet value = 1
+ // CommonJS
+ let value = 1
  TruesetTimeout(() => { value = 2 }, 100)
- Truemodule.exports = { value }
- True
- Trueconst { value } = require('./mod.cjs')
+ module.exports = { value }
+ const { value } = require('./mod.cjs')
  TruesetTimeout(() => console.log(value), 200)
- True```
+ ```
 
 ```js
- True// ESM
- Trueexport let value = 1
+ // ESM
+ export let value = 1
  TruesetTimeout(() => { value = 2 }, 100)
- True
- Trueimport { value } from './mod.js'
+ import { value } from './mod.js'
  TruesetTimeout(() => console.log(value), 200)
- True```
+ ```
 
- False### 4.2 `this` 差异
- False
+### 4.2 `this` 差异
 ```js
- Trueconsole.log(this)
- True```
+ console.log(this)
+ ```
 
- False---
- False
- False## 5. AMD 与 CMD（历史方案）
- False
- False### 5.1 AMD（Asynchronous Module Definition）
- False
- FalseAMD 是浏览器端最早的异步模块规范，代表实现是 **RequireJS**：
- False
+---
+## 5. AMD 与 CMD（历史方案）
+### 5.1 AMD（Asynchronous Module Definition）
+AMD 是浏览器端最早的异步模块规范，代表实现是 **RequireJS**：
 ```js
- Truedefine(['jquery', 'underscore'], function ($, _) {
- True function doSomething() {
- True return _.map([1, 2, 3], n => n * 2)
- True }
- True return { doSomething }
+ define(['jquery', 'underscore'], function ($, _) {
+  function doSomething() {
+  return _.map([1, 2, 3], n => n * 2)
+  }
+  return { doSomething }
  True})
- True
- Truerequire(['myModule'], function (myModule) {
- True myModule.doSomething()
+ require(['myModule'], function (myModule) {
+  myModule.doSomething()
  True})
- True```
+ ```
 
- False特点：
- False
- False- **异步加载**：浏览器环境不会阻塞页面渲染
- False- **依赖前置**：所有依赖在 `define` 第一个参数中声明，加载后执行回调
- False- **回调函数**：模块定义在回调函数中
- False
- False### 5.2 CMD（Common Module Definition）
- False
- FalseCMD 是国内提出的规范，代表实现是 **SeaJS**：
- False
+特点：
+- **异步加载**：浏览器环境不会阻塞页面渲染
+- **依赖前置**：所有依赖在 `define` 第一个参数中声明，加载后执行回调
+- **回调函数**：模块定义在回调函数中
+### 5.2 CMD（Common Module Definition）
+CMD 是国内提出的规范，代表实现是 **SeaJS**：
 ```js
- Truedefine(function (require, exports, module) {
- True const $ = require('jquery')
- True
- True function doSomething() {
- True const _ = require('underscore')
- True return _.map([1, 2, 3], n => n * 2)
- True }
- True
- True exports.doSomething = doSomething
+ define(function (require, exports, module) {
+  const $ = require('jquery')
+  function doSomething() {
+  const _ = require('underscore')
+  return _.map([1, 2, 3], n => n * 2)
+  }
+  exports.doSomething = doSomething
  True})
- True```
+ ```
 
- False特点：
- False
- False- **依赖就近**：`require` 可以在函数体内任意位置调用
- False- **按需加载**：只在真正使用时才加载依赖
- False- **写法更接近 CommonJS**
- False
- False### 5.3 AMD vs CMD 对比
- False
- False| 对比项 | AMD | CMD |
- False|:--|:--|:--|
- False| 代表实现 | RequireJS | SeaJS |
- False| 依赖声明 | 前置（define 参数） | 就近（函数体内 require） |
- False| 执行时机 | 依赖全部加载后执行 | 遇到 require 时执行 |
- False| 推广范围 | 国际 | 国内（阿里系） |
- False
- False> [提示] **现状**：AMD/CMD 已被 ESM 完全取代，了解即可。现代项目统一使用 ESM。
- False
- False---
- False
- False## 6. 模块打包工具
- False
- False### 6.1 为什么需要打包工具
- False
- False浏览器不支持 `require()`，也不支持 Node.js 的模块解析规则。打包工具解决：
- False
- False- 模块语法转换（ESM/CJS → 浏览器可执行代码）
- False- 依赖图构建与打包
- False- 代码分割（Code Splitting）
- False- 资源处理（CSS、图片、字体等）
- False- 开发服务器与热更新（HMR）
- False
- False### 6.2 Webpack
- False
- FalseWebpack 是最成熟的打包工具，核心概念：
- False
+特点：
+- **依赖就近**：`require` 可以在函数体内任意位置调用
+- **按需加载**：只在真正使用时才加载依赖
+- **写法更接近 CommonJS**
+### 5.3 AMD vs CMD 对比
+| 对比项 | AMD | CMD |
+|:--|:--|:--|
+| 代表实现 | RequireJS | SeaJS |
+| 依赖声明 | 前置（define 参数） | 就近（函数体内 require） |
+| 执行时机 | 依赖全部加载后执行 | 遇到 require 时执行 |
+| 推广范围 | 国际 | 国内（阿里系） |
+> [提示] **现状**：AMD/CMD 已被 ESM 完全取代，了解即可。现代项目统一使用 ESM。
+---
+## 6. 模块打包工具
+### 6.1 为什么需要打包工具
+浏览器不支持 `require()`，也不支持 Node.js 的模块解析规则。打包工具解决：
+- 模块语法转换（ESM/CJS → 浏览器可执行代码）
+- 依赖图构建与打包
+- 代码分割（Code Splitting）
+- 资源处理（CSS、图片、字体等）
+- 开发服务器与热更新（HMR）
+### 6.2 Webpack
+Webpack 是最成熟的打包工具，核心概念：
 ```js
- True// webpack.config.js
- Truemodule.exports = {
- True entry: './src/index.js',
- True output: {
- True path: path.resolve(__dirname, 'dist'),
- True filename: '[name].[contenthash].js'
- True },
- True module: {
- True rules: [
- True { test: /\.js$/, use: 'babel-loader', exclude: /node_modules/ },
- True { test: /\.css$/, use: ['style-loader', 'css-loader'] }
- True ]
- True },
- True plugins: [
- True new HtmlWebpackPlugin({ template: './public/index.html' })
- True ],
- True optimization: {
- True splitChunks: {
- True chunks: 'all'
- True }
- True }
+ // webpack.config.js
+ module.exports = {
+  entry: './src/index.js',
+  output: {
+  path: path.resolve(__dirname, 'dist'),
+  filename: '[name].[contenthash].js'
+  },
+  module: {
+  rules: [
+  { test: /\.js$/, use: 'babel-loader', exclude: /node_modules/ },
+  { test: /\.css$/, use: ['style-loader', 'css-loader'] }
+  ]
+  },
+  plugins: [
+  new HtmlWebpackPlugin({ template: './public/index.html' })
+  ],
+  optimization: {
+  splitChunks: {
+  chunks: 'all'
+  }
+  }
  True}
- True```
+ ```
 
- False**核心概念**：
- False
- False- **Entry**：打包入口
- False- **Output**：输出配置
- False- **Loader**：处理非 JS 文件（CSS、图片等）
- False- **Plugin**：扩展功能（压缩、HTML 生成等）
- False- **Code Splitting**：代码分割，按需加载
- False
- False**动态导入与代码分割**：
- False
+**核心概念**：
+- **Entry**：打包入口
+- **Output**：输出配置
+- **Loader**：处理非 JS 文件（CSS、图片等）
+- **Plugin**：扩展功能（压缩、HTML 生成等）
+- **Code Splitting**：代码分割，按需加载
+**动态导入与代码分割**：
 ```js
- Trueconst Dashboard = React.lazy(() => import('./pages/Dashboard'))
- True```
+ const Dashboard = React.lazy(() => import('./pages/Dashboard'))
+ ```
 
- False### 6.3 Vite
- False
- FalseVite 是新一代构建工具，开发时利用浏览器原生 ESM，生产构建使用 Rollup：
- False
+### 6.3 Vite
+Vite 是新一代构建工具，开发时利用浏览器原生 ESM，生产构建使用 Rollup：
 ```js
- True// vite.config.js
- Trueimport { defineConfig } from 'vite'
- Trueimport react from '@vitejs/plugin-react'
- True
- Trueexport default defineConfig({
- True plugins: [react()],
- True build: {
- True rollupOptions: {
- True output: {
- True manualChunks: {
- True vendor: ['react', 'react-dom']
- True }
- True }
- True }
- True }
+ // vite.config.js
+ import { defineConfig } from 'vite'
+ import react from '@vitejs/plugin-react'
+ export default defineConfig({
+  plugins: [react()],
+  build: {
+  rollupOptions: {
+  output: {
+  manualChunks: {
+  vendor: ['react', 'react-dom']
+  }
+  }
+  }
+  }
  True})
- True```
+ ```
 
- False**Vite vs Webpack 对比**：
- False
- False| 对比项 | Webpack | Vite |
- False|:--|:--|:--|
- False| 开发启动 | 全量打包后启动 | 按需编译，秒级启动 |
- False| HMR 速度 | 随项目增大变慢 | 始终快速（基于 ESM） |
- False| 生产构建 | 自身打包 | Rollup |
- False| 配置复杂度 | 较高 | 较低 |
- False| 生态成熟度 | 非常成熟 | 快速成长中 |
- False| 适用场景 | 大型/复杂项目 | 新项目/快速迭代 |
- False
- False### 6.4 其他工具简介
- False
- False- **Rollup**：专注于库打包，Tree-shaking 效果最好
- False- **esbuild**：Go 语言编写，编译速度极快
- False- **Parcel**：零配置打包工具
- False- **Turbopack**：Vercel 推出的增量打包工具（Next.js 集成）
- False
- False---
- False
- False## 7. Node.js 中的 ESM 实践
- False
- False### 7.1 启用 ESM 的方式
- False
- False常见做法（择一）：
- False
- False- `package.json` 设置 `"type": "module"`，`.js` 视为 ESM
- False- 使用 `.mjs` 后缀明确为 ESM
- False- 继续用 `.cjs` 保持 CommonJS
- False
+**Vite vs Webpack 对比**：
+| 对比项 | Webpack | Vite |
+|:--|:--|:--|
+| 开发启动 | 全量打包后启动 | 按需编译，秒级启动 |
+| HMR 速度 | 随项目增大变慢 | 始终快速（基于 ESM） |
+| 生产构建 | 自身打包 | Rollup |
+| 配置复杂度 | 较高 | 较低 |
+| 生态成熟度 | 非常成熟 | 快速成长中 |
+| 适用场景 | 大型/复杂项目 | 新项目/快速迭代 |
+### 6.4 其他工具简介
+- **Rollup**：专注于库打包，Tree-shaking 效果最好
+- **esbuild**：Go 语言编写，编译速度极快
+- **Parcel**：零配置打包工具
+- **Turbopack**：Vercel 推出的增量打包工具（Next.js 集成）
+---
+## 7. Node.js 中的 ESM 实践
+### 7.1 启用 ESM 的方式
+常见做法（择一）：
+- `package.json` 设置 `"type": "module"`，`.js` 视为 ESM
+- 使用 `.mjs` 后缀明确为 ESM
+- 继续用 `.cjs` 保持 CommonJS
 ```json
- True{
- True "name": "my-project",
- True "type": "module"
+ {
+  "name": "my-project",
+  "type": "module"
  True}
- True```
+ ```
 
- False### 7.2 ESM 中的文件扩展名
- False
- FalseESM 的 `import` 要求相对路径必须包含完整扩展名：
- False
+### 7.2 ESM 中的文件扩展名
+ESM 的 `import` 要求相对路径必须包含完整扩展名：
 ```js
- Trueimport { add } from './math.js'
- Trueimport { add } from './math'
- True```
+ import { add } from './math.js'
+ import { add } from './math'
+ ```
 
- False这与 CommonJS 不同（CJS 可以省略扩展名）。
- False
- False### 7.3 互操作注意
- False
- False#### ESM 导入 CommonJS
- False
+这与 CommonJS 不同（CJS 可以省略扩展名）。
+### 7.3 互操作注意
+#### ESM 导入 CommonJS
 ```js
- Trueimport pkg from 'cjs-pkg'
- True```
+ import pkg from 'cjs-pkg'
+ ```
 
- False常见会把 `module.exports` 映射到 `default`。若需要具名导入，可使用：
- False
+常见会把 `module.exports` 映射到 `default`。若需要具名导入，可使用：
 ```js
- Trueimport cjsPkg from 'cjs-pkg'
- Trueconst { method1, method2 } = cjsPkg
- True```
+ import cjsPkg from 'cjs-pkg'
+ const { method1, method2 } = cjsPkg
+ ```
 
- False或使用命名空间导入：
- False
+或使用命名空间导入：
 ```js
- Trueimport * as cjsPkg from 'cjs-pkg'
+ import * as cjsPkg from 'cjs-pkg'
  TruecjsPkg.default.method1()
- True```
+ ```
 
- False#### CommonJS 引入 ESM
- False
+#### CommonJS 引入 ESM
 ```js
- Trueconst esmMod = await import('./esm-module.js')
+ const esmMod = await import('./esm-module.js')
  TrueesmMod.default()
  TrueesmMod.namedExport()
- True```
+ ```
 
- FalseCJS 中只能使用动态 `import()` 引入 ESM 模块，不能使用 `require()`。
- False
- False### 7.4 `package.json` 的 `exports` 字段
- False
+CJS 中只能使用动态 `import()` 引入 ESM 模块，不能使用 `require()`。
+### 7.4 `package.json` 的 `exports` 字段
 ```json
- True{
- True "name": "my-lib",
- True "exports": {
- True ".": {
- True "import": "./dist/esm/index.js",
- True "require": "./dist/cjs/index.js",
- True "default": "./dist/cjs/index.js"
- True },
- True "./utils": {
- True "import": "./dist/esm/utils.js",
- True "require": "./dist/cjs/utils.js"
- True }
- True }
+ {
+  "name": "my-lib",
+  "exports": {
+  ".": {
+  "import": "./dist/esm/index.js",
+  "require": "./dist/cjs/index.js",
+  "default": "./dist/cjs/index.js"
+  },
+  "./utils": {
+  "import": "./dist/esm/utils.js",
+  "require": "./dist/cjs/utils.js"
+  }
+  }
  True}
- True```
+ ```
 
- False`exports` 字段可以：
- False- 为 ESM 和 CJS 提供不同的入口
- False- 控制哪些子路径可以被外部导入（限制内部模块暴露）
- False- 优先于 `main` 字段
- False
- False---
- False
- False## 8. 模块化最佳实践
- False
- False### 8.1 导出设计原则
- False
- False**一个模块一个职责**：
- False
+`exports` 字段可以：
+- 为 ESM 和 CJS 提供不同的入口
+- 控制哪些子路径可以被外部导入（限制内部模块暴露）
+- 优先于 `main` 字段
+---
+## 8. 模块化最佳实践
+### 8.1 导出设计原则
+**一个模块一个职责**：
 ```js
- Trueexport function formatDate(date) { ... }
- Trueexport function parseDate(str) { ... }
- True```
+ export function formatDate(date) { ... }
+ export function parseDate(str) { ... }
+ ```
 
- False**避免默认导出 + 大量具名导出混合**：
- False
+**避免默认导出 + 大量具名导出混合**：
 ```js
- Trueexport default class User { ... }
- Trueexport function validateUser() { ... }
- Trueexport function serializeUser() { ... }
- True```
+ export default class User { ... }
+ export function validateUser() { ... }
+ export function serializeUser() { ... }
+ ```
 
- False**推荐使用具名导出**：
- False
+**推荐使用具名导出**：
 ```js
- Trueexport class User { ... }
- Trueexport function validateUser() { ... }
- Trueexport function serializeUser() { ... }
- True```
+ export class User { ... }
+ export function validateUser() { ... }
+ export function serializeUser() { ... }
+ ```
 
- False优势：
- False- 重构时 IDE 可以自动更新导入
- False- Tree-shaking 更精确
- False- 导入时名称一致，避免不同文件中同一模块不同命名
- False
- False### 8.2 Barrel Export（桶导出）
- False
+优势：
+- 重构时 IDE 可以自动更新导入
+- Tree-shaking 更精确
+- 导入时名称一致，避免不同文件中同一模块不同命名
+### 8.2 Barrel Export（桶导出）
 ```js
- Trueexport { User } from './User.js'
- Trueexport { Post } from './Post.js'
- Trueexport { Comment } from './Comment.js'
- True```
+ export { User } from './User.js'
+ export { Post } from './Post.js'
+ export { Comment } from './Comment.js'
+ ```
 
- False使用方：
- False
+使用方：
 ```js
- Trueimport { User, Post } from './models/index.js'
- True```
+ import { User, Post } from './models/index.js'
+ ```
 
- False[警告] **注意**：Barrel export 可能导致 Tree-shaking 失效，因为打包工具难以确定哪些导出实际被使用。在库开发中慎用。
- False
- False### 8.3 避免循环依赖
- False
- False检测循环依赖：
- False
+[警告] **注意**：Barrel export 可能导致 Tree-shaking 失效，因为打包工具难以确定哪些导出实际被使用。在库开发中慎用。
+### 8.3 避免循环依赖
+检测循环依赖：
 ```bash
  Truenpx madge --circular src/
- True```
+ ```
 
- False消除循环依赖的策略：
- False
- False1. **提取共享模块**：将循环依赖的部分提取到第三个模块
- False2. **接口反转**：使用回调或事件代替直接调用
- False3. **延迟导入**：将 `import` 移到函数内部（ESM 用动态 `import()`）
- False
+消除循环依赖的策略：
+1. **提取共享模块**：将循环依赖的部分提取到第三个模块
+2. **接口反转**：使用回调或事件代替直接调用
+3. **延迟导入**：将 `import` 移到函数内部（ESM 用动态 `import()`）
 ```
  TrueBefore: After:
  TrueA → B → A A → C ← B
- True (C 是提取的共享模块)
- True```
+  (C 是提取的共享模块)
+ ```
 
- False### 8.4 副作用控制
- False
- False在 `package.json` 中声明副作用：
- False
+### 8.4 副作用控制
+在 `package.json` 中声明副作用：
 ```json
- True{
- True "sideEffects": false
+ {
+  "sideEffects": false
  True}
- True```
+ ```
 
- False或指定有副作用的文件：
- False
+或指定有副作用的文件：
 ```json
- True{
- True "sideEffects": ["*.css", "./src/polyfills.js"]
+ {
+  "sideEffects": ["*.css", "./src/polyfills.js"]
  True}
- True```
+ ```
 
- False这帮助打包工具更激进地进行 Tree-shaking。
- False
- False### 8.5 模块路径别名
- False
- False避免深层相对路径：
- False
+这帮助打包工具更激进地进行 Tree-shaking。
+### 8.5 模块路径别名
+避免深层相对路径：
 ```js
- Trueimport { utils } from '../../../../shared/utils'
- True```
+ import { utils } from '../../../../shared/utils'
+ ```
 
- False配置别名：
- False
+配置别名：
 ```js
- True// vite.config.js
- Trueexport default defineConfig({
- True resolve: {
- True alias: {
- True '@': '/src',
- True '@shared': '/src/shared'
- True }
- True }
+ // vite.config.js
+ export default defineConfig({
+  resolve: {
+  alias: {
+  '@': '/src',
+  '@shared': '/src/shared'
+  }
+  }
  True})
- True
- True// jsconfig.json / tsconfig.json
- True{
- True "compilerOptions": {
- True "paths": {
- True "@/*": ["src/*"],
- True "@shared/*": ["src/shared/*"]
- True }
- True }
+ // jsconfig.json / tsconfig.json
+ {
+  "compilerOptions": {
+  "paths": {
+  "@/*": ["src/*"],
+  "@shared/*": ["src/shared/*"]
+  }
+  }
  True}
- True```
+ ```
 
- False使用：
- False
+使用：
 ```js
- Trueimport { utils } from '@shared/utils'
- True```
+ import { utils } from '@shared/utils'
+ ```
 
- False### 8.6 模块化检查清单
- False
- False| 检查项 | 说明 |
- False|:--|:--|
- False| 单一职责 | 每个模块只做一件事 |
- False| 显式依赖 | 所有依赖在文件顶部声明 |
- False| 无全局污染 | 不向 `window`/`global` 挂载变量 |
- False| 无隐式副作用 | 模块导入不产生可观测的外部影响 |
- False| 具名导出优先 | 便于 Tree-shaking 和重构 |
- False| 无循环依赖 | 依赖图是 DAG（有向无环图） |
- False| 完整扩展名 | ESM 中使用 `.js` 扩展名 |
- False
- False---
- False
- False##### 延伸阅读
+### 8.6 模块化检查清单
+| 检查项 | 说明 |
+|:--|:--|
+| 单一职责 | 每个模块只做一件事 |
+| 显式依赖 | 所有依赖在文件顶部声明 |
+| 无全局污染 | 不向 `window`/`global` 挂载变量 |
+| 无隐式副作用 | 模块导入不产生可观测的外部影响 |
+| 具名导出优先 | 便于 Tree-shaking 和重构 |
+| 无循环依赖 | 依赖图是 DAG（有向无环图） |
+| 完整扩展名 | ESM 中使用 `.js` 扩展名 |
+---
+##### 延伸阅读
 
 - [[typescript/type-declarations-and-module-resolution|TS 模块解析]]
 
@@ -800,4 +644,3 @@
 
 - 2026-05-27: v4.0.0 大幅扩充——新增 AMD/CMD 历史方案、Webpack/Vite 打包工具、循环依赖详解、Live Binding 对比、Barrel Export、副作用控制、路径别名、模块化检查清单
 - 2026-04-06: 新增「模块化」知识点，补充 CJS/ESM 对比与工程实践要点
- False

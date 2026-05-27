@@ -1,1278 +1,1022 @@
-# 高级类型与类型演算 (Advanced Types & Manipulation)
- False
- False> @Version: v3.5.0
- False
- False> @Author: Anonymous
- False> @Category: TS Advanced
- False> @Description: 条件类型、映射类型、类型断言、非空断言及类型守卫。 | Conditional types, Mapping, Assertions, and Type Guards.
- False
- False---
- False
- False## 目录
- False
- False1. [类型断言](#类型断言)
- False2. [非空断言](#非空断言)
- False3. [类型守卫](#类型守卫)
- False4. [映射类型](#映射类型)
- False5. [条件类型](#条件类型)
- False6. [高级类型组合](#高级类型组合)
- False7. [类型工具](#类型工具)
- False8. [类型编程](#类型编程)
- False9. [最佳实践](#最佳实践)
- False10. [代码示例](#代码示例)
- False
- False---
- False
- False## 1. 类型断言 (Type Assertions)
- False
- False类型断言允许我们手动告诉编译器一个值的具体类型，当我们比编译器更了解变量的类型时非常有用。
- False
- False### 1.1 基本语法
- False
- FalseTypeScript 提供了两种类型断言语法：
- False
+﻿# 高级类型与类型演算 (Advanced Types & Manipulation)
+> @Version: v3.5.0
+> @Author: Anonymous
+> @Category: TS Advanced
+> @Description: 条件类型、映射类型、类型断言、非空断言及类型守卫。 | Conditional types, Mapping, Assertions, and Type Guards.
+---
+## 目录
+1. [类型断言](#类型断言)
+2. [非空断言](#非空断言)
+3. [类型守卫](#类型守卫)
+4. [映射类型](#映射类型)
+5. [条件类型](#条件类型)
+6. [高级类型组合](#高级类型组合)
+7. [类型工具](#类型工具)
+8. [类型编程](#类型编程)
+9. [最佳实践](#最佳实践)
+10. [代码示例](#代码示例)
+---
+## 1. 类型断言 (Type Assertions)
+类型断言允许我们手动告诉编译器一个值的具体类型，当我们比编译器更了解变量的类型时非常有用。
+### 1.1 基本语法
+TypeScript 提供了两种类型断言语法：
 ```typescript
- True// 推荐语法：as 语法
- Truelet someValue: unknown = "this is a string";
- Truelet strLength: number = (someValue as string).length;
- True
- True// 角括号语法（在 JSX 中不推荐使用）
- Truelet someValue: unknown = "this is a string";
- Truelet strLength: number = (<string>someValue).length;
- True```
+ // 推荐语法：as 语法
+ let someValue: unknown = "this is a string";
+ let strLength: number = (someValue as string).length;
+ // 角括号语法（在 JSX 中不推荐使用）
+ let someValue: unknown = "this is a string";
+ let strLength: number = (<string>someValue).length;
+ ```
 
- False### 1.2 类型断言的使用场景
- False
- False#### 1.2.1 从 unknown 类型断言为具体类型
- False
+### 1.2 类型断言的使用场景
+#### 1.2.1 从 unknown 类型断言为具体类型
 ```typescript
- Truefunction processValue(value: unknown): void {
- True // 类型断言为 string
- True if (typeof value === "string") {
- True console.log((value as string).toUpperCase());
- True }
- True 
- True // 类型断言为 number
- True if (typeof value === "number") {
- True console.log((value as number).toFixed(2));
- True }
+ function processValue(value: unknown): void {
+  // 类型断言为 string
+  if (typeof value === "string") {
+  console.log((value as string).toUpperCase());
+  }
+  // 类型断言为 number
+  if (typeof value === "number") {
+  console.log((value as number).toFixed(2));
+  }
  True}
- True
  TrueprocessValue("hello"); // 输出: HELLO
  TrueprocessValue(42); // 输出: 42.00
- True```
+ ```
 
- False#### 1.2.2 从联合类型断言为具体类型
- False
+#### 1.2.2 从联合类型断言为具体类型
 ```typescript
- Trueinterface Cat {
- True meow(): void;
+ interface Cat {
+  meow(): void;
  True}
- True
- Trueinterface Dog {
- True bark(): void;
+ interface Dog {
+  bark(): void;
  True}
- True
- Truetype Animal = Cat | Dog;
- True
- Truefunction makeSound(animal: Animal): void {
- True // 类型断言为 Cat
- True if ((animal as Cat).meow) {
- True (animal as Cat).meow();
- True } else {
- True // 类型断言为 Dog
- True (animal as Dog).bark();
- True }
+ type Animal = Cat | Dog;
+ function makeSound(animal: Animal): void {
+  // 类型断言为 Cat
+  if ((animal as Cat).meow) {
+  (animal as Cat).meow();
+  } else {
+  // 类型断言为 Dog
+  (animal as Dog).bark();
+  }
  True}
- True
- Trueconst cat: Cat = { meow: () => console.log("Meow!") };
- Trueconst dog: Dog = { bark: () => console.log("Woof!") };
- True
+ const cat: Cat = { meow: () => console.log("Meow!") };
+ const dog: Dog = { bark: () => console.log("Woof!") };
  TruemakeSound(cat); // 输出: Meow!
  TruemakeSound(dog); // 输出: Woof!
- True```
+ ```
 
- False#### 1.2.3 断言为更具体的类型
- False
+#### 1.2.3 断言为更具体的类型
 ```typescript
- Trueinterface Person {
- True name: string;
- True age: number;
+ interface Person {
+  name: string;
+  age: number;
  True}
- True
- Trueinterface Employee extends Person {
- True employeeId: number;
- True department: string;
+ interface Employee extends Person {
+  employeeId: number;
+  department: string;
  True}
- True
- Truefunction getEmployeeInfo(person: Person): void {
- True // 断言为 Employee 类型
- True const employee = person as Employee;
- True console.log(`Name: ${employee.name}, ID: ${employee.employeeId}`);
+ function getEmployeeInfo(person: Person): void {
+  // 断言为 Employee 类型
+  const employee = person as Employee;
+  console.log(`Name: ${employee.name}, ID: ${employee.employeeId}`);
  True}
- True
- Trueconst employee: Employee = {
- True name: "Alice",
- True age: 30,
- True employeeId: 12345,
- True department: "Engineering"
+ const employee: Employee = {
+  name: "Alice",
+  age: 30,
+  employeeId: 12345,
+  department: "Engineering"
  True};
- True
  TruegetEmployeeInfo(employee); // 输出: Name: Alice, ID: 12345
- True```
+ ```
 
- False### 1.3 类型断言的最佳实践
- False
- False- **只在必要时使用**: 类型断言会绕过 TypeScript 的类型检查，应谨慎使用。
- False- **结合类型守卫**: 在使用类型断言前，最好先进行类型检查。
- False- **使用 as 语法**: 优先使用 `as` 语法，特别是在 JSX 代码中。
- False- **避免过度断言**: 不要使用类型断言来掩盖真正的类型问题。
- False
- False## 2. 非空断言 (`!`)
- False
- False非空断言操作符 `!` 告诉编译器一个值不为 `null` 或 `undefined`，当我们确定一个值不会是 `null` 或 `undefined` 时使用。
- False
- False### 2.1 基本用法
- False
+### 1.3 类型断言的最佳实践
+- **只在必要时使用**: 类型断言会绕过 TypeScript 的类型检查，应谨慎使用。
+- **结合类型守卫**: 在使用类型断言前，最好先进行类型检查。
+- **使用 as 语法**: 优先使用 `as` 语法，特别是在 JSX 代码中。
+- **避免过度断言**: 不要使用类型断言来掩盖真正的类型问题。
+## 2. 非空断言 (`!`)
+非空断言操作符 `!` 告诉编译器一个值不为 `null` 或 `undefined`，当我们确定一个值不会是 `null` 或 `undefined` 时使用。
+### 2.1 基本用法
 ```typescript
- True// 非空断言
- Truelet maybeNull: string | null = "Hello";
- Truelet definitelyString: string = maybeNull!; // 告诉编译器 maybeNull 不为 null
- True
- True// 访问可能为 null 的对象属性
- Trueinterface User {
- True name: string;
- True email?: string;
+ // 非空断言
+ let maybeNull: string | null = "Hello";
+ let definitelyString: string = maybeNull!; // 告诉编译器 maybeNull 不为 null
+ // 访问可能为 null 的对象属性
+ interface User {
+  name: string;
+  email?: string;
  True}
- True
- Trueconst user: User = { name: "Alice" };
- Trueconst email: string = user.email!; // 告诉编译器 user.email 存在
- True
- True// 调用可能为 undefined 的方法
- Trueinterface Greeter {
- True greet?: () => void;
+ const user: User = { name: "Alice" };
+ const email: string = user.email!; // 告诉编译器 user.email 存在
+ // 调用可能为 undefined 的方法
+ interface Greeter {
+  greet?: () => void;
  True}
- True
- Trueconst greeter: Greeter = { greet: () => console.log("Hello!") };
+ const greeter: Greeter = { greet: () => console.log("Hello!") };
  Truegreeter.greet!(); // 告诉编译器 greet 方法存在
- True```
+ ```
 
- False### 2.2 非空断言的使用场景
- False
- False#### 2.2.1 初始化后肯定存在的值
- False
+### 2.2 非空断言的使用场景
+#### 2.2.1 初始化后肯定存在的值
 ```typescript
- Trueclass User {
- True private name: string | null = null;
- True 
- True constructor(name: string) {
- True this.setName(name);
- True }
- True 
- True private setName(name: string): void {
- True this.name = name;
- True }
- True 
- True public getName(): string {
- True // 构造函数中已初始化，肯定不为 null
- True return this.name!;
- True }
+ class User {
+  private name: string | null = null;
+  constructor(name: string) {
+  this.setName(name);
+  }
+  private setName(name: string): void {
+  this.name = name;
+  }
+  public getName(): string {
+  // 构造函数中已初始化，肯定不为 null
+  return this.name!;
+  }
  True}
- True
- Trueconst user = new User("Alice");
- Trueconsole.log(user.getName()); // 输出: Alice
- True```
+ const user = new User("Alice");
+ console.log(user.getName()); // 输出: Alice
+ ```
 
- False#### 2.2.2 经过类型检查后的值
- False
+#### 2.2.2 经过类型检查后的值
 ```typescript
- Truefunction processValue(value: string | null | undefined): void {
- True if (value) {
- True // 经过检查后，value 肯定不为 null 或 undefined
- True console.log(value!.length); // 非空断言
- True }
+ function processValue(value: string | null | undefined): void {
+  if (value) {
+  // 经过检查后，value 肯定不为 null 或 undefined
+  console.log(value!.length); // 非空断言
+  }
  True}
- True
  TrueprocessValue("Hello"); // 输出: 5
  TrueprocessValue(null); // 无输出
  TrueprocessValue(undefined); // 无输出
- True```
+ ```
 
- False### 2.3 非空断言的注意事项
- False
- False- **运行时风险**: 非空断言只在编译时有效，运行时如果值为 `null` 或 `undefined`，会导致运行时错误。
- False- **谨慎使用**: 只在确定值不为 `null` 或 `undefined` 时使用。
- False- **替代方案**: 优先使用类型守卫或可选链操作符 (`?.`) 来处理可能为 `null` 或 `undefined` 的值。
- False
- False## 3. 类型守卫 (Type Guards)
- False
- False类型守卫是一种运行时检查，用于确定变量的具体类型，帮助编译器进行类型缩小。
- False
- False### 3.1 内置类型守卫
- False
- False#### 3.1.1 typeof 类型守卫
- False
+### 2.3 非空断言的注意事项
+- **运行时风险**: 非空断言只在编译时有效，运行时如果值为 `null` 或 `undefined`，会导致运行时错误。
+- **谨慎使用**: 只在确定值不为 `null` 或 `undefined` 时使用。
+- **替代方案**: 优先使用类型守卫或可选链操作符 (`?.`) 来处理可能为 `null` 或 `undefined` 的值。
+## 3. 类型守卫 (Type Guards)
+类型守卫是一种运行时检查，用于确定变量的具体类型，帮助编译器进行类型缩小。
+### 3.1 内置类型守卫
+#### 3.1.1 typeof 类型守卫
 ```typescript
- Truefunction processValue(value: string | number | boolean): void {
- True if (typeof value === "string") {
- True // 类型缩小为 string
- True console.log(value.toUpperCase());
- True } else if (typeof value === "number") {
- True // 类型缩小为 number
- True console.log(value.toFixed(2));
- True } else if (typeof value === "boolean") {
- True // 类型缩小为 boolean
- True console.log(value ? "true" : "false");
- True }
+ function processValue(value: string | number | boolean): void {
+  if (typeof value === "string") {
+  // 类型缩小为 string
+  console.log(value.toUpperCase());
+  } else if (typeof value === "number") {
+  // 类型缩小为 number
+  console.log(value.toFixed(2));
+  } else if (typeof value === "boolean") {
+  // 类型缩小为 boolean
+  console.log(value ? "" : "false");
+  }
  True}
- True
  TrueprocessValue("hello"); // 输出: HELLO
  TrueprocessValue(42); // 输出: 42.00
- TrueprocessValue(true); // 输出: true
- True```
+ TrueprocessValue(true); // 输出:  
+ ```
 
- False#### 3.1.2 instanceof 类型守卫
- False
+#### 3.1.2 instanceof 类型守卫
 ```typescript
- Trueclass Animal {
- True move(): void {
- True console.log("Moving...");
- True }
+ class Animal {
+  move(): void {
+  console.log("Moving...");
+  }
  True}
- True
- Trueclass Dog extends Animal {
- True bark(): void {
- True console.log("Woof!");
- True }
+ class Dog extends Animal {
+  bark(): void {
+  console.log("Woof!");
+  }
  True}
- True
- Trueclass Cat extends Animal {
- True meow(): void {
- True console.log("Meow!");
- True }
+ class Cat extends Animal {
+  meow(): void {
+  console.log("Meow!");
+  }
  True}
- True
- Truefunction makeSound(animal: Animal): void {
- True if (animal instanceof Dog) {
- True // 类型缩小为 Dog
- True animal.bark();
- True } else if (animal instanceof Cat) {
- True // 类型缩小为 Cat
- True animal.meow();
- True } else {
- True animal.move();
- True }
+ function makeSound(animal: Animal): void {
+  if (animal instanceof Dog) {
+  // 类型缩小为 Dog
+  animal.bark();
+  } else if (animal instanceof Cat) {
+  // 类型缩小为 Cat
+  animal.meow();
+  } else {
+  animal.move();
+  }
  True}
- True
- Trueconst dog = new Dog();
- Trueconst cat = new Cat();
- Trueconst animal = new Animal();
- True
+ const dog = new Dog();
+ const cat = new Cat();
+ const animal = new Animal();
  TruemakeSound(dog); // 输出: Woof!
  TruemakeSound(cat); // 输出: Meow!
  TruemakeSound(animal); // 输出: Moving...
- True```
+ ```
 
- False#### 3.1.3 in 操作符类型守卫
- False
+#### 3.1.3 in 操作符类型守卫
 ```typescript
- Trueinterface Cat {
- True meow: () => void;
+ interface Cat {
+  meow: () => void;
  True}
- True
- Trueinterface Dog {
- True bark: () => void;
+ interface Dog {
+  bark: () => void;
  True}
- True
- Truetype Animal = Cat | Dog;
- True
- Truefunction makeSound(animal: Animal): void {
- True if ("meow" in animal) {
- True // 类型缩小为 Cat
- True animal.meow();
- True } else if ("bark" in animal) {
- True // 类型缩小为 Dog
- True animal.bark();
- True }
+ type Animal = Cat | Dog;
+ function makeSound(animal: Animal): void {
+  if ("meow" in animal) {
+  // 类型缩小为 Cat
+  animal.meow();
+  } else if ("bark" in animal) {
+  // 类型缩小为 Dog
+  animal.bark();
+  }
  True}
- True
- Trueconst cat: Cat = { meow: () => console.log("Meow!") };
- Trueconst dog: Dog = { bark: () => console.log("Woof!") };
- True
+ const cat: Cat = { meow: () => console.log("Meow!") };
+ const dog: Dog = { bark: () => console.log("Woof!") };
  TruemakeSound(cat); // 输出: Meow!
  TruemakeSound(dog); // 输出: Woof!
- True```
+ ```
 
- False### 3.2 自定义类型守卫
- False
- False自定义类型守卫使用 `is` 关键字来定义一个函数，该函数返回一个布尔值，用于确定变量的类型。
- False
+### 3.2 自定义类型守卫
+自定义类型守卫使用 `is` 关键字来定义一个函数，该函数返回一个布尔值，用于确定变量的类型。
 ```typescript
- True// 自定义类型守卫
- Truefunction isString(value: any): value is string {
- True return typeof value === "string";
+ // 自定义类型守卫
+ function isString(value: any): value is string {
+  return typeof value === "string";
  True}
- True
- Truefunction isNumber(value: any): value is number {
- True return typeof value === "number";
+ function isNumber(value: any): value is number {
+  return typeof value === "number";
  True}
- True
- Truefunction isBoolean(value: any): value is boolean {
- True return typeof value === "boolean";
+ function isBoolean(value: any): value is boolean {
+  return typeof value === "boolean";
  True}
- True
- Truefunction processValue(value: unknown): void {
- True if (isString(value)) {
- True // 类型缩小为 string
- True console.log(value.toUpperCase());
- True } else if (isNumber(value)) {
- True // 类型缩小为 number
- True console.log(value.toFixed(2));
- True } else if (isBoolean(value)) {
- True // 类型缩小为 boolean
- True console.log(value ? "true" : "false");
- True } else {
- True console.log("Unknown type");
- True }
+ function processValue(value: unknown): void {
+  if (isString(value)) {
+  // 类型缩小为 string
+  console.log(value.toUpperCase());
+  } else if (isNumber(value)) {
+  // 类型缩小为 number
+  console.log(value.toFixed(2));
+  } else if (isBoolean(value)) {
+  // 类型缩小为 boolean
+  console.log(value ? "" : "false");
+  } else {
+  console.log("Unknown type");
+  }
  True}
- True
  TrueprocessValue("hello"); // 输出: HELLO
  TrueprocessValue(42); // 输出: 42.00
- TrueprocessValue(true); // 输出: true
+ TrueprocessValue(true); // 输出:  
  TrueprocessValue(null); // 输出: Unknown type
- True```
+ ```
 
- False### 3.3 类型守卫的最佳实践
- False
- False- **明确类型检查**: 类型守卫应该明确检查变量的类型，避免模糊的检查。
- False- **组合使用**: 可以组合使用多种类型守卫来处理复杂的类型场景。
- False- **可读性**: 自定义类型守卫函数应该有清晰的名称，说明其检查的类型。
- False- **性能考虑**: 类型守卫在运行时执行，应避免过于复杂的检查逻辑。
- False
- False## 4. 映射类型 (Mapped Types)
- False
- False映射类型允许我们根据现有类型创建新类型，通过遍历现有类型的属性并应用转换。
- False
- False### 4.1 基本映射类型
- False
+### 3.3 类型守卫的最佳实践
+- **明确类型检查**: 类型守卫应该明确检查变量的类型，避免模糊的检查。
+- **组合使用**: 可以组合使用多种类型守卫来处理复杂的类型场景。
+- **可读性**: 自定义类型守卫函数应该有清晰的名称，说明其检查的类型。
+- **性能考虑**: 类型守卫在运行时执行，应避免过于复杂的检查逻辑。
+## 4. 映射类型 (Mapped Types)
+映射类型允许我们根据现有类型创建新类型，通过遍历现有类型的属性并应用转换。
+### 4.1 基本映射类型
 ```typescript
- True// 基本映射类型
- Trueinterface Person {
- True name: string;
- True age: number;
- True email: string;
+ // 基本映射类型
+ interface Person {
+  name: string;
+  age: number;
+  email: string;
  True}
- True
- True// 只读映射类型
- Truetype Readonly<T> = {
- True readonly [P in keyof T]: T[P];
+ // 只读映射类型
+ type Readonly<T> = {
+  readonly [P in keyof T]: T[P];
  True};
- True
- True// 可选映射类型
- Truetype Partial<T> = {
- True [P in keyof T]?: T[P];
+ // 可选映射类型
+ type Partial<T> = {
+  [P in keyof T]?: T[P];
  True};
- True
- True// 必需映射类型
- Truetype Required<T> = {
- True [P in keyof T]-?: T[P];
+ // 必需映射类型
+ type Required<T> = {
+  [P in keyof T]-?: T[P];
  True};
- True
- True// 使用示例
- Trueconst readonlyPerson: Readonly<Person> = {
- True name: "Alice",
- True age: 30,
- True email: "alice@example.com"
+ // 使用示例
+ const readonlyPerson: Readonly<Person> = {
+  name: "Alice",
+  age: 30,
+  email: "alice@example.com"
  True};
- True// readonlyPerson.name = "Bob"; // 编译错误
- True
- Trueconst partialPerson: Partial<Person> = {
- True name: "Bob"
+ // readonlyPerson.name = "Bob"; // 编译错误
+ const partialPerson: Partial<Person> = {
+  name: "Bob"
  True};
- True
- Trueconst requiredPerson: Required<Partial<Person>> = {
- True name: "Charlie",
- True age: 25,
- True email: "charlie@example.com"
+ const requiredPerson: Required<Partial<Person>> = {
+  name: "Charlie",
+  age: 25,
+  email: "charlie@example.com"
  True};
- True```
+ ```
 
- False### 4.2 映射类型修饰符
- False
- FalseTypeScript 提供了三种映射类型修饰符：
- False
- False1. **`readonly`**: 使属性变为只读
- False2. **`?`**: 使属性变为可选
- False3. **`-`**: 移除修饰符（如 `-readonly` 或 `-?`）
- False
+### 4.2 映射类型修饰符
+TypeScript 提供了三种映射类型修饰符：
+1. **`readonly`**: 使属性变为只读
+2. **`?`**: 使属性变为可选
+3. **`-`**: 移除修饰符（如 `-readonly` 或 `-?`）
 ```typescript
- Trueinterface Person {
- True readonly name: string;
- True age?: number;
- True email: string;
+ interface Person {
+  readonly name: string;
+  age?: number;
+  email: string;
  True}
- True
- True// 移除 readonly 修饰符
- Truetype Mutable<T> = {
- True -readonly [P in keyof T]: T[P];
+ // 移除 readonly 修饰符
+ type Mutable<T> = {
+  -readonly [P in keyof T]: T[P];
  True};
- True
- True// 移除可选修饰符
- Truetype Required<T> = {
- True [P in keyof T]-?: T[P];
+ // 移除可选修饰符
+ type Required<T> = {
+  [P in keyof T]-?: T[P];
  True};
- True
- True// 同时移除 readonly 和可选修饰符
- Truetype MutableRequired<T> = {
- True -readonly [P in keyof T]-?: T[P];
+ // 同时移除 readonly 和可选修饰符
+ type MutableRequired<T> = {
+  -readonly [P in keyof T]-?: T[P];
  True};
- True
- True// 使用示例
- Trueconst mutablePerson: Mutable<Person> = {
- True name: "Alice",
- True email: "alice@example.com"
+ // 使用示例
+ const mutablePerson: Mutable<Person> = {
+  name: "Alice",
+  email: "alice@example.com"
  True};
  TruemutablePerson.name = "Bob"; // 现在可以修改
- True
- Trueconst requiredPerson: Required<Person> = {
- True name: "Charlie",
- True age: 30, // 现在必需
- True email: "charlie@example.com"
+ const requiredPerson: Required<Person> = {
+  name: "Charlie",
+  age: 30, // 现在必需
+  email: "charlie@example.com"
  True};
- True```
+ ```
 
- False### 4.3 键重映射
- False
- FalseTypeScript 4.1+ 支持键重映射，允许我们在映射类型中修改属性键。
- False
+### 4.3 键重映射
+TypeScript 4.1+ 支持键重映射，允许我们在映射类型中修改属性键。
 ```typescript
- Trueinterface Person {
- True name: string;
- True age: number;
- True email: string;
+ interface Person {
+  name: string;
+  age: number;
+  email: string;
  True}
- True
- True// 键重映射：添加前缀
- Truetype Prefixed<T, Prefix extends string> = {
- True [K in keyof T as `${Prefix}${Capitalize<string & K>}`]: T[K];
+ // 键重映射：添加前缀
+ type Prefixed<T, Prefix extends string> = {
+  [K in keyof T as `${Prefix}${Capitalize<string & K>}`]: T[K];
  True};
- True
- True// 键重映射：过滤属性
- Truetype OmitByType<T, U> = {
- True [K in keyof T as T[K] extends U ? never : K]: T[K];
+ // 键重映射：过滤属性
+ type OmitByType<T, U> = {
+  [K in keyof T as T[K] extends U ? never : K]: T[K];
  True};
- True
- True// 使用示例
- Trueconst prefixedPerson: Prefixed<Person, "user"> = {
- True userName: "Alice",
- True userAge: 30,
- True userEmail: "alice@example.com"
+ // 使用示例
+ const prefixedPerson: Prefixed<Person, "user"> = {
+  userName: "Alice",
+  userAge: 30,
+  userEmail: "alice@example.com"
  True};
- True
- Trueconst noNumbers: OmitByType<Person, number> = {
- True name: "Bob",
- True email: "bob@example.com"
+ const noNumbers: OmitByType<Person, number> = {
+  name: "Bob",
+  email: "bob@example.com"
  True};
- True```
+ ```
 
- False### 4.4 映射类型的应用场景
- False
- False#### 4.4.1 创建 API 响应类型
- False
+### 4.4 映射类型的应用场景
+#### 4.4.1 创建 API 响应类型
 ```typescript
- Trueinterface User {
- True id: number;
- True name: string;
- True email: string;
- True password: string;
+ interface User {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
  True}
- True
- True// API 响应类型（移除敏感字段）
- Truetype UserResponse = Omit<User, "password">;
- True
- True// API 请求类型（可选字段）
- Truetype UserRequest = Partial<Omit<User, "id">>;
- True
- True// 使用示例
- Trueconst userResponse: UserResponse = {
- True id: 1,
- True name: "Alice",
- True email: "alice@example.com"
+ // API 响应类型（移除敏感字段）
+ type UserResponse = Omit<User, "password">;
+ // API 请求类型（可选字段）
+ type UserRequest = Partial<Omit<User, "id">>;
+ // 使用示例
+ const userResponse: UserResponse = {
+  id: 1,
+  name: "Alice",
+  email: "alice@example.com"
  True};
- True
- Trueconst userRequest: UserRequest = {
- True name: "Bob",
- True email: "bob@example.com"
+ const userRequest: UserRequest = {
+  name: "Bob",
+  email: "bob@example.com"
  True};
- True```
+ ```
 
- False#### 4.4.2 创建配置类型
- False
+#### 4.4.2 创建配置类型
 ```typescript
- Trueinterface Config {
- True apiUrl: string;
- True timeout: number;
- True debug: boolean;
+ interface Config {
+  apiUrl: string;
+  timeout: number;
+  debug: boolean;
  True}
- True
- True// 只读配置类型
- Truetype ReadonlyConfig = Readonly<Config>;
- True
- True// 部分配置类型
- Truetype PartialConfig = Partial<Config>;
- True
- True// 使用示例
- Trueconst defaultConfig: ReadonlyConfig = {
- True apiUrl: "https://api.example.com",
- True timeout: 5000,
- True debug: false
+ // 只读配置类型
+ type ReadonlyConfig = Readonly<Config>;
+ // 部分配置类型
+ type PartialConfig = Partial<Config>;
+ // 使用示例
+ const defaultConfig: ReadonlyConfig = {
+  apiUrl: "https://api.example.com",
+  timeout: 5000,
+  debug: false
  True};
- True
- Trueconst customConfig: PartialConfig = {
- True apiUrl: "https://api.custom.com",
- True timeout: 10000
+ const customConfig: PartialConfig = {
+  apiUrl: "https://api.custom.com",
+  timeout: 10000
  True};
- True```
+ ```
 
- False### 4.5 映射类型的最佳实践
- False
- False- **复用现有类型**: 利用映射类型基于现有类型创建新类型，减少重复定义。
- False- **清晰命名**: 为映射类型选择清晰、描述性的名称。
- False- **合理使用修饰符**: 根据需要使用 `readonly`、`?` 和 `-` 修饰符。
- False- **键重映射**: 在需要修改属性键时使用键重映射功能。
- False
- False## 5. 条件类型 (Conditional Types)
- False
- False条件类型允许我们根据类型之间的关系创建新类型，语法为 `T extends U ? X : Y`。
- False
- False### 5.1 基本条件类型
- False
+### 4.5 映射类型的最佳实践
+- **复用现有类型**: 利用映射类型基于现有类型创建新类型，减少重复定义。
+- **清晰命名**: 为映射类型选择清晰、描述性的名称。
+- **合理使用修饰符**: 根据需要使用 `readonly`、`?` 和 `-` 修饰符。
+- **键重映射**: 在需要修改属性键时使用键重映射功能。
+## 5. 条件类型 (Conditional Types)
+条件类型允许我们根据类型之间的关系创建新类型，语法为 `T extends U ? X : Y`。
+### 5.1 基本条件类型
 ```typescript
- True// 基本条件类型
- Truetype IsString<T> = T extends string ? true : false;
- True
- Truetype A = IsString<string>; // true
- Truetype B = IsString<number>; // false
- Truetype C = IsString<string | number>; // boolean (true | false)
- True
- True// 条件类型与泛型
- Truefunction processValue<T>(value: T): T extends string ? string : number {
- True if (typeof value === "string") {
- True return value.toUpperCase() as any;
- True } else {
- True return 42 as any;
- True }
+ // 基本条件类型
+ type IsString<T> = T extends string ?  : false;
+ type A = IsString<string>; //  
+ type B = IsString<number>; // false
+ type C = IsString<string | number>; // boolean ( | false)
+ // 条件类型与泛型
+ function processValue<T>(value: T): T extends string ? string : number {
+  if (typeof value === "string") {
+  return value.toUpperCase() as any;
+  } else {
+  return 42 as any;
+  }
  True}
- True
- Trueconst result1 = processValue("hello"); // 类型为 string
- Trueconst result2 = processValue(42); // 类型为 number
- True```
+ const result1 = processValue("hello"); // 类型为 string
+ const result2 = processValue(42); // 类型为 number
+ ```
 
- False### 5.2 条件类型与 infer 关键字
- False
- False`infer` 关键字允许我们在条件类型中推断类型，通常用于从复杂类型中提取部分类型。
- False
+### 5.2 条件类型与 infer 关键字
+`infer` 关键字允许我们在条件类型中推断类型，通常用于从复杂类型中提取部分类型。
 ```typescript
- True// 推断函数返回类型
- Truetype ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
- True
- True// 推断数组元素类型
- Truetype ElementType<T> = T extends Array<infer E> ? E : T;
- True
- True// 推断元组类型
- Truetype First<T> = T extends [infer U, ...any[]] ? U : never;
- Truetype Last<T> = T extends [...any[], infer U] ? U : never;
- True
- True// 使用示例
- Truefunction add(a: number, b: number): number {
- True return a + b;
+ // 推断函数返回类型
+ type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
+ // 推断数组元素类型
+ type ElementType<T> = T extends Array<infer E> ? E : T;
+ // 推断元组类型
+ type First<T> = T extends [infer U, ...any[]] ? U : never;
+ type Last<T> = T extends [...any[], infer U] ? U : never;
+ // 使用示例
+ function add(a: number, b: number): number {
+  return a + b;
  True}
- True
- Truetype AddReturnType = ReturnType<typeof add>; // number
- True
- Truetype ArrayElement = ElementType<string[]>; // string
- Truetype NonArrayElement = ElementType<number>; // number
- True
- Truetype FirstElement = First<[string, number, boolean]>; // string
- Truetype LastElement = Last<[string, number, boolean]>; // boolean
- True```
+ type AddReturnType = ReturnType<typeof add>; // number
+ type ArrayElement = ElementType<string[]>; // string
+ type NonArrayElement = ElementType<number>; // number
+ type FirstElement = First<[string, number, boolean]>; // string
+ type LastElement = Last<[string, number, boolean]>; // boolean
+ ```
 
- False### 5.3 条件类型的分发特性
- False
- False当条件类型的左侧是一个联合类型时，条件类型会自动分发到联合类型的每个成员上。
- False
+### 5.3 条件类型的分发特性
+当条件类型的左侧是一个联合类型时，条件类型会自动分发到联合类型的每个成员上。
 ```typescript
- True// 分发条件类型
- Truetype IsString<T> = T extends string ? true : false;
- True
- Truetype D = IsString<string | number | boolean>; // true | false | false
- True
- True// 阻止分发（使用方括号）
- Truetype IsStringNoDistribute<T> = [T] extends [string] ? true : false;
- True
- Truetype E = IsStringNoDistribute<string | number | boolean>; // false
- True```
+ // 分发条件类型
+ type IsString<T> = T extends string ?  : false;
+ type D = IsString<string | number | boolean>; //  | false | false
+ // 阻止分发（使用方括号）
+ type IsStringNoDistribute<T> = [T] extends [string] ?  : false;
+ type E = IsStringNoDistribute<string | number | boolean>; // false
+ ```
 
- False### 5.4 条件类型的应用场景
- False
- False#### 5.4.1 类型过滤
- False
+### 5.4 条件类型的应用场景
+#### 5.4.1 类型过滤
 ```typescript
- True// 从联合类型中过滤出指定类型
- Truetype Filter<T, U> = T extends U ? T : never;
- True
- Truetype Numbers = Filter<number | string | boolean, number>; // number
- Truetype Strings = Filter<number | string | boolean, string>; // string
- True
- True// 从联合类型中排除指定类型
- Truetype Exclude<T, U> = T extends U ? never : T;
- True
- Truetype NonNumbers = Exclude<number | string | boolean, number>; // string | boolean
- True```
+ // 从联合类型中过滤出指定类型
+ type Filter<T, U> = T extends U ? T : never;
+ type Numbers = Filter<number | string | boolean, number>; // number
+ type Strings = Filter<number | string | boolean, string>; // string
+ // 从联合类型中排除指定类型
+ type Exclude<T, U> = T extends U ? never : T;
+ type NonNumbers = Exclude<number | string | boolean, number>; // string | boolean
+ ```
 
- False#### 5.4.2 类型转换
- False
+#### 5.4.2 类型转换
 ```typescript
- True// 类型转换
- Truetype ToArray<T> = T extends any ? T[] : never;
- True
- Truetype NumberArray = ToArray<number>; // number[]
- Truetype StringArray = ToArray<string>; // string[]
- Truetype UnionArray = ToArray<number | string>; // number[] | string[]
- True
- True// 递归类型转换
- Truetype DeepArray<T> = T extends Array<infer U> ? DeepArray<U>[] : T;
- True
- Truetype DeepNumberArray = DeepArray<number>; // number
- Truetype DeepArrayOfArrays = DeepArray<number[][]>; // number[][][]
- True```
+ // 类型转换
+ type ToArray<T> = T extends any ? T[] : never;
+ type NumberArray = ToArray<number>; // number[]
+ type StringArray = ToArray<string>; // string[]
+ type UnionArray = ToArray<number | string>; // number[] | string[]
+ // 递归类型转换
+ type DeepArray<T> = T extends Array<infer U> ? DeepArray<U>[] : T;
+ type DeepNumberArray = DeepArray<number>; // number
+ type DeepArrayOfArrays = DeepArray<number[][]>; // number[][][]
+ ```
 
- False### 5.5 条件类型的最佳实践
- False
- False- **类型推断**: 使用 `infer` 关键字从复杂类型中提取信息。
- False- **类型过滤**: 使用条件类型过滤联合类型中的成员。
- False- **类型转换**: 使用条件类型将一种类型转换为另一种类型。
- False- **递归类型**: 使用条件类型创建递归类型定义。
- False- **分发特性**: 利用条件类型的分发特性处理联合类型。
- False
- False## 6. 高级类型组合
- False
- False### 6.1 交叉类型 (Intersection Types)
- False
- False交叉类型使用 `&` 符号，将多个类型合并为一个类型。
- False
+### 5.5 条件类型的最佳实践
+- **类型推断**: 使用 `infer` 关键字从复杂类型中提取信息。
+- **类型过滤**: 使用条件类型过滤联合类型中的成员。
+- **类型转换**: 使用条件类型将一种类型转换为另一种类型。
+- **递归类型**: 使用条件类型创建递归类型定义。
+- **分发特性**: 利用条件类型的分发特性处理联合类型。
+## 6. 高级类型组合
+### 6.1 交叉类型 (Intersection Types)
+交叉类型使用 `&` 符号，将多个类型合并为一个类型。
 ```typescript
- Trueinterface Person {
- True name: string;
- True age: number;
+ interface Person {
+  name: string;
+  age: number;
  True}
- True
- Trueinterface Employee {
- True employeeId: number;
- True department: string;
+ interface Employee {
+  employeeId: number;
+  department: string;
  True}
- True
- True// 交叉类型
- Truetype EmployeePerson = Person & Employee;
- True
- True// 使用示例
- Trueconst employee: EmployeePerson = {
- True name: "Alice",
- True age: 30,
- True employeeId: 12345,
- True department: "Engineering"
+ // 交叉类型
+ type EmployeePerson = Person & Employee;
+ // 使用示例
+ const employee: EmployeePerson = {
+  name: "Alice",
+  age: 30,
+  employeeId: 12345,
+  department: "Engineering"
  True};
- True
- Trueconsole.log(employee.name); // 输出: Alice
- Trueconsole.log(employee.employeeId); // 输出: 12345
- True```
+ console.log(employee.name); // 输出: Alice
+ console.log(employee.employeeId); // 输出: 12345
+ ```
 
- False### 6.2 联合类型 (Union Types)
- False
- False联合类型使用 `|` 符号，表示一个值可以是多种类型中的一种。
- False
+### 6.2 联合类型 (Union Types)
+联合类型使用 `|` 符号，表示一个值可以是多种类型中的一种。
 ```typescript
- True// 联合类型
- Truetype StringOrNumber = string | number;
- Truetype BooleanOrNull = boolean | null;
- Truetype ComplexUnion = string | number | boolean | null | undefined;
- True
- True// 使用示例
- Truefunction processValue(value: StringOrNumber): void {
- True if (typeof value === "string") {
- True console.log(value.toUpperCase());
- True } else {
- True console.log(value.toFixed(2));
- True }
+ // 联合类型
+ type StringOrNumber = string | number;
+ type BooleanOrNull = boolean | null;
+ type ComplexUnion = string | number | boolean | null | undefined;
+ // 使用示例
+ function processValue(value: StringOrNumber): void {
+  if (typeof value === "string") {
+  console.log(value.toUpperCase());
+  } else {
+  console.log(value.toFixed(2));
+  }
  True}
- True
  TrueprocessValue("hello"); // 输出: HELLO
  TrueprocessValue(42); // 输出: 42.00
- True```
+ ```
 
- False### 6.3 类型别名与接口的结合
- False
+### 6.3 类型别名与接口的结合
 ```typescript
- True// 接口定义
- Trueinterface Base {
- True id: number;
- True name: string;
+ // 接口定义
+ interface Base {
+  id: number;
+  name: string;
  True}
- True
- True// 类型别名与接口结合
- Truetype WithTimestamp = Base & {
- True createdAt: Date;
- True updatedAt: Date;
+ // 类型别名与接口结合
+ type WithTimestamp = Base & {
+  createdAt: Date;
+  updatedAt: Date;
  True};
- True
- Truetype OptionalBase = Partial<Base>;
- True
- Truetype ReadonlyBase = Readonly<Base>;
- True
- True// 使用示例
- Trueconst withTimestamp: WithTimestamp = {
- True id: 1,
- True name: "Alice",
- True createdAt: new Date(),
- True updatedAt: new Date()
+ type OptionalBase = Partial<Base>;
+ type ReadonlyBase = Readonly<Base>;
+ // 使用示例
+ const withTimestamp: WithTimestamp = {
+  id: 1,
+  name: "Alice",
+  createdAt: new Date(),
+  updatedAt: new Date()
  True};
- True
- Trueconst optionalBase: OptionalBase = {
- True name: "Bob"
+ const optionalBase: OptionalBase = {
+  name: "Bob"
  True};
- True
- Trueconst readonlyBase: ReadonlyBase = {
- True id: 2,
- True name: "Charlie"
+ const readonlyBase: ReadonlyBase = {
+  id: 2,
+  name: "Charlie"
  True};
- True// readonlyBase.name = "David"; // 编译错误
- True```
+ // readonlyBase.name = "David"; // 编译错误
+ ```
 
- False## 7. 类型工具
- False
- FalseTypeScript 提供了许多内置的类型工具，用于常见的类型操作。
- False
- False### 7.1 常用内置类型工具
- False
- False| 类型工具 | 描述 | 示例 |
- False| :--- | :--- | :--- |
- False| **`Partial<T>`** | 将 T 中所有属性变为可选 | `Partial<{ a: number; b: string }>` → `{ a?: number; b?: string }` |
- False| **`Required<T>`** | 将 T 中所有属性变为必需 | `Required<{ a?: number; b?: string }>` → `{ a: number; b: string }` |
- False| **`Readonly<T>`** | 将 T 中所有属性变为只读 | `Readonly<{ a: number; b: string }>` → `{ readonly a: number; readonly b: string }` |
- False| **`Record<K, T>`** | 构建键为 K 类型，值为 T 类型的对象类型 | `Record<string, number>` → `{ [key: string]: number }` |
- False| **`Pick<T, K>`** | 从 T 中选取指定的属性 K | `Pick<{ a: number; b: string; c: boolean }, "a" | "b">` → `{ a: number; b: string }` |
- False| **`Omit<T, K>`** | 从 T 中排除指定的属性 K | `Omit<{ a: number; b: string; c: boolean }, "c">` → `{ a: number; b: string }` |
- False| **`Exclude<T, U>`** | 从 T 中排除可以赋值给 U 的类型 | `Exclude<"a" | "b" | "c", "a">` → `"b" | "c"` |
- False| **`Extract<T, U>`** | 从 T 中提取可以赋值给 U 的类型 | `Extract<"a" | "b" | "c", "a" | "b">` → `"a" | "b"` |
- False| **`NonNullable<T>`** | 从 T 中排除 null 和 undefined | `NonNullable<string | null | undefined>` → `string` |
- False| **`Parameters<T>`** | 提取函数 T 的参数类型为元组 | `Parameters<(a: number, b: string) => void>` → `[number, string]` |
- False| **`ReturnType<T>`** | 提取函数 T 的返回类型 | `ReturnType<() => string>` → `string` |
- False| **`InstanceType<T>`** | 提取构造函数 T 的实例类型 | `InstanceType<typeof Date>` → `Date` |
- False| **`ThisParameterType<T>`** | 提取函数 T 的 this 参数类型 | `ThisParameterType<(this: { x: number }, y: number) => void>` → `{ x: number }` |
- False| **`OmitThisParameter<T>`** | 从函数 T 中移除 this 参数 | `OmitThisParameter<(this: { x: number }, y: number) => void>` → `(y: number) => void` |
- False
- False### 7.2 自定义类型工具
- False
+## 7. 类型工具
+TypeScript 提供了许多内置的类型工具，用于常见的类型操作。
+### 7.1 常用内置类型工具
+| 类型工具 | 描述 | 示例 |
+| :--- | :--- | :--- |
+| **`Partial<T>`** | 将 T 中所有属性变为可选 | `Partial<{ a: number; b: string }>` → `{ a?: number; b?: string }` |
+| **`Required<T>`** | 将 T 中所有属性变为必需 | `Required<{ a?: number; b?: string }>` → `{ a: number; b: string }` |
+| **`Readonly<T>`** | 将 T 中所有属性变为只读 | `Readonly<{ a: number; b: string }>` → `{ readonly a: number; readonly b: string }` |
+| **`Record<K, T>`** | 构建键为 K 类型，值为 T 类型的对象类型 | `Record<string, number>` → `{ [key: string]: number }` |
+| **`Pick<T, K>`** | 从 T 中选取指定的属性 K | `Pick<{ a: number; b: string; c: boolean }, "a" | "b">` → `{ a: number; b: string }` |
+| **`Omit<T, K>`** | 从 T 中排除指定的属性 K | `Omit<{ a: number; b: string; c: boolean }, "c">` → `{ a: number; b: string }` |
+| **`Exclude<T, U>`** | 从 T 中排除可以赋值给 U 的类型 | `Exclude<"a" | "b" | "c", "a">` → `"b" | "c"` |
+| **`Extract<T, U>`** | 从 T 中提取可以赋值给 U 的类型 | `Extract<"a" | "b" | "c", "a" | "b">` → `"a" | "b"` |
+| **`NonNullable<T>`** | 从 T 中排除 null 和 undefined | `NonNullable<string | null | undefined>` → `string` |
+| **`Parameters<T>`** | 提取函数 T 的参数类型为元组 | `Parameters<(a: number, b: string) => void>` → `[number, string]` |
+| **`ReturnType<T>`** | 提取函数 T 的返回类型 | `ReturnType<() => string>` → `string` |
+| **`InstanceType<T>`** | 提取构造函数 T 的实例类型 | `InstanceType<typeof Date>` → `Date` |
+| **`ThisParameterType<T>`** | 提取函数 T 的 this 参数类型 | `ThisParameterType<(this: { x: number }, y: number) => void>` → `{ x: number }` |
+| **`OmitThisParameter<T>`** | 从函数 T 中移除 this 参数 | `OmitThisParameter<(this: { x: number }, y: number) => void>` → `(y: number) => void` |
+### 7.2 自定义类型工具
 ```typescript
- True// 自定义类型工具
- True
- True// 深度只读
- Truetype DeepReadonly<T> = T extends object
- True ? { readonly [P in keyof T]: DeepReadonly<T[P]> }
- True : T;
- True
- True// 深度可选
- Truetype DeepPartial<T> = T extends object
- True ? { [P in keyof T]?: DeepPartial<T[P]> }
- True : T;
- True
- True// 深度必填
- Truetype DeepRequired<T> = T extends object
- True ? { [P in keyof T]-?: DeepRequired<T[P]> }
- True : T;
- True
- True// 类型是否为联合类型
- Truetype IsUnion<T> = [T] extends [infer U] ? U extends T ? false : true : false;
- True
- True// 获取对象的键类型
- Truetype Keys<T> = keyof T;
- True
- True// 获取对象的值类型
- Truetype Values<T> = T[keyof T];
- True
- True// 使用示例
- Trueinterface ComplexObject {
- True name: string;
- True age: number;
- True address: {
- True street: string;
- True city: string;
- True country: string;
- True };
- True hobbies: string[];
+ // 自定义类型工具
+ // 深度只读
+ type DeepReadonly<T> = T extends object
+  ? { readonly [P in keyof T]: DeepReadonly<T[P]> }
+  : T;
+ // 深度可选
+ type DeepPartial<T> = T extends object
+  ? { [P in keyof T]?: DeepPartial<T[P]> }
+  : T;
+ // 深度必填
+ type DeepRequired<T> = T extends object
+  ? { [P in keyof T]-?: DeepRequired<T[P]> }
+  : T;
+ // 类型是否为联合类型
+ type IsUnion<T> = [T] extends [infer U] ? U extends T ? false :  : false;
+ // 获取对象的键类型
+ type Keys<T> = keyof T;
+ // 获取对象的值类型
+ type Values<T> = T[keyof T];
+ // 使用示例
+ interface ComplexObject {
+  name: string;
+  age: number;
+  address: {
+  street: string;
+  city: string;
+  country: string;
+  };
+  hobbies: string[];
  True}
- True
- Trueconst deepReadonly: DeepReadonly<ComplexObject> = {
- True name: "Alice",
- True age: 30,
- True address: {
- True street: "123 Main St",
- True city: "New York",
- True country: "USA"
- True },
- True hobbies: ["reading", "coding"]
+ const deepReadonly: DeepReadonly<ComplexObject> = {
+  name: "Alice",
+  age: 30,
+  address: {
+  street: "123 Main St",
+  city: "New York",
+  country: "USA"
+  },
+  hobbies: ["reading", "coding"]
  True};
- True// deepReadonly.address.city = "Boston"; // 编译错误
- True
- Trueconst deepPartial: DeepPartial<ComplexObject> = {
- True name: "Bob",
- True address: {
- True city: "London"
- True }
+ // deepReadonly.address.city = "Boston"; // 编译错误
+ const deepPartial: DeepPartial<ComplexObject> = {
+  name: "Bob",
+  address: {
+  city: "London"
+  }
  True};
- True
- Trueconst deepRequired: DeepRequired<DeepPartial<ComplexObject>> = {
- True name: "Charlie",
- True age: 25,
- True address: {
- True street: "456 Oak Ave",
- True city: "Paris",
- True country: "France"
- True },
- True hobbies: []
+ const deepRequired: DeepRequired<DeepPartial<ComplexObject>> = {
+  name: "Charlie",
+  age: 25,
+  address: {
+  street: "456 Oak Ave",
+  city: "Paris",
+  country: "France"
+  },
+  hobbies: []
  True};
- True
- Truetype TestUnion = IsUnion<string | number>; // true
- Truetype TestNonUnion = IsUnion<string>; // false
- True
- Truetype ComplexKeys = Keys<ComplexObject>; // "name" | "age" | "address" | "hobbies"
- Truetype ComplexValues = Values<ComplexObject>; // string | number | { street: string; city: string; country: string; } | string[]
- True```
+ type TestUnion = IsUnion<string | number>; //  
+ type TestNonUnion = IsUnion<string>; // false
+ type ComplexKeys = Keys<ComplexObject>; // "name" | "age" | "address" | "hobbies"
+ type ComplexValues = Values<ComplexObject>; // string | number | { street: string; city: string; country: string; } | string[]
+ ```
 
- False## 8. 类型编程
- False
- False类型编程是使用 TypeScript 的类型系统来执行编译时计算和类型操作的技术。
- False
- False### 8.1 类型级别的计算
- False
+## 8. 类型编程
+类型编程是使用 TypeScript 的类型系统来执行编译时计算和类型操作的技术。
+### 8.1 类型级别的计算
 ```typescript
- True// 类型级别的计算
- True
- True// 数字类型的计算
- Truetype Add<T extends number, U extends number> = T extends 0 ? U : U extends 0 ? T : never;
- Truetype Multiply<T extends number, U extends number> = T extends 0 ? 0 : U extends 0 ? 0 : never;
- True
- True// 字符串类型的操作
- Truetype Concat<T extends string, U extends string> = `${T}${U}`;
- Truetype Uppercase<T extends string> = T extends `${infer L}${infer R}` 
- True ? `${Uppercase<L>}${Uppercase<R>}` 
- True : T;
- True
- True// 数组类型的操作
- Truetype Reverse<T extends any[]> = T extends [infer F, ...infer R] ? [...Reverse<R>, F] : [];
- Truetype Length<T extends any[]> = T['length'];
- True
- True// 使用示例
- Truetype Result1 = Concat<"Hello", " World">; // "Hello World"
- Truetype Result2 = Reverse<[1, 2, 3, 4, 5]>; // [5, 4, 3, 2, 1]
- Truetype Result3 = Length<[1, 2, 3]>; // 3
- True```
+ // 类型级别的计算
+ // 数字类型的计算
+ type Add<T extends number, U extends number> = T extends 0 ? U : U extends 0 ? T : never;
+ type Multiply<T extends number, U extends number> = T extends 0 ? 0 : U extends 0 ? 0 : never;
+ // 字符串类型的操作
+ type Concat<T extends string, U extends string> = `${T}${U}`;
+ type Uppercase<T extends string> = T extends `${infer L}${infer R}` 
+  ? `${Uppercase<L>}${Uppercase<R>}` 
+  : T;
+ // 数组类型的操作
+ type Reverse<T extends any[]> = T extends [infer F, ...infer R] ? [...Reverse<R>, F] : [];
+ type Length<T extends any[]> = T['length'];
+ // 使用示例
+ type Result1 = Concat<"Hello", " World">; // "Hello World"
+ type Result2 = Reverse<[1, 2, 3, 4, 5]>; // [5, 4, 3, 2, 1]
+ type Result3 = Length<[1, 2, 3]>; // 3
+ ```
 
- False### 8.2 类型级别的逻辑
- False
+### 8.2 类型级别的逻辑
 ```typescript
- True// 类型级别的逻辑
- True
- True// 类型相等性检查
- Truetype IsEqual<T, U> = [T] extends [U] ? [U] extends [T] ? true : false : false;
- True
- True// 类型包含性检查
- Truetype Includes<T extends any[], U> = T extends [infer F, ...infer R]
- True ? IsEqual<F, U> extends true
- True ? true
- True : Includes<R, U>
- True : false;
- True
- True// 类型条件逻辑
- Truetype If<C extends boolean, T, F> = C extends true ? T : F;
- True
- True// 使用示例
- Truetype TestEqual1 = IsEqual<string, string>; // true
- Truetype TestEqual2 = IsEqual<string, number>; // false
- True
- Truetype TestIncludes1 = Includes<[1, 2, 3, 4, 5], 3>; // true
- Truetype TestIncludes2 = Includes<[1, 2, 3, 4, 5], 6>; // false
- True
- Truetype TestIf1 = If<true, string, number>; // string
- Truetype TestIf2 = If<false, string, number>; // number
- True```
+ // 类型级别的逻辑
+ // 类型相等性检查
+ type IsEqual<T, U> = [T] extends [U] ? [U] extends [T] ?  : false : false;
+ // 类型包含性检查
+ type Includes<T extends any[], U> = T extends [infer F, ...infer R]
+  ? IsEqual<F, U> extends  
+  ?  
+  : Includes<R, U>
+  : false;
+ // 类型条件逻辑
+ type If<C extends boolean, T, F> = C extends  ? T : F;
+ // 使用示例
+ type TestEqual1 = IsEqual<string, string>; //  
+ type TestEqual2 = IsEqual<string, number>; // false
+ type TestIncludes1 = Includes<[1, 2, 3, 4, 5], 3>; //  
+ type TestIncludes2 = Includes<[1, 2, 3, 4, 5], 6>; // false
+ type TestIf1 = If<true, string, number>; // string
+ type TestIf2 = If<false, string, number>; // number
+ ```
 
- False## 9. 最佳实践
- False
- False### 9.1 类型设计原则
- False
- False- **类型安全**: 优先考虑类型安全，避免使用 `any` 类型。
- False- **可读性**: 设计清晰、易于理解的类型。
- False- **可维护性**: 复用类型定义，避免重复。
- False- **性能考虑**: 注意复杂类型可能导致编译时间增加。
- False- **渐进式类型**: 从简单类型开始，逐步添加复杂度。
- False
- False### 9.2 类型断言与非空断言
- False
- False- **谨慎使用**: 只在确定类型时使用类型断言和非空断言。
- False- **结合类型守卫**: 在使用断言前进行类型检查。
- False- **替代方案**: 优先使用可选链 (`?.`) 和空值合并 (`??`) 操作符。
- False
- False### 9.3 类型守卫
- False
- False- **明确检查**: 类型守卫应该明确检查变量的类型。
- False- **自定义守卫**: 为复杂类型创建自定义类型守卫。
- False- **组合使用**: 组合多种类型守卫来处理复杂场景。
- False
- False### 9.4 映射类型与条件类型
- False
- False- **复用现有类型**: 使用映射类型基于现有类型创建新类型。
- False- **类型推断**: 使用 `infer` 关键字从复杂类型中提取信息。
- False- **类型过滤**: 使用条件类型过滤和转换类型。
- False- **递归类型**: 合理使用递归类型处理嵌套结构。
- False
- False### 9.5 类型工具
- False
- False- **熟悉内置工具**: 充分利用 TypeScript 提供的内置类型工具。
- False- **创建自定义工具**: 根据项目需求创建自定义类型工具。
- False- **组合使用**: 灵活组合多个类型工具以满足复杂需求。
- False
- False## 10. 代码示例
- False
- False### 10.1 类型断言与非空断言
- False
+## 9. 最佳实践
+### 9.1 类型设计原则
+- **类型安全**: 优先考虑类型安全，避免使用 `any` 类型。
+- **可读性**: 设计清晰、易于理解的类型。
+- **可维护性**: 复用类型定义，避免重复。
+- **性能考虑**: 注意复杂类型可能导致编译时间增加。
+- **渐进式类型**: 从简单类型开始，逐步添加复杂度。
+### 9.2 类型断言与非空断言
+- **谨慎使用**: 只在确定类型时使用类型断言和非空断言。
+- **结合类型守卫**: 在使用断言前进行类型检查。
+- **替代方案**: 优先使用可选链 (`?.`) 和空值合并 (`??`) 操作符。
+### 9.3 类型守卫
+- **明确检查**: 类型守卫应该明确检查变量的类型。
+- **自定义守卫**: 为复杂类型创建自定义类型守卫。
+- **组合使用**: 组合多种类型守卫来处理复杂场景。
+### 9.4 映射类型与条件类型
+- **复用现有类型**: 使用映射类型基于现有类型创建新类型。
+- **类型推断**: 使用 `infer` 关键字从复杂类型中提取信息。
+- **类型过滤**: 使用条件类型过滤和转换类型。
+- **递归类型**: 合理使用递归类型处理嵌套结构。
+### 9.5 类型工具
+- **熟悉内置工具**: 充分利用 TypeScript 提供的内置类型工具。
+- **创建自定义工具**: 根据项目需求创建自定义类型工具。
+- **组合使用**: 灵活组合多个类型工具以满足复杂需求。
+## 10. 代码示例
+### 10.1 类型断言与非空断言
 ```typescript
- True// 类型断言示例
- Truefunction processUnknown(value: unknown): void {
- True // 类型断言为 string
- True if (typeof value === "string") {
- True const str = value as string;
- True console.log(`String length: ${str.length}`);
- True }
- True 
- True // 类型断言为 number
- True if (typeof value === "number") {
- True const num = value as number;
- True console.log(`Number squared: ${num * num}`);
- True }
- True 
- True // 类型断言为对象
- True if (typeof value === "object" && value !== null) {
- True const obj = value as { name: string; age: number };
- True console.log(`Object: ${obj.name}, ${obj.age}`);
- True }
+ // 类型断言示例
+ function processUnknown(value: unknown): void {
+  // 类型断言为 string
+  if (typeof value === "string") {
+  const str = value as string;
+  console.log(`String length: ${str.length}`);
+  }
+  // 类型断言为 number
+  if (typeof value === "number") {
+  const num = value as number;
+  console.log(`Number squared: ${num * num}`);
+  }
+  // 类型断言为对象
+  if (typeof value === "object" && value !== null) {
+  const obj = value as { name: string; age: number };
+  console.log(`Object: ${obj.name}, ${obj.age}`);
+  }
  True}
- True
- True// 非空断言示例
- Trueinterface User {
- True id: number;
- True name: string;
- True email?: string;
- True address?: {
- True street: string;
- True city: string;
- True };
+ // 非空断言示例
+ interface User {
+  id: number;
+  name: string;
+  email?: string;
+  address?: {
+  street: string;
+  city: string;
+  };
  True}
- True
- Truefunction getUserEmail(user: User): string {
- True // 非空断言
- True return user.email!;
+ function getUserEmail(user: User): string {
+  // 非空断言
+  return user.email!;
  True}
- True
- Truefunction getStreet(user: User): string {
- True // 链式非空断言
- True return user.address!.street!;
+ function getStreet(user: User): string {
+  // 链式非空断言
+  return user.address!.street!;
  True}
- True
- True// 使用示例
- Trueconst user: User = {
- True id: 1,
- True name: "Alice",
- True email: "alice@example.com",
- True address: {
- True street: "123 Main St",
- True city: "New York"
- True }
+ // 使用示例
+ const user: User = {
+  id: 1,
+  name: "Alice",
+  email: "alice@example.com",
+  address: {
+  street: "123 Main St",
+  city: "New York"
+  }
  True};
- True
  TrueprocessUnknown("Hello"); // 输出: String length: 5
  TrueprocessUnknown(42); // 输出: Number squared: 1764
  TrueprocessUnknown(user); // 输出: Object: Alice, 1
- True
- Trueconsole.log(getUserEmail(user)); // 输出: alice@example.com
- Trueconsole.log(getStreet(user)); // 输出: 123 Main St
- True```
+ console.log(getUserEmail(user)); // 输出: alice@example.com
+ console.log(getStreet(user)); // 输出: 123 Main St
+ ```
 
- False### 10.2 类型守卫
- False
+### 10.2 类型守卫
 ```typescript
- True// 类型守卫示例
- True
- True// 自定义类型守卫
- Truefunction isString(value: any): value is string {
- True return typeof value === "string";
+ // 类型守卫示例
+ // 自定义类型守卫
+ function isString(value: any): value is string {
+  return typeof value === "string";
  True}
- True
- Truefunction isNumber(value: any): value is number {
- True return typeof value === "number";
+ function isNumber(value: any): value is number {
+  return typeof value === "number";
  True}
- True
- Truefunction isBoolean(value: any): value is boolean {
- True return typeof value === "boolean";
+ function isBoolean(value: any): value is boolean {
+  return typeof value === "boolean";
  True}
- True
- Truefunction isObject(value: any): value is object {
- True return typeof value === "object" && value !== null;
+ function isObject(value: any): value is object {
+  return typeof value === "object" && value !== null;
  True}
- True
- Truefunction isArray(value: any): value is any[] {
- True return Array.isArray(value);
+ function isArray(value: any): value is any[] {
+  return Array.isArray(value);
  True}
- True
- True// 接口类型守卫
- Trueinterface Person {
- True name: string;
- True age: number;
+ // 接口类型守卫
+ interface Person {
+  name: string;
+  age: number;
  True}
- True
- Truefunction isPerson(value: any): value is Person {
- True return (
- True isObject(value) &&
- True isString((value as Person).name) &&
- True isNumber((value as Person).age)
- True );
+ function isPerson(value: any): value is Person {
+  return (
+  isObject(value) &&
+  isString((value as Person).name) &&
+  isNumber((value as Person).age)
+  );
  True}
- True
- True// 使用示例
- Truefunction processValue(value: unknown): void {
- True if (isString(value)) {
- True console.log(`String: ${value.toUpperCase()}`);
- True } else if (isNumber(value)) {
- True console.log(`Number: ${value.toFixed(2)}`);
- True } else if (isBoolean(value)) {
- True console.log(`Boolean: ${value}`);
- True } else if (isArray(value)) {
- True console.log(`Array length: ${value.length}`);
- True } else if (isPerson(value)) {
- True console.log(`Person: ${value.name}, ${value.age}`);
- True } else {
- True console.log(`Unknown type`);
- True }
+ // 使用示例
+ function processValue(value: unknown): void {
+  if (isString(value)) {
+  console.log(`String: ${value.toUpperCase()}`);
+  } else if (isNumber(value)) {
+  console.log(`Number: ${value.toFixed(2)}`);
+  } else if (isBoolean(value)) {
+  console.log(`Boolean: ${value}`);
+  } else if (isArray(value)) {
+  console.log(`Array length: ${value.length}`);
+  } else if (isPerson(value)) {
+  console.log(`Person: ${value.name}, ${value.age}`);
+  } else {
+  console.log(`Unknown type`);
+  }
  True}
- True
  TrueprocessValue("Hello"); // 输出: String: HELLO
  TrueprocessValue(42); // 输出: Number: 42.00
- TrueprocessValue(true); // 输出: Boolean: true
+ TrueprocessValue(true); // 输出: Boolean:  
  TrueprocessValue([1, 2, 3]); // 输出: Array length: 3
  TrueprocessValue({ name: "Alice", age: 30 }); // 输出: Person: Alice, 30
  TrueprocessValue(null); // 输出: Unknown type
- True```
+ ```
 
- False### 10.3 映射类型与条件类型
- False
+### 10.3 映射类型与条件类型
 ```typescript
- True// 映射类型与条件类型示例
- True
- True// 基础接口
- Trueinterface Product {
- True id: number;
- True name: string;
- True price: number;
- True description: string;
- True inStock: boolean;
+ // 映射类型与条件类型示例
+ // 基础接口
+ interface Product {
+  id: number;
+  name: string;
+  price: number;
+  description: string;
+  inStock: boolean;
  True}
- True
- True// 映射类型
- True
- True// 只读产品
- Truetype ReadonlyProduct = Readonly<Product>;
- True
- True// 可选产品
- Truetype OptionalProduct = Partial<Product>;
- True
- True// 产品ID和名称
- Truetype ProductInfo = Pick<Product, "id" | "name">;
- True
- True// 产品不含描述
- Truetype ProductWithoutDescription = Omit<Product, "description">;
- True
- True// 条件类型
- True
- True// 提取字符串属性
- Truetype StringProperties<T> = {
- True [K in keyof T as T[K] extends string ? K : never]: T[K];
+ // 映射类型
+ // 只读产品
+ type ReadonlyProduct = Readonly<Product>;
+ // 可选产品
+ type OptionalProduct = Partial<Product>;
+ // 产品ID和名称
+ type ProductInfo = Pick<Product, "id" | "name">;
+ // 产品不含描述
+ type ProductWithoutDescription = Omit<Product, "description">;
+ // 条件类型
+ // 提取字符串属性
+ type StringProperties<T> = {
+  [K in keyof T as T[K] extends string ? K : never]: T[K];
  True};
- True
- True// 提取数字属性
- Truetype NumberProperties<T> = {
- True [K in keyof T as T[K] extends number ? K : never]: T[K];
+ // 提取数字属性
+ type NumberProperties<T> = {
+  [K in keyof T as T[K] extends number ? K : never]: T[K];
  True};
- True
- True// 提取布尔属性
- Truetype BooleanProperties<T> = {
- True [K in keyof T as T[K] extends boolean ? K : never]: T[K];
+ // 提取布尔属性
+ type BooleanProperties<T> = {
+  [K in keyof T as T[K] extends boolean ? K : never]: T[K];
  True};
- True
- True// 使用示例
- Trueconst readonlyProduct: ReadonlyProduct = {
- True id: 1,
- True name: "Laptop",
- True price: 999.99,
- True description: "A powerful laptop",
- True inStock: true
+ // 使用示例
+ const readonlyProduct: ReadonlyProduct = {
+  id: 1,
+  name: "Laptop",
+  price: 999.99,
+  description: "A powerful laptop",
+  inStock:  
  True};
- True// readonlyProduct.price = 899.99; // 编译错误
- True
- Trueconst optionalProduct: OptionalProduct = {
- True id: 2,
- True name: "Mouse"
+ // readonlyProduct.price = 899.99; // 编译错误
+ const optionalProduct: OptionalProduct = {
+  id: 2,
+  name: "Mouse"
  True};
- True
- Trueconst productInfo: ProductInfo = {
- True id: 3,
- True name: "Keyboard"
+ const productInfo: ProductInfo = {
+  id: 3,
+  name: "Keyboard"
  True};
- True
- Trueconst productWithoutDescription: ProductWithoutDescription = {
- True id: 4,
- True name: "Monitor",
- True price: 199.99,
- True inStock: false
+ const productWithoutDescription: ProductWithoutDescription = {
+  id: 4,
+  name: "Monitor",
+  price: 199.99,
+  inStock: false
  True};
- True
- Trueconst stringProps: StringProperties<Product> = {
- True name: "Laptop",
- True description: "A powerful laptop"
+ const stringProps: StringProperties<Product> = {
+  name: "Laptop",
+  description: "A powerful laptop"
  True};
- True
- Trueconst numberProps: NumberProperties<Product> = {
- True id: 1,
- True price: 999.99
+ const numberProps: NumberProperties<Product> = {
+  id: 1,
+  price: 999.99
  True};
- True
- Trueconst booleanProps: BooleanProperties<Product> = {
- True inStock: true
+ const booleanProps: BooleanProperties<Product> = {
+  inStock:  
  True};
- True
- Trueconsole.log(readonlyProduct);
- Trueconsole.log(optionalProduct);
- Trueconsole.log(productInfo);
- Trueconsole.log(productWithoutDescription);
- Trueconsole.log(stringProps);
- Trueconsole.log(numberProps);
- Trueconsole.log(booleanProps);
- True```
+ console.log(readonlyProduct);
+ console.log(optionalProduct);
+ console.log(productInfo);
+ console.log(productWithoutDescription);
+ console.log(stringProps);
+ console.log(numberProps);
+ console.log(booleanProps);
+ ```
 
- False### 10.4 高级类型组合
- False
+### 10.4 高级类型组合
 ```typescript
- True// 高级类型组合示例
- True
- True// 基础类型
- Trueinterface User {
- True id: number;
- True name: string;
- True email: string;
+ // 高级类型组合示例
+ // 基础类型
+ interface User {
+  id: number;
+  name: string;
+  email: string;
  True}
- True
- Trueinterface Address {
- True street: string;
- True city: string;
- True country: string;
+ interface Address {
+  street: string;
+  city: string;
+  country: string;
  True}
- True
- Trueinterface Order {
- True id: number;
- True userId: number;
- True total: number;
- True items: OrderItem[];
+ interface Order {
+  id: number;
+  userId: number;
+  total: number;
+  items: OrderItem[];
  True}
- True
- Trueinterface OrderItem {
- True productId: number;
- True quantity: number;
- True price: number;
+ interface OrderItem {
+  productId: number;
+  quantity: number;
+  price: number;
  True}
- True
- True// 高级类型
- True
- True// 带地址的用户
- Truetype UserWithAddress = User & { address: Address };
- True
- True// 订单详情（包含用户信息）
- Truetype OrderWithUser = Order & {
- True user: User;
+ // 高级类型
+ // 带地址的用户
+ type UserWithAddress = User & { address: Address };
+ // 订单详情（包含用户信息）
+ type OrderWithUser = Order & {
+  user: User;
  True};
- True
- True// 可选订单项
- Truetype OptionalOrderItem = Partial<OrderItem>;
- True
- True// 只读订单
- Truetype ReadonlyOrder = Readonly<Order>;
- True
- True// 条件类型：提取订单中的产品ID
- Truetype ProductIdsFromOrder<T extends Order> = T['items'][number]['productId'];
- True
- True// 使用示例
- Trueconst userWithAddress: UserWithAddress = {
- True id: 1,
- True name: "Alice",
- True email: "alice@example.com",
- True address: {
- True street: "123 Main St",
- True city: "New York",
- True country: "USA"
- True }
+ // 可选订单项
+ type OptionalOrderItem = Partial<OrderItem>;
+ // 只读订单
+ type ReadonlyOrder = Readonly<Order>;
+ // 条件类型：提取订单中的产品ID
+ type ProductIdsFromOrder<T extends Order> = T['items'][number]['productId'];
+ // 使用示例
+ const userWithAddress: UserWithAddress = {
+  id: 1,
+  name: "Alice",
+  email: "alice@example.com",
+  address: {
+  street: "123 Main St",
+  city: "New York",
+  country: "USA"
+  }
  True};
- True
- Trueconst orderWithUser: OrderWithUser = {
- True id: 101,
- True userId: 1,
- True total: 1299.98,
- True items: [
- True { productId: 1, quantity: 1, price: 999.99 },
- True { productId: 2, quantity: 2, price: 149.995 }
- True ],
- True user: {
- True id: 1,
- True name: "Alice",
- True email: "alice@example.com"
- True }
+ const orderWithUser: OrderWithUser = {
+  id: 101,
+  userId: 1,
+  total: 1299.98,
+  items: [
+  { productId: 1, quantity: 1, price: 999.99 },
+  { productId: 2, quantity: 2, price: 149.995 }
+  ],
+  user: {
+  id: 1,
+  name: "Alice",
+  email: "alice@example.com"
+  }
  True};
- True
- Trueconst optionalOrderItem: OptionalOrderItem = {
- True productId: 3,
- True quantity: 1
+ const optionalOrderItem: OptionalOrderItem = {
+  productId: 3,
+  quantity: 1
  True};
- True
- Trueconst readonlyOrder: ReadonlyOrder = {
- True id: 102,
- True userId: 2,
- True total: 499.99,
- True items: [
- True { productId: 4, quantity: 1, price: 499.99 }
- True ]
+ const readonlyOrder: ReadonlyOrder = {
+  id: 102,
+  userId: 2,
+  total: 499.99,
+  items: [
+  { productId: 4, quantity: 1, price: 499.99 }
+  ]
  True};
- True// readonlyOrder.total = 399.99; // 编译错误
- True
- True// 类型级别提取产品ID
- Truetype ProductIds = ProductIdsFromOrder<Order>; // number
- True
- Trueconsole.log(userWithAddress);
- Trueconsole.log(orderWithUser);
- Trueconsole.log(optionalOrderItem);
- Trueconsole.log(readonlyOrder);
- True```
+ // readonlyOrder.total = 399.99; // 编译错误
+ // 类型级别提取产品ID
+ type ProductIds = ProductIdsFromOrder<Order>; // number
+ console.log(userWithAddress);
+ console.log(orderWithUser);
+ console.log(optionalOrderItem);
+ console.log(readonlyOrder);
+ ```
 
- False---
- False
- False### 更新日志 (Changelog)
- False
- False- 2026-04-05: 深入细化 TS 类型演算与条件类型机制。
- False- 2026-04-05: 扩写内容，增加详细的类型断言、非空断言、类型守卫、映射类型、条件类型、高级类型组合、类型工具、类型编程、最佳实践和代码示例等内容。
- False
+---
+### 更新日志 (Changelog)
+- 2026-04-05: 深入细化 TS 类型演算与条件类型机制。
+- 2026-04-05: 扩写内容，增加详细的类型断言、非空断言、类型守卫、映射类型、条件类型、高级类型组合、类型工具、类型编程、最佳实践和代码示例等内容。

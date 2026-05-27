@@ -1,4 +1,4 @@
-# 设计模式
+﻿# 设计模式
 
 > @Version: v4.0.0
 > @Author: fanquanpp

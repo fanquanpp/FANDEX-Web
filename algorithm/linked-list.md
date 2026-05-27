@@ -1,4 +1,4 @@
-# 链表
+﻿# 链表
 
 > @Version: v4.0.0
 > @Author: fanquanpp
@@ -390,8 +390,7 @@ def has_cycle(head):
         slow = slow.next
         fast = fast.next.next
         if slow == fast:
-            return True
-    return False
+            return      return False
 
 def detect_cycle(head):
     slow = fast = head
@@ -640,15 +639,13 @@ ListNode* removeNthFromEnd(ListNode* head, int n) {
 ```python
 def is_palindrome(head):
     if not head or not head.next:
-        return True
-    slow = fast = head
+        return      slow = fast = head
     while fast.next and fast.next.next:
         slow = slow.next
         fast = fast.next.next
     second_half = reverse_list(slow.next)
     p1, p2 = head, second_half
-    result = True
-    while p2:
+    result =      while p2:
         if p1.val != p2.val:
             result = False
             break

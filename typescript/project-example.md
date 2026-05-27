@@ -1,4 +1,4 @@
-# TypeScript 项目示例：类型安全的 API 客户端
+﻿# TypeScript 项目示例：类型安全的 API 客户端
 
 ## 项目概述
 

@@ -1,4 +1,4 @@
-# Vue3 理论知识点
+﻿# Vue3 理论知识点
 
 ## 响应式原理：Proxy vs defineProperty
 

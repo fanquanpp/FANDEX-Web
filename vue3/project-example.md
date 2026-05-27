@@ -1,4 +1,4 @@
-# Vue3 项目示例：个人博客站点
+﻿# Vue3 项目示例：个人博客站点
 
 ## 项目概述
 
@@ -135,7 +135,7 @@ export function useReadingProgress() {
     progress.value = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
   }
 
-  onMounted(() => window.addEventListener("scroll", update, { passive: true }));
+  onMounted(() => window.addEventListener("scroll", update, { passive:  }));
   onUnmounted(() => window.removeEventListener("scroll", update));
 
   return { progress };
@@ -696,7 +696,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: "/", component: () => import("@/views/Home.vue") },
-    { path: "/article/:slug", name: "article", component: () => import("@/views/Article.vue"), props: true },
+    { path: "/article/:slug", name: "article", component: () => import("@/views/Article.vue"), props:  },
   ],
 });
 ```

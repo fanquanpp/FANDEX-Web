@@ -1,4 +1,4 @@
-# 贪心算法
+﻿# 贪心算法
 
 > @Version: v4.0.0
 > @Author: fanquanpp
@@ -395,8 +395,7 @@ class UnionFind:
         self.parent[py] = px
         if self.rank[px] == self.rank[py]:
             self.rank[px] += 1
-        return True
-
+        return  
 def kruskal(n, edges):
     edges.sort(key=lambda x: x[2])
     uf = UnionFind(n)
@@ -499,8 +498,7 @@ def prim(n, graph):
         w, u, parent = heapq.heappop(min_heap)
         if visited[u]:
             continue
-        visited[u] = True
-        if parent != -1:
+        visited[u] =          if parent != -1:
             mst.append((parent, u, w))
             total_weight += w
         for v, weight in graph[u]:
@@ -518,8 +516,7 @@ def prim_dense(n, adj_matrix):
         for v in range(n):
             if not visited[v] and (u == -1 or key[v] < key[u]):
                 u = v
-        visited[u] = True
-        for v in range(n):
+        visited[u] =          for v in range(n):
             if not visited[v] and adj_matrix[u][v] < key[v]:
                 key[v] = adj_matrix[u][v]
                 parent[v] = u

@@ -1,4 +1,4 @@
-# 数据清洗 -- 缺失值、异常值与数据类型转换
+﻿# 数据清洗 -- 缺失值、异常值与数据类型转换
 
 > @Version: v4.0.0
 > @Author: fanquanpp
@@ -381,7 +381,7 @@ bool_map = {'yes': True, 'y': True, '1': True, True: True,
             'no': False, 'n': False, '0': False, False: False}
 
 df['flag_bool'] = df['flag'].astype(str).str.lower().map(
-    {'yes': True, 'y': True, '1': True, 'true': True,
+    {'yes': True, 'y': True, '1': True, '': True,
      'no': False, 'n': False, '0': False, 'false': False}
 )
 print(f"布尔转换:\n{df[['flag', 'flag_bool']]}")

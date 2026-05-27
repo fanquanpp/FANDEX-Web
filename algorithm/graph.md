@@ -1,4 +1,4 @@
-# 图算法
+﻿# 图算法
 
 > @Version: v4.0.0
 > @Author: fanquanpp
@@ -258,8 +258,7 @@ def dijkstra(n, graph, start):
         d, u = heapq.heappop(pq)
         if visited[u]:
             continue
-        visited[u] = True
-        for v, w in graph[u]:
+        visited[u] =          for v, w in graph[u]:
             if dist[u] + w < dist[v]:
                 dist[v] = dist[u] + w
                 prev[v] = u
@@ -324,14 +323,12 @@ def bellman_ford(n, edges, start):
         for u, v, w in edges:
             if dist[u] != float('inf') and dist[u] + w < dist[v]:
                 dist[v] = dist[u] + w
-                updated = True
-        if not updated:
+                updated =          if not updated:
             break
     has_negative_cycle = False
     for u, v, w in edges:
         if dist[u] != float('inf') and dist[u] + w < dist[v]:
-            has_negative_cycle = True
-            break
+            has_negative_cycle =              break
     return dist, has_negative_cycle
 ```
 
@@ -375,8 +372,7 @@ def spfa(n, graph, start):
     in_queue = [False] * n
     cnt = [0] * n
     q = deque([start])
-    in_queue[start] = True
-    has_negative_cycle = False
+    in_queue[start] =      has_negative_cycle = False
     while q:
         u = q.popleft()
         in_queue[u] = False
@@ -385,12 +381,10 @@ def spfa(n, graph, start):
                 dist[v] = dist[u] + w
                 cnt[v] = cnt[u] + 1
                 if cnt[v] >= n:
-                    has_negative_cycle = True
-                    break
+                    has_negative_cycle =                      break
                 if not in_queue[v]:
                     q.append(v)
-                    in_queue[v] = True
-        if has_negative_cycle:
+                    in_queue[v] =          if has_negative_cycle:
             break
     return dist, has_negative_cycle
 ```
@@ -558,8 +552,7 @@ def topological_sort_dfs(n, graph):
 
     def dfs(u):
         nonlocal has_cycle
-        visited[u] = True
-        for v, _ in graph[u]:
+        visited[u] =          for v, _ in graph[u]:
             if not visited[v]:
                 dfs(v)
             # 环检测需要颜色标记，此处省略
@@ -608,14 +601,12 @@ class UnionFind:
         self.parent[py] = px
         if self.rank[px] == self.rank[py]:
             self.rank[px] += 1
-        return True
-
+        return  
 def has_cycle_undirected(n, edges):
     uf = UnionFind(n)
     for u, v in edges:
         if not uf.union(u, v):
-            return True
-    return False
+            return      return False
 ```
 
 ### 8.2 强连通分量 -- Tarjan
@@ -635,8 +626,7 @@ def tarjan_scc(n, graph):
         timer[0] += 1
         dfn[u] = low[u] = timer[0]
         stack.append(u)
-        on_stack[u] = True
-        for v in graph[u]:
+        on_stack[u] =          for v in graph[u]:
             if dfn[v] == 0:
                 dfs(v)
                 low[u] = min(low[u], low[v])

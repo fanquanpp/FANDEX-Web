@@ -1,4 +1,4 @@
-# HTML5 项目示例：交互式表单应用
+﻿# HTML5 项目示例：交互式表单应用
 
 ## 项目概述
 
@@ -193,11 +193,11 @@
                 <div class="form-group">
                     <label>Skills (drag to reorder)</label>
                     <div class="tag-list" id="skillTags">
-                        <div class="tag" draggable="true">JavaScript</div>
-                        <div class="tag" draggable="true">Python</div>
-                        <div class="tag" draggable="true">Java</div>
-                        <div class="tag" draggable="true">CSS</div>
-                        <div class="tag" draggable="true">SQL</div>
+                        <div class="tag" draggable="">JavaScript</div>
+                        <div class="tag" draggable="">Python</div>
+                        <div class="tag" draggable="">Java</div>
+                        <div class="tag" draggable="">CSS</div>
+                        <div class="tag" draggable="">SQL</div>
                     </div>
                     <div class="tag-input-group">
                         <input type="text" id="newSkill" placeholder="Add a skill">

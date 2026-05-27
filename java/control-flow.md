@@ -1,373 +1,311 @@
-# 控制流 (Control Flow)
- False
- False> @Version: v3.5.0
- False
- False> @Author: Anonymous
- False> @Category: Java Basics
- False> @Description: 条件分支、循环结构、跳转语句及 Java 12+ 新特性。 | Conditional branches, loops, jumps, and Java 12+ Switch features.
- False
- False---
- False
- False## 目录
- False
- False1. [条件分支](#条件分支)
- False2. [循环结构](#循环结构)
- False3. [跳转语句](#跳转语句)
- False4. [实际应用案例](#实际应用案例)
- False5. [最佳实践](#最佳实践)
- False6. [常见陷阱](#常见陷阱)
- False
- False---
- False
- False## 1. 条件分支 (Selection)
- False
- False### 1.1 `if-else` 结构
- False
- False#### 1.1.1 基本用法
- False
+﻿# 控制流 (Control Flow)
+> @Version: v3.5.0
+> @Author: Anonymous
+> @Category: Java Basics
+> @Description: 条件分支、循环结构、跳转语句及 Java 12+ 新特性。 | Conditional branches, loops, jumps, and Java 12+ Switch features.
+---
+## 目录
+1. [条件分支](#条件分支)
+2. [循环结构](#循环结构)
+3. [跳转语句](#跳转语句)
+4. [实际应用案例](#实际应用案例)
+5. [最佳实践](#最佳实践)
+6. [常见陷阱](#常见陷阱)
+---
+## 1. 条件分支 (Selection)
+### 1.1 `if-else` 结构
+#### 1.1.1 基本用法
 ```java
- Trueif (condition) {
- True // 条件为真时执行
+ if (condition) {
+  // 条件为真时执行
  True} else if (anotherCondition) {
- True // 另一个条件为真时执行
+  // 另一个条件为真时执行
  True} else {
- True // 所有条件都为假时执行
+  // 所有条件都为假时执行
  True}
- True```
+ ```
 
- False#### 1.1.2 嵌套 `if-else`
- False
+#### 1.1.2 嵌套 `if-else`
 ```java
- Trueif (score >= 90) {
- True if (score >= 95) {
- True System.out.println("A+");
- True } else {
- True System.out.println("A");
- True }
+ if (score >= 90) {
+  if (score >= 95) {
+  System.out.println("A+");
+  } else {
+  System.out.println("A");
+  }
  True} else if (score >= 60) {
- True System.out.println("B");
+  System.out.println("B");
  True} else {
- True System.out.println("C");
+  System.out.println("C");
  True}
- True```
+ ```
 
- False#### 1.1.3 卫语句 (Guard Clause)
- False
- False对于复杂的条件判断，使用卫语句可以提高代码可读性：
- False
+#### 1.1.3 卫语句 (Guard Clause)
+对于复杂的条件判断，使用卫语句可以提高代码可读性：
 ```java
- Truepublic void processOrder(Order order) {
- True if (order == null) {
- True return;
- True }
- True if (!order.isValid()) {
- True System.out.println("Invalid order");
- True return;
- True }
- True if (order.getAmount() > MAX_AMOUNT) {
- True System.out.println("Amount too large");
- True return;
- True }
- True // 处理订单逻辑
+ public void processOrder(Order order) {
+  if (order == null) {
+  return;
+  }
+  if (!order.isValid()) {
+  System.out.println("Invalid order");
+  return;
+  }
+  if (order.getAmount() > MAX_AMOUNT) {
+  System.out.println("Amount too large");
+  return;
+  }
+  // 处理订单逻辑
  True}
- True```
+ ```
 
- False### 1.2 `switch` 结构
- False
- False#### 1.2.1 传统 `switch` 语句
- False
- False- 必须使用 `break` 防止穿透
- False- 可以使用 `default` 处理默认情况
- False
+### 1.2 `switch` 结构
+#### 1.2.1 传统 `switch` 语句
+- 必须使用 `break` 防止穿透
+- 可以使用 `default` 处理默认情况
 ```java
- Trueswitch (day) {
- True case 1:
- True System.out.println("Monday");
- True break;
- True case 2:
- True System.out.println("Tuesday");
- True break;
- True case 3:
- True case 4:
- True case 5:
- True System.out.println("Weekday");
- True break;
- True case 6:
- True case 7:
- True System.out.println("Weekend");
- True break;
- True default:
- True System.out.println("Invalid day");
+ switch (day) {
+  case 1:
+  System.out.println("Monday");
+  break;
+  case 2:
+  System.out.println("Tuesday");
+  break;
+  case 3:
+  case 4:
+  case 5:
+  System.out.println("Weekday");
+  break;
+  case 6:
+  case 7:
+  System.out.println("Weekend");
+  break;
+  default:
+  System.out.println("Invalid day");
  True}
- True```
+ ```
 
- False#### 1.2.2 Java 12+ `switch` 表达式
- False
- False- 使用 `->` 箭头语法，无需 `break`
- False- 可以直接返回值
- False- 支持 `yield` 关键字返回复杂表达式
- False
+#### 1.2.2 Java 12+ `switch` 表达式
+- 使用 `->` 箭头语法，无需 `break`
+- 可以直接返回值
+- 支持 `yield` 关键字返回复杂表达式
 ```java
- True// 基本用法
+ // 基本用法
  TrueString dayName = switch (day) {
- True case 1 -> "Monday";
- True case 2 -> "Tuesday";
- True case 3, 4, 5 -> "Weekday";
- True case 6, 7 -> "Weekend";
- True default -> "Invalid day";
+  case 1 -> "Monday";
+  case 2 -> "Tuesday";
+  case 3, 4, 5 -> "Weekday";
+  case 6, 7 -> "Weekend";
+  default -> "Invalid day";
  True};
- True
- True// 使用 yield 返回复杂表达式
- Trueint result = switch (operation) {
- True case "add" -> {
- True yield a + b;
- True }
- True case "subtract" -> {
- True yield a - b;
- True }
- True default -> {
- True System.out.println("Invalid operation");
- True yield 0;
- True }
+ // 使用 yield 返回复杂表达式
+ int result = switch (operation) {
+  case "add" -> {
+  yield a + b;
+  }
+  case "subtract" -> {
+  yield a - b;
+  }
+  default -> {
+  System.out.println("Invalid operation");
+  yield 0;
+  }
  True};
- True```
+ ```
 
- False#### 1.2.3 Java 17+ `switch` 模式匹配
- False
+#### 1.2.3 Java 17+ `switch` 模式匹配
 ```java
- True// 模式匹配示例
+ // 模式匹配示例
  TrueObject obj = "Hello";
  TrueString result = switch (obj) {
- True case Integer i -> "Integer: " + i;
- True case String s -> "String: " + s;
- True case null -> "null";
- True default -> "Other";
+  case Integer i -> "Integer: " + i;
+  case String s -> "String: " + s;
+  case null -> "null";
+  default -> "Other";
  True};
- True```
+ ```
 
- False## 2. 循环结构 (Iteration)
- False
- False### 2.1 `for` 循环
- False
- False#### 2.1.1 标准 `for` 循环
- False
+## 2. 循环结构 (Iteration)
+### 2.1 `for` 循环
+#### 2.1.1 标准 `for` 循环
 ```java
- Truefor (int i = 0; i < 10; i++) {
- True System.out.println(i);
+ for (int i = 0; i < 10; i++) {
+  System.out.println(i);
  True}
- True```
+ ```
 
- False#### 2.1.2 增强型 `for` 循环 (for-each)
- False
- False用于遍历数组、集合等可迭代对象：
- False
+#### 2.1.2 增强型 `for` 循环 (for-each)
+用于遍历数组、集合等可迭代对象：
 ```java
- True// 遍历数组
- Trueint[] numbers = {1, 2, 3, 4, 5};
- Truefor (int number : numbers) {
- True System.out.println(number);
+ // 遍历数组
+ int[] numbers = {1, 2, 3, 4, 5};
+ for (int number : numbers) {
+  System.out.println(number);
  True}
- True
- True// 遍历集合
+ // 遍历集合
  TrueList<String> names = List.of("Alice", "Bob", "Charlie");
- Truefor (String name : names) {
- True System.out.println(name);
+ for (String name : names) {
+  System.out.println(name);
  True}
- True```
+ ```
 
- False#### 2.1.3 带标签的 `for` 循环
- False
+#### 2.1.3 带标签的 `for` 循环
 ```java
  Trueouter: for (int i = 0; i < 3; i++) {
- True inner: for (int j = 0; j < 3; j++) {
- True if (j == 1) {
- True continue outer; // 跳过外层循环的当前迭代
- True }
- True System.out.println(i + ", " + j);
- True }
+  inner: for (int j = 0; j < 3; j++) {
+  if (j == 1) {
+  continue outer; // 跳过外层循环的当前迭代
+  }
+  System.out.println(i + ", " + j);
+  }
  True}
- True```
+ ```
 
- False### 2.2 `while` 循环
- False
- False- 先判断条件，后执行循环体
- False- 适用于循环次数不确定的场景
- False
+### 2.2 `while` 循环
+- 先判断条件，后执行循环体
+- 适用于循环次数不确定的场景
 ```java
- Trueint i = 0;
- Truewhile (i < 10) {
- True System.out.println(i);
- True i++;
+ int i = 0;
+ while (i < 10) {
+  System.out.println(i);
+  i++;
  True}
- True```
+ ```
 
- False### 2.3 `do-while` 循环
- False
- False- 先执行循环体，后判断条件
- False- 保证循环体至少执行一次
- False
+### 2.3 `do-while` 循环
+- 先执行循环体，后判断条件
+- 保证循环体至少执行一次
 ```java
- Trueint i = 0;
- Truedo {
- True System.out.println(i);
- True i++;
+ int i = 0;
+ do {
+  System.out.println(i);
+  i++;
  True} while (i < 10);
- True```
+ ```
 
- False### 2.4 循环控制
- False
- False#### 2.4.1 `break` 语句
- False
- False- 跳出当前循环
- False- 配合标签使用可以跳出多层循环
- False
+### 2.4 循环控制
+#### 2.4.1 `break` 语句
+- 跳出当前循环
+- 配合标签使用可以跳出多层循环
 ```java
- Truefor (int i = 0; i < 10; i++) {
- True if (i == 5) {
- True break; // 跳出循环
- True }
- True System.out.println(i);
+ for (int i = 0; i < 10; i++) {
+  if (i == 5) {
+  break; // 跳出循环
+  }
+  System.out.println(i);
  True}
- True```
+ ```
 
- False#### 2.4.2 `continue` 语句
- False
- False- 跳过当前迭代，进入下一次循环
- False- 配合标签使用可以跳过外层循环的当前迭代
- False
+#### 2.4.2 `continue` 语句
+- 跳过当前迭代，进入下一次循环
+- 配合标签使用可以跳过外层循环的当前迭代
 ```java
- Truefor (int i = 0; i < 10; i++) {
- True if (i % 2 == 0) {
- True continue; // 跳过偶数
- True }
- True System.out.println(i);
+ for (int i = 0; i < 10; i++) {
+  if (i % 2 == 0) {
+  continue; // 跳过偶数
+  }
+  System.out.println(i);
  True}
- True```
+ ```
 
- False## 3. 跳转语句 (Jumps)
- False
- False### 3.1 `return` 语句
- False
- False- 结束当前方法的执行
- False- 可以返回一个值（对于非 void 方法）
- False
+## 3. 跳转语句 (Jumps)
+### 3.1 `return` 语句
+- 结束当前方法的执行
+- 可以返回一个值（对于非 void 方法）
 ```java
- Truepublic int add(int a, int b) {
- True return a + b; // 返回计算结果
+ public int add(int a, int b) {
+  return a + b; // 返回计算结果
  True}
- True
- Truepublic void validate(int value) {
- True if (value < 0) {
- True return; // 提前结束方法
- True }
- True // 继续执行
+ public void validate(int value) {
+  if (value < 0) {
+  return; // 提前结束方法
+  }
+  // 继续执行
  True}
- True```
+ ```
 
- False### 3.2 标签 (Labels)
- False
- False- 用于标识代码块
- False- 配合 `break` 和 `continue` 使用可以控制多层循环
- False
+### 3.2 标签 (Labels)
+- 用于标识代码块
+- 配合 `break` 和 `continue` 使用可以控制多层循环
 ```java
  TrueouterLoop: for (int i = 0; i < 5; i++) {
- True for (int j = 0; j < 5; j++) {
- True if (i * j > 6) {
- True System.out.println("Breaking outer loop");
- True break outerLoop;
- True }
- True System.out.println(i + ", " + j);
- True }
+  for (int j = 0; j < 5; j++) {
+  if (i * j > 6) {
+  System.out.println("Breaking outer loop");
+  break outerLoop;
+  }
+  System.out.println(i + ", " + j);
+  }
  True}
- True```
+ ```
 
- False## 4. 实际应用案例
- False
- False### 4.1 菜单选择
- False
+## 4. 实际应用案例
+### 4.1 菜单选择
 ```java
  TrueScanner scanner = new Scanner(System.in);
  TrueSystem.out.println("1. Add");
  TrueSystem.out.println("2. Subtract");
  TrueSystem.out.println("3. Exit");
  TrueSystem.out.print("Enter your choice: ");
- Trueint choice = scanner.nextInt();
- True
- Trueswitch (choice) {
- True case 1 -> System.out.println("Add operation");
- True case 2 -> System.out.println("Subtract operation");
- True case 3 -> System.out.println("Exiting");
- True default -> System.out.println("Invalid choice");
+ int choice = scanner.nextInt();
+ switch (choice) {
+  case 1 -> System.out.println("Add operation");
+  case 2 -> System.out.println("Subtract operation");
+  case 3 -> System.out.println("Exiting");
+  default -> System.out.println("Invalid choice");
  True}
- True```
+ ```
 
- False### 4.2 查找元素
- False
+### 4.2 查找元素
 ```java
- Trueint[] numbers = {10, 20, 30, 40, 50};
- Trueint target = 30;
+ int[] numbers = {10, 20, 30, 40, 50};
+ int target = 30;
  Trueb boolean found = false;
- True
- Truefor (int number : numbers) {
- True if (number == target) {
- True found = true;
- True break;
- True }
+ for (int number : numbers) {
+  if (number == target) {
+  found = true;
+  break;
+  }
  True}
- True
  TrueSystem.out.println(found ? "Found" : "Not found");
- True```
+ ```
 
- False### 4.3 计算阶乘
- False
+### 4.3 计算阶乘
 ```java
- Truepublic int factorial(int n) {
- True int result = 1;
- True for (int i = 1; i <= n; i++) {
- True result *= i;
- True }
- True return result;
+ public int factorial(int n) {
+  int result = 1;
+  for (int i = 1; i <= n; i++) {
+  result *= i;
+  }
+  return result;
  True}
- True```
+ ```
 
- False## 5. 最佳实践 (Best Practices)
- False
- False### 5.1 条件分支最佳实践
- False
- False1. **避免深层嵌套**：`if-else` 嵌套不要超过 3 层
- False2. **使用卫语句**：对于简单的条件检查，使用卫语句提前返回
- False3. **使用 `switch` 替代多个 `if-else`**：当条件是离散值时，使用 `switch` 更清晰
- False4. **使用枚举**：对于固定的选项集合，使用枚举类型
- False
- False### 5.2 循环最佳实践
- False
- False1. **选择合适的循环类型**：
- False - 已知循环次数：使用 `for` 循环
- False - 未知循环次数：使用 `while` 循环
- False - 至少执行一次：使用 `do-while` 循环
- False - 遍历集合：使用增强型 `for` 循环
- False
- False2. **避免无限循环**：确保循环条件最终会变为 false
- False3. **注意循环变量**：避免在循环体内修改循环变量
- False4. **使用 `break` 和 `continue` 提高效率**：及时跳出或跳过不需要的迭代
- False
- False### 5.3 性能考虑
- False
- False1. **循环不变量外提**：将循环内不变的计算移到循环外
- False2. **避免在循环中创建对象**：尽量在循环外创建对象
- False3. **使用 `StringBuilder` 处理字符串拼接**：在循环中拼接字符串时使用 `StringBuilder`
- False
- False## 6. 常见陷阱
- False
- False1. **`switch` 语句的穿透效应**：传统 `switch` 语句如果没有 `break` 会导致穿透
- False2. **浮点数比较**：避免在条件中直接比较浮点数
- False3. **空指针异常**：在条件判断前检查对象是否为 null
- False4. **死循环**：确保循环条件最终会变为 false
- False
- False---
- False
- False### 更新日志 (Changelog)
- False
- False- 2026-04-05: 细化控制流，引入 Java 12+ Switch 新特性。
- False- 2026-05-03: 扩展内容，添加实际应用案例、最佳实践和常见陷阱。
- False
+## 5. 最佳实践 (Best Practices)
+### 5.1 条件分支最佳实践
+1. **避免深层嵌套**：`if-else` 嵌套不要超过 3 层
+2. **使用卫语句**：对于简单的条件检查，使用卫语句提前返回
+3. **使用 `switch` 替代多个 `if-else`**：当条件是离散值时，使用 `switch` 更清晰
+4. **使用枚举**：对于固定的选项集合，使用枚举类型
+### 5.2 循环最佳实践
+1. **选择合适的循环类型**：
+ - 已知循环次数：使用 `for` 循环
+ - 未知循环次数：使用 `while` 循环
+ - 至少执行一次：使用 `do-while` 循环
+ - 遍历集合：使用增强型 `for` 循环
+2. **避免无限循环**：确保循环条件最终会变为 false
+3. **注意循环变量**：避免在循环体内修改循环变量
+4. **使用 `break` 和 `continue` 提高效率**：及时跳出或跳过不需要的迭代
+### 5.3 性能考虑
+1. **循环不变量外提**：将循环内不变的计算移到循环外
+2. **避免在循环中创建对象**：尽量在循环外创建对象
+3. **使用 `StringBuilder` 处理字符串拼接**：在循环中拼接字符串时使用 `StringBuilder`
+## 6. 常见陷阱
+1. **`switch` 语句的穿透效应**：传统 `switch` 语句如果没有 `break` 会导致穿透
+2. **浮点数比较**：避免在条件中直接比较浮点数
+3. **空指针异常**：在条件判断前检查对象是否为 null
+4. **死循环**：确保循环条件最终会变为 false
+---
+### 更新日志 (Changelog)
+- 2026-04-05: 细化控制流，引入 Java 12+ Switch 新特性。
+- 2026-05-03: 扩展内容，添加实际应用案例、最佳实践和常见陷阱。

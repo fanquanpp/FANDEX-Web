@@ -1,4 +1,4 @@
-# 计算机科学概述
+﻿# 计算机科学概述
 
 > @Version: v4.0.0
 > @Author: fanquanpp
@@ -341,7 +341,7 @@ def turing_machine(tape, transition_fn, initial_state, accept_states):
 
 ```
 假设存在停机判定器 H(P, I):
-  H(P, I) = true  如果 P(I) 停机
+  H(P, I) =   如果 P(I) 停机
   H(P, I) = false 如果 P(I) 不停机
 
 构造悖论程序 D:
@@ -352,7 +352,7 @@ def turing_machine(tape, transition_fn, initial_state, accept_states):
       halt()            // 如果P(P)不停机，则D(P)停机
 
 考虑 D(D):
-  若 H(D, D) == true  => D(D)不停机 => 矛盾
+  若 H(D, D) ==   => D(D)不停机 => 矛盾
   若 H(D, D) == false => D(D)停机   => 矛盾
 故 H 不存在。
 ```
