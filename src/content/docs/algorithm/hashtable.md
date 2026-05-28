@@ -1,10 +1,16 @@
-﻿---
-title: "哈希表"
-module: "algorithm"
-category: "Algorithm/HashTable"
-description: "哈希函数设计、冲突处理策略、扩容机制与经典应用（LRU/LFU缓存），附复杂度分析与多语言实现。"
-author: "fanquanpp"
 ---
+order: 50
+tags:
+  - 'algorithm'
+  - 'data-structure'
+difficulty: 'intermediate'
+title: '哈希表'
+module: 'algorithm'
+category: 'Algorithm/HashTable'
+description: '哈希函数设计、冲突处理策略、扩容机制与经典应用（LRU/LFU缓存），附复杂度分析与多语言实现。'
+author: 'fanquanpp'
+---
+
 - [3. 冲突处理](#3-冲突处理)
 - [4. 扩容与再哈希](#4-扩容与再哈希)
 - [5. 一致性哈希](#5-一致性哈希)
@@ -26,21 +32,21 @@ author: "fanquanpp"
 
 ### 1.2 核心指标
 
-| 指标 | 定义 | 目标 |
-|------|------|------|
-| 负载因子 | alpha = n / m | 控制在合理范围(通常<0.75) |
-| 查找成功ASL | 找到元素的平均探测次数 | 尽量小 |
-| 查找失败ASL | 确定不存在的平均探测次数 | 尽量小 |
-| 空间利用率 | n / (m * slot_size) | 尽量高 |
+| 指标        | 定义                     | 目标                      |
+| ----------- | ------------------------ | ------------------------- |
+| 负载因子    | alpha = n / m            | 控制在合理范围(通常<0.75) |
+| 查找成功ASL | 找到元素的平均探测次数   | 尽量小                    |
+| 查找失败ASL | 确定不存在的平均探测次数 | 尽量小                    |
+| 空间利用率  | n / (m \* slot_size)     | 尽量高                    |
 
 ### 1.3 哈希表 vs 其他查找结构
 
-| 结构 | 平均查找 | 最坏查找 | 插入 | 删除 | 有序遍历 |
-|------|----------|----------|------|------|----------|
-| 哈希表 | O(1) | O(n) | O(1) | O(1) | 不支持 |
-| BST | O(logn) | O(n) | O(logn) | O(logn) | 支持 |
-| 红黑树 | O(logn) | O(logn) | O(logn) | O(logn) | 支持 |
-| 有序数组 | O(logn) | O(logn) | O(n) | O(n) | 支持 |
+| 结构     | 平均查找 | 最坏查找 | 插入    | 删除    | 有序遍历 |
+| -------- | -------- | -------- | ------- | ------- | -------- |
+| 哈希表   | O(1)     | O(n)     | O(1)    | O(1)    | 不支持   |
+| BST      | O(logn)  | O(n)     | O(logn) | O(logn) | 支持     |
+| 红黑树   | O(logn)  | O(logn)  | O(logn) | O(logn) | 支持     |
+| 有序数组 | O(logn)  | O(logn)  | O(n)    | O(n)    | 支持     |
 
 > 跨模块引用：哈希查找的搜索框架参见 [搜索算法](algorithm/searching)。BST和红黑树参见 [树结构](algorithm/tree)。
 
@@ -60,17 +66,17 @@ author: "fanquanpp"
 
 选择m的准则：m应为质数，且远离2的幂次。若m=2^p，则h(k)只依赖k的最低p位。
 
-**乘法哈希**：h(k) = floor(m * (k * A mod 1))，其中0 < A < 1
+**乘法哈希**：h(k) = floor(m _ (k _ A mod 1))，其中0 < A < 1
 
 Knuth建议A = (sqrt(5) - 1) / 2 (黄金分割比)。对m的选择不敏感。
 
 **全域哈希**：随机选择哈希函数，使得对任意两个不同的键，冲突概率不超过1/m。
 
-h_a_b(k) = ((a * k + b) mod p) mod m，其中p为大于|U|的质数，a从{1,...,p-1}随机选取，b从{0,...,p-1}随机选取。
+h_a_b(k) = ((a \* k + b) mod p) mod m，其中p为大于|U|的质数，a从{1,...,p-1}随机选取，b从{0,...,p-1}随机选取。
 
 ### 2.3 字符串哈希
 
-**多项式滚动哈希**：H(s) = s[0] * b^(n-1) + s[1] * b^(n-2) + ... + s[n-1]
+**多项式滚动哈希**：H(s) = s[0] _ b^(n-1) + s[1] _ b^(n-2) + ... + s[n-1]
 
 常用基数b = 31, 131, 13331等（经验值，减少冲突）。
 
@@ -253,7 +259,7 @@ public:
 
 缓解一次聚集，但可能导致二次聚集（不同初始位置的键共享探测序列）。
 
-**双重哈希**：h(k, i) = (h1(k) + i * h2(k)) mod m
+**双重哈希**：h(k, i) = (h1(k) + i \* h2(k)) mod m
 
 h2(k)必须与m互素。最好的开放寻址冲突处理方法，几乎消除聚集现象。
 
@@ -318,28 +324,28 @@ class OpenAddressingHashTable:
 
 ### 3.3 冲突处理方法对比
 
-| 方法 | 优点 | 缺点 | 负载因子上限 |
-|------|------|------|-------------|
-| 链地址法 | 删除简单，不受负载因子限制 | 额外指针开销 | 无硬限制 |
-| 线性探测 | 缓存友好，无指针开销 | 一次聚集 | alpha < 0.7 |
-| 二次探测 | 缓解聚集 | 二次聚集 | alpha < 0.5 |
-| 双重哈希 | 几乎无聚集 | 计算两次哈希 | alpha < 0.7 |
+| 方法     | 优点                       | 缺点         | 负载因子上限 |
+| -------- | -------------------------- | ------------ | ------------ |
+| 链地址法 | 删除简单，不受负载因子限制 | 额外指针开销 | 无硬限制     |
+| 线性探测 | 缓存友好，无指针开销       | 一次聚集     | alpha < 0.7  |
+| 二次探测 | 缓解聚集                   | 二次聚集     | alpha < 0.5  |
+| 双重哈希 | 几乎无聚集                 | 计算两次哈希 | alpha < 0.7  |
 
 ### 3.4 查找性能理论分析
 
 **链地址法**（简单均匀哈希假设）：
 
-| 操作 | 期望时间 |
-|------|----------|
+| 操作     | 期望时间           |
+| -------- | ------------------ |
 | 查找成功 | Theta(1 + alpha/2) |
-| 查找失败 | Theta(1 + alpha) |
+| 查找失败 | Theta(1 + alpha)   |
 
 **开放寻址法**（均匀哈希假设）：
 
-| 操作 | 期望探测次数 |
-|------|-------------|
-| 查找成功 | (1/alpha) * ln(1/(1-alpha)) |
-| 查找失败 | 1/(1-alpha) |
+| 操作     | 期望探测次数                 |
+| -------- | ---------------------------- |
+| 查找成功 | (1/alpha) \* ln(1/(1-alpha)) |
+| 查找失败 | 1/(1-alpha)                  |
 
 当alpha=0.5时，查找成功约1.39次探测，查找失败约2次探测。
 当alpha=0.9时，查找成功约2.56次探测，查找失败约10次探测。
@@ -352,6 +358,7 @@ class OpenAddressingHashTable:
 ### 4.1 扩容触发条件
 
 当负载因子超过阈值时触发扩容：
+
 - 链地址法：alpha > 0.75（Java HashMap默认）
 - 开放寻址法：alpha > 0.5 ~ 0.7
 
@@ -367,6 +374,7 @@ class OpenAddressingHashTable:
 ### 4.3 渐进式扩容
 
 Redis等系统采用渐进式扩容，避免一次性扩容导致的停顿：
+
 1. 维护新旧两个哈希表
 2. 每次操作时迁移少量元素
 3. 查找时先查新表再查旧表
@@ -526,6 +534,7 @@ public:
 LFU（Least Frequently Used）缓存：淘汰使用频率最低的条目。同频率时按LRU淘汰。
 
 **数据结构**：两层哈希表
+
 - key_to_node：键到节点的映射
 - freq_to_list：频率到该频率所有节点的双向链表
 
@@ -614,7 +623,7 @@ def group_anagrams(strs):
 - 查询：若k个位都为1，则"可能"存在；若有任一位为0，则"一定"不存在
 - 假阳性率：p = (1 - e^(-kn/m))^k
 
-```python
+````python
 import mmh3
 
 class BloomFilter:
@@ -626,7 +635,7 @@ class BloomFilter:
     def add(self, item):
         for i in range(self.hash_count):
             idx = mmh3.hash(str(item), i) % self.size
-            self.bit_array[idx] =  
+            self.bit_array[idx] =
     def contains(self, item):
         for i in range(self.hash_count):
             idx = mmh3.hash(str(item), i) % self.size
@@ -671,3 +680,4 @@ class BloomFilter:
 - Redis 渐进式扩容实现
 
 > 跨模块引用：双链表实现参见 [链表](algorithm/linked-list)。哈希查找参见 [搜索算法](algorithm/searching)。C++ unordered_map参见 [C++基础](cpp/overview)。Python dict参见 [Python基础](python/overview)。
+````

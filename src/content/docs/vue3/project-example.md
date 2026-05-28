@@ -1,7 +1,21 @@
-﻿---
-title: "Vue3 项目示例：个人博客站点"
-module: "vue3"
 ---
+order: 80
+tags:
+  - 'vue3'
+  - 'project'
+  - 'async'
+  - 'database'
+  - 'functional'
+  - 'memory'
+  - 'typescript'
+  - 'reactive'
+  - 'css-layout'
+  - 'web-api'
+difficulty: 'intermediate'
+title: 'Vue3 项目示例：个人博客站点'
+module: 'vue3'
+---
+
 | 文章详情 | Markdown 渲染、目录导航、阅读进度 |
 | 分类页面 | 按分类筛选文章 |
 | 标签页面 | 标签云、按标签筛选 |
@@ -35,14 +49,14 @@ module: "vue3"
 
 ## 技术选型
 
-| 技术点 | 选型 | 理由 |
-|-------|------|------|
-| 框架 | Vue3 + Vite | 快速开发，HMR 体验好 |
-| API 风格 | 组合式 API | 逻辑复用，TypeScript 友好 |
-| 路由 | Vue Router 4 | 官方路由方案 |
-| 状态管理 | Pinia | 轻量、类型安全、DevTools 支持 |
-| 样式 | SCSS + CSS 变量 | 主题切换 + 样式组织 |
-| Markdown | markdown-it + highlight.js | 渲染 + 代码高亮 |
+| 技术点   | 选型                       | 理由                          |
+| -------- | -------------------------- | ----------------------------- |
+| 框架     | Vue3 + Vite                | 快速开发，HMR 体验好          |
+| API 风格 | 组合式 API                 | 逻辑复用，TypeScript 友好     |
+| 路由     | Vue Router 4               | 官方路由方案                  |
+| 状态管理 | Pinia                      | 轻量、类型安全、DevTools 支持 |
+| 样式     | SCSS + CSS 变量            | 主题切换 + 样式组织           |
+| Markdown | markdown-it + highlight.js | 渲染 + 代码高亮               |
 
 ## 完整代码
 
@@ -88,23 +102,21 @@ blog/
 
 ```typescript
 // src/composables/useTheme.ts
-import { ref, watchEffect } from "vue";
+import { ref, watchEffect } from 'vue';
 
-type Theme = "light" | "dark";
+type Theme = 'light' | 'dark';
 
-const STORAGE_KEY = "blog-theme";
+const STORAGE_KEY = 'blog-theme';
 
-const theme = ref<Theme>(
-  (localStorage.getItem(STORAGE_KEY) as Theme) || "light"
-);
+const theme = ref<Theme>((localStorage.getItem(STORAGE_KEY) as Theme) || 'light');
 
 export function useTheme() {
   function toggle() {
-    theme.value = theme.value === "light" ? "dark" : "light";
+    theme.value = theme.value === 'light' ? 'dark' : 'light';
   }
 
   watchEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme.value);
+    document.documentElement.setAttribute('data-theme', theme.value);
     localStorage.setItem(STORAGE_KEY, theme.value);
   });
 
@@ -139,12 +151,12 @@ export function useReadingProgress() {
 
 ```typescript
 // src/stores/articles.ts
-import { defineStore } from "pinia";
-import { ref, computed } from "vue";
-import type { Article, Category, Tag } from "@/api/articles";
-import { fetchArticles, fetchArticleBySlug } from "@/api/articles";
+import { defineStore } from 'pinia';
+import { ref, computed } from 'vue';
+import type { Article, Category, Tag } from '@/api/articles';
+import { fetchArticles, fetchArticleBySlug } from '@/api/articles';
 
-export const useArticleStore = defineStore("articles", () => {
+export const useArticleStore = defineStore('articles', () => {
   const articles = ref<Article[]>([]);
   const currentArticle = ref<Article | null>(null);
   const loading = ref(false);
@@ -177,16 +189,11 @@ export const useArticleStore = defineStore("articles", () => {
     return Array.from(map.values());
   });
 
-  const featuredArticles = computed(() =>
-    articles.value.filter((a) => a.featured).slice(0, 3)
-  );
+  const featuredArticles = computed(() => articles.value.filter((a) => a.featured).slice(0, 3));
 
   const latestArticles = computed(() =>
     [...articles.value]
-      .sort(
-        (a, b) =>
-          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-      )
+      .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
       .slice(0, 10)
   );
 
@@ -195,17 +202,13 @@ export const useArticleStore = defineStore("articles", () => {
   }
 
   function getArticlesByTag(slug: string): Article[] {
-    return articles.value.filter((a) =>
-      a.tags.some((t) => t.slug === slug)
-    );
+    return articles.value.filter((a) => a.tags.some((t) => t.slug === slug));
   }
 
   function searchArticles(query: string): Article[] {
     const q = query.toLowerCase();
     return articles.value.filter(
-      (a) =>
-        a.title.toLowerCase().includes(q) ||
-        a.summary.toLowerCase().includes(q)
+      (a) => a.title.toLowerCase().includes(q) || a.summary.toLowerCase().includes(q)
     );
   }
 
@@ -215,7 +218,7 @@ export const useArticleStore = defineStore("articles", () => {
     try {
       articles.value = await fetchArticles();
     } catch (e) {
-      error.value = e instanceof Error ? e.message : "Failed to load articles";
+      error.value = e instanceof Error ? e.message : 'Failed to load articles';
     } finally {
       loading.value = false;
     }
@@ -227,7 +230,7 @@ export const useArticleStore = defineStore("articles", () => {
     try {
       currentArticle.value = await fetchArticleBySlug(slug);
     } catch (e) {
-      error.value = e instanceof Error ? e.message : "Failed to load article";
+      error.value = e instanceof Error ? e.message : 'Failed to load article';
     } finally {
       loading.value = false;
     }
@@ -255,43 +258,43 @@ export const useArticleStore = defineStore("articles", () => {
 
 ```typescript
 // src/router/index.ts
-import { createRouter, createWebHistory } from "vue-router";
-import DefaultLayout from "@/layouts/DefaultLayout.vue";
+import { createRouter, createWebHistory } from 'vue-router';
+import DefaultLayout from '@/layouts/DefaultLayout.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/",
+      path: '/',
       component: DefaultLayout,
       children: [
         {
-          path: "",
-          name: "home",
-          component: () => import("@/views/HomeView.vue"),
+          path: '',
+          name: 'home',
+          component: () => import('@/views/HomeView.vue'),
         },
         {
-          path: "article/:slug",
-          name: "article",
-          component: () => import("@/views/ArticleView.vue"),
+          path: 'article/:slug',
+          name: 'article',
+          component: () => import('@/views/ArticleView.vue'),
           props: true,
         },
         {
-          path: "category/:slug",
-          name: "category",
-          component: () => import("@/views/CategoryView.vue"),
+          path: 'category/:slug',
+          name: 'category',
+          component: () => import('@/views/CategoryView.vue'),
           props: true,
         },
         {
-          path: "tag/:slug",
-          name: "tag",
-          component: () => import("@/views/TagView.vue"),
+          path: 'tag/:slug',
+          name: 'tag',
+          component: () => import('@/views/TagView.vue'),
           props: true,
         },
         {
-          path: "about",
-          name: "about",
-          component: () => import("@/views/AboutView.vue"),
+          path: 'about',
+          name: 'about',
+          component: () => import('@/views/AboutView.vue'),
         },
       ],
     },
@@ -330,23 +333,23 @@ export default router;
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { useRouter } from "vue-router";
-import type { Article } from "@/api/articles";
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+import type { Article } from '@/api/articles';
 
 const props = defineProps<{ article: Article }>();
 const router = useRouter();
 
 const formattedDate = computed(() =>
-  new Date(props.article.publishedAt).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
+  new Date(props.article.publishedAt).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
   })
 );
 
 function navigate() {
-  router.push({ name: "article", params: { slug: props.article.slug } });
+  router.push({ name: 'article', params: { slug: props.article.slug } });
 }
 </script>
 
@@ -356,7 +359,9 @@ function navigate() {
   background: var(--card-bg);
   border-radius: 12px;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 
   &:hover {
     transform: translateY(-2px);
@@ -434,18 +439,28 @@ function navigate() {
 ```vue
 <!-- src/components/ThemeToggle.vue -->
 <template>
-  <button class="theme-toggle" @click="toggle" :aria-label="`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`">
+  <button
+    class="theme-toggle"
+    @click="toggle"
+    :aria-label="`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`"
+  >
     <svg v-if="theme === 'light'" viewBox="0 0 24 24" width="20" height="20">
-      <path fill="currentColor" d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.39 5.39 0 0 1-4.4 2.26 5.4 5.4 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+      <path
+        fill="currentColor"
+        d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.39 5.39 0 0 1-4.4 2.26 5.4 5.4 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"
+      />
     </svg>
     <svg v-else viewBox="0 0 24 24" width="20" height="20">
-      <path fill="currentColor" d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1z"/>
+      <path
+        fill="currentColor"
+        d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1z"
+      />
     </svg>
   </button>
 </template>
 
 <script setup lang="ts">
-import { useTheme } from "@/composables/useTheme";
+import { useTheme } from '@/composables/useTheme';
 const { theme, toggle } = useTheme();
 </script>
 
@@ -493,19 +508,9 @@ const { theme, toggle } = useTheme();
     <section class="latest">
       <h2 class="section-title">Latest Posts</h2>
       <div class="latest__list">
-        <ArticleCard
-          v-for="article in paginatedArticles"
-          :key="article.id"
-          :article="article"
-        />
+        <ArticleCard v-for="article in paginatedArticles" :key="article.id" :article="article" />
       </div>
-      <button
-        v-if="hasMore"
-        class="load-more-btn"
-        @click="loadMore"
-      >
-        Load More
-      </button>
+      <button v-if="hasMore" class="load-more-btn" @click="loadMore">Load More</button>
     </section>
 
     <aside class="sidebar">
@@ -515,10 +520,10 @@ const { theme, toggle } = useTheme();
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
-import { useArticleStore } from "@/stores/articles";
-import ArticleCard from "@/components/ArticleCard.vue";
-import TagCloud from "@/components/TagCloud.vue";
+import { ref, computed, onMounted } from 'vue';
+import { useArticleStore } from '@/stores/articles';
+import ArticleCard from '@/components/ArticleCard.vue';
+import TagCloud from '@/components/TagCloud.vue';
 
 const store = useArticleStore();
 const pageSize = 6;
@@ -528,9 +533,7 @@ const paginatedArticles = computed(() =>
   store.latestArticles.slice(0, currentPage.value * pageSize)
 );
 
-const hasMore = computed(
-  () => currentPage.value * pageSize < store.latestArticles.length
-);
+const hasMore = computed(() => currentPage.value * pageSize < store.latestArticles.length);
 
 function loadMore() {
   currentPage.value++;
@@ -612,16 +615,16 @@ onMounted(() => {
 
 ```typescript
 // src/main.ts
-import { createApp } from "vue";
-import { createPinia } from "pinia";
-import router from "./router";
-import App from "./App.vue";
-import "./assets/styles/global.scss";
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import router from './router';
+import App from './App.vue';
+import './assets/styles/global.scss';
 
 const app = createApp(App);
 app.use(createPinia());
 app.use(router);
-app.mount("#app");
+app.mount('#app');
 ```
 
 ## 运行说明
@@ -664,20 +667,26 @@ npm run build
 ### 组合式 API
 
 ```typescript
-import { ref, computed, onMounted, watchEffect } from "vue";
+import { ref, computed, onMounted, watchEffect } from 'vue';
 const count = ref(0);
 const doubled = computed(() => count.value * 2);
-onMounted(() => { /* ... */ });
-watchEffect(() => { /* 自动追踪依赖 */ });
+onMounted(() => {
+  /* ... */
+});
+watchEffect(() => {
+  /* 自动追踪依赖 */
+});
 ```
 
 ### Pinia Store
 
 ```typescript
-export const useStore = defineStore("name", () => {
+export const useStore = defineStore('name', () => {
   const state = ref(initialValue);
   const getter = computed(() => state.value);
-  function action() { state.value = newValue; }
+  function action() {
+    state.value = newValue;
+  }
   return { state, getter, action };
 });
 ```
@@ -698,12 +707,19 @@ const router = createRouter({
 
 ```typescript
 const props = defineProps<{ article: Article; limit?: number }>();
-const emit = defineEmits<{ (e: "select", id: number): void }>();
+const emit = defineEmits<{ (e: 'select', id: number): void }>();
 ```
 
 ### CSS 变量主题
 
 ```scss
-:root, [data-theme="light"] { --bg: #fff; --text: #333; }
-[data-theme="dark"] { --bg: #1a1a2e; --text: #e0e0e0; }
+:root,
+[data-theme='light'] {
+  --bg: #fff;
+  --text: #333;
+}
+[data-theme='dark'] {
+  --bg: #1a1a2e;
+  --text: #e0e0e0;
+}
 ```

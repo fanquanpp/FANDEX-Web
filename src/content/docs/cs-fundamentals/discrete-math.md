@@ -1,9 +1,17 @@
 ---
-title: "离散数学"
-module: "cs-fundamentals"
-category: "Computer Science / Discrete Mathematics"
-description: "离散数学核心：逻辑与证明、集合与关系、图论、组合计数、代数结构、形式语言与自动机。"
-author: "fanquanpp"
+title: '离散数学'
+module: 'cs-fundamentals'
+category: 'Computer Science / Discrete Mathematics'
+description: '离散数学核心：逻辑与证明、集合与关系、图论、组合计数、代数结构、形式语言与自动机。'
+author: 'fanquanpp'
+order: 40
+tags:
+  - 'cs-fundamentals'
+  - 'computer-science---discrete-mathematics'
+  - 'data-structure'
+  - 'algorithm'
+  - 'math'
+difficulty: 'intermediate'
 ---
 
 ## 目录
@@ -730,59 +738,59 @@ CFL的性质:
 
 ### 7.1 逻辑速查
 
-| 等价律 | 公式 |
-|--------|------|
-| 德摩根 | ~(p^q) = ~pv~q |
-| 蕴含 | p->q = ~pvq |
-| 逆否 | p->q = ~q->~p |
-| 双重否定 | ~~p = p |
-| 分配 | pv(q^r) = (pvq)^(pvr) |
+| 等价律   | 公式                  |
+| -------- | --------------------- |
+| 德摩根   | ~(p^q) = ~pv~q        |
+| 蕴含     | p->q = ~pvq           |
+| 逆否     | p->q = ~q->~p         |
+| 双重否定 | ~~p = p               |
+| 分配     | pv(q^r) = (pvq)^(pvr) |
 
 ### 7.2 图论速查
 
-| 算法 | 用途 | 复杂度 |
-|------|------|--------|
-| DFS | 遍历/环检测/拓扑排序 | O(V+E) |
-| BFS | 最短路径(无权) | O(V+E) |
-| Dijkstra | 最短路径(非负权) | O(E log V) |
-| Kruskal | 最小生成树 | O(E log E) |
-| Prim | 最小生成树 | O(E log V) |
-| Floyd-Warshall | 全源最短路径 | O(V^3) |
+| 算法           | 用途                 | 复杂度     |
+| -------------- | -------------------- | ---------- |
+| DFS            | 遍历/环检测/拓扑排序 | O(V+E)     |
+| BFS            | 最短路径(无权)       | O(V+E)     |
+| Dijkstra       | 最短路径(非负权)     | O(E log V) |
+| Kruskal        | 最小生成树           | O(E log E) |
+| Prim           | 最小生成树           | O(E log V) |
+| Floyd-Warshall | 全源最短路径         | O(V^3)     |
 
 ### 7.3 计数速查
 
-| 场景 | 公式 |
-|------|------|
-| 排列 P(n,k) | n!/(n-k)! |
-| 组合 C(n,k) | n!/(k!(n-k)!) |
-| 有重复排列 | n^k |
-| 有重复组合 | C(n+k-1,k) |
-| 错排 D_n | n! * sum((-1)^i/i!) |
-| 容斥(2集) | \|AUB\| = \|A\|+\|B\|-\|AnB\| |
+| 场景        | 公式                          |
+| ----------- | ----------------------------- |
+| 排列 P(n,k) | n!/(n-k)!                     |
+| 组合 C(n,k) | n!/(k!(n-k)!)                 |
+| 有重复排列  | n^k                           |
+| 有重复组合  | C(n+k-1,k)                    |
+| 错排 D_n    | n! \* sum((-1)^i/i!)          |
+| 容斥(2集)   | \|AUB\| = \|A\|+\|B\|-\|AnB\| |
 
 ### 7.4 自动机速查
 
-| 自动机 | 栈 | 语言类 | 应用 |
-|--------|-----|--------|------|
-| DFA/NFA | 无 | 正则语言 | 词法分析 |
-| PDA | 1个 | 上下文无关语言 | 语法分析 |
-| LBA | 受限 | 上下文有关语言 | 语义分析 |
-| TM | 无限 | 递归可枚举 | 通用计算 |
+| 自动机  | 栈   | 语言类         | 应用     |
+| ------- | ---- | -------------- | -------- |
+| DFA/NFA | 无   | 正则语言       | 词法分析 |
+| PDA     | 1个  | 上下文无关语言 | 语法分析 |
+| LBA     | 受限 | 上下文有关语言 | 语义分析 |
+| TM      | 无限 | 递归可枚举     | 通用计算 |
 
 ### 7.5 数论速查
 
-| 定理 | 公式 |
-|------|------|
-| Fermat小定理 | a^(p-1) = 1 (mod p) |
-| Euler定理 | a^phi(n) = 1 (mod n) |
-| CRT | x = a_i (mod m_i) 有解当m_i互素 |
-| Wilson定理 | (p-1)! = -1 (mod p) |
+| 定理         | 公式                            |
+| ------------ | ------------------------------- |
+| Fermat小定理 | a^(p-1) = 1 (mod p)             |
+| Euler定理    | a^phi(n) = 1 (mod n)            |
+| CRT          | x = a_i (mod m_i) 有解当m_i互素 |
+| Wilson定理   | (p-1)! = -1 (mod p)             |
 
 ---
 
 ## 延伸阅读
 
-- *Discrete Mathematics and Its Applications* -- Kenneth H. Rosen
-- *Introduction to Automata Theory, Languages, and Computation* -- Hopcroft, Motwani, Ullman
-- *Concrete Mathematics* -- Graham, Knuth, Patashnik
-- *A Course in Number Theory and Cryptography* -- Neal Koblitz
+- _Discrete Mathematics and Its Applications_ -- Kenneth H. Rosen
+- _Introduction to Automata Theory, Languages, and Computation_ -- Hopcroft, Motwani, Ullman
+- _Concrete Mathematics_ -- Graham, Knuth, Patashnik
+- _A Course in Number Theory and Cryptography_ -- Neal Koblitz

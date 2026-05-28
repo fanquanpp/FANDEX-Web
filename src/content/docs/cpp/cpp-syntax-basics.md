@@ -1,74 +1,93 @@
-﻿---
-title: "C++ 基础语法 (C++ Syntax Basics)"
-module: "cpp"
-category: "C++ Basics"
-description: "C++ 基础数据类型、控制流、输入输出、命名空间及作用域。 | C++ primitive types, control flow, I/O, namespace, and scope."
-author: "Anonymous"
 ---
+order: 80
+tags:
+  - 'cpp'
+difficulty: 'beginner'
+title: 'C++ 基础语法 (C++ Syntax Basics)'
+module: 'cpp'
+category: 'C++ Basics'
+description: 'C++ 基础数据类型、控制流、输入输出、命名空间及作用域。 | C++ primitive types, control flow, I/O, namespace, and scope.'
+author: 'Anonymous'
+---
+
 ## 目录
+
 1. [数据类型](#数据类型)
 2. [控制流](#控制流)
 3. [输入输出](#输入输出)
 4. [命名空间](#命名空间)
 5. [作用域](#作用域)
+
 ---
+
 ## 1. 数据类型 (Data Types)
+
 C++ 具有丰富的类型系统，分为基本类型和复合类型。
+
 ### 1.1 基本数据类型
-| 类型 | 描述 | 大小 (字节) | 示例 |
-| :--- | :--- | :--- | :--- |
-| **整数类型** | | | |
-| `char` | 字符 | 1 | `char c = 'A';` |
-| `unsigned char` | 无符号字符 | 1 | `unsigned char uc = 255;` |
-| `short` | 短整数 | 2 | `short s = 32767;` |
-| `unsigned short` | 无符号短整数 | 2 | `unsigned short us = 65535;` |
-| `int` | 整数 | 4 | `int x = 10;` |
-| `unsigned int` | 无符号整数 | 4 | `unsigned int ux = 4294967295;` |
-| `long` | 长整数 | 4 或 8 | `long l = 1000000;` |
-| `unsigned long` | 无符号长整数 | 4 或 8 | `unsigned long ul = 1000000;` |
-| `long long` | 长长整数 (C++11) | 8 | `long long ll = 10000000000;` |
-| `unsigned long long` | 无符号长长整数 (C++11) | 8 | `unsigned long long ull = 18446744073709551615;` |
-| **浮点类型** | | | |
-| `float` | 单精度浮点数 | 4 | `float f = 3.14f;` |
-| `double` | 双精度浮点数 | 8 | `double d = 3.1415926535;` |
-| `long double` | 长双精度浮点数 | 8 或 16 | `long double ld = 3.14159265358979323846;` |
-| **布尔类型** | | | |
-| `bool` | 布尔值 | 1 | `bool is_valid = true;` |
-| **空类型** | | | |
-| `void` | 无类型 | - | 用于函数返回或通用指针 |
+
+| 类型                 | 描述                   | 大小 (字节) | 示例                                             |
+| :------------------- | :--------------------- | :---------- | :----------------------------------------------- |
+| **整数类型**         |                        |             |                                                  |
+| `char`               | 字符                   | 1           | `char c = 'A';`                                  |
+| `unsigned char`      | 无符号字符             | 1           | `unsigned char uc = 255;`                        |
+| `short`              | 短整数                 | 2           | `short s = 32767;`                               |
+| `unsigned short`     | 无符号短整数           | 2           | `unsigned short us = 65535;`                     |
+| `int`                | 整数                   | 4           | `int x = 10;`                                    |
+| `unsigned int`       | 无符号整数             | 4           | `unsigned int ux = 4294967295;`                  |
+| `long`               | 长整数                 | 4 或 8      | `long l = 1000000;`                              |
+| `unsigned long`      | 无符号长整数           | 4 或 8      | `unsigned long ul = 1000000;`                    |
+| `long long`          | 长长整数 (C++11)       | 8           | `long long ll = 10000000000;`                    |
+| `unsigned long long` | 无符号长长整数 (C++11) | 8           | `unsigned long long ull = 18446744073709551615;` |
+| **浮点类型**         |                        |             |                                                  |
+| `float`              | 单精度浮点数           | 4           | `float f = 3.14f;`                               |
+| `double`             | 双精度浮点数           | 8           | `double d = 3.1415926535;`                       |
+| `long double`        | 长双精度浮点数         | 8 或 16     | `long double ld = 3.14159265358979323846;`       |
+| **布尔类型**         |                        |             |                                                  |
+| `bool`               | 布尔值                 | 1           | `bool is_valid = true;`                          |
+| **空类型**           |                        |             |                                                  |
+| `void`               | 无类型                 | -           | 用于函数返回或通用指针                           |
+
 ### 1.2 复合数据类型
-| 类型 | 描述 | 示例 |
-| :--- | :--- | :--- |
-| **数组** | 相同类型元素的集合 | `int arr[5] = {1, 2, 3, 4, 5};` |
-| **字符串** | 字符序列 | `std::string s = "Hello C++";` |
-| **指针** | 存储内存地址 | `int* p = &x;` |
-| **引用** | 变量的别名 | `int& ref = x;` |
+
+| 类型       | 描述               | 示例                                            |
+| :--------- | :----------------- | :---------------------------------------------- |
+| **数组**   | 相同类型元素的集合 | `int arr[5] = {1, 2, 3, 4, 5};`                 |
+| **字符串** | 字符序列           | `std::string s = "Hello C++";`                  |
+| **指针**   | 存储内存地址       | `int* p = &x;`                                  |
+| **引用**   | 变量的别名         | `int& ref = x;`                                 |
 | **结构体** | 不同类型成员的集合 | `struct Person { std::string name; int age; };` |
-| **联合体** | 共用内存的不同类型 | `union Data { int i; float f; char c; };` |
-| **枚举** | 命名常量集合 | `enum Color { RED, GREEN, BLUE };` |
-| **类** | 面向对象的类型 | `class MyClass { /* ... */ };` |
+| **联合体** | 共用内存的不同类型 | `union Data { int i; float f; char c; };`       |
+| **枚举**   | 命名常量集合       | `enum Color { RED, GREEN, BLUE };`              |
+| **类**     | 面向对象的类型     | `class MyClass { /* ... */ };`                  |
+
 ### 1.3 类型修饰符
-| 修饰符 | 描述 | 示例 |
-| :--- | :--- | :--- |
-| `signed` | 有符号类型 (默认) | `signed int x = -10;` |
-| `unsigned` | 无符号类型 | `unsigned int y = 10;` |
-| `short` | 短类型 | `short s = 100;` |
-| `long` | 长类型 | `long l = 1000000;` |
-| `const` | 常量类型 | `const int MAX = 100;` |
-| `volatile` | 易变类型 | `volatile int flag = 0;` |
-| `constexpr` | 编译期常量 (C++11) | `constexpr int factorial(int n) { return n <= 1 ? 1 : n * factorial(n-1); }` |
-| `auto` | 自动类型推断 (C++11) | `auto i = 10;` |
-| `decltype` | 类型推导 (C++11) | `decltype(i) j = 20;` |
+
+| 修饰符      | 描述                 | 示例                                                                         |
+| :---------- | :------------------- | :--------------------------------------------------------------------------- |
+| `signed`    | 有符号类型 (默认)    | `signed int x = -10;`                                                        |
+| `unsigned`  | 无符号类型           | `unsigned int y = 10;`                                                       |
+| `short`     | 短类型               | `short s = 100;`                                                             |
+| `long`      | 长类型               | `long l = 1000000;`                                                          |
+| `const`     | 常量类型             | `const int MAX = 100;`                                                       |
+| `volatile`  | 易变类型             | `volatile int flag = 0;`                                                     |
+| `constexpr` | 编译期常量 (C++11)   | `constexpr int factorial(int n) { return n <= 1 ? 1 : n * factorial(n-1); }` |
+| `auto`      | 自动类型推断 (C++11) | `auto i = 10;`                                                               |
+| `decltype`  | 类型推导 (C++11)     | `decltype(i) j = 20;`                                                        |
+
 ### 1.4 类型转换
+
 #### 1.4.1 隐式类型转换
+
 ```cpp
  int i = 10;
  double d = i; // 隐式转换：int -> double
  char c = 'A';
  i = c; // 隐式转换：char -> int
- ```
+```
 
 #### 1.4.2 显式类型转换
+
 ```cpp
  // C 风格转换
  double d = 3.14;
@@ -85,11 +104,14 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
  // reinterpret_cast: 重新解释类型
  int* p = &i;
  long addr = reinterpret_cast<long>(p);
- ```
+```
 
 ## 2. 控制流 (Control Flow)
+
 ### 2.1 条件判断
+
 #### 2.1.1 if 语句
+
 ```cpp
  // 基本 if 语句
  int score = 85;
@@ -119,9 +141,10 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
  if (a > 10 || b > 10 || c > 10) {
   std::cout << "至少有一个数大于 10" << std::endl;
  True}
- ```
+```
 
 #### 2.1.2 switch 语句
+
 ```cpp
  // 基本 switch 语句
  int day = 3;
@@ -183,10 +206,12 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   std::cout << "向右" << std::endl;
   break;
  True}
- ```
+```
 
 ### 2.2 循环结构
+
 #### 2.2.1 for 循环
+
 ```cpp
  // 传统 for 循环
  for (int i = 0; i < 10; ++i) {
@@ -230,9 +255,10 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   std::cout << x << " ";
  True}
  std::cout << std::endl;
- ```
+```
 
 #### 2.2.2 while 循环
+
 ```cpp
  // 基本 while 循环
  int i = 0;
@@ -261,9 +287,10 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   }
   std::cout << "你输入了: " << input << std::endl;
  True}
- ```
+```
 
 #### 2.2.3 do-while 循环
+
 ```cpp
  // 基本 do-while 循环
  int i = 0;
@@ -279,10 +306,12 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   std::cin >> password;
  True} while (password != "123456");
  std::cout << "密码正确！" << std::endl;
- ```
+```
 
 ### 2.3 跳转语句
+
 #### 2.3.1 break 语句
+
 ```cpp
  // 在 for 循环中使用 break
  for (int i = 0; i < 10; ++i) {
@@ -314,9 +343,10 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   std::cout << "值为 3" << std::endl;
   break;
  True}
- ```
+```
 
 #### 2.3.2 continue 语句
+
 ```cpp
  // 在 for 循环中使用 continue
  for (int i = 0; i < 10; ++i) {
@@ -343,9 +373,10 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   }
   std::cout << num << " ";
  True}
- ```
+```
 
 #### 2.3.3 return 语句
+
 ```cpp
  // 基本 return 语句
  int add(int a, int b) {
@@ -379,9 +410,10 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   std::cout << "x: " << x << ", y: " << y << std::endl;
   return 0; // 结束主函数
  True}
- ```
+```
 
 #### 2.3.4 goto 语句（不推荐使用）
+
 ```cpp
  // 基本 goto 语句
  int main() {
@@ -420,11 +452,14 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   std::cout << "处理错误" << std::endl;
   return false;
  True}
- ```
+```
 
 ## 3. 输入输出 (I/O)
+
 ### 3.1 标准输入输出
+
 #### 3.1.1 输出
+
 ```cpp
  #include <iostream>
  int main() {
@@ -442,7 +477,7 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   // 输出布尔值
   bool flag = true;
   std::cout << "Flag: " << flag << std::endl; // 输出 1
-  std::cout << std::boolalpha << "Flag: " << flag << std::endl; // 输出  
+  std::cout << std::boolalpha << "Flag: " << flag << std::endl; // 输出
   // 输出字符和字符串
   char c = 'A';
   std::string s = "Hello";
@@ -450,9 +485,10 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   std::cout << "String: " << s << std::endl;
   return 0;
  True}
- ```
+```
 
 #### 3.1.2 输入
+
 ```cpp
  #include <iostream>
  #include <string>
@@ -495,9 +531,10 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   std::cout << "You entered: " << a << " and " << b << std::endl;
   return 0;
  True}
- ```
+```
 
 #### 3.1.3 输入验证
+
 ```cpp
  #include <iostream>
  #include <limits>
@@ -520,9 +557,10 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   std::cout << "Your age is: " << age << std::endl;
   return 0;
  True}
- ```
+```
 
 ### 3.2 格式化输出
+
 ```cpp
  #include <iostream>
  #include <iomanip>
@@ -560,9 +598,10 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   std::cout << "With leading zeros: " << std::setw(5) << std::setfill('0') << num << std::endl;
   return 0;
  True}
- ```
+```
 
 ### 3.3 文件输入输出
+
 ```cpp
  #include <iostream>
  #include <fstream>
@@ -593,9 +632,10 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   }
   return 0;
  True}
- ```
+```
 
 ### 3.4 字符串流
+
 ```cpp
  #include <iostream>
  #include <sstream>
@@ -621,10 +661,12 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   std::cout << "Formatted pi: " << pi_str << std::endl;
   return 0;
  True}
- ```
+```
 
 ## 4. 命名空间 (Namespace)
+
 ### 4.1 命名空间的定义
+
 ```cpp
  // 定义命名空间
  namespace MyNamespace {
@@ -645,9 +687,10 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   std::cout << "5 * 3 = " << result2 << std::endl;
   return 0;
  True}
- ```
+```
 
 ### 4.2 using 声明
+
 ```cpp
  #include <iostream>
  // 使用命名空间中的特定成员
@@ -657,9 +700,10 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   cout << "Hello, C++!" << endl;
   return 0;
  True}
- ```
+```
 
 ### 4.3 using 指令
+
 ```cpp
  #include <iostream>
  // 使用整个命名空间
@@ -668,9 +712,10 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   cout << "Hello, C++!" << endl;
   return 0;
  True}
- ```
+```
 
 ### 4.4 命名空间别名
+
 ```cpp
  #include <iostream>
  namespace long_namespace_name {
@@ -684,10 +729,12 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   lnn::func();
   return 0;
  True}
- ```
+```
 
 ## 5. 作用域 (Scope)
+
 ### 5.1 块作用域
+
 ```cpp
  int main() {
   // 全局作用域
@@ -702,9 +749,10 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   std::cout << "global_var: " << global_var << std::endl;
   return 0;
  True}
- ```
+```
 
 ### 5.2 函数作用域
+
 ```cpp
  void func() {
   // 函数作用域
@@ -716,9 +764,10 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   func();
   return 0;
  True}
- ```
+```
 
 ### 5.3 类作用域
+
 ```cpp
  class MyClass {
  public:
@@ -732,9 +781,10 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   // obj.private_var = 20; // 无法访问，private 成员
   return 0;
  True}
- ```
+```
 
 ### 5.4 命名空间作用域
+
 ```cpp
  namespace MyNS {
   int ns_var = 1000; // 命名空间作用域
@@ -743,8 +793,10 @@ C++ 具有丰富的类型系统，分为基本类型和复合类型。
   std::cout << MyNS::ns_var << std::endl;
   return 0;
  True}
- ```
+```
 
 ---
+
 ### 更新日志 (Changelog)
+
 - 2026-05-27: 从 C13_102 拆分，专注于基础语法（数据类型、控制流、I/O、命名空间、作用域）。

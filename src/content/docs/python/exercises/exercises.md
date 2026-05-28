@@ -1,8 +1,14 @@
-﻿---
-title: "Python 练习题"
-module: "python"
 ---
- ```
+order: 60
+tags:
+  - 'python'
+  - 'exercises'
+difficulty: 'intermediate'
+title: 'Python 练习题'
+module: 'python'
+---
+
+````
 
 A. 3
 B. 4
@@ -25,18 +31,19 @@ D. `**kwargs` 接收多余的关键字参数并组成字典
 </details>
 ### 3. 以下代码的输出是？
 ```python
- class Parent:
-  x = 1
- class Child(Parent):
-  pass
- Parent.x = 2
- print(Child.x)
- ```
+class Parent:
+ x = 1
+class Child(Parent):
+ pass
+Parent.x = 2
+print(Child.x)
+````
 
 A. 1
 B. 2
 C. AttributeError
 D. None
+
 <details>
 <summary>查看答案</summary>
 **答案**: B
@@ -51,6 +58,7 @@ A. [0, 4, 16]
 B. [0, 2, 4]
 C. [4, 16]
 D. [0, 4, 16, 36]
+
 <details>
 <summary>查看答案</summary>
 **答案**: A
@@ -118,6 +126,7 @@ D. 自动处理编码问题
  ```
 
 **输出**: `{'age': 27.67, 'score': 90.0}`
+
 <details>
 <summary>查看参考答案</summary>
 ```python

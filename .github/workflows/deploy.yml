@@ -25,6 +25,24 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      - name: QA Check
+        run: npm run qa
+      - name: Preserve CNAME if exists
+        run: |
+          if [ -f public/CNAME ]; then
+            cp public/CNAME dist/CNAME
+            echo "CNAME file preserved in dist/"
+          else
+            echo "No CNAME file found, skipping"
+          fi
+      - name: Verify Pagefind index
+        run: |
+          if [ -d "dist/pagefind" ]; then
+            echo "Pagefind index found"
+            ls -la dist/pagefind/ | head -5
+          else
+            echo "::warning::Pagefind index not found - search will not work"
+          fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

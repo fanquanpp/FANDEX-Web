@@ -1,9 +1,16 @@
-﻿---
-title: "Matplotlib -- 折线图、柱状图、散点图与子图"
-module: "data-analysis"
-category: "Data Science / Matplotlib"
-description: "Matplotlib 数据可视化核心：基础图表类型、样式定制、子图布局与 Jupyter 交互式绘图"
-author: "fanquanpp"
+---
+order: 30
+tags:
+  - 'data-analysis'
+  - 'database'
+  - 'css-layout'
+  - 'data-structure'
+difficulty: 'intermediate'
+title: 'Matplotlib -- 折线图、柱状图、散点图与子图'
+module: 'data-analysis'
+category: 'Data Science / Matplotlib'
+description: 'Matplotlib 数据可视化核心：基础图表类型、样式定制、子图布局与 Jupyter 交互式绘图'
+author: 'fanquanpp'
 ---
 
 ## 目录
@@ -100,6 +107,7 @@ plt.show()
 ```
 
 **输出说明**：
+
 - `plt.subplots()` 同时创建 Figure 和 Axes，是最常用的方式
 - `figsize` 参数控制画布大小，单位为英寸
 - `plt.figure()` 只创建画布，需要手动添加子图
@@ -154,6 +162,7 @@ plt.show()
 ```
 
 **输出说明**：
+
 - `color`：支持十六进制、颜色名、RGB 元组
 - `marker`：'o' 圆形，'s' 方形，'^' 三角，'D' 菱形
 - `linestyle`：'-' 实线，'--' 虚线，':' 点线，'-.' 点划线
@@ -273,6 +282,7 @@ plt.show()
 ```
 
 **输出说明**：
+
 - `barh` 绘制水平柱状图，适合类别名称较长时
 - 堆叠柱状图通过 `bottom` 参数指定每层的起始高度
 - `tight_layout` 自动调整子图间距
@@ -392,6 +402,7 @@ plt.show()
 ```
 
 **输出说明**：
+
 - 正态分布的均值和中位数接近，直方图左右对称
 - 指数分布右偏，均值大于中位数，直方图向右拖尾
 - `axvline` 添加垂直参考线，`density=` 可将 y 轴切换为概率密度
@@ -443,6 +454,7 @@ plt.show()
 ```
 
 **输出说明**：
+
 - `autopct` 格式化百分比显示
 - `explode` 使某扇区突出
 - `startangle` 控制起始角度
@@ -494,6 +506,7 @@ plt.show()
 ```
 
 **输出说明**：
+
 - `sharex=`/`sharey=` 使子图共享坐标轴，减少重复标签
 - `axes.flat` 将二维数组展平为一维迭代器
 - `tight_layout` 自动调整间距
@@ -753,6 +766,7 @@ fig.savefig('chart.svg', bbox_inches='tight')
 ```
 
 **输出说明**：
+
 - `dpi`：分辨率，屏幕显示 72-150，印刷 300+
 - `bbox_inches='tight'`：裁剪空白边距
 - `facecolor`：背景色，默认透明（PNG）
@@ -760,13 +774,13 @@ fig.savefig('chart.svg', bbox_inches='tight')
 
 ### 11.2 格式选择指南
 
-| 格式 | 类型 | 适用场景 | 文件大小 |
-|------|------|----------|----------|
-| PNG | 位图 | 网页、PPT、屏幕展示 | 中 |
-| JPG | 位图 | 照片类图表（有损压缩） | 小 |
-| PDF | 矢量 | 印刷、论文 | 中 |
-| SVG | 矢量 | 网页嵌入、Illustrator 编辑 | 大 |
-| EPS | 矢量 | LaTeX 文档 | 中 |
+| 格式 | 类型 | 适用场景                   | 文件大小 |
+| ---- | ---- | -------------------------- | -------- |
+| PNG  | 位图 | 网页、PPT、屏幕展示        | 中       |
+| JPG  | 位图 | 照片类图表（有损压缩）     | 小       |
+| PDF  | 矢量 | 印刷、论文                 | 中       |
+| SVG  | 矢量 | 网页嵌入、Illustrator 编辑 | 大       |
+| EPS  | 矢量 | LaTeX 文档                 | 中       |
 
 > **为什么论文推荐矢量格式？** 矢量图（PDF/SVG/EPS）在任意缩放下都保持清晰，而位图（PNG/JPG）放大后会出现锯齿。论文通常需要高分辨率图表，矢量格式是最佳选择。
 
@@ -776,38 +790,38 @@ fig.savefig('chart.svg', bbox_inches='tight')
 
 ### 12.1 图表类型选择
 
-| 数据关系 | 图表类型 | 函数 |
-|----------|----------|------|
-| 趋势变化 | 折线图 | `ax.plot()` |
-| 类别比较 | 柱状图 | `ax.bar()` / `ax.barh()` |
-| 分布形态 | 直方图 | `ax.hist()` |
-| 相关关系 | 散点图 | `ax.scatter()` |
-| 占比构成 | 饼图 | `ax.pie()` |
+| 数据关系 | 图表类型 | 函数                     |
+| -------- | -------- | ------------------------ |
+| 趋势变化 | 折线图   | `ax.plot()`              |
+| 类别比较 | 柱状图   | `ax.bar()` / `ax.barh()` |
+| 分布形态 | 直方图   | `ax.hist()`              |
+| 相关关系 | 散点图   | `ax.scatter()`           |
+| 占比构成 | 饼图     | `ax.pie()`               |
 
 ### 12.2 常用参数
 
-| 参数 | 说明 | 常用值 |
-|------|------|--------|
-| `color` | 颜色 | 十六进制、颜色名 |
-| `marker` | 标记样式 | 'o', 's', '^', 'D' |
-| `linestyle` | 线型 | '-', '--', ':', '-.' |
-| `linewidth` | 线宽 | 1-3 |
-| `alpha` | 透明度 | 0-1 |
-| `figsize` | 画布大小 | (10, 6) |
-| `dpi` | 分辨率 | 72/150/300 |
+| 参数        | 说明     | 常用值               |
+| ----------- | -------- | -------------------- |
+| `color`     | 颜色     | 十六进制、颜色名     |
+| `marker`    | 标记样式 | 'o', 's', '^', 'D'   |
+| `linestyle` | 线型     | '-', '--', ':', '-.' |
+| `linewidth` | 线宽     | 1-3                  |
+| `alpha`     | 透明度   | 0-1                  |
+| `figsize`   | 画布大小 | (10, 6)              |
+| `dpi`       | 分辨率   | 72/150/300           |
 
 ### 12.3 常用方法
 
-| 方法 | 说明 |
-|------|------|
-| `ax.set_title()` | 设置标题 |
+| 方法                             | 说明       |
+| -------------------------------- | ---------- |
+| `ax.set_title()`                 | 设置标题   |
 | `ax.set_xlabel()`/`set_ylabel()` | 设置轴标签 |
-| `ax.set_xlim()`/`set_ylim()` | 设置轴范围 |
-| `ax.legend()` | 显示图例 |
-| `ax.grid()` | 显示网格 |
-| `ax.annotate()` | 添加注释 |
-| `ax.text()` | 添加文本 |
-| `fig.savefig()` | 保存图表 |
+| `ax.set_xlim()`/`set_ylim()`     | 设置轴范围 |
+| `ax.legend()`                    | 显示图例   |
+| `ax.grid()`                      | 显示网格   |
+| `ax.annotate()`                  | 添加注释   |
+| `ax.text()`                      | 添加文本   |
+| `fig.savefig()`                  | 保存图表   |
 
 ---
 

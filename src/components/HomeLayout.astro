@@ -1,0 +1,90 @@
+---
+import '@/styles/global.css'
+import '@/styles/typography.css'
+import '@/styles/code.css'
+import '@/styles/components.css'
+import ThemeToggle from '@/islands/ThemeToggle.vue'
+import { SITE } from '@/lib/constants'
+
+const { title } = Astro.props
+const base = import.meta.env.BASE_URL
+---
+
+<html lang={SITE.lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href={`${base}fonts/fonts.css`} />
+    <script is:inline>
+      (function() {
+        var t = localStorage.getItem('codex-theme');
+        if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+    <slot name="head" />
+  </head>
+  <body>
+    <header class="home-nav">
+      <div class="nav-left">
+        <a href={base} class="nav-logo">
+          <span class="logo-mark"></span>
+          <span class="logo-text">{SITE.title}</span>
+        </a>
+      </div>
+      <div class="nav-right">
+        <ThemeToggle client:load />
+      </div>
+    </header>
+    <main class="home-main">
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style>
+.home-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-md);
+  background: var(--color-nav-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--nav-height);
+}
+
+.nav-left { display: flex; align-items: center; gap: var(--spacing-sm); }
+.nav-right { display: flex; align-items: center; gap: var(--spacing-sm); }
+.nav-logo { display: flex; align-items: center; cursor: pointer; }
+.nav-logo:hover { opacity: 0.85; }
+.logo-mark { display: inline-block; width: 8px; height: 28px; background: var(--color-primary); }
+.logo-text {
+  display: flex; align-items: center; height: 28px; padding: 0 8px;
+  background: var(--color-text); color: var(--color-bg);
+  font-weight: 700; font-size: 0.8em; font-family: var(--font-display); letter-spacing: 0.1em;
+}
+
+.home-main {
+  min-height: calc(100vh - var(--nav-height));
+  min-height: calc(100dvh - var(--nav-height));
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+</style>
+
+<script>
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault()
+      const base = document.querySelector('a.nav-logo')?.getAttribute('href') || '/'
+      window.location.href = base + 'search'
+    }
+  })
+</script>

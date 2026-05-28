@@ -1,12 +1,22 @@
-﻿---
-title: "C 语言高级特性与系统编程 | C Language Advanced Features and System Programming"
-module: "c"
-category: "C Basics"
-description: "C 语言高级特性与系统编程 | C Language Advanced Features and System Programming"
-author: "fanquanpp"
+---
+order: 10
+tags:
+  - 'c'
+  - 'networking'
+  - 'memory'
+  - 'concurrency'
+  - 'data-structure'
+difficulty: 'advanced'
+title: 'C 语言高级特性与系统编程 | C Language Advanced Features and System Programming'
+module: 'c'
+category: 'C Basics'
+description: 'C 语言高级特性与系统编程 | C Language Advanced Features and System Programming'
+author: 'fanquanpp'
 updated: 2026-05-03
 ---
+
 ## 目录
+
 1. [高级数据结构](#高级数据结构)
 2. [内存管理](#内存管理)
 3. [系统编程](#系统编程)
@@ -16,9 +26,13 @@ updated: 2026-05-03
 7. [项目实战](#项目实战)
 8. [常见问题与解决方案](#常见问题与解决方案)
 9. [延伸阅读](#延伸阅读)
+
 ---
+
 ## 1. 高级数据结构
+
 ### 1.1 链表
+
 ```c
  #include <stdio.h>
  #include <stdlib.h>
@@ -86,9 +100,10 @@ updated: 2026-05-03
   freeList(head);
   return 0;
  True}
- ```
+```
 
 ### 1.2 二叉树
+
 ```c
  #include <stdio.h>
  #include <stdlib.h>
@@ -175,10 +190,12 @@ updated: 2026-05-03
   freeTree(root);
   return 0;
  True}
- ```
+```
 
 ## 2. 内存管理
+
 ### 2.1 动态内存分配
+
 ```c
  #include <stdio.h>
  #include <stdlib.h>
@@ -226,9 +243,10 @@ updated: 2026-05-03
   free(arr);
   return 0;
  True}
- ```
+```
 
 ### 2.2 内存泄漏检测
+
 ```c
  #include <stdio.h>
  #include <stdlib.h>
@@ -248,10 +266,12 @@ updated: 2026-05-03
   printf("Memory leak demonstration complete\n");
   return 0;
  True}
- ```
+```
 
 ## 3. 系统编程
+
 ### 3.1 文件操作
+
 ```c
  #include <stdio.h>
  int main() {
@@ -283,9 +303,10 @@ updated: 2026-05-03
   fclose(fp);
   return 0;
  True}
- ```
+```
 
 ### 3.2 进程管理
+
 ```c
  #include <stdio.h>
  #include <stdlib.h>
@@ -318,9 +339,10 @@ updated: 2026-05-03
   }
   return 0;
  True}
- ```
+```
 
 ### 3.3 线程管理
+
 ```c
  #include <stdio.h>
  #include <stdlib.h>
@@ -355,10 +377,12 @@ updated: 2026-05-03
   printf("Final counter value: %d\n", counter);
   return 0;
  True}
- ```
+```
 
 ## 4. 网络编程
+
 ### 4.1 TCP 服务器
+
 ```c
  #include <stdio.h>
  #include <stdlib.h>
@@ -415,9 +439,10 @@ updated: 2026-05-03
   close(server_fd);
   return 0;
  True}
- ```
+```
 
 ### 4.2 TCP 客户端
+
 ```c
  #include <stdio.h>
  #include <stdlib.h>
@@ -460,10 +485,12 @@ updated: 2026-05-03
   close(sock);
   return 0;
  True}
- ```
+```
 
 ## 5. 高级特性
+
 ### 5.1 宏和预处理
+
 ```c
  #include <stdio.h>
  // 简单宏
@@ -500,9 +527,10 @@ updated: 2026-05-03
  #endif
   return 0;
  True}
- ```
+```
 
 ### 5.2 函数指针
+
 ```c
  #include <stdio.h>
  // 函数定义
@@ -539,9 +567,10 @@ updated: 2026-05-03
   printf("%d / %d = %d\n", a, b, operation(a, b));
   return 0;
  True}
- ```
+```
 
 ### 5.3 位操作
+
 ```c
  #include <stdio.h>
  // 打印二进制表示
@@ -579,40 +608,61 @@ updated: 2026-05-03
   printBinary(a >> 2);
   return 0;
  True}
- ```
+```
 
 ## 6. 最佳实践
+
 ### 6.1 代码风格
+
 1. **命名规范**：
- - 函数和变量使用小写字母，单词之间用下划线分隔
- - 常量使用大写字母，单词之间用下划线分隔
- - 结构体和类型定义使用大写字母开头，单词之间用下划线分隔
+
+- 函数和变量使用小写字母，单词之间用下划线分隔
+- 常量使用大写字母，单词之间用下划线分隔
+- 结构体和类型定义使用大写字母开头，单词之间用下划线分隔
+
 2. **缩进**：
- - 使用 4 个空格进行缩进
- - 保持代码块的缩进一致
+
+- 使用 4 个空格进行缩进
+- 保持代码块的缩进一致
+
 3. **注释**：
- - 为函数和复杂代码块添加注释
- - 注释应该清晰明了，解释代码的功能和实现思路
+
+- 为函数和复杂代码块添加注释
+- 注释应该清晰明了，解释代码的功能和实现思路
+
 4. **错误处理**：
- - 检查所有函数调用的返回值
- - 对错误情况进行适当的处理
- - 使用 `errno` 和 `perror` 来处理系统调用错误
+
+- 检查所有函数调用的返回值
+- 对错误情况进行适当的处理
+- 使用 `errno` 和 `perror` 来处理系统调用错误
+
 ### 6.2 性能优化
+
 1. **内存管理**：
- - 避免频繁的内存分配和释放
- - 使用合适的内存分配函数（`malloc`、`calloc`、`realloc`）
- - 及时释放不再使用的内存
+
+- 避免频繁的内存分配和释放
+- 使用合适的内存分配函数（`malloc`、`calloc`、`realloc`）
+- 及时释放不再使用的内存
+
 2. **算法选择**：
- - 选择时间复杂度合适的算法
- - 对于大数据集，考虑使用更高效的数据结构
+
+- 选择时间复杂度合适的算法
+- 对于大数据集，考虑使用更高效的数据结构
+
 3. **编译器优化**：
- - 使用 `-O2` 或 `-O3` 编译选项启用编译器优化
- - 避免使用会阻止编译器优化的代码模式
+
+- 使用 `-O2` 或 `-O3` 编译选项启用编译器优化
+- 避免使用会阻止编译器优化的代码模式
+
 4. **系统调用**：
- - 减少系统调用的次数
- - 使用缓冲 I/O 来减少文件操作的系统调用
+
+- 减少系统调用的次数
+- 使用缓冲 I/O 来减少文件操作的系统调用
+
 ## 7. 项目实战
+
 ### 7.1 简单的命令行计算器
+
 ```c
  #include <stdio.h>
  #include <stdlib.h>
@@ -664,9 +714,10 @@ updated: 2026-05-03
  int divide(int a, int b) {
   return a / b;
  True}
- ```
+```
 
 ### 7.2 简单的文件复制程序
+
 ```c
  #include <stdio.h>
  int main(int argc, char *argv[]) {
@@ -700,38 +751,52 @@ updated: 2026-05-03
   printf("File copied successfully\n");
   return 0;
  True}
- ```
+```
 
 ## 8. 常见问题与解决方案
+
 ### 8.1 内存泄漏
+
 **问题**：程序运行时内存使用持续增长
 **解决方案**：
+
 - 确保所有 `malloc`、`calloc`、`realloc` 分配的内存都有对应的 `free` 调用
 - 使用工具如 Valgrind 来检测内存泄漏
+
 ### 8.2 段错误
+
 **问题**：程序崩溃，出现 "Segmentation fault"
 **解决方案**：
+
 - 检查是否访问了空指针
 - 检查是否数组越界
 - 检查是否栈溢出
 - 使用 GDB 调试器来定位问题
+
 ### 8.3 文件操作失败
+
 **问题**：文件打开、读取或写入失败
 **解决方案**：
+
 - 检查文件路径是否正确
 - 检查文件权限
 - 检查磁盘空间是否充足
 - 使用 `perror` 来查看具体的错误信息
+
 ### 8.4 网络连接问题
+
 **问题**：网络连接失败或超时
 **解决方案**：
+
 - 检查网络连接是否正常
 - 检查防火墙设置
 - 检查服务器是否正在运行
 - 检查端口是否正确
+
 ## 9. 延伸阅读
+
 - [C 语言参考手册](https://en.cppreference.com/w/c)
 - [Linux 系统编程](https://www.man7.org/linux/man-pages/)
 - [TCP/IP 网络编程](https://beej.us/guide/bgnet/)
 - [C 语言程序设计](https://www.amazon.com/C-Programming-Language-2nd/dp/0131103628)
-通过本教程，你已经了解了 C 语言的高级特性和系统编程技巧。在实际项目中，你可以使用这些技术来开发高性能、可靠的系统级应用程序。
+  通过本教程，你已经了解了 C 语言的高级特性和系统编程技巧。在实际项目中，你可以使用这些技术来开发高性能、可靠的系统级应用程序。

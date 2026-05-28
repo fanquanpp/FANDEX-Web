@@ -1,11 +1,20 @@
-﻿---
-title: "元表与面向对象编程 (Metatables & OOP)"
-module: "lua"
-category: "Lua Advanced"
-description: "元表、元方法、面向对象模拟及协程。 | Metatables, Metamethods, OOP simulation, and Coroutines."
-author: "Anonymous"
 ---
+order: 40
+tags:
+  - 'lua'
+  - 'async'
+  - 'database'
+  - 'typescript'
+difficulty: 'intermediate'
+title: '元表与面向对象编程 (Metatables & OOP)'
+module: 'lua'
+category: 'Lua Advanced'
+description: '元表、元方法、面向对象模拟及协程。 | Metatables, Metamethods, OOP simulation, and Coroutines.'
+author: 'Anonymous'
+---
+
 ## 目录
+
 1. [元表](#元表)
 2. [面向对象编程](#面向对象编程)
 3. [协程](#协程)
@@ -14,10 +23,15 @@ author: "Anonymous"
 6. [最佳实践](#最佳实践)
 7. [延伸阅读](#延伸阅读)
 8. [更新日志](#更新日志)
+
 ---
+
 ## 1. 元表 (Metatables)
+
 ### 1.1 元表基础
+
 元表允许我们改变 Table 的行为，通过定义元方法来重载运算符、控制访问等。
+
 ```lua
  True-- 创建元表
  local meta = {
@@ -43,29 +57,33 @@ author: "Anonymous"
  print(t1 + t2) -- 30
  print(t1 * t2) -- 200
  print(t1) -- Value: 10
- ```
+```
 
 ### 1.2 常用元方法
-| 元方法 | 描述 | 示例 |
-|--------|------|------|
-| `__add` | 加法运算符 `+` | `a + b` |
-| `__sub` | 减法运算符 `-` | `a - b` |
-| `__mul` | 乘法运算符 `*` | `a * b` |
-| `__div` | 除法运算符 `/` | `a / b` |
-| `__mod` | 取模运算符 `%` | `a % b` |
-| `__pow` | 幂运算符 `^` | `a ^ b` |
-| `__unm` | 一元负号 `-` | `-a` |
-| `__concat` | 连接运算符 `..` | `a .. b` |
-| `__eq` | 等于运算符 `==` | `a == b` |
-| `__lt` | 小于运算符 `<` | `a < b` |
-| `__le` | 小于等于运算符 `<=` | `a <= b` |
-| `__index` | 访问不存在的键时调用 | `t[key]` |
+
+| 元方法       | 描述                 | 示例             |
+| ------------ | -------------------- | ---------------- |
+| `__add`      | 加法运算符 `+`       | `a + b`          |
+| `__sub`      | 减法运算符 `-`       | `a - b`          |
+| `__mul`      | 乘法运算符 `*`       | `a * b`          |
+| `__div`      | 除法运算符 `/`       | `a / b`          |
+| `__mod`      | 取模运算符 `%`       | `a % b`          |
+| `__pow`      | 幂运算符 `^`         | `a ^ b`          |
+| `__unm`      | 一元负号 `-`         | `-a`             |
+| `__concat`   | 连接运算符 `..`      | `a .. b`         |
+| `__eq`       | 等于运算符 `==`      | `a == b`         |
+| `__lt`       | 小于运算符 `<`       | `a < b`          |
+| `__le`       | 小于等于运算符 `<=`  | `a <= b`         |
+| `__index`    | 访问不存在的键时调用 | `t[key]`         |
 | `__newindex` | 赋值不存在的键时调用 | `t[key] = value` |
-| `__call` | 调用表作为函数时调用 | `t()` |
-| `__tostring` | 转换为字符串时调用 | `tostring(t)` |
-| `__len` | 获取长度时调用 | `#t` |
+| `__call`     | 调用表作为函数时调用 | `t()`            |
+| `__tostring` | 转换为字符串时调用   | `tostring(t)`    |
+| `__len`      | 获取长度时调用       | `#t`             |
+
 ### 1.3 高级元表技巧
+
 #### 1.3.1 保护表
+
 ```lua
  function readonly(table)
   return setmetatable({}, {
@@ -80,9 +98,10 @@ author: "Anonymous"
  local readonly_table = readonly(original)
  print(readonly_table.value) -- 10
  True-- readonly_table.value = 20 -- 会报错
- ```
+```
 
 #### 1.3.2 自动创建表
+
 ```lua
  function autotable()
   return setmetatable({}, {
@@ -96,10 +115,12 @@ author: "Anonymous"
  local t = autotable()
  t.a.b.c.d = 10
  print(t.a.b.c.d) -- 10
- ```
+```
 
 ## 2. 面向对象编程 (OOP)
+
 ### 2.1 基础类实现
+
 ```lua
  True-- 定义类
  local Person = {}
@@ -119,9 +140,10 @@ author: "Anonymous"
  True-- 创建实例
  local alice = Person:new("Alice", 30)
  print(alice:greet()) -- Hello, my name is Alice and I'm 30 years old
- ```
+```
 
 ### 2.2 继承
+
 ```lua
  True-- 基类
  local Animal = {}
@@ -153,11 +175,12 @@ author: "Anonymous"
  print(rover:speak()) -- Woof!
  print(rover.name) -- Rover
  print(rover.breed) -- Labrador
- ```
+```
 
 ### 2.3 多继承
+
 ```lua
- function createClass(...) 
+ function createClass(...)
   local class = {}
   local parents = { ... }
   -- 设置元表，实现多继承
@@ -192,9 +215,10 @@ author: "Anonymous"
  local c = C:new()
  print(c:methodA()) -- Method A
  print(c:methodB()) -- Method B
- ```
+```
 
 ### 2.4 访问控制
+
 ```lua
  local Account = {}
  Account.__index = Account
@@ -210,7 +234,7 @@ author: "Anonymous"
  function Account:withdraw(amount)
   if amount <= self._balance then
   self._balance = self._balance - amount
-  return  
+  return
   else
   return false
   end
@@ -223,10 +247,12 @@ author: "Anonymous"
  account:deposit(500)
  print(account:getBalance()) -- 1500
  print(account._balance) -- 1500 (注意：Lua 没有真正的私有变量)
- ```
+```
 
 ## 3. 协程 (Coroutines)
+
 ### 3.1 基础使用
+
 ```lua
  True-- 创建协程
  local co = coroutine.create(function(name)
@@ -244,9 +270,10 @@ author: "Anonymous"
  True-- 再次启动协程（已经结束）
  status, result = coroutine.resume(co)
  print(status, result) -- false cannot resume dead coroutine
- ```
+```
 
 ### 3.2 协程状态
+
 ```lua
  local co = coroutine.create(function()
   print("Starting")
@@ -258,9 +285,10 @@ author: "Anonymous"
  print(coroutine.status(co)) -- suspended
  coroutine.resume(co) -- Resumed
  print(coroutine.status(co)) -- dead
- ```
+```
 
 ### 3.3 生产者-消费者模式
+
 ```lua
  function producer()
   return coroutine.create(function()
@@ -284,9 +312,10 @@ author: "Anonymous"
  end
  local prod = producer()
  consumer(prod)
- ```
+```
 
 ### 3.4 协程池
+
 ```lua
  local function createCoroutinePool(size, func)
   local pool = {}
@@ -310,10 +339,12 @@ author: "Anonymous"
  for i, co in ipairs(pool) do
   coroutine.resume(co, "Task " .. (i + 3))
  end
- ```
+```
 
 ## 4. 高级特性
+
 ### 4.1 闭包
+
 ```lua
  function createCounter()
   local count = 0
@@ -326,9 +357,10 @@ author: "Anonymous"
  print(counter()) -- 1
  print(counter()) -- 2
  print(counter()) -- 3
- ```
+```
 
 ### 4.2 模块系统
+
 ```lua
  True-- mymodule.lua
  local M = {}
@@ -343,9 +375,10 @@ author: "Anonymous"
  local math = require("mymodule")
  print(math.add(10, 5)) -- 15
  print(math.sub(10, 5)) -- 5
- ```
+```
 
 ### 4.3 元编程
+
 ```lua
  function createAccessor(obj, name)
   return function(value)
@@ -362,9 +395,10 @@ author: "Anonymous"
  age(30)
  print(name()) -- Alice
  print(age()) -- 30
- ```
+```
 
 ### 4.4 垃圾回收
+
 ```lua
  True-- 弱表
  local weakTable = setmetatable({}, { __mode = "k" })
@@ -374,10 +408,12 @@ author: "Anonymous"
  key = nil -- 释放引用
  collectgarbage() -- 强制垃圾回收
  print(weakTable[key]) -- nil
- ```
+```
 
 ## 5. 实战案例
+
 ### 5.1 事件系统
+
 ```lua
  local EventSystem = {}
  EventSystem.__index = EventSystem
@@ -422,9 +458,10 @@ author: "Anonymous"
  True-- 移除事件
  events:off("userLoggedIn", onUserLoggedIn)
  events:emit("userLoggedIn", "Bob") -- 无输出
- ```
+```
 
 ### 5.2 简单的类库
+
 ```lua
  True-- 定义类
  local Vector2 = {}
@@ -461,32 +498,44 @@ author: "Anonymous"
  local v3 = v1 + v2
  print(v3) -- Vector2(4, 6)
  print(v3:mag()) -- 7.211102550928
- ```
+```
 
 ## 6. 最佳实践
+
 ### 6.1 代码组织
+
 - **模块化**: 将相关功能组织到模块中
 - **命名规范**: 使用一致的命名约定
 - **代码风格**: 保持一致的缩进和代码风格
 - **注释**: 为复杂代码添加注释
+
 ### 6.2 性能优化
+
 - **避免全局变量**: 使用局部变量提高访问速度
 - **表操作**: 预分配表大小，避免频繁扩容
 - **字符串操作**: 避免频繁字符串连接，使用 table.concat
 - **垃圾回收**: 合理使用弱表，避免内存泄漏
+
 ### 6.3 错误处理
+
 - **断言**: 使用 assert 检查参数
 - **错误处理**: 使用 pcall 捕获错误
 - **错误消息**: 提供清晰的错误消息
+
 ### 6.4 调试技巧
+
 - **打印调试**: 使用 print 或 io.write 输出调试信息
 - **调试器**: 使用 Lua 调试器
 - **日志系统**: 实现简单的日志系统
+
 ## 7. 延伸阅读
+
 - [Programming in Lua](https://www.lua.org/pil/)
 - [Lua 5.4 Reference Manual](https://www.lua.org/manual/5.4/)
 - [Lua Wiki](http://lua-users.org/wiki/)
 - [Lua Performance Tips](http://lua-users.org/wiki/PerformanceTips)
+
 ## 8. 更新日志
+
 - **2026-04-05**: 细化元表机制与协程原理
 - **2026-04-05**: 扩展内容，增加面向对象编程、高级特性和实战案例

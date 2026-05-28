@@ -1,7 +1,13 @@
-﻿---
-title: "数据分析练习题"
-module: "data-analysis"
 ---
+order: 20
+tags:
+  - 'exercises'
+  - 'data-analysis'
+difficulty: 'intermediate'
+title: '数据分析练习题'
+module: 'data-analysis'
+---
+
 <summary>查看答案</summary>
 **答案**: C
 **解析**: `df['col']` 返回的是 Series（一维），而 `df['col']('col')` 返回 DataFrame（二维）。这是 Pandas 初学者常见的混淆点。
@@ -58,6 +64,7 @@ D. 众数只适用于数值型数据
  ```
 
 **输出**: 清洗后的 DataFrame
+
 <details>
 <summary>查看参考答案</summary>
 ```python
@@ -91,6 +98,7 @@ D. 众数只适用于数值型数据
  ```
 
 **输出**: 透视表（行=月份，列=类别，值=销售额总和）
+
 <details>
 <summary>查看参考答案</summary>
 ```python

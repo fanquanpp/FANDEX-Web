@@ -1,19 +1,30 @@
-﻿---
-title: "C++ 类型系统 (C++ Type System)"
-module: "cpp"
-category: "C++ Basics"
-description: "C++ 常量、类型推导、类型别名、最佳实践及代码示例。 | C++ constants, type deduction, type aliases, best practices, and code examples."
-author: "Anonymous"
 ---
+order: 100
+tags:
+  - 'cpp'
+  - 'devops'
+difficulty: 'intermediate'
+title: 'C++ 类型系统 (C++ Type System)'
+module: 'cpp'
+category: 'C++ Basics'
+description: 'C++ 常量、类型推导、类型别名、最佳实践及代码示例。 | C++ constants, type deduction, type aliases, best practices, and code examples.'
+author: 'Anonymous'
+---
+
 ## 目录
+
 1. [常量](#常量)
 2. [类型推导](#类型推导)
 3. [类型别名](#类型别名)
 4. [最佳实践](#最佳实践)
 5. [代码示例](#代码示例)
+
 ---
+
 ## 1. 常量 (Constants)
+
 ### 1.1 const 常量
+
 ```cpp
  // 全局常量
  const int MAX_VALUE = 100;
@@ -33,9 +44,10 @@ author: "Anonymous"
   // ref = 30; // 错误：不能修改 const 引用
   return 0;
  True}
- ```
+```
 
 ### 1.2 constexpr 常量 (C++11)
+
 ```cpp
  // 编译期常量
  constexpr int factorial(int n) {
@@ -46,10 +58,12 @@ author: "Anonymous"
   std::cout << "5! = " << fact5 << std::endl;
   return 0;
  True}
- ```
+```
 
 ## 2. 类型推导
+
 ### 2.1 auto 类型推导 (C++11)
+
 ```cpp
  #include <iostream>
  #include <vector>
@@ -67,9 +81,10 @@ author: "Anonymous"
   std::cout << "add(5, 3) = " << add(5, 3) << std::endl;
   return 0;
  True}
- ```
+```
 
 ### 2.2 decltype 类型推导 (C++11)
+
 ```cpp
  #include <iostream>
  int main() {
@@ -80,10 +95,12 @@ author: "Anonymous"
   std::cout << "y = " << y << ", w = " << w << std::endl;
   return 0;
  True}
- ```
+```
 
 ## 3. 类型别名
+
 ### 3.1 typedef
+
 ```cpp
  #include <iostream>
  // 类型别名
@@ -99,9 +116,10 @@ author: "Anonymous"
   std::cout << std::endl;
   return 0;
  True}
- ```
+```
 
 ### 3.2 using 别名 (C++11)
+
 ```cpp
  #include <iostream>
  #include <vector>
@@ -118,170 +136,202 @@ author: "Anonymous"
   std::cout << std::endl;
   return 0;
  True}
- ```
+```
 
 ## 4. 最佳实践
+
 ### 4.1 代码风格
+
 #### 4.1.1 命名规范
+
 - **变量和函数**：`camelCase` 或 `snake_case`
- - 示例：`int studentCount;` 或 `int student_count;`
- - 示例：`void calculateTotal();` 或 `void calculate_total();`
+- 示例：`int studentCount;` 或 `int student_count;`
+- 示例：`void calculateTotal();` 或 `void calculate_total();`
 - **类和结构体**：`PascalCase`
- - 示例：`class StudentRecord;`
- - 示例：`struct Point3D;`
+- 示例：`class StudentRecord;`
+- 示例：`struct Point3D;`
 - **常量**：`UPPER_CASE`
- - 示例：`const int MAX_SIZE = 100;`
- - 示例：`constexpr double PI = 3.14159;`
+- 示例：`const int MAX_SIZE = 100;`
+- 示例：`constexpr double PI = 3.14159;`
 - **命名空间**：`lowercase`
- - 示例：`namespace utils;`
- - 示例：`namespace math_helpers;`
+- 示例：`namespace utils;`
+- 示例：`namespace math_helpers;`
 - **类型别名**：`PascalCase` 或 `camelCase`
- - 示例：`using IntVector = std::vector<int>;`
- - 示例：`typedef std::map<std::string, int> StringIntMap;`
+- 示例：`using IntVector = std::vector<int>;`
+- 示例：`typedef std::map<std::string, int> StringIntMap;`
+
 #### 4.1.2 缩进和格式
+
 - **缩进**：使用 4 个空格或 1 个制表符
 - **大括号**：使用 K&R 风格（左大括号在同一行）
- ```cpp
-  if (condition) {
-  // 代码
-  }
-  ```
+
+```cpp
+ if (condition) {
+ // 代码
+ }
+```
 
 - **行长度**：每行不超过 80-100 个字符
 - **空行**：适当使用空行分隔代码块
 - **空格**：在操作符前后、逗号后添加空格
- ```cpp
-  int result = a + b;
-  func(a, b, c);
-  ```
+
+```cpp
+ int result = a + b;
+ func(a, b, c);
+```
 
 #### 4.1.3 注释
+
 - **文档注释**：函数前添加文档注释
- ```cpp
-  /**
-  * @brief 计算两个数的和
-  * @param a 第一个数
-  * @param b 第二个数
-  * @return 两数之和
-  */
-  int add(int a, int b) {
-  return a + b;
-  }
-  ```
+
+```cpp
+ /**
+ * @brief 计算两个数的和
+ * @param a 第一个数
+ * @param b 第二个数
+ * @return 两数之和
+ */
+ int add(int a, int b) {
+ return a + b;
+ }
+```
 
 - **代码注释**：为复杂代码添加注释
- ```cpp
-  // 使用二分查找算法
-  int binary_search(const std::vector<int>& arr, int target) {
-  // 初始化左右边界
-  int left = 0, right = arr.size() - 1;
-  // 循环查找
-  while (left <= right) {
-  int mid = left + (right - left) / 2; // 避免整数溢出
-  if (arr[mid] == target) {
-  return mid;
-  } else if (arr[mid] < target) {
-  left = mid + 1;
-  } else {
-  right = mid - 1;
-  }
-  }
-  return -1;
-  }
-  ```
+
+```cpp
+ // 使用二分查找算法
+ int binary_search(const std::vector<int>& arr, int target) {
+ // 初始化左右边界
+ int left = 0, right = arr.size() - 1;
+ // 循环查找
+ while (left <= right) {
+ int mid = left + (right - left) / 2; // 避免整数溢出
+ if (arr[mid] == target) {
+ return mid;
+ } else if (arr[mid] < target) {
+ left = mid + 1;
+ } else {
+ right = mid - 1;
+ }
+ }
+ return -1;
+ }
+```
 
 ### 4.2 类型使用建议
+
 #### 4.2.1 基本类型
+
 - **优先使用 auto**：简化代码，提高可维护性
- ```cpp
-  auto result = calculate(); // 自动推导返回类型
-  auto it = container.begin(); // 简化迭代器类型
-  ```
+
+```cpp
+ auto result = calculate(); // 自动推导返回类型
+ auto it = container.begin(); // 简化迭代器类型
+```
 
 - **使用 constexpr**：对于编译期常量，提高性能
- ```cpp
-  constexpr int MAX_SIZE = 100; // 编译期常量
-  constexpr int factorial(int n) { return n <= 1 ? 1 : n * factorial(n-1); }
-  ```
+
+```cpp
+ constexpr int MAX_SIZE = 100; // 编译期常量
+ constexpr int factorial(int n) { return n <= 1 ? 1 : n * factorial(n-1); }
+```
 
 - **合理使用 const**：提高代码安全性和可读性
- ```cpp
-  const int& get_value() const; // 常量成员函数，不修改对象状态
-  void process(const std::string& str); // 避免复制，且不修改参数
-  ```
+
+```cpp
+ const int& get_value() const; // 常量成员函数，不修改对象状态
+ void process(const std::string& str); // 避免复制，且不修改参数
+```
 
 - **注意类型转换**：避免隐式类型转换导致的问题
- ```cpp
-  // 显式转换
-  double d = 3.14;
-  int i = static_cast<int>(d); // 明确转换意图
-  ```
+
+```cpp
+ // 显式转换
+ double d = 3.14;
+ int i = static_cast<int>(d); // 明确转换意图
+```
 
 #### 4.2.2 复合类型
+
 - **使用 STL 容器**：优先使用标准库容器
- ```cpp
-  std::vector<int> numbers; // 动态数组
-  std::map<std::string, int> scores; // 键值对
-  std::unordered_set<int> unique_values; // 哈希集合
-  ```
+
+```cpp
+ std::vector<int> numbers; // 动态数组
+ std::map<std::string, int> scores; // 键值对
+ std::unordered_set<int> unique_values; // 哈希集合
+```
 
 - **智能指针**：使用智能指针管理内存
- ```cpp
-  std::unique_ptr<MyClass> ptr = std::make_unique<MyClass>();
-  std::shared_ptr<MyClass> shared_ptr = std::make_shared<MyClass>();
-  ```
+
+```cpp
+ std::unique_ptr<MyClass> ptr = std::make_unique<MyClass>();
+ std::shared_ptr<MyClass> shared_ptr = std::make_shared<MyClass>();
+```
 
 - **引用传递**：对于大对象，使用引用传递避免复制
- ```cpp
-  void process_large_object(const LargeObject& obj); // 常量引用
-  ```
+
+```cpp
+ void process_large_object(const LargeObject& obj); // 常量引用
+```
 
 ### 4.3 控制流建议
+
 - **避免使用 goto**：使用结构化控制流
 - **使用范围 for 循环**：简化容器遍历
- ```cpp
-  for (const auto& item : container) {
-  // 处理 item
-  }
-  ```
+
+```cpp
+ for (const auto& item : container) {
+ // 处理 item
+ }
+```
 
 - **合理使用 switch**：对于多分支条件
 - **异常处理**：使用 try-catch 处理异常
+
 ### 4.4 输入输出建议
+
 - **使用 std::cout 和 std::cin**：标准库提供的输入输出功能
 - **格式化输出**：使用 iomanip 库进行格式化
- ```cpp
-  std::cout << std::fixed << std::setprecision(2) << value << std::endl;
-  ```
+
+```cpp
+ std::cout << std::fixed << std::setprecision(2) << value << std::endl;
+```
 
 - **错误处理**：检查输入是否成功
- ```cpp
-  if (!(std::cin >> value)) {
-  std::cerr << "Invalid input" << std::endl;
-  std::cin.clear();
-  std::cin.ignore();
-  }
-  ```
+
+```cpp
+ if (!(std::cin >> value)) {
+ std::cerr << "Invalid input" << std::endl;
+ std::cin.clear();
+ std::cin.ignore();
+ }
+```
 
 - **避免使用 C 风格 I/O**：如 printf 和 scanf
+
 ### 4.5 性能优化建议
+
 - **减少复制**：使用移动语义和引用
 - **预分配内存**：对于容器，提前分配足够的空间
- ```cpp
-  std::vector<int> vec;
-  vec.reserve(1000); // 预分配空间
-  ```
+
+```cpp
+ std::vector<int> vec;
+ vec.reserve(1000); // 预分配空间
+```
 
 - **避免频繁的内存分配**：使用对象池或内存池
 - **内联函数**：对于小函数，使用 inline 关键字
- ```cpp
-  inline int min(int a, int b) {
-  return a < b ? a : b;
-  }
-  ```
+
+```cpp
+ inline int min(int a, int b) {
+ return a < b ? a : b;
+ }
+```
 
 ## 5. 代码示例
+
 ### 5.1 温度转换
+
 ```cpp
  #include <iostream>
  #include <iomanip>
@@ -324,9 +374,10 @@ author: "Anonymous"
   std::cout << f << "°F = " << c << "°C = " << k << "K" << std::endl;
   return 0;
  True}
- ```
+```
 
 ### 5.2 素数判断
+
 ```cpp
  #include <iostream>
  #include <cmath>
@@ -409,9 +460,10 @@ author: "Anonymous"
   std::cout << std::endl;
   return 0;
  True}
- ```
+```
 
 ### 5.3 数组操作
+
 ```cpp
  #include <iostream>
  #include <vector>
@@ -533,9 +585,10 @@ author: "Anonymous"
   std::cout << std::endl;
   return 0;
  True}
- ```
+```
 
 ### 5.4 字符串操作
+
 ```cpp
  #include <iostream>
  #include <string>
@@ -613,8 +666,10 @@ author: "Anonymous"
   << StringUtils::count_words(sentence) << std::endl;
   return 0;
  True}
- ```
+```
 
 ---
+
 ### 更新日志 (Changelog)
+
 - 2026-05-27: 从 C13_102 拆分，专注于类型系统（常量、类型推导、类型别名、最佳实践、代码示例）。

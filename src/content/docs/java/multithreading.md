@@ -1,11 +1,23 @@
-﻿---
-title: "多线程基础 (Multithreading Basics)"
-module: "java"
-category: "Java Basics"
-description: "线程创建、生命周期、同步机制及 Java 线程池。 | Thread creation, lifecycle, synchronization, and pools."
-author: "Anonymous"
 ---
+order: 110
+tags:
+  - 'java'
+  - 'oop'
+  - 'async'
+  - 'design-patterns'
+  - 'database'
+  - 'concurrency'
+  - 'data-structure'
+difficulty: 'advanced'
+title: '多线程基础 (Multithreading Basics)'
+module: 'java'
+category: 'Java Basics'
+description: '线程创建、生命周期、同步机制及 Java 线程池。 | Thread creation, lifecycle, synchronization, and pools.'
+author: 'Anonymous'
+---
+
 ## 目录
+
 1. [线程概念](#线程概念)
 2. [线程创建方式](#线程创建方式)
 3. [线程生命周期](#线程生命周期)
@@ -18,18 +30,27 @@ author: "Anonymous"
 10. [线程安全问题](#线程安全问题)
 11. [最佳实践](#最佳实践)
 12. [常见陷阱](#常见陷阱)
+
 ---
+
 ## 1. 线程概念 (Threads)
+
 ### 1.1 进程与线程
+
 - **进程**: 操作系统分配资源的最小单位，拥有独立的内存空间
 - **线程**: 进程内部的执行流，共享进程的内存空间，是 CPU 调度的最小单位
 - **多线程的优势**: 提高程序响应速度，充分利用 CPU 资源，简化程序结构
+
 ### 1.2 Java 中的线程
+
 - **Thread 类**: 表示线程的类
 - **Runnable 接口**: 定义线程执行体的接口
 - **Callable 接口**: 可以返回结果和抛出异常的接口
+
 ## 2. 线程创建方式 (Creation)
+
 ### 2.1 继承 Thread 类
+
 ```java
  class MyThread extends Thread {
   @Override
@@ -49,9 +70,10 @@ author: "Anonymous"
  MyThread thread2 = new MyThread();
  thread1.start();
  thread2.start();
- ```
+```
 
 ### 2.2 实现 Runnable 接口
+
 ```java
  class MyRunnable implements Runnable {
   @Override
@@ -72,9 +94,10 @@ author: "Anonymous"
  Thread thread2 = new Thread(runnable, "Thread-2");
  thread1.start();
  thread2.start();
- ```
+```
 
 ### 2.3 实现 Callable 接口
+
 ```java
  class MyCallable implements Callable<Integer> {
   @Override
@@ -98,9 +121,10 @@ author: "Anonymous"
  True} catch (Exception e) {
   e.printStackTrace();
  True}
- ```
+```
 
 ### 2.4 使用 Lambda 表达式
+
 ```java
  // 使用 Lambda 表达式创建线程
  Thread thread1 = new Thread(() -> {
@@ -114,18 +138,23 @@ author: "Anonymous"
   }
  True}, "Thread-1");
  thread1.start();
- ```
+```
 
 ## 3. 线程生命周期 (Lifecycle)
+
 ### 3.1 线程状态
+
 Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
+
 1. **新建 (NEW)**: 线程被创建但尚未启动
 2. **可运行 (RUNNABLE)**: 线程正在 JVM 中运行或等待 CPU 执行权
 3. **阻塞 (BLOCKED)**: 线程等待获取锁
 4. **等待 (WAITING)**: 线程无限期等待其他线程的通知
 5. **超时等待 (TIMED_WAITING)**: 线程在指定时间内等待
 6. **终止 (TERMINATED)**: 线程执行完成
+
 ### 3.2 状态转换图
+
 ```
  True┌─────────┐ start() ┌──────────┐ CPU调度 ┌──────────┐
  │ NEW │───────────────→│ RUNNABLE │──────────────→│ RUNNING │
@@ -156,9 +185,10 @@ Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
   ┌──────────┐
   │ BLOCKED │
   └──────────┘
- ```
+```
 
 ### 3.3 状态转换方法
+
 - **NEW → RUNNABLE**: `start()`
 - **RUNNABLE → BLOCKED**: 获取锁失败
 - **RUNNABLE → WAITING**: `wait()`, `join()`, `LockSupport.park()`
@@ -167,36 +197,46 @@ Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
 - **WAITING → RUNNABLE**: 被其他线程唤醒
 - **TIMED_WAITING → RUNNABLE**: 超时或被其他线程唤醒
 - **RUNNABLE → TERMINATED**: `run()` 方法执行完成
+
 ## 4. 线程同步 (Synchronization)
+
 ### 4.1 线程安全问题
+
 - **并发访问共享资源**时可能导致的数据不一致问题
 - **示例**: 多线程同时操作同一个计数器
+
 ### 4.2 synchronized 关键字
+
 #### 4.2.1 同步方法
+
 ```java
  public synchronized void increment() {
   count++;
  True}
- ```
+```
 
 #### 4.2.2 同步代码块
+
 ```java
  synchronized (this) {
   count++;
  True}
- ```
+```
 
 #### 4.2.3 静态同步方法
+
 ```java
  public static synchronized void increment() {
   staticCount++;
  True}
- ```
+```
 
 ### 4.3 volatile 关键字
+
 - **保证可见性**: 一个线程对变量的修改对其他线程立即可见
 - **保证有序性**: 禁止指令重排序
 - **不保证原子性**: 适合于状态标记或双重检查锁定
+
 ```java
  private volatile boolean flag = false;
  public void setFlag(boolean flag) {
@@ -205,10 +245,12 @@ Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
  public boolean getFlag() {
   return flag; // 读取最新值
  True}
- ```
+```
 
 ### 4.4 Lock 接口
+
 #### 4.4.1 ReentrantLock
+
 ```java
  private final Lock lock = new ReentrantLock();
  public void increment() {
@@ -219,11 +261,13 @@ Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
   lock.unlock(); // 必须在 finally 中释放锁
   }
  True}
- ```
+```
 
 #### 4.4.2 ReentrantReadWriteLock
+
 - **读锁**: 多个线程可以同时获取
 - **写锁**: 只能有一个线程获取
+
 ```java
  private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
  private final Lock readLock = rwLock.readLock();
@@ -244,11 +288,13 @@ Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
   writeLock.unlock();
   }
  True}
- ```
+```
 
 ### 4.5 原子类
+
 - **java.util.concurrent.atomic 包**提供的原子操作类
 - **保证原子性**，无需使用锁
+
 ```java
  private AtomicInteger count = new AtomicInteger(0);
  public void increment() {
@@ -257,24 +303,32 @@ Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
  public int getCount() {
   return count.get();
  True}
- ```
+```
 
 ## 5. 线程池 (Thread Pools)
+
 ### 5.1 线程池的优势
+
 - **减少线程创建和销毁的开销**
 - **控制最大并发数**，避免资源耗尽
 - **提高线程的可管理性**
 - **提供任务队列**，实现任务的缓冲
+
 ### 5.2 Executor 框架
+
 - **Executor**: 执行任务的接口
 - **ExecutorService**: 扩展了 Executor，提供了生命周期管理
 - **ScheduledExecutorService**: 支持定时和周期性任务
+
 ### 5.3 线程池的创建
+
 #### 5.3.1 使用 Executors 工厂方法
+
 - **newFixedThreadPool(int nThreads)**: 创建固定大小的线程池
 - **newCachedThreadPool()**: 创建可缓存的线程池
 - **newSingleThreadExecutor()**: 创建单线程的线程池
 - **newScheduledThreadPool(int corePoolSize)**: 创建支持定时和周期性任务的线程池
+
 ```java
  // 创建固定大小的线程池
  ExecutorService executorService = Executors.newFixedThreadPool(5);
@@ -292,10 +346,12 @@ Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
  True}
  // 关闭线程池
  executorService.shutdown();
- ```
+```
 
 #### 5.3.2 自定义线程池
+
 使用 `ThreadPoolExecutor` 构造函数自定义线程池参数。
+
 ```java
  ThreadPoolExecutor executor = new ThreadPoolExecutor(
   5, // 核心线程数
@@ -306,9 +362,10 @@ Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
   Executors.defaultThreadFactory(), // 线程工厂
   new ThreadPoolExecutor.AbortPolicy() // 拒绝策略
  True);
- ```
+```
 
 ### 5.4 线程池的参数
+
 - **corePoolSize**: 核心线程数
 - **maximumPoolSize**: 最大线程数
 - **keepAliveTime**: 空闲线程存活时间
@@ -316,14 +373,20 @@ Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
 - **workQueue**: 工作队列
 - **threadFactory**: 线程工厂
 - **handler**: 拒绝策略
+
 ### 5.5 拒绝策略
+
 - **AbortPolicy**: 直接抛出异常
 - **CallerRunsPolicy**: 由调用线程执行任务
 - **DiscardPolicy**: 丢弃任务
 - **DiscardOldestPolicy**: 丢弃最旧的任务
+
 ## 6. 并发工具类
+
 ### 6.1 CountDownLatch
+
 - **倒计时门闩**，等待一组线程完成
+
 ```java
  CountDownLatch latch = new CountDownLatch(3);
  for (int i = 0; i < 3; i++) {
@@ -341,10 +404,12 @@ Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
  System.out.println("Waiting for all threads to finish...");
  latch.await(); // 等待倒计时为0
  System.out.println("All threads have finished");
- ```
+```
 
 ### 6.2 CyclicBarrier
+
 - **循环栅栏**，等待一组线程达到屏障
+
 ```java
  CyclicBarrier barrier = new CyclicBarrier(3, () -> {
   System.out.println("All threads have reached the barrier");
@@ -362,10 +427,12 @@ Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
   }
   }).start();
  True}
- ```
+```
 
 ### 6.3 Semaphore
+
 - **信号量**，控制同时访问资源的线程数
+
 ```java
  Semaphore semaphore = new Semaphore(2); // 最多2个线程同时访问
  for (int i = 0; i < 5; i++) {
@@ -382,11 +449,13 @@ Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
   }
   }).start();
  True}
- ```
+```
 
 ### 6.4 Future 和 CompletableFuture
+
 - **Future**: 表示异步计算的结果
 - **CompletableFuture**: 提供了更丰富的异步操作 API
+
 ```java
  // 使用 CompletableFuture
  CompletableFuture.supplyAsync(() -> {
@@ -410,20 +479,27 @@ Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
  True} catch (InterruptedException e) {
   e.printStackTrace();
  True}
- ```
+```
 
 ## 7. 线程安全集合
+
 ### 7.1 并发集合
+
 - **ConcurrentHashMap**: 线程安全的 HashMap
 - **CopyOnWriteArrayList**: 读多写少场景的线程安全列表
 - **CopyOnWriteArraySet**: 基于 CopyOnWriteArrayList 的线程安全集合
 - **ConcurrentLinkedQueue**: 无界线程安全队列
 - **BlockingQueue**: 阻塞队列接口，如 ArrayBlockingQueue, LinkedBlockingQueue
+
 ### 7.2 同步集合
+
 - 通过 `Collections.synchronizedXXX()` 创建的线程安全集合
 - 方法级同步，性能较低
+
 ## 8. 线程间通信
+
 ### 8.1 wait() 和 notify()/notifyAll()
+
 ```java
  class SharedResource {
   private boolean available = false;
@@ -455,11 +531,13 @@ Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
   return data;
   }
  True}
- ```
+```
 
 ### 8.2 Condition
+
 - **更灵活的线程间通信方式**
 - **与 Lock 配合使用**
+
 ```java
  class BoundedBuffer {
   private final Lock lock = new ReentrantLock();
@@ -500,10 +578,12 @@ Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
   }
   }
  True}
- ```
+```
 
 ## 9. 实际应用案例
+
 ### 9.1 生产者-消费者模式
+
 ```java
  public class ProducerConsumerExample {
   public static void main(String[] args) {
@@ -536,9 +616,10 @@ Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
   new Thread(consumer).start();
   }
  True}
- ```
+```
 
 ### 9.2 线程池的使用
+
 ```java
  public class ThreadPoolExample {
   public static void main(String[] args) {
@@ -569,9 +650,10 @@ Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
   executorService.shutdown();
   }
  True}
- ```
+```
 
 ### 9.3 并行计算
+
 ```java
  public class ParallelComputationExample {
   public static void main(String[] args) {
@@ -587,15 +669,19 @@ Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
   System.out.println("Time taken: " + (endTime - startTime) + " ms");
   }
  True}
- ```
+```
 
 ## 10. 线程安全问题
+
 ### 10.1 常见的线程安全问题
+
 - **竞态条件**: 多个线程同时访问共享资源导致数据不一致
 - **死锁**: 两个或多个线程互相等待对方释放资源
 - **活锁**: 线程不断尝试但始终无法获得资源
 - **饥饿**: 某些线程长期无法获得 CPU 执行权
+
 ### 10.2 死锁示例
+
 ```java
  class DeadlockExample {
   private static final Object lock1 = new Object();
@@ -631,56 +717,78 @@ Java 线程有 6 种状态，定义在 `Thread.State` 枚举中：
   }).start();
   }
  True}
- ```
+```
 
 ### 10.3 避免死锁的方法
+
 - **按顺序获取锁**
 - **使用定时锁** (`tryLock()`)
 - **使用 Lock 替代 synchronized**
 - **减少锁的范围**
 - **使用无锁数据结构**
+
 ## 11. 最佳实践
+
 ### 11.1 线程创建与管理
+
 - **优先使用线程池**而非直接创建线程
 - **合理设置线程池参数**
 - **使用 ExecutorService 管理线程生命周期**
 - **避免创建过多线程**
+
 ### 11.2 线程同步
+
 - **优先使用 synchronized** 关键字，简单易用
 - **复杂场景使用 Lock** 接口
 - **使用原子类**处理简单的原子操作
 - **最小化同步范围**
 - **避免在同步块中执行耗时操作**
+
 ### 11.3 线程安全
+
 - **使用线程安全的集合**
 - **避免共享可变状态**
 - **使用不可变对象**
 - **合理使用 volatile**
 - **考虑使用并发工具类**
+
 ### 11.4 性能优化
+
 - **减少线程上下文切换**
 - **避免线程阻塞**
 - **使用适当的并发级别**
 - **考虑使用无锁算法**
 - **合理使用缓存**
+
 ## 12. 常见陷阱
+
 ### 12.1 线程启动错误
+
 - **调用 run() 而不是 start()**
 - **多次调用 start()**
+
 ### 12.2 线程安全陷阱
+
 - **忘记释放锁**
 - **死锁**
 - **过度同步**
 - **不正确的 volatile 使用**
+
 ### 12.3 线程池陷阱
+
 - **线程池参数设置不合理**
 - **忘记关闭线程池**
 - **任务队列过大**
 - **拒绝策略选择不当**
+
 ### 12.4 内存可见性问题
+
 - **共享变量未使用 volatile**
 - **非线程安全的单例模式**
+
 ---
+
 ### 更新日志 (Changelog)
+
 - 2026-04-05: 拆分并细化线程池与同步机制。
 - 2026-05-03: 扩展内容，添加线程创建的具体实现、线程生命周期的详细说明、线程同步的各种机制、线程池的详细使用、并发工具类、线程安全问题和实际应用案例。

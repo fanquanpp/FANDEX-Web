@@ -1,7 +1,19 @@
-﻿---
-title: "TypeScript 项目示例：类型安全的 API 客户端"
-module: "typescript"
 ---
+order: 90
+tags:
+  - 'typescript'
+  - 'project'
+  - 'oop'
+  - 'async'
+  - 'security'
+  - 'networking'
+  - 'data-structure'
+  - 'web-api'
+difficulty: 'intermediate'
+title: 'TypeScript 项目示例：类型安全的 API 客户端'
+module: 'typescript'
+---
+
 | 请求拦截器 | 请求前添加认证头、日志等 |
 | 响应拦截器 | 统一错误处理、响应转换 |
 | 错误处理 | 类型化的错误类和错误处理链 |
@@ -33,14 +45,14 @@ module: "typescript"
 
 ## 技术选型
 
-| 技术点 | 选型 | 理由 |
-|-------|------|------|
-| 泛型 | 多级泛型约束 | 请求/响应类型安全 |
-| 接口 | API 定义接口 | 契约化设计 |
-| 条件类型 | 响应类型推断 | 根据状态码推断不同响应 |
-| 映射类型 | API 方法生成 | 减少重复代码 |
-| fetch | 原生 Fetch API | 现代浏览器原生支持 |
-| AbortController | 请求取消 | 标准化的取消机制 |
+| 技术点          | 选型           | 理由                   |
+| --------------- | -------------- | ---------------------- |
+| 泛型            | 多级泛型约束   | 请求/响应类型安全      |
+| 接口            | API 定义接口   | 契约化设计             |
+| 条件类型        | 响应类型推断   | 根据状态码推断不同响应 |
+| 映射类型        | API 方法生成   | 减少重复代码           |
+| fetch           | 原生 Fetch API | 现代浏览器原生支持     |
+| AbortController | 请求取消       | 标准化的取消机制       |
 
 ## 完整代码
 
@@ -68,7 +80,7 @@ export interface PaginationParams {
 
 export interface SortParams {
   sortBy?: string;
-  sortOrder?: "asc" | "desc";
+  sortOrder?: 'asc' | 'desc';
 }
 
 export type QueryParams = Record<string, string | number | boolean | undefined>;
@@ -99,16 +111,11 @@ export interface HttpClientConfig {
 
 export type RequestInterceptor = (
   request: RequestInit & { url: string }
-) => RequestInit & { url: string } | Promise<RequestInit & { url: string }>;
+) => (RequestInit & { url: string }) | Promise<RequestInit & { url: string }>;
 
-export type ResponseInterceptor = <T>(
-  response: Response,
-  data: T
-) => T | Promise<T>;
+export type ResponseInterceptor = <T>(response: Response, data: T) => T | Promise<T>;
 
-export type ErrorInterceptor = (
-  error: ApiError
-) => ApiError | Promise<ApiError>;
+export type ErrorInterceptor = (error: ApiError) => ApiError | Promise<ApiError>;
 
 export class ApiError extends Error {
   constructor(
@@ -118,7 +125,7 @@ export class ApiError extends Error {
     public details?: unknown
   ) {
     super(message);
-    this.name = "ApiError";
+    this.name = 'ApiError';
   }
 }
 ```
@@ -127,8 +134,7 @@ export class ApiError extends Error {
 
 ```typescript
 export class HttpClient {
-  private config: Required<Pick<HttpClientConfig, "baseURL">> &
-    Omit<HttpClientConfig, "baseURL">;
+  private config: Required<Pick<HttpClientConfig, 'baseURL'>> & Omit<HttpClientConfig, 'baseURL'>;
   private requestInterceptors: RequestInterceptor[] = [];
   private responseInterceptors: ResponseInterceptor[] = [];
   private errorInterceptors: ErrorInterceptor[] = [];
@@ -179,10 +185,7 @@ export class HttpClient {
     return result;
   }
 
-  private async applyResponseInterceptors<T>(
-    response: Response,
-    data: T
-  ): Promise<T> {
+  private async applyResponseInterceptors<T>(response: Response, data: T): Promise<T> {
     let result = data;
     for (const interceptor of this.responseInterceptors) {
       result = await interceptor(response, result);
@@ -217,21 +220,21 @@ export class HttpClient {
         );
 
         if (config?.signal) {
-          config.signal.addEventListener("abort", () => controller.abort());
+          config.signal.addEventListener('abort', () => controller.abort());
         }
 
         let requestInit: RequestInit & { url: string } = {
           url: this.buildURL(path, config?.params),
           method,
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             ...this.config.defaultHeaders,
             ...config?.headers,
           },
           signal: controller.signal,
         };
 
-        if (body !== undefined && method !== "GET") {
+        if (body !== undefined && method !== 'GET') {
           requestInit.body = JSON.stringify(body);
         }
 
@@ -250,22 +253,17 @@ export class HttpClient {
           }
 
           const error = new ApiError(
-            typeof errorBody === "object" && errorBody !== null &&
-            "message" in errorBody
+            typeof errorBody === 'object' && errorBody !== null && 'message' in errorBody
               ? String((errorBody as { message: unknown }).message)
               : `HTTP ${response.status}`,
             response.status,
-            typeof errorBody === "object" && errorBody !== null &&
-            "code" in errorBody
+            typeof errorBody === 'object' && errorBody !== null && 'code' in errorBody
               ? String((errorBody as { code: unknown }).code)
               : undefined,
             errorBody
           );
 
-          if (
-            retryConfig?.retryOn?.includes(response.status) &&
-            attempt < maxAttempts
-          ) {
+          if (retryConfig?.retryOn?.includes(response.status) && attempt < maxAttempts) {
             lastError = error;
             await this.delay(retryConfig.retryDelay * attempt);
             continue;
@@ -282,9 +280,9 @@ export class HttpClient {
         }
 
         const apiError = new ApiError(
-          error instanceof Error ? error.message : "Unknown error",
+          error instanceof Error ? error.message : 'Unknown error',
           0,
-          "NETWORK_ERROR"
+          'NETWORK_ERROR'
         );
 
         if (attempt < maxAttempts) {
@@ -298,7 +296,7 @@ export class HttpClient {
     }
 
     throw await this.applyErrorInterceptors(
-      lastError ?? new ApiError("Max retries exceeded", 0, "MAX_RETRIES")
+      lastError ?? new ApiError('Max retries exceeded', 0, 'MAX_RETRIES')
     );
   }
 
@@ -307,23 +305,23 @@ export class HttpClient {
   }
 
   async get<T>(path: string, config?: RequestConfig): Promise<T> {
-    return this.request<T>("GET", path, undefined, config);
+    return this.request<T>('GET', path, undefined, config);
   }
 
   async post<T>(path: string, body?: unknown, config?: RequestConfig): Promise<T> {
-    return this.request<T>("POST", path, body, config);
+    return this.request<T>('POST', path, body, config);
   }
 
   async put<T>(path: string, body?: unknown, config?: RequestConfig): Promise<T> {
-    return this.request<T>("PUT", path, body, config);
+    return this.request<T>('PUT', path, body, config);
   }
 
   async patch<T>(path: string, body?: unknown, config?: RequestConfig): Promise<T> {
-    return this.request<T>("PATCH", path, body, config);
+    return this.request<T>('PATCH', path, body, config);
   }
 
   async delete<T = void>(path: string, config?: RequestConfig): Promise<T> {
-    return this.request<T>("DELETE", path, undefined, config);
+    return this.request<T>('DELETE', path, undefined, config);
   }
 }
 ```
@@ -336,7 +334,7 @@ export interface User {
   username: string;
   email: string;
   avatar: string;
-  role: "admin" | "user";
+  role: 'admin' | 'user';
   createdAt: string;
   updatedAt: string;
 }
@@ -345,7 +343,7 @@ export interface CreateUserRequest {
   username: string;
   email: string;
   password: string;
-  role?: "admin" | "user";
+  role?: 'admin' | 'user';
 }
 
 export interface UpdateUserRequest {
@@ -356,7 +354,7 @@ export interface UpdateUserRequest {
 
 export interface UserListParams extends PaginationParams, SortParams {
   search?: string;
-  role?: "admin" | "user";
+  role?: 'admin' | 'user';
 }
 
 export interface Article {
@@ -364,9 +362,9 @@ export interface Article {
   title: string;
   content: string;
   summary: string;
-  author: Pick<User, "id" | "username" | "avatar">;
+  author: Pick<User, 'id' | 'username' | 'avatar'>;
   tags: string[];
-  status: "draft" | "published" | "archived";
+  status: 'draft' | 'published' | 'archived';
   publishedAt: string | null;
   createdAt: string;
   updatedAt: string;
@@ -377,7 +375,7 @@ export interface CreateArticleRequest {
   content: string;
   summary?: string;
   tags?: string[];
-  status?: "draft" | "published";
+  status?: 'draft' | 'published';
 }
 
 export interface UpdateArticleRequest {
@@ -385,12 +383,12 @@ export interface UpdateArticleRequest {
   content?: string;
   summary?: string;
   tags?: string[];
-  status?: "draft" | "published" | "archived";
+  status?: 'draft' | 'published' | 'archived';
 }
 
 export interface ArticleListParams extends PaginationParams, SortParams {
   search?: string;
-  status?: "draft" | "published" | "archived";
+  status?: 'draft' | 'published' | 'archived';
   tag?: string;
   authorId?: number;
 }
@@ -399,7 +397,7 @@ export class UserAPI {
   constructor(private client: HttpClient) {}
 
   list(params?: UserListParams): Promise<ApiResponse<PaginatedResponse<User>>> {
-    return this.client.get<ApiResponse<PaginatedResponse<User>>>("/users", {
+    return this.client.get<ApiResponse<PaginatedResponse<User>>>('/users', {
       params: params as QueryParams,
     });
   }
@@ -409,7 +407,7 @@ export class UserAPI {
   }
 
   create(data: CreateUserRequest): Promise<ApiResponse<User>> {
-    return this.client.post<ApiResponse<User>>("/users", data);
+    return this.client.post<ApiResponse<User>>('/users', data);
   }
 
   update(id: number, data: UpdateUserRequest): Promise<ApiResponse<User>> {
@@ -424,13 +422,10 @@ export class UserAPI {
 export class ArticleAPI {
   constructor(private client: HttpClient) {}
 
-  list(
-    params?: ArticleListParams
-  ): Promise<ApiResponse<PaginatedResponse<Article>>> {
-    return this.client.get<ApiResponse<PaginatedResponse<Article>>>(
-      "/articles",
-      { params: params as QueryParams }
-    );
+  list(params?: ArticleListParams): Promise<ApiResponse<PaginatedResponse<Article>>> {
+    return this.client.get<ApiResponse<PaginatedResponse<Article>>>('/articles', {
+      params: params as QueryParams,
+    });
   }
 
   getById(id: number): Promise<ApiResponse<Article>> {
@@ -438,7 +433,7 @@ export class ArticleAPI {
   }
 
   create(data: CreateArticleRequest): Promise<ApiResponse<Article>> {
-    return this.client.post<ApiResponse<Article>>("/articles", data);
+    return this.client.post<ApiResponse<Article>>('/articles', data);
   }
 
   update(id: number, data: UpdateArticleRequest): Promise<ApiResponse<Article>> {
@@ -468,11 +463,9 @@ export class ApiClient {
   static create(baseURL: string, authToken?: string): ApiClient {
     return new ApiClient({
       baseURL,
-      defaultHeaders: authToken
-        ? { Authorization: `Bearer ${authToken}` }
-        : undefined,
+      defaultHeaders: authToken ? { Authorization: `Bearer ${authToken}` } : undefined,
       onRequest: (request) => {
-        const token = localStorage.getItem("auth_token");
+        const token = localStorage.getItem('auth_token');
         if (token) {
           request.headers = {
             ...request.headers,
@@ -482,7 +475,7 @@ export class ApiClient {
         return request;
       },
       onResponse: (_response, data) => {
-        if (data && typeof data === "object" && "code" in data) {
+        if (data && typeof data === 'object' && 'code' in data) {
           const apiResponse = data as ApiResponse;
           if (apiResponse.code !== 0 && apiResponse.code !== 200) {
             console.warn(`API warning: ${apiResponse.message}`);
@@ -492,8 +485,8 @@ export class ApiClient {
       },
       onError: (error) => {
         if (error.status === 401) {
-          localStorage.removeItem("auth_token");
-          window.location.href = "/login";
+          localStorage.removeItem('auth_token');
+          window.location.href = '/login';
         }
         return error;
       },
@@ -501,11 +494,11 @@ export class ApiClient {
   }
 
   setAuthToken(token: string): void {
-    localStorage.setItem("auth_token", token);
+    localStorage.setItem('auth_token', token);
   }
 
   clearAuthToken(): void {
-    localStorage.removeItem("auth_token");
+    localStorage.removeItem('auth_token');
   }
 
   addRequestInterceptor(interceptor: RequestInterceptor): void {
@@ -521,41 +514,41 @@ export class ApiClient {
 ### 使用示例
 
 ```typescript
-const api = ApiClient.create("https://api.example.com/v1");
+const api = ApiClient.create('https://api.example.com/v1');
 
 async function demo() {
   try {
     const usersResult = await api.users.list({
       page: 1,
       pageSize: 10,
-      role: "admin",
+      role: 'admin',
     });
-    console.log("Users:", usersResult.data.items);
+    console.log('Users:', usersResult.data.items);
 
     const newUser = await api.users.create({
-      username: "john",
-      email: "john@example.com",
-      password: "secure123",
+      username: 'john',
+      email: 'john@example.com',
+      password: 'secure123',
     });
-    console.log("Created user:", newUser.data);
+    console.log('Created user:', newUser.data);
 
     const articlesResult = await api.articles.list({
       page: 1,
-      status: "published",
-      tag: "typescript",
+      status: 'published',
+      tag: 'typescript',
     });
-    console.log("Articles:", articlesResult.data.items);
+    console.log('Articles:', articlesResult.data.items);
 
     const controller = new AbortController();
     setTimeout(() => controller.abort(), 5000);
 
     const article = await api.articles.getById(42, { signal: controller.signal });
-    console.log("Article:", article.data);
+    console.log('Article:', article.data);
   } catch (error) {
     if (error instanceof ApiError) {
       console.error(`API Error [${error.status}]: ${error.message}`);
-      if (error.code === "NETWORK_ERROR") {
-        console.error("Network error, please check your connection.");
+      if (error.code === 'NETWORK_ERROR') {
+        console.error('Network error, please check your connection.');
       }
     }
   }
@@ -624,7 +617,11 @@ interface CreateUserRequest {
   email: string;
   password: string;
 }
-interface User { id: number; username: string; email: string; }
+interface User {
+  id: number;
+  username: string;
+  email: string;
+}
 ```
 
 ### 泛型 API 类
@@ -633,7 +630,7 @@ interface User { id: number; username: string; email: string; }
 class UserAPI {
   constructor(private client: HttpClient) {}
   list(params?: UserListParams): Promise<ApiResponse<PaginatedResponse<User>>> {
-    return this.client.get("/users", { params });
+    return this.client.get('/users', { params });
   }
 }
 ```
@@ -641,15 +638,20 @@ class UserAPI {
 ### 拦截器类型
 
 ```typescript
-type RequestInterceptor = (req: RequestInit & { url: string })
-  => RequestInit & { url: string } | Promise<RequestInit & { url: string }>;
+type RequestInterceptor = (
+  req: RequestInit & { url: string }
+) => (RequestInit & { url: string }) | Promise<RequestInit & { url: string }>;
 ```
 
 ### 错误类
 
 ```typescript
 class ApiError extends Error {
-  constructor(message: string, public status: number, public code?: string) {
+  constructor(
+    message: string,
+    public status: number,
+    public code?: string
+  ) {
     super(message);
   }
 }

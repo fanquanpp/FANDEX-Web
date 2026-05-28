@@ -1,9 +1,17 @@
 ---
-title: "编译原理"
-module: "cs-fundamentals"
-category: "Computer Science / Compiler"
-description: "编译原理核心：词法分析、语法分析、语义分析、中间代码生成、优化、目标代码生成。"
-author: "fanquanpp"
+title: '编译原理'
+module: 'cs-fundamentals'
+category: 'Computer Science / Compiler'
+description: '编译原理核心：词法分析、语法分析、语义分析、中间代码生成、优化、目标代码生成。'
+author: 'fanquanpp'
+order: 20
+tags:
+  - 'cs-fundamentals'
+  - 'computer-science---compiler'
+  - 'performance'
+  - 'memory'
+  - 'data-structure'
+difficulty: 'intermediate'
 ---
 
 ## 目录
@@ -836,53 +844,53 @@ AST:
 
 ### 8.1 编译阶段速查
 
-| 阶段 | 输入 | 输出 | 核心算法 |
-|------|------|------|----------|
-| 词法分析 | 字符流 | Token流 | DFA/正则表达式 |
-| 语法分析 | Token流 | AST | LL/LR分析 |
-| 语义分析 | AST | 标注AST | 类型检查/作用域 |
-| IR生成 | 标注AST | IR(TAC/SSA) | 语法制导翻译 |
-| 优化 | IR | 优化IR | 数据流分析 |
-| 代码生成 | 优化IR | 目标代码 | 寄存器分配/指令选择 |
+| 阶段     | 输入    | 输出        | 核心算法            |
+| -------- | ------- | ----------- | ------------------- |
+| 词法分析 | 字符流  | Token流     | DFA/正则表达式      |
+| 语法分析 | Token流 | AST         | LL/LR分析           |
+| 语义分析 | AST     | 标注AST     | 类型检查/作用域     |
+| IR生成   | 标注AST | IR(TAC/SSA) | 语法制导翻译        |
+| 优化     | IR      | 优化IR      | 数据流分析          |
+| 代码生成 | 优化IR  | 目标代码    | 寄存器分配/指令选择 |
 
 ### 8.2 文法层次速查 (Chomsky层次)
 
-| 类型 | 文法 | 识别器 | 应用 |
-|------|------|--------|------|
-| Type-3 | 正则文法 | DFA/NFA | 词法分析 |
-| Type-2 | 上下文无关 | PDA | 语法分析 |
-| Type-1 | 上下文有关 | LBA | 语义分析 |
-| Type-0 | 无限制 | 图灵机 | 通用计算 |
+| 类型   | 文法       | 识别器  | 应用     |
+| ------ | ---------- | ------- | -------- |
+| Type-3 | 正则文法   | DFA/NFA | 词法分析 |
+| Type-2 | 上下文无关 | PDA     | 语法分析 |
+| Type-1 | 上下文有关 | LBA     | 语义分析 |
+| Type-0 | 无限制     | 图灵机  | 通用计算 |
 
 ### 8.3 分析方法速查
 
-| 方法 | 方向 | 向前看 | 能力 | 工具 |
-|------|------|--------|------|------|
-| LL(1) | 自顶向下 | 1 | 较弱 | ANTLR |
-| LL(*) | 自顶向下 | 无限 | 中等 | ANTLR4 |
-| SLR(1) | 自底向上 | 1 | 弱 | - |
-| LALR(1) | 自底向上 | 1 | 中 | Yacc/Bison |
-| LR(1) | 自底向上 | 1 | 强 | - |
-| GLR | 自底向上 | - | 最强 | Elkhound |
+| 方法    | 方向     | 向前看 | 能力 | 工具       |
+| ------- | -------- | ------ | ---- | ---------- |
+| LL(1)   | 自顶向下 | 1      | 较弱 | ANTLR      |
+| LL(\*)  | 自顶向下 | 无限   | 中等 | ANTLR4     |
+| SLR(1)  | 自底向上 | 1      | 弱   | -          |
+| LALR(1) | 自底向上 | 1      | 中   | Yacc/Bison |
+| LR(1)   | 自底向上 | 1      | 强   | -          |
+| GLR     | 自底向上 | -      | 最强 | Elkhound   |
 
 ### 8.4 优化技术速查
 
-| 优化 | 作用 | 阶段 |
-|------|------|------|
-| 常量折叠 | 编译期计算 | 局部 |
-| 常量传播 | 传播已知值 | 全局 |
-| 死代码消除 | 删除无用代码 | 全局 |
-| CSE | 消除重复计算 | 局部/全局 |
-| LICM | 循环不变量外提 | 循环 |
-| 强度削弱 | 替换昂贵操作 | 循环 |
-| 内联 | 消除调用开销 | 过程间 |
-| 尾调用优化 | 复用栈帧 | 过程间 |
+| 优化       | 作用           | 阶段      |
+| ---------- | -------------- | --------- |
+| 常量折叠   | 编译期计算     | 局部      |
+| 常量传播   | 传播已知值     | 全局      |
+| 死代码消除 | 删除无用代码   | 全局      |
+| CSE        | 消除重复计算   | 局部/全局 |
+| LICM       | 循环不变量外提 | 循环      |
+| 强度削弱   | 替换昂贵操作   | 循环      |
+| 内联       | 消除调用开销   | 过程间    |
+| 尾调用优化 | 复用栈帧       | 过程间    |
 
 ---
 
 ## 延伸阅读
 
-- *Compilers: Principles, Techniques, and Tools* -- Aho, Lam, Sethi, Ullman (龙书)
-- *Modern Compiler Implementation in C/Java/ML* -- Andrew W. Appel
-- *Engineering a Compiler* -- Cooper & Torczon
-- *Advanced Compiler Design and Implementation* -- Steven Muchnick
+- _Compilers: Principles, Techniques, and Tools_ -- Aho, Lam, Sethi, Ullman (龙书)
+- _Modern Compiler Implementation in C/Java/ML_ -- Andrew W. Appel
+- _Engineering a Compiler_ -- Cooper & Torczon
+- _Advanced Compiler Design and Implementation_ -- Steven Muchnick

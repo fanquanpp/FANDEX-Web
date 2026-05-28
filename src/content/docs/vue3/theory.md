@@ -1,25 +1,33 @@
-﻿---
-title: "Vue3 理论知识点"
-module: "vue3"
+---
+order: 110
+tags:
+  - 'vue3'
+  - 'theory'
+  - 'reactive'
+  - 'web-api'
+difficulty: 'intermediate'
+title: 'Vue3 理论知识点'
+module: 'vue3'
 ---
 
-  Object.defineProperty(obj, key, {
-    enumerable: true,
-    configurable: true,
-    get() {
-      if (Dep.target) {
-        dep.depend();
-      }
-      return val;
-    },
-    set(newVal) {
-      if (newVal === val) return;
-      val = newVal;
-      dep.notify();
-    }
-  });
+Object.defineProperty(obj, key, {
+enumerable: true,
+configurable: true,
+get() {
+if (Dep.target) {
+dep.depend();
 }
-```
+return val;
+},
+set(newVal) {
+if (newVal === val) return;
+val = newVal;
+dep.notify();
+}
+});
+}
+
+````
 
 ### defineProperty 的局限性
 
@@ -75,19 +83,19 @@ function reactive(target) {
   reactiveMap.set(target, proxy);
   return proxy;
 }
-```
+````
 
 ### Proxy 的优势
 
-| 特性 | defineProperty | Proxy |
-|------|---------------|-------|
-| 属性添加 | 需要手动处理 | 自动检测 |
-| 属性删除 | 需要手动处理 | 自动检测 |
-| 数组操作 | 需要重写方法 | 原生支持 |
-| 深层代理 | 初始化时递归 | 懒代理，访问时才递归 |
-| 代理粒度 | 属性级别 | 对象级别 |
-| Map/Set | 不支持 | 支持 |
-| 性能 | 初始化慢，更新快 | 初始化快，访问稍慢 |
+| 特性     | defineProperty   | Proxy                |
+| -------- | ---------------- | -------------------- |
+| 属性添加 | 需要手动处理     | 自动检测             |
+| 属性删除 | 需要手动处理     | 自动检测             |
+| 数组操作 | 需要重写方法     | 原生支持             |
+| 深层代理 | 初始化时递归     | 懒代理，访问时才递归 |
+| 代理粒度 | 属性级别         | 对象级别             |
+| Map/Set  | 不支持           | 支持                 |
+| 性能     | 初始化慢，更新快 | 初始化快，访问稍慢   |
 
 ### Proxy 的局限
 
@@ -194,13 +202,13 @@ Vue3 的 diff 算法分为五个步骤：
 
 ### 与 React Diff 的对比
 
-| 特性 | Vue3 | React |
-|------|------|-------|
-| 算法 | 双端比较 + LIS | 单端比较 |
-| 节点移动 | 最小化移动（LIS） | 按顺序移动 |
-| Key 的作用 | 复用和移动判断 | 复用判断 |
-| 时间复杂度 | O(n) 平均 | O(n) |
-| 移动次数 | 最少 | 可能多于最优解 |
+| 特性       | Vue3              | React          |
+| ---------- | ----------------- | -------------- |
+| 算法       | 双端比较 + LIS    | 单端比较       |
+| 节点移动   | 最小化移动（LIS） | 按顺序移动     |
+| Key 的作用 | 复用和移动判断    | 复用判断       |
+| 时间复杂度 | O(n) 平均         | O(n)           |
+| 移动次数   | 最少              | 可能多于最优解 |
 
 ---
 
@@ -222,15 +230,13 @@ Vue3 的 diff 算法分为五个步骤：
 编译输出：
 
 ```javascript
-const _hoisted_1 = /*#__PURE__*/ _createElementVNode("p", null, "Static text", -1);
+const _hoisted_1 = /*#__PURE__*/ _createElementVNode('p', null, 'Static text', -1);
 
 function render() {
-  return (
-    _createElementBlock("div", null, [
-      _hoisted_1,  // 静态节点复用
-      _createElementVNode("p", null, _toDisplayString(_ctx.dynamic), 1)
-    ])
-  );
+  return _createElementBlock('div', null, [
+    _hoisted_1, // 静态节点复用
+    _createElementVNode('p', null, _toDisplayString(_ctx.dynamic), 1),
+  ]);
 }
 ```
 
@@ -238,20 +244,20 @@ function render() {
 
 编译器为动态节点添加标记，diff 时只检查标记的部分：
 
-| 标记值 | 含义 | 检查内容 |
-|-------|------|---------|
-| 1 | TEXT | 仅文本内容 |
-| 2 | CLASS | 仅 class 绑定 |
-| 4 | STYLE | 仅 style 绑定 |
-| 8 | PROPS | 仅动态属性 |
-| 16 | FULL_PROPS | 有动态 key 的属性 |
-| 32 | HYDRATE_EVENTS | 事件监听器 |
-| 64 | STABLE_FRAGMENT | 子节点顺序不变的片段 |
-| 128 | KEYED_FRAGMENT | 带 key 的片段 |
-| 256 | UNKEYED_FRAGMENT | 不带 key 的片段 |
+| 标记值 | 含义             | 检查内容             |
+| ------ | ---------------- | -------------------- |
+| 1      | TEXT             | 仅文本内容           |
+| 2      | CLASS            | 仅 class 绑定        |
+| 4      | STYLE            | 仅 style 绑定        |
+| 8      | PROPS            | 仅动态属性           |
+| 16     | FULL_PROPS       | 有动态 key 的属性    |
+| 32     | HYDRATE_EVENTS   | 事件监听器           |
+| 64     | STABLE_FRAGMENT  | 子节点顺序不变的片段 |
+| 128    | KEYED_FRAGMENT   | 带 key 的片段        |
+| 256    | UNKEYED_FRAGMENT | 不带 key 的片段      |
 
 ```javascript
-_createElementVNode("p", { class: _ctx.activeClass }, null, 2 /* CLASS */)
+_createElementVNode('p', { class: _ctx.activeClass }, null, 2 /* CLASS */);
 // diff 时只检查 class 属性
 ```
 
@@ -290,37 +296,40 @@ diff 时只需遍历 Block 的 dynamicNodes 数组，跳过所有静态节点。
 
 ```javascript
 export function render(_ctx) {
-  return (
-    _createElementBlock("button", {
-      onClick: _cache[0] || (_cache[0] = ($event) => (_ctx.count++))
-    }, _toDisplayString(_ctx.count), 1 /* TEXT */)
+  return _createElementBlock(
+    'button',
+    {
+      onClick: _cache[0] || (_cache[0] = ($event) => _ctx.count++),
+    },
+    _toDisplayString(_ctx.count),
+    1 /* TEXT */
   );
 }
 ```
 
 ### Vue2 vs Vue3 编译优化对比
 
-| 优化点 | Vue2 | Vue3 |
-|-------|------|------|
-| 静态节点 | 每次渲染重新创建 | 静态提升，只创建一次 |
-| diff 范围 | 全量对比 | 仅对比动态节点（Patch Flag） |
-| Block 结构 | 无 | 嵌套 Block 扁平化收集动态节点 |
-| 事件缓存 | 每次创建新函数 | 自动缓存 |
-| 文本插值 | 总是更新 | 仅 TEXT 标记时更新 |
+| 优化点     | Vue2             | Vue3                          |
+| ---------- | ---------------- | ----------------------------- |
+| 静态节点   | 每次渲染重新创建 | 静态提升，只创建一次          |
+| diff 范围  | 全量对比         | 仅对比动态节点（Patch Flag）  |
+| Block 结构 | 无               | 嵌套 Block 扁平化收集动态节点 |
+| 事件缓存   | 每次创建新函数   | 自动缓存                      |
+| 文本插值   | 总是更新         | 仅 TEXT 标记时更新            |
 
 ---
 
 ## 理论速查表
 
-| 概念 | 核心要点 | 关键细节 |
-|------|---------|---------|
-| Proxy 响应式 | 代理整个对象 | 自动检测属性增删，懒递归深层代理 |
-| defineProperty | 劫持单个属性 | 无法检测属性增删，需递归初始化 |
-| ref | 原始类型响应式 | class accessor + track/trigger |
-| Diff 算法 | 双端比较 + LIS | 最长递增子序列最小化移动 |
-| 静态提升 | 不变节点提升到渲染函数外 | 避免重复创建 VNode |
-| Patch Flag | 动态节点标记 | diff 时只检查标记部分 |
-| Block Tree | 按结构指令分割 Block | 扁平化收集动态节点 |
-| 事件缓存 | 自动缓存内联事件 | 避免子组件不必要更新 |
-| effect | 响应式副作用 | track 收集依赖，trigger 触发更新 |
-| computed | 懒计算 + 缓存 | 依赖变化时标记 dirty，访问时重算 |
+| 概念           | 核心要点                 | 关键细节                         |
+| -------------- | ------------------------ | -------------------------------- |
+| Proxy 响应式   | 代理整个对象             | 自动检测属性增删，懒递归深层代理 |
+| defineProperty | 劫持单个属性             | 无法检测属性增删，需递归初始化   |
+| ref            | 原始类型响应式           | class accessor + track/trigger   |
+| Diff 算法      | 双端比较 + LIS           | 最长递增子序列最小化移动         |
+| 静态提升       | 不变节点提升到渲染函数外 | 避免重复创建 VNode               |
+| Patch Flag     | 动态节点标记             | diff 时只检查标记部分            |
+| Block Tree     | 按结构指令分割 Block     | 扁平化收集动态节点               |
+| 事件缓存       | 自动缓存内联事件         | 避免子组件不必要更新             |
+| effect         | 响应式副作用             | track 收集依赖，trigger 触发更新 |
+| computed       | 懒计算 + 缓存            | 依赖变化时标记 dirty，访问时重算 |

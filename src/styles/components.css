@@ -1,4 +1,8 @@
-html, body { height: 100%; overflow: hidden; }
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
 
 .app-layout {
   display: grid;
@@ -30,27 +34,16 @@ html, body { height: 100%; overflow: hidden; }
   height: var(--nav-height);
 }
 
-.read-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 2px;
-  background: var(--color-primary);
-  z-index: 101;
-  width: var(--read-progress-bar);
-  transition: width 0.1s linear;
-  pointer-events: none;
-}
-
 .app-sidebar {
   position: sticky;
   top: var(--nav-height);
-  height: calc(100vh - var(--nav-height));
+  height: calc(100dvh - var(--nav-height));
   background: var(--color-bg-sidebar);
   border-right: 1px solid var(--color-border);
   overflow-y: auto;
   padding: var(--spacing-md);
   z-index: 90;
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (max-width: 768px) {
@@ -59,33 +52,27 @@ html, body { height: 100%; overflow: hidden; }
     top: 0;
     left: 0;
     height: 100vh;
+    height: 100dvh;
     width: var(--sidebar-width);
+    max-width: 80vw;
     transform: translateX(-100%);
     transition: transform 0.25s ease;
     z-index: 200;
-    padding-top: calc(var(--nav-height) + var(--spacing-sm));
+    padding-top: var(--spacing-lg);
+    box-shadow: none;
   }
 
-  .app-sidebar.sidebar-open {
+  body.sidebar-open .app-sidebar {
     transform: translateX(0);
-  }
-}
-
-.sidebar-backdrop {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .sidebar-backdrop {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 199;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
   }
 
-  .sidebar-backdrop.backdrop-visible {
-    display: block;
+  [data-theme='dark'] body.sidebar-open .app-sidebar {
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+  }
+
+  body.sidebar-open {
+    overflow: hidden;
   }
 }
 
@@ -93,11 +80,19 @@ html, body { height: 100%; overflow: hidden; }
   overflow-y: auto;
   min-height: 0;
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (max-width: 768px) {
   .app-main {
     padding-bottom: 64px;
+  }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .app-main {
+    height: calc(100dvh - var(--nav-height));
+    overflow-y: auto;
   }
 }
 
@@ -190,38 +185,6 @@ html, body { height: 100%; overflow: hidden; }
   .toc {
     margin-bottom: var(--spacing-md);
   }
-
-  .toc-title {
-    cursor: pointer;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-  }
-
-  .toc-title::after {
-    content: '';
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 6px solid var(--color-text-secondary);
-    transition: transform var(--transition-fast);
-  }
-
-  .toc.toc-open .toc-title::after {
-    transform: rotate(180deg);
-  }
-
-  .toc-list {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-  }
-
-  .toc.toc-open .toc-list {
-    max-height: 400px;
-  }
 }
 
 .toc-link {
@@ -233,8 +196,13 @@ html, body { height: 100%; overflow: hidden; }
   transition: color var(--transition-fast);
 }
 
-.toc-link:hover { color: var(--color-primary); }
-.toc-link.active { color: var(--color-primary); font-weight: 500; }
+.toc-link:hover {
+  color: var(--color-primary);
+}
+.toc-link.active {
+  color: var(--color-primary);
+  font-weight: 500;
+}
 
 .sidebar-file-link {
   display: flex;
@@ -286,7 +254,10 @@ html, body { height: 100%; overflow: hidden; }
   cursor: pointer;
   z-index: 80;
   opacity: 0.85;
-  transition: opacity var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
+  transition:
+    opacity var(--transition-fast),
+    background var(--transition-fast),
+    color var(--transition-fast);
 }
 
 .back-to-top:hover {
@@ -328,7 +299,9 @@ html, body { height: 100%; overflow: hidden; }
   background: var(--color-bg);
   padding: var(--spacing-md);
   cursor: pointer;
-  transition: background var(--transition-fast), transform var(--transition-fast);
+  transition:
+    background var(--transition-fast),
+    transform var(--transition-fast);
   text-decoration: none;
   display: flex;
   flex-direction: column;
@@ -379,7 +352,9 @@ html, body { height: 100%; overflow: hidden; }
   color: var(--color-text-secondary);
   text-decoration: none;
   max-width: 45%;
-  transition: border-color var(--transition-fast), color var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    color var(--transition-fast);
 }
 
 .nav-btn:hover {

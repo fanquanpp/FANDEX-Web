@@ -1,9 +1,17 @@
 ---
-title: "计算机网络"
-module: "cs-fundamentals"
-category: "Computer Science / Networking"
-description: "计算机网络核心原理：协议栈、TCP/IP、路由、应用层协议、网络安全。"
-author: "fanquanpp"
+title: '计算机网络'
+module: 'cs-fundamentals'
+category: 'Computer Science / Networking'
+description: '计算机网络核心原理：协议栈、TCP/IP、路由、应用层协议、网络安全。'
+author: 'fanquanpp'
+order: 60
+tags:
+  - 'cs-fundamentals'
+  - 'computer-science---networking'
+  - 'database'
+  - 'networking'
+  - 'memory'
+difficulty: 'intermediate'
 ---
 
 ## 目录
@@ -442,7 +450,7 @@ TCP四次挥手:
   TIME_WAIT                       CLOSED
   (等待2MSL)                         |
      |                               |
-  CLOSED                             
+  CLOSED
 
 为什么需要TIME_WAIT?
   1. 确保最后一个ACK能到达对方 (若丢失, 对方重发FIN)
@@ -753,58 +761,58 @@ NAT (Network Address Translation):
 
 ### 7.1 协议栈速查
 
-| 层次 | 协议 | 端口 | 功能 |
-|------|------|------|------|
-| 应用 | HTTP | 80 | 网页 |
-| 应用 | HTTPS | 443 | 安全网页 |
-| 应用 | DNS | 53 | 域名解析 |
-| 应用 | SMTP | 25 | 邮件发送 |
-| 应用 | SSH | 22 | 远程登录 |
-| 传输 | TCP | - | 可靠传输 |
-| 传输 | UDP | - | 快速传输 |
-| 网络 | IP | - | 寻址路由 |
-| 网络 | ICMP | - | 差错报告 |
-| 网络 | ARP | - | 地址解析 |
-| 链路 | Ethernet | - | 局域网 |
-| 链路 | WiFi | - | 无线局域网 |
+| 层次 | 协议     | 端口 | 功能       |
+| ---- | -------- | ---- | ---------- |
+| 应用 | HTTP     | 80   | 网页       |
+| 应用 | HTTPS    | 443  | 安全网页   |
+| 应用 | DNS      | 53   | 域名解析   |
+| 应用 | SMTP     | 25   | 邮件发送   |
+| 应用 | SSH      | 22   | 远程登录   |
+| 传输 | TCP      | -    | 可靠传输   |
+| 传输 | UDP      | -    | 快速传输   |
+| 网络 | IP       | -    | 寻址路由   |
+| 网络 | ICMP     | -    | 差错报告   |
+| 网络 | ARP      | -    | 地址解析   |
+| 链路 | Ethernet | -    | 局域网     |
+| 链路 | WiFi     | -    | 无线局域网 |
 
 ### 7.2 TCP状态速查
 
-| 状态 | 含义 | 转移 |
-|------|------|------|
-| LISTEN | 等待连接 | 收到SYN -> SYN_RCVD |
-| SYN_SENT | 已发SYN | 收到SYN+ACK -> ESTABLISHED |
-| SYN_RCVD | 已收SYN并发SYN+ACK | 收到ACK -> ESTABLISHED |
-| ESTABLISHED | 连接建立 | 发FIN -> FIN_WAIT_1 |
-| FIN_WAIT_1 | 已发FIN | 收ACK -> FIN_WAIT_2 |
-| FIN_WAIT_2 | 等待对方FIN | 收FIN -> TIME_WAIT |
-| CLOSE_WAIT | 收到FIN | 发FIN -> LAST_ACK |
-| TIME_WAIT | 等待2MSL | 超时 -> CLOSED |
+| 状态        | 含义               | 转移                       |
+| ----------- | ------------------ | -------------------------- |
+| LISTEN      | 等待连接           | 收到SYN -> SYN_RCVD        |
+| SYN_SENT    | 已发SYN            | 收到SYN+ACK -> ESTABLISHED |
+| SYN_RCVD    | 已收SYN并发SYN+ACK | 收到ACK -> ESTABLISHED     |
+| ESTABLISHED | 连接建立           | 发FIN -> FIN_WAIT_1        |
+| FIN_WAIT_1  | 已发FIN            | 收ACK -> FIN_WAIT_2        |
+| FIN_WAIT_2  | 等待对方FIN        | 收FIN -> TIME_WAIT         |
+| CLOSE_WAIT  | 收到FIN            | 发FIN -> LAST_ACK          |
+| TIME_WAIT   | 等待2MSL           | 超时 -> CLOSED             |
 
 ### 7.3 拥塞控制速查
 
-| 阶段 | 触发条件 | cwnd变化 |
-|------|----------|----------|
-| 慢启动 | cwnd < ssthresh | 指数增长 |
-| 拥塞避免 | cwnd >= ssthresh | 线性增长 |
-| 快速重传 | 3个重复ACK | ssthresh=cwnd/2 |
-| 快速恢复 | 快速重传后 | cwnd=ssthresh+3 |
-| 超时重传 | RTO超时 | ssthresh=cwnd/2, cwnd=1 |
+| 阶段     | 触发条件         | cwnd变化                |
+| -------- | ---------------- | ----------------------- |
+| 慢启动   | cwnd < ssthresh  | 指数增长                |
+| 拥塞避免 | cwnd >= ssthresh | 线性增长                |
+| 快速重传 | 3个重复ACK       | ssthresh=cwnd/2         |
+| 快速恢复 | 快速重传后       | cwnd=ssthresh+3         |
+| 超时重传 | RTO超时          | ssthresh=cwnd/2, cwnd=1 |
 
 ### 7.4 HTTP状态码速查
 
-| 码段 | 含义 | 常见码 |
-|------|------|--------|
-| 2xx | 成功 | 200 OK, 201 Created, 204 No Content |
-| 3xx | 重定向 | 301 永久, 302 临时, 304 未修改 |
-| 4xx | 客户端错误 | 400 Bad Request, 401/403/404 |
-| 5xx | 服务端错误 | 500/502/503/504 |
+| 码段 | 含义       | 常见码                              |
+| ---- | ---------- | ----------------------------------- |
+| 2xx  | 成功       | 200 OK, 201 Created, 204 No Content |
+| 3xx  | 重定向     | 301 永久, 302 临时, 304 未修改      |
+| 4xx  | 客户端错误 | 400 Bad Request, 401/403/404        |
+| 5xx  | 服务端错误 | 500/502/503/504                     |
 
 ---
 
 ## 延伸阅读
 
-- *Computer Networking: A Top-Down Approach* -- Kurose & Ross
-- *TCP/IP Illustrated, Volume 1* -- W. Richard Stevens
-- *Unix Network Programming* -- W. Richard Stevens
-- *High Performance Browser Networking* -- Ilya Grigorik
+- _Computer Networking: A Top-Down Approach_ -- Kurose & Ross
+- _TCP/IP Illustrated, Volume 1_ -- W. Richard Stevens
+- _Unix Network Programming_ -- W. Richard Stevens
+- _High Performance Browser Networking_ -- Ilya Grigorik

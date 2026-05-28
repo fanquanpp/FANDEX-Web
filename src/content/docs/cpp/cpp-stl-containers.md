@@ -1,18 +1,28 @@
-﻿---
-title: "C++ STL 容器与迭代器 (C++ STL Containers & Iterators)"
-module: "cpp"
-category: "C++ Basics"
-description: "STL 序列容器、关联容器、无序容器、容器适配器及迭代器。 | STL sequence containers, associative containers, unordered containers, container adapters, and iterators."
-author: "Anonymous"
 ---
+order: 70
+tags:
+  - 'cpp'
+  - 'data-structure'
+difficulty: 'intermediate'
+title: 'C++ STL 容器与迭代器 (C++ STL Containers & Iterators)'
+module: 'cpp'
+category: 'C++ Basics'
+description: 'STL 序列容器、关联容器、无序容器、容器适配器及迭代器。 | STL sequence containers, associative containers, unordered containers, container adapters, and iterators.'
+author: 'Anonymous'
+---
+
 ## 目录
+
 1. [序列容器](#序列容器)
 2. [关联容器](#关联容器)
 3. [无序容器](#无序容器)
 4. [容器适配器](#容器适配器)
 5. [迭代器](#迭代器)
+
 ---
+
 ## 1. 序列容器
+
 序列容器按顺序存储元素，支持随机访问或顺序访问。
 | 容器 | 描述 | 特点 | 示例 |
 | :--- | :--- | :--- | :--- |
@@ -21,7 +31,9 @@ author: "Anonymous"
 | `std::deque` | 双端队列 | 两端插入/删除快，随机访问快 | `std::deque<int> d = {1, 2, 3};` |
 | `std::array` | 固定大小数组 (C++11) | 栈上分配，随机访问快 | `std::array<int, 3> a = {1, 2, 3};` |
 | `std::forward_list` | 单向链表 (C++11) | 空间开销小，仅支持前向遍历 | `std::forward_list<int> fl = {1, 2, 3};` |
+
 ### 1.1 std::vector
+
 ```cpp
  #include <vector>
  #include <iostream>
@@ -61,9 +73,10 @@ author: "Anonymous"
   std::cout << "Size after clear: " << v.size() << std::endl;
   return 0;
  True}
- ```
+```
 
 ### 1.2 std::list
+
 ```cpp
  #include <list>
  #include <iostream>
@@ -102,9 +115,10 @@ author: "Anonymous"
   std::cout << std::endl;
   return 0;
  True}
- ```
+```
 
 ### 1.3 std::array
+
 ```cpp
  #include <array>
  #include <iostream>
@@ -134,9 +148,10 @@ author: "Anonymous"
   std::cout << std::endl;
   return 0;
  True}
- ```
+```
 
 ## 2. 关联容器
+
 关联容器按键值对存储元素，自动排序。
 | 容器 | 描述 | 特点 | 示例 |
 | :--- | :--- | :--- | :--- |
@@ -144,7 +159,9 @@ author: "Anonymous"
 | `std::map` | 有序键值对 | 自动按键排序 | `std::map<std::string, int> m = {{"a", 1}, {"b", 2}};` |
 | `std::multiset` | 有序多重集合 | 自动排序，允许重复元素 | `std::multiset<int> ms = {1, 2, 1, 3};` |
 | `std::multimap` | 有序多重映射 | 自动按键排序，允许重复键 | `std::multimap<std::string, int> mm = {{"a", 1}, {"a", 2}};` |
+
 ### 2.1 std::map
+
 ```cpp
  #include <map>
  #include <iostream>
@@ -183,9 +200,10 @@ author: "Anonymous"
   // m.clear();
   return 0;
  True}
- ```
+```
 
 ### 2.2 std::multimap
+
 ```cpp
  #include <map>
  #include <iostream>
@@ -213,9 +231,10 @@ author: "Anonymous"
   std::cout << "\nNumber of Bob's entries: " << mm.count("Bob") << std::endl;
   return 0;
  True}
- ```
+```
 
 ## 3. 无序容器 (C++11)
+
 无序容器使用哈希表实现，提供平均常数时间的查找、插入和删除操作。
 | 容器 | 描述 | 特点 | 示例 |
 | :--- | :--- | :--- | :--- |
@@ -223,7 +242,9 @@ author: "Anonymous"
 | `std::unordered_map` | 无序键值对 | 哈希表实现，无序 | `std::unordered_map<std::string, int> um = {{"a", 1}, {"b", 2}};` |
 | `std::unordered_multiset` | 无序多重集合 | 哈希表实现，允许重复元素 | `std::unordered_multiset<int> ums = {1, 2, 1, 3};` |
 | `std::unordered_multimap` | 无序多重映射 | 哈希表实现，允许重复键 | `std::unordered_multimap<std::string, int> umm = {{"a", 1}, {"a", 2}};` |
+
 ### 3.1 std::unordered_map
+
 ```cpp
  #include <unordered_map>
  #include <iostream>
@@ -254,16 +275,19 @@ author: "Anonymous"
   um.erase("Charlie");
   return 0;
  True}
- ```
+```
 
 ## 4. 容器适配器
+
 容器适配器是对现有容器的封装，提供特定的接口。
 | 容器 | 描述 | 底层容器 | 示例 |
 | :--- | :--- | :--- | :--- |
 | `std::stack` | 栈（后进先出） | `deque` (默认) | `std::stack<int> st; st.push(1);` |
 | `std::queue` | 队列（先进先出） | `deque` (默认) | `std::queue<int> q; q.push(1);` |
 | `std::priority_queue` | 优先队列（最大堆） | `vector` (默认) | `std::priority_queue<int> pq; pq.push(1);` |
+
 ### 4.1 std::stack
+
 ```cpp
  #include <stack>
  #include <iostream>
@@ -290,9 +314,10 @@ author: "Anonymous"
   std::cout << "Size after clear: " << st.size() << std::endl; // 0
   return 0;
  True}
- ```
+```
 
 ### 4.2 std::queue
+
 ```cpp
  #include <queue>
  #include <iostream>
@@ -316,9 +341,10 @@ author: "Anonymous"
   std::cout << "Empty: " << (q.empty() ? "yes" : "no") << std::endl; // no
   return 0;
  True}
- ```
+```
 
 ### 4.3 std::priority_queue
+
 ```cpp
  #include <queue>
  #include <vector>
@@ -366,19 +392,24 @@ author: "Anonymous"
   // 输出：Bob (30), Alice (25), Charlie (20)
   return 0;
  True}
- ```
+```
 
 ## 5. 迭代器 (Iterators)
+
 迭代器是连接容器与算法的桥梁，提供了访问容器元素的统一接口。
+
 ### 5.1 迭代器类型
-| 迭代器类型 | 描述 | 支持的操作 |
-| :--- | :--- | :--- |
-| **输入迭代器** | 只读，单向移动 | `++`, `*`, `==`, `!=` |
-| **输出迭代器** | 只写，单向移动 | `++`, `*` |
-| **前向迭代器** | 可读可写，单向移动 | `++`, `*`, `==`, `!=` |
-| **双向迭代器** | 可读可写，双向移动 | `++`, `--`, `*`, `==`, `!=` |
+
+| 迭代器类型         | 描述               | 支持的操作                                                   |
+| :----------------- | :----------------- | :----------------------------------------------------------- |
+| **输入迭代器**     | 只读，单向移动     | `++`, `*`, `==`, `!=`                                        |
+| **输出迭代器**     | 只写，单向移动     | `++`, `*`                                                    |
+| **前向迭代器**     | 可读可写，单向移动 | `++`, `*`, `==`, `!=`                                        |
+| **双向迭代器**     | 可读可写，双向移动 | `++`, `--`, `*`, `==`, `!=`                                  |
 | **随机访问迭代器** | 可读可写，随机访问 | `++`, `--`, `+`, `-`, `[]`, `==`, `!=`, `<`, `>`, `<=`, `>=` |
+
 ### 5.2 迭代器使用示例
+
 ```cpp
  #include <vector>
  #include <list>
@@ -430,8 +461,10 @@ author: "Anonymous"
   std::cout << std::endl;
   return 0;
  True}
- ```
+```
 
 ---
+
 ### 更新日志 (Changelog)
+
 - 2026-05-27: 从 C13_105 拆分，专注于 STL 容器与迭代器。

@@ -1,9 +1,18 @@
-﻿---
-title: "数据清洗 -- 缺失值、异常值与数据类型转换"
-module: "data-analysis"
-category: "Data Science / Data Cleaning"
-description: "数据清洗实战技巧：缺失值处理策略、异常值检测与修正、数据类型转换与格式统一"
-author: "fanquanpp"
+---
+order: 10
+tags:
+  - 'data-analysis'
+  - 'design-patterns'
+  - 'database'
+  - 'functional'
+  - 'devops'
+  - 'math'
+difficulty: 'intermediate'
+title: '数据清洗 -- 缺失值、异常值与数据类型转换'
+module: 'data-analysis'
+category: 'Data Science / Data Cleaning'
+description: '数据清洗实战技巧：缺失值处理策略、异常值检测与修正、数据类型转换与格式统一'
+author: 'fanquanpp'
 ---
 
 ## 目录
@@ -30,6 +39,7 @@ author: "fanquanpp"
 "Garbage In, Garbage Out" -- 如果输入数据有问题，再先进的分析方法也产出不了有价值的结论。数据清洗通常占整个分析项目 60%-80% 的时间，但这一步不可跳过。
 
 数据质量问题的常见来源：
+
 - 人工录入错误（拼写、格式不一致）
 - 系统迁移导致的数据丢失或格式变化
 - 传感器故障导致的异常值
@@ -40,14 +50,14 @@ author: "fanquanpp"
 
 ### 1.2 数据清洗的核心任务
 
-| 任务 | 典型问题 | 工具 |
-|------|----------|------|
-| 缺失值处理 | NaN、空字符串、占位符 | `fillna`、`dropna`、`interpolate` |
-| 异常值处理 | 极端值、不合理值 | IQR、Z-Score、Winsorize |
-| 类型转换 | 字符串数字、日期格式 | `to_numeric`、`to_datetime`、`astype` |
-| 字符串清洗 | 空格、大小写、特殊字符 | `str.strip`、`str.replace`、正则 |
-| 重复数据处理 | 完全重复、部分重复 | `duplicated`、`drop_duplicates` |
-| 格式统一 | 编码不一致、单位不统一 | 自定义映射函数 |
+| 任务         | 典型问题               | 工具                                  |
+| ------------ | ---------------------- | ------------------------------------- |
+| 缺失值处理   | NaN、空字符串、占位符  | `fillna`、`dropna`、`interpolate`     |
+| 异常值处理   | 极端值、不合理值       | IQR、Z-Score、Winsorize               |
+| 类型转换     | 字符串数字、日期格式   | `to_numeric`、`to_datetime`、`astype` |
+| 字符串清洗   | 空格、大小写、特殊字符 | `str.strip`、`str.replace`、正则      |
+| 重复数据处理 | 完全重复、部分重复     | `duplicated`、`drop_duplicates`       |
+| 格式统一     | 编码不一致、单位不统一 | 自定义映射函数                        |
 
 ---
 
@@ -79,6 +89,7 @@ print(f"\nBasic stats:\n{df.describe()}")
 ```
 
 **输出说明**：
+
 - `shape` 了解数据规模
 - `dtypes` 检查类型是否正确（如 age 应为整数而非浮点数）
 - `isna().sum()` 统计每列缺失数
@@ -112,11 +123,11 @@ print(quality_report(df))
 
 ### 3.1 缺失机制分类
 
-| 机制 | 缩写 | 含义 | 处理策略 |
-|------|------|------|----------|
-| 完全随机缺失 | MCAR | 缺失与任何变量无关 | 删除或简单填充 |
-| 随机缺失 | MAR | 缺失与已观测变量有关 | 多重插补、模型填充 |
-| 非随机缺失 | MNAR | 缺失与未观测值本身有关 | 需要领域知识处理 |
+| 机制         | 缩写 | 含义                   | 处理策略           |
+| ------------ | ---- | ---------------------- | ------------------ |
+| 完全随机缺失 | MCAR | 缺失与任何变量无关     | 删除或简单填充     |
+| 随机缺失     | MAR  | 缺失与已观测变量有关   | 多重插补、模型填充 |
+| 非随机缺失   | MNAR | 缺失与未观测值本身有关 | 需要领域知识处理   |
 
 > **为什么区分缺失机制很重要？** MCAR 下删除缺失行不会引入偏差。MAR 下删除可能引入偏差，应使用填充。MNAR 下任何统计方法都无法完全修正偏差，需要领域知识辅助。
 
@@ -146,6 +157,7 @@ print(f"\n保留至少2个非缺失值的行:\n{threshold}")
 ```
 
 **输出说明**：
+
 - `dropna()` 删除任何含缺失值的行
 - `subset` 指定只根据某列判断
 - `how='all'` 只删除全部缺失的行
@@ -178,6 +190,7 @@ print(f"\n后向填充:\n{df['value_backward']}")
 ```
 
 **输出说明**：
+
 - 数值列常用中位数填充（比均值更抗异常值）
 - 分类列用众数或 "Unknown" 填充
 - 时间序列用前向/后向填充（`ffill`/`bfill`）
@@ -202,6 +215,7 @@ print(df['value', 'linear', 'quadratic', 'time']('value', 'linear', 'quadratic',
 ```
 
 **输出说明**：
+
 - `linear`：线性插值，适合变化均匀的数据
 - `quadratic`：二次插值，适合有曲率的数据
 - `time`：时间感知插值，考虑时间间隔
@@ -237,7 +251,7 @@ print(f"异常值:\n{outliers}")
 
 **输出说明**：IQR 法则将超出 [Q1-1.5*IQR, Q3+1.5*IQR] 范围的值标记为异常。这是箱线图中异常值检测的标准方法。
 
-> **为什么用 1.5 倍 IQR？** 对于正态分布，1.5*IQR 大约对应 +/- 2.7 个标准差，覆盖约 99.3% 的数据。这个倍数是经验值，可以根据业务需求调整（如 3 倍 IQR 只标记极端异常值）。
+> **为什么用 1.5 倍 IQR？** 对于正态分布，1.5\*IQR 大约对应 +/- 2.7 个标准差，覆盖约 99.3% 的数据。这个倍数是经验值，可以根据业务需求调整（如 3 倍 IQR 只标记极端异常值）。
 
 ### 4.2 Z-Score 法
 
@@ -293,13 +307,13 @@ plt.show()
 
 ### 5.1 处理策略选择
 
-| 策略 | 适用场景 | 优点 | 缺点 |
-|------|----------|------|------|
-| 删除 | 确认数据错误 | 简单直接 | 损失信息 |
-| 截断（Winsorize） | 保留数据但限制影响 | 保留样本量 | 改变分布形态 |
-| 替换 | 有合理替代值 | 保留样本量 | 引入主观判断 |
-| 分箱 | 将极端值归入边界组 | 保留排序信息 | 损失精度 |
-| 保留 | 异常值本身有意义 | 不丢失信息 | 影响统计量 |
+| 策略              | 适用场景           | 优点         | 缺点         |
+| ----------------- | ------------------ | ------------ | ------------ |
+| 删除              | 确认数据错误       | 简单直接     | 损失信息     |
+| 截断（Winsorize） | 保留数据但限制影响 | 保留样本量   | 改变分布形态 |
+| 替换              | 有合理替代值       | 保留样本量   | 引入主观判断 |
+| 分箱              | 将极端值归入边界组 | 保留排序信息 | 损失精度     |
+| 保留              | 异常值本身有意义   | 不丢失信息   | 影响统计量   |
 
 ### 5.2 Winsorize 截断
 
@@ -362,6 +376,7 @@ print(f"\n浮点转整数:\n{df['quantity', 'quantity_int']('quantity', 'quantit
 ```
 
 **输出说明**：
+
 - `errors='coerce'` 将无法转换的值设为 NaN（而非报错）
 - `format='mixed'` 自动识别多种日期格式
 - `astype('category')` 将低基数字符串转为分类类型
@@ -414,6 +429,7 @@ print(f"\n电话号码只保留数字:\n{df['phone', 'phone_clean']('phone', 'ph
 ```
 
 **输出说明**：
+
 - `strip()` 去除首尾空白
 - `title()` 首字母大写
 - `replace(r'\D', '', regex=True)` 移除所有非数字字符
@@ -440,6 +456,7 @@ print(f"\n是否包含邮箱:\n{df['email', 'has_email']('email', 'has_email')}"
 ```
 
 **输出说明**：
+
 - `str.extract(r'pattern')` 提取第一个匹配组
 - `str.contains(r'pattern')` 检查是否包含匹配
 - `str.match(r'pattern')` 检查是否从开头匹配
@@ -469,6 +486,7 @@ print(f"\n去重(保留最后出现):\n{df_dedup}")
 ```
 
 **输出说明**：
+
 - `duplicated()` 标记完全重复行（所有列都相同）
 - `subset` 指定判断重复的关键列
 - `keep='first'`（默认）保留第一条，`keep='last'` 保留最后一条，`keep=False` 删除所有重复
@@ -621,6 +639,7 @@ print(f'\nCleaned data:\n{df_clean}')
 ```
 
 **输出说明**：Pipeline 模式将清洗步骤封装为独立函数，按顺序执行。每个步骤打印处理前后的变化，便于追踪。这种模式的好处是：
+
 - 每个步骤职责单一，易于测试
 - 可以灵活增删步骤
 - 处理日志便于审计
@@ -631,32 +650,32 @@ print(f'\nCleaned data:\n{df_clean}')
 
 ### 11.1 缺失值处理速查
 
-| 场景 | 方法 | 代码 |
-|------|------|------|
-| 缺失率 <5% | 删除 | `df.dropna(subset=[col])` |
-| 数值列 | 中位数填充 | `df[col].fillna(df[col].median())` |
-| 分类列 | 众数/指定值 | `df[col].fillna(df[col].mode()[0])` |
-| 时间序列 | 前向填充 | `df[col].fillna(method='ffill')` |
-| 趋势数据 | 插值 | `df[col].interpolate(method='linear')` |
+| 场景       | 方法        | 代码                                   |
+| ---------- | ----------- | -------------------------------------- |
+| 缺失率 <5% | 删除        | `df.dropna(subset=[col])`              |
+| 数值列     | 中位数填充  | `df[col].fillna(df[col].median())`     |
+| 分类列     | 众数/指定值 | `df[col].fillna(df[col].mode()[0])`    |
+| 时间序列   | 前向填充    | `df[col].fillna(method='ffill')`       |
+| 趋势数据   | 插值        | `df[col].interpolate(method='linear')` |
 
 ### 11.2 异常值检测速查
 
-| 方法 | 适用场景 | 代码 |
-|------|----------|------|
-| IQR | 通用 | `Q1-1.5*IQR ~ Q3+1.5*IQR` |
-| Z-Score | 正态分布 | `abs(zscore) > 3` |
-| 箱线图 | 可视化 | `sns.boxplot()` |
+| 方法     | 适用场景   | 代码                         |
+| -------- | ---------- | ---------------------------- |
+| IQR      | 通用       | `Q1-1.5*IQR ~ Q3+1.5*IQR`    |
+| Z-Score  | 正态分布   | `abs(zscore) > 3`            |
+| 箱线图   | 可视化     | `sns.boxplot()`              |
 | 领域规则 | 有明确范围 | `df[col].clip(lower, upper)` |
 
 ### 11.3 类型转换速查
 
-| 转换 | 代码 |
-|------|------|
-| 字符串转数值 | `pd.to_numeric(s, errors='coerce')` |
+| 转换         | 代码                                 |
+| ------------ | ------------------------------------ |
+| 字符串转数值 | `pd.to_numeric(s, errors='coerce')`  |
 | 字符串转日期 | `pd.to_datetime(s, errors='coerce')` |
-| 对象转分类 | `s.astype('category')` |
-| 浮点转整数 | `s.astype('int32')` |
-| 布尔统一 | `s.map({'yes':True, 'no':False})` |
+| 对象转分类   | `s.astype('category')`               |
+| 浮点转整数   | `s.astype('int32')`                  |
+| 布尔统一     | `s.map({'yes':True, 'no':False})`    |
 
 ---
 

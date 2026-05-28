@@ -1,7 +1,16 @@
 ---
-title: "MySQL 项目示例：电商数据库设计"
-module: "mysql"
+title: 'MySQL 项目示例：电商数据库设计'
+module: 'mysql'
+order: 110
+tags:
+  - 'mysql'
+  - 'project'
+  - 'async'
+  - 'database'
+  - 'data-structure'
+difficulty: 'intermediate'
 ---
+
 | 商品管理 | SPU/SKU、分类、品牌、属性 |
 | 购物车 | 加购、修改数量、删除 |
 | 订单系统 | 下单、支付、发货、收货、退款 |

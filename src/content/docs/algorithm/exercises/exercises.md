@@ -1,7 +1,14 @@
-﻿---
-title: "算法练习题"
-module: "algorithm"
 ---
+order: 20
+tags:
+  - 'algorithm'
+  - 'exercises'
+  - 'git-workflow'
+difficulty: 'intermediate'
+title: '算法练习题'
+module: 'algorithm'
+---
+
 <summary>查看答案</summary>
 **答案**: B
 **解析**: 快速排序平均情况下每次划分将数组近似对半分，递归深度 O(log n)，每层比较 O(n)，总复杂度 O(n log n)。最坏情况（如已排序数组且选首元素为 pivot）每次划分极不均匀，退化为 O(n²)。可通过随机化 pivot 或三数取中避免最坏情况。

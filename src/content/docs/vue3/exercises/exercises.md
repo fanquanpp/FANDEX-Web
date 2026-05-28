@@ -1,7 +1,17 @@
-﻿---
-title: "Vue3 练习题"
-module: "vue3"
 ---
+order: 50
+tags:
+  - 'vue3'
+  - 'exercises'
+  - 'async'
+  - 'functional'
+  - 'reactive'
+  - 'web-api'
+difficulty: 'intermediate'
+title: 'Vue3 练习题'
+module: 'vue3'
+---
+
 <summary>查看答案</summary>
 **答案**: C
 **解析**: `ref` 可用于任何类型（包括对象和数组），A 错。`reactive` 返回的代理对象重新赋值会丢失响应式，B 错。模板中 `ref` 自动解包，C 正确。两者性能差异可忽略，D 错。
@@ -16,6 +26,7 @@ A. `ref(0)` 调用时
 B. `computed()` 调用时
 C. 首次读取 `doubled.value` 时
 D. `count.value` 变化时
+
 <details>
 <summary>查看答案</summary>
 **答案**: C

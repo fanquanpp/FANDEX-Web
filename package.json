@@ -6,9 +6,10 @@
   "description": "Comprehensive tech learning notebook - refactored v4",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
-    "prepare": "husky"
+    "prepare": "husky",
+    "qa": "node scripts/qa-check.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.2.0",
@@ -22,7 +23,13 @@
     "glob": "^13.0.6",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.5",
+    "pagefind": "^1.5.2",
     "prettier": "^3.8.3",
     "typescript": "^5.7.0"
+  },
+  "lint-staged": {
+    "*.{astro,ts,js,mjs,css,json,md}": [
+      "prettier --write"
+    ]
   }
 }

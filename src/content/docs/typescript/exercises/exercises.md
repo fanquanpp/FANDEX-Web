@@ -1,7 +1,14 @@
-﻿---
-title: "TypeScript 练习题"
-module: "typescript"
 ---
+order: 50
+tags:
+  - 'typescript'
+  - 'exercises'
+  - 'oop'
+difficulty: 'intermediate'
+title: 'TypeScript 练习题'
+module: 'typescript'
+---
+
 <summary>查看答案</summary>
 **答案**: D
 **解析**: A 是条件类型，合法；B 是接口交叉类型写法（需用 `type` 语法 `type I = IA & IB`，但作为类型表达式合法）；C 交叉后 `name` 类型为 `string & number` 即 `never`，语法合法但实际不可赋值。三者语法层面均合法。
@@ -25,6 +32,7 @@ A. `{ name: string; email: string }`
 B. `{ name: string; age: number; email: string }`
 C. `{ age: number }`
 D. 编译错误
+
 <details>
 <summary>查看答案</summary>
 **答案**: A
@@ -40,6 +48,7 @@ A. 能，因为 42 是 string
 B. 不能，因为 x 可能是 number
 C. 能，因为 TypeScript 会自动收窄
 D. 不能，因为 y 没有初始化
+
 <details>
 <summary>查看答案</summary>
 **答案**: B
@@ -68,6 +77,7 @@ D. 装饰器不能修改类的行为
  ```
 
 **输出**: `emitter.on('click', (e) => ...)` 中 `e` 自动推断为 `{ x: number; y: number }`
+
 <details>
 <summary>查看参考答案</summary>
 ```typescript

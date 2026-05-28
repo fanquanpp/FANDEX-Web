@@ -1,0 +1,113 @@
+---
+import Layout from '@/components/Layout.astro'
+import SEO from '@/components/SEO.astro'
+import { getCollection } from 'astro:content'
+
+const allDocs = await getCollection('docs')
+const tagMap = new Map<string, number>()
+
+for (const doc of allDocs) {
+  for (const tag of doc.data.tags || []) {
+    tagMap.set(tag, (tagMap.get(tag) || 0) + 1)
+  }
+}
+
+const sortedTags = Array.from(tagMap.entries()).sort((a, b) => b[1] - a[1])
+const base = import.meta.env.BASE_URL
+---
+
+<Layout title="标签索引">
+  <SEO slot="head" title="标签索引" description="按知识标签跨模块检索文档" />
+
+  <div class="tags-page">
+    <div class="tags-header">
+      <h1 class="tags-title">标签索引</h1>
+      <p class="tags-subtitle">跨模块知识检索 | {sortedTags.length} 个标签 | {allDocs.length} 篇文档</p>
+    </div>
+
+    <div class="tag-cloud">
+      {sortedTags.map(([tag, count]) => (
+        <a href={`${base}tags/${tag}`} class="tag-item" data-count={count}>
+          <span class="tag-name">{tag}</span>
+          <span class="tag-count">{count}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<style>
+.tags-page {
+  padding: var(--spacing-lg) var(--spacing-xl);
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+
+.tags-header {
+  margin-bottom: var(--spacing-xl);
+}
+
+.tags-title {
+  font-family: var(--font-display);
+  font-size: 1.4em;
+  margin: 0 0 var(--spacing-xs);
+}
+
+.tags-subtitle {
+  font-size: 0.88em;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.tag-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid var(--color-border-light);
+  background: var(--color-bg-card);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: 0.85em;
+  transition: all var(--transition-fast);
+}
+
+.tag-item:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-bg-hover);
+}
+
+.tag-name {
+  font-family: var(--font-display);
+}
+
+.tag-count {
+  font-size: 0.8em;
+  color: var(--color-text-tertiary);
+  background: var(--color-bg);
+  padding: 1px 6px;
+  border: 1px solid var(--color-border-light);
+}
+
+@media (max-width: 768px) {
+  .tags-page {
+    padding: var(--spacing-md);
+  }
+
+  .tag-cloud {
+    gap: 6px;
+  }
+
+  .tag-item {
+    padding: 4px 10px;
+    font-size: 0.8em;
+  }
+}
+</style>

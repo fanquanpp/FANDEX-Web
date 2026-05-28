@@ -1,11 +1,17 @@
-﻿---
-title: "控制流 (Control Flow)"
-module: "c"
-category: "C Basics"
-description: "条件判断、循环结构及其控制语句。 | Conditional branches, loop structures, and control statements."
-author: "Anonymous"
 ---
+order: 30
+tags:
+  - 'c'
+difficulty: 'intermediate'
+title: '控制流 (Control Flow)'
+module: 'c'
+category: 'C Basics'
+description: '条件判断、循环结构及其控制语句。 | Conditional branches, loop structures, and control statements.'
+author: 'Anonymous'
+---
+
 ## 目录
+
 1. [条件判断](#条件判断)
 2. [循环结构](#循环结构)
 3. [循环控制语句](#循环控制语句)
@@ -13,11 +19,17 @@ author: "Anonymous"
 5. [常见问题与解决方案](#常见问题与解决方案)
 6. [控制流的高级应用](#控制流的高级应用)
 7. [代码优化技巧](#代码优化技巧)
+
 ---
+
 ## 1. 条件判断 (Selection)
+
 ### 1.1 `if-else` 结构
+
 #### 1.1.1 基本用法
+
 `if-else` 结构是最基本的条件控制语句，用于根据条件执行不同的代码块。
+
 ```c
  #include <stdio.h>
  int main() {
@@ -33,9 +45,10 @@ author: "Anonymous"
   }
   return 0;
  True}
- ```
+```
 
 #### 1.1.2 嵌套 `if-else`
+
 ```c
  #include <stdio.h>
  int main() {
@@ -52,9 +65,10 @@ author: "Anonymous"
   }
   return 0;
  True}
- ```
+```
 
 #### 1.1.3 条件表达式的简写
+
 ```c
  #include <stdio.h>
  int main() {
@@ -66,11 +80,14 @@ author: "Anonymous"
   printf("Result: %s\n", (a > b) ? "a is larger" : "b is larger");
   return 0;
  True}
- ```
+```
 
 ### 1.2 `switch-case` 结构
+
 #### 1.2.1 基本用法
+
 `switch-case` 结构用于多分支选择，比嵌套的 `if-else` 更清晰。
+
 ```c
  #include <stdio.h>
  int main() {
@@ -96,9 +113,10 @@ author: "Anonymous"
   }
   return 0;
  True}
- ```
+```
 
 #### 1.2.2 整数类型的 `switch`
+
 ```c
  #include <stdio.h>
  int main() {
@@ -128,10 +146,12 @@ author: "Anonymous"
   }
   return 0;
  True}
- ```
+```
 
 #### 1.2.3 `switch` 中的穿透现象
+
 当 `case` 语句后没有 `break` 时，会发生穿透现象，继续执行下一个 `case`。
+
 ```c
  #include <stdio.h>
  int main() {
@@ -165,12 +185,16 @@ author: "Anonymous"
   }
   return 0;
  True}
- ```
+```
 
 ## 2. 循环结构 (Iteration)
+
 ### 2.1 `for` 循环
+
 #### 2.1.1 基本用法
+
 `for` 循环常用于已知循环次数的场景，结构清晰。
+
 ```c
  #include <stdio.h>
  int main() {
@@ -188,9 +212,10 @@ author: "Anonymous"
   printf("\n");
   return 0;
  True}
- ```
+```
 
 #### 2.1.2 嵌套 `for` 循环
+
 ```c
  #include <stdio.h>
  int main() {
@@ -203,9 +228,10 @@ author: "Anonymous"
   }
   return 0;
  True}
- ```
+```
 
 #### 2.1.3 特殊的 `for` 循环用法
+
 ```c
  #include <stdio.h>
  int main() {
@@ -219,11 +245,14 @@ author: "Anonymous"
   // }
   return 0;
  True}
- ```
+```
 
 ### 2.2 `while` 循环
+
 #### 2.2.1 基本用法
+
 `while` 循环适用于循环次数不确定的场景，只要条件为真就继续执行。
+
 ```c
  #include <stdio.h>
  int main() {
@@ -235,9 +264,10 @@ author: "Anonymous"
   printf("\n");
   return 0;
  True}
- ```
+```
 
 #### 2.2.2 输入验证
+
 ```c
  #include <stdio.h>
  int main() {
@@ -254,9 +284,10 @@ author: "Anonymous"
   printf("Your age is %d\n", age);
   return 0;
  True}
- ```
+```
 
 #### 2.2.3 无限循环
+
 ```c
  #include <stdio.h>
  int main() {
@@ -271,11 +302,14 @@ author: "Anonymous"
   }
   return 0;
  True}
- ```
+```
 
 ### 2.3 `do-while` 循环
+
 #### 2.3.1 基本用法
+
 `do-while` 循环保证循环体至少执行一次，适用于需要先执行后判断的场景。
+
 ```c
  #include <stdio.h>
  int main() {
@@ -286,9 +320,10 @@ author: "Anonymous"
   } while (i < 5);
   return 0;
  True}
- ```
+```
 
 #### 2.3.2 菜单驱动程序
+
 ```c
  #include <stdio.h>
  int main() {
@@ -316,12 +351,16 @@ author: "Anonymous"
   } while (choice != 3);
   return 0;
  True}
- ```
+```
 
 ## 3. 循环控制语句 (Control Statements)
+
 ### 3.1 `break` 语句
+
 #### 3.1.1 基本用法
+
 `break` 语句用于立即退出当前循环，不再执行循环体中剩余的语句。
+
 ```c
  #include <stdio.h>
  int main() {
@@ -334,9 +373,10 @@ author: "Anonymous"
   printf("\nLoop exited\n");
   return 0;
  True}
- ```
+```
 
 #### 3.1.2 跳出嵌套循环
+
 ```c
  #include <stdio.h>
  int main() {
@@ -352,11 +392,14 @@ author: "Anonymous"
   printf("Exited nested loops\n");
   return 0;
  True}
- ```
+```
 
 ### 3.2 `continue` 语句
+
 #### 3.2.1 基本用法
+
 `continue` 语句用于跳过本次循环的剩余部分，直接进入下一次迭代。
+
 ```c
  #include <stdio.h>
  int main() {
@@ -369,9 +412,10 @@ author: "Anonymous"
   printf("\n");
   return 0;
  True}
- ```
+```
 
 #### 3.2.2 跳过特定条件
+
 ```c
  #include <stdio.h>
  int main() {
@@ -386,11 +430,14 @@ author: "Anonymous"
   }
   return 0;
  True}
- ```
+```
 
 ### 3.3 `goto` 语句
+
 #### 3.3.1 基本用法
+
 `goto` 语句用于无条件跳转到指定的标签位置，一般不推荐使用，但在某些场景下可以简化代码。
+
 ```c
  #include <stdio.h>
  int main() {
@@ -404,9 +451,10 @@ author: "Anonymous"
   printf("Loop completed\n");
   return 0;
  True}
- ```
+```
 
 #### 3.3.2 跳过多层循环
+
 ```c
  #include <stdio.h>
  int main() {
@@ -424,9 +472,10 @@ author: "Anonymous"
   printf("Exited all loops\n");
   return 0;
  True}
- ```
+```
 
 #### 3.3.3 错误处理
+
 ```c
  #include <stdio.h>
  #include <stdlib.h>
@@ -443,28 +492,36 @@ author: "Anonymous"
   printf("Program completed\n");
   return 0;
  True}
- ```
+```
 
 ## 4. 控制流的最佳实践
+
 ### 4.1 代码风格建议
+
 - **缩进一致**: 使用 4 空格或 1 制表符的缩进
 - **大括号使用**: 始终使用大括号包围循环体和条件块
 - **命名规范**: 使用有意义的变量名
 - **注释**: 为复杂的条件和循环添加注释
 - **换行**: 在适当的地方换行，保持代码可读性
+
 ### 4.2 性能优化建议
+
 - **循环不变量外提**: 将循环中不变的计算移到循环外
 - **减少循环内操作**: 尽量减少循环体内的计算量
 - **选择合适的循环类型**: 根据具体场景选择 `for`、`while` 或 `do-while`
 - **避免死循环**: 确保循环条件最终能为假
 - **使用 `break` 和 `continue`**: 合理使用这些语句提高循环效率
+
 ### 4.3 常见错误避免
+
 - **无限循环**: 确保循环条件有终止的可能
 - **嵌套过深**: 避免超过 3 层的嵌套，考虑重构为函数
 - **条件判断错误**: 注意运算符优先级和逻辑关系
 - **边界条件**: 处理好循环的边界情况
 - **变量作用域**: 合理控制变量的作用域
+
 ### 4.4 最佳实践示例
+
 ```c
  #include <stdio.h>
  // 计算斐波那契数列
@@ -507,12 +564,15 @@ author: "Anonymous"
   }
   return 0;
  True}
- ```
+```
 
 ## 5. 常见问题与解决方案
+
 ### 5.1 无限循环
+
 **问题**: 循环条件永远为真，导致程序陷入无限循环
 **解决方案**: 确保循环条件最终能为假，或使用 `break` 语句退出循环
+
 ```c
  // 错误示例
  while (1) {
@@ -527,11 +587,13 @@ author: "Anonymous"
   break;
   }
  True}
- ```
+```
 
 ### 5.2 循环条件错误
+
 **问题**: 循环条件设置错误，导致循环执行次数不符合预期
 **解决方案**: 仔细检查循环条件，确保逻辑正确
+
 ```c
  // 错误示例：应该是 i < 10，而不是 i <= 10
  for (int i = 0; i <= 10; i++) {
@@ -541,11 +603,13 @@ author: "Anonymous"
  for (int i = 0; i < 10; i++) {
   printf("%d ", i); // 打印 0-9，共 10 个数
  True}
- ```
+```
 
 ### 5.3 边界条件处理
+
 **问题**: 循环的边界条件处理不当，导致数组越界或其他错误
 **解决方案**: 确保循环变量在有效范围内
+
 ```c
  // 错误示例：可能导致数组越界
  int arr[5] = {1, 2, 3, 4, 5};
@@ -557,11 +621,13 @@ author: "Anonymous"
  for (int i = 0; i < 5; i++) {
   printf("%d ", arr[i]);
  True}
- ```
+```
 
 ### 5.4 `switch` 语句缺少 `break`
+
 **问题**: `case` 语句后缺少 `break`，导致穿透现象
 **解决方案**: 为每个 `case` 语句添加 `break`，除非需要穿透
+
 ```c
  // 错误示例：缺少 break
  switch (grade) {
@@ -580,11 +646,13 @@ author: "Anonymous"
   printf("Good!\n");
   break;
  True}
- ```
+```
 
 ### 5.5 嵌套过深
+
 **问题**: 循环和条件嵌套过深，代码可读性差
 **解决方案**: 将嵌套的代码重构为函数
+
 ```c
  // 嵌套过深的示例
  for (int i = 0; i < 10; i++) {
@@ -610,11 +678,14 @@ author: "Anonymous"
   process_even(i);
   }
  True}
- ```
+```
 
 ## 6. 控制流的高级应用
+
 ### 6.1 循环的替代方案
+
 #### 6.1.1 使用 `goto` 实现循环
+
 ```c
  #include <stdio.h>
  int main() {
@@ -628,9 +699,10 @@ author: "Anonymous"
   printf("\n");
   return 0;
  True}
- ```
+```
 
 #### 6.1.2 使用递归代替循环
+
 ```c
  #include <stdio.h>
  void print_numbers(int n) {
@@ -645,10 +717,12 @@ author: "Anonymous"
   printf("\n");
   return 0;
  True}
- ```
+```
 
 ### 6.2 复杂条件的处理
+
 #### 6.2.1 使用逻辑运算符组合条件
+
 ```c
  #include <stdio.h>
  int main() {
@@ -667,9 +741,10 @@ author: "Anonymous"
   }
   return 0;
  True}
- ```
+```
 
 #### 6.2.2 使用布尔函数简化条件
+
 ```c
  #include <stdio.h>
  int is_even(int n) {
@@ -685,9 +760,10 @@ author: "Anonymous"
   }
   return 0;
  True}
- ```
+```
 
 ### 6.3 状态机的实现
+
 ```c
  #include <stdio.h>
  int main() {
@@ -726,11 +802,14 @@ author: "Anonymous"
   }
   return 0;
  True}
- ```
+```
 
 ## 7. 代码优化技巧
+
 ### 7.1 循环优化
+
 #### 7.1.1 减少循环内计算
+
 ```c
  // 优化前
  for (int i = 0; i < strlen(s); i++) {
@@ -741,9 +820,10 @@ author: "Anonymous"
  for (int i = 0; i < len; i++) {
   // 只计算一次 strlen(s)
  True}
- ```
+```
 
 #### 7.1.2 使用递增而非递减
+
 ```c
  // 优化前
  for (int i = n; i >= 0; i--) {
@@ -753,9 +833,10 @@ author: "Anonymous"
  for (int i = 0; i <= n; i++) {
   // 循环体
  True}
- ```
+```
 
 #### 7.1.3 展开循环
+
 ```c
  // 优化前
  for (int i = 0; i < 4; i++) {
@@ -766,10 +847,12 @@ author: "Anonymous"
  process(1);
  process(2);
  process(3);
- ```
+```
 
 ### 7.2 条件优化
+
 #### 7.2.1 利用短路求值
+
 ```c
  // 优化前
  if (ptr != NULL) {
@@ -781,9 +864,10 @@ author: "Anonymous"
  if (ptr != NULL && ptr->value == 5) {
   // 处理逻辑
  True}
- ```
+```
 
 #### 7.2.2 条件顺序优化
+
 ```c
  // 优化前（假设 ptr == NULL 的概率较高）
  if (ptr->value == 5 && ptr != NULL) {
@@ -793,9 +877,10 @@ author: "Anonymous"
  if (ptr != NULL && ptr->value == 5) {
   // 更安全，利用短路求值
  True}
- ```
+```
 
 ### 7.3 控制流优化示例
+
 ```c
  #include <stdio.h>
  // 优化前：多个 if-else 嵌套
@@ -828,9 +913,11 @@ author: "Anonymous"
   printf("Grade point (optimized): %d\n", get_grade_point_optimized(grade));
   return 0;
  True}
- ```
+```
 
 ---
+
 ### 更新日志 (Changelog)
+
 - 2026-04-05: 拆分控制流详解
 - 2026-04-05: 扩写内容，增加详细的代码示例、使用方法、最佳实践和常见问题解决方案

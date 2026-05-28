@@ -1,31 +1,50 @@
-﻿---
-title: "C++ 项目实战"
-module: "cpp"
-category: "C++ Basics"
-description: "C++ 项目实战"
-author: "fanquanpp"
+---
+order: 140
+tags:
+  - 'cpp'
+  - 'project'
+  - 'database'
+  - 'networking'
+  - 'concurrency'
+difficulty: 'intermediate'
+title: 'C++ 项目实战'
+module: 'cpp'
+category: 'C++ Basics'
+description: 'C++ 项目实战'
+author: 'fanquanpp'
 updated: 2026-05-03
 ---
+
 ## 目录
+
 1. [项目一：简易文件管理器](#项目一：简易文件管理器)
 2. [项目二：简单的 HTTP 服务器](#项目二：简单的-http-服务器)
 3. [项目三：简单的数据库系统](#项目三：简单的数据库系统)
 4. [最佳实践](#最佳实践)
 5. [延伸阅读](#延伸阅读)
 6. [更新日志](#更新日志)
+
 ---
+
 ## 1. 项目一：简易文件管理器
+
 ### 1.1 项目需求
+
 - **功能**: 列出目录、创建文件、删除文件、移动文件、复制文件、创建目录
 - **技术栈**: C++17 `<filesystem>`, STL, 异常处理
 - **目标**: 构建一个命令行文件管理器，支持基本的文件操作
+
 ### 1.2 架构设计
+
 #### 1.2.1 模块划分
+
 - **FileManager**: 提供底层文件系统操作接口
 - **CommandParser**: 解析用户输入的命令
 - **UI**: 提供交互界面
 - **ErrorHandler**: 处理错误和异常
+
 #### 1.2.2 类图
+
 ```
  True+----------------+ +----------------+ +----------------+ +----------------+
  | FileManager |<----| CommandParser |---->| UI |<----| ErrorHandler |
@@ -37,10 +56,12 @@ updated: 2026-05-03
  | - copy_file() |
  | - create_dir() |
  True+----------------+
- ```
+```
 
 ### 1.3 核心实现
+
 #### 1.3.1 FileManager 类
+
 ```cpp
  #include <iostream>
  #include <filesystem>
@@ -149,9 +170,10 @@ updated: 2026-05-03
   }
   }
  True};
- ```
+```
 
 #### 1.3.2 CommandParser 类
+
 ```cpp
  #include <iostream>
  #include <string>
@@ -204,9 +226,10 @@ updated: 2026-05-03
   return tokens;
   }
  True};
- ```
+```
 
 #### 1.3.3 UI 类
+
 ```cpp
  #include <iostream>
  #include <string>
@@ -243,9 +266,10 @@ updated: 2026-05-03
   std::cout << "Success: " << message << std::endl;
   }
  True};
- ```
+```
 
 #### 1.3.4 ErrorHandler 类
+
 ```cpp
  #include <iostream>
  #include <string>
@@ -273,9 +297,10 @@ updated: 2026-05-03
   }
   }
  True};
- ```
+```
 
 #### 1.3.5 主函数
+
 ```cpp
  #include <iostream>
  #include "FileManager.h"
@@ -354,17 +379,19 @@ updated: 2026-05-03
   }
   return 0;
  True}
- ```
+```
 
 ### 1.4 构建与部署
+
 #### 1.4.1 CMake 配置
+
 ```cmake
  cmake_minimum_required(VERSION 3.10)
  project(FileManager)
  set(CMAKE_CXX_STANDARD 17)
  set(CMAKE_CXX_STANDARD_REQUIRED ON)
  # 添加可执行文件
- add_executable(FileManager 
+ add_executable(FileManager
   main.cpp
   FileManager.cpp
   CommandParser.cpp
@@ -378,9 +405,10 @@ updated: 2026-05-03
   # Windows 特定配置
   target_link_libraries(FileManager PRIVATE shlwapi)
  endif()
- ```
+```
 
 #### 1.4.2 目录结构
+
 ```
  FileManager/
  ├── CMakeLists.txt
@@ -394,10 +422,12 @@ updated: 2026-05-03
  ├── ErrorHandler.h
  ├── ErrorHandler.cpp
  └── error.log
- ```
+```
 
 ### 1.5 测试
+
 #### 1.5.1 功能测试
+
 ```bash
  # 编译
  mkdir build && cd build
@@ -423,26 +453,36 @@ updated: 2026-05-03
  True> ls
  True> help
  True> exit
- ```
+```
 
 #### 1.5.2 异常测试
+
 - 测试不存在的路径
 - 测试已存在的文件
 - 测试权限错误
 - 测试参数不足
+
 ## 2. 项目二：简单的 HTTP 服务器
+
 ### 2.1 项目需求
+
 - **功能**: 提供静态文件服务，支持基本的 HTTP 请求处理
 - **技术栈**: C++11, 套接字编程, 线程池
 - **目标**: 构建一个简单的 HTTP 服务器，能够处理多个并发连接
+
 ### 2.2 架构设计
+
 #### 2.2.1 模块划分
+
 - **HTTPServer**: 服务器核心，处理连接和请求
 - **RequestHandler**: 处理 HTTP 请求
 - **ThreadPool**: 管理线程池，处理并发连接
 - **FileServer**: 提供静态文件服务
+
 ### 2.3 核心实现
+
 #### 2.3.1 HTTPServer 类
+
 ```cpp
  #include <iostream>
  #include <string>
@@ -457,8 +497,8 @@ updated: 2026-05-03
  #include "RequestHandler.h"
  class HTTPServer {
  public:
-  HTTPServer(int port, int thread_pool_size = 4) : 
-  port_(port), 
+  HTTPServer(int port, int thread_pool_size = 4) :
+  port_(port),
   thread_pool_(thread_pool_size),
   server_socket_(-1) {}
   ~HTTPServer() {
@@ -525,9 +565,10 @@ updated: 2026-05-03
   close(client_socket);
   }
  True};
- ```
+```
 
 #### 2.3.2 ThreadPool 类
+
 ```cpp
  #include <vector>
  #include <thread>
@@ -589,9 +630,10 @@ updated: 2026-05-03
   std::condition_variable condition_;
   std::atomic<bool> stop_;
  True};
- ```
+```
 
 #### 2.3.3 RequestHandler 类
+
 ```cpp
  #include <iostream>
  #include <string>
@@ -639,7 +681,7 @@ updated: 2026-05-03
   return create_response(500, "Internal Server Error", "<html><body><h1>500 Internal Server Error</h1></body></html>");
   }
   }
-  std::string create_response(int status_code, const std::string& status_message, 
+  std::string create_response(int status_code, const std::string& status_message,
   const std::string& content, const std::string& content_type = "text/html") {
   std::ostringstream response;
   response << "HTTP/1.1 " << status_code << " " << status_message << "\r\n";
@@ -660,9 +702,10 @@ updated: 2026-05-03
   return "text/plain";
   }
  True};
- ```
+```
 
 #### 2.3.4 FileServer 类
+
 ```cpp
  #include <iostream>
  #include <string>
@@ -697,9 +740,10 @@ updated: 2026-05-03
  private:
   std::string root_dir_;
  True};
- ```
+```
 
 #### 2.3.5 主函数
+
 ```cpp
  #include "HTTPServer.h"
  int main(int argc, char* argv[]) {
@@ -711,17 +755,19 @@ updated: 2026-05-03
   server.start();
   return 0;
  True}
- ```
+```
 
 ### 2.4 构建与部署
+
 #### 2.4.1 CMake 配置
+
 ```cmake
  cmake_minimum_required(VERSION 3.10)
  project(HTTPServer)
  set(CMAKE_CXX_STANDARD 11)
  set(CMAKE_CXX_STANDARD_REQUIRED ON)
  # 添加可执行文件
- add_executable(HTTPServer 
+ add_executable(HTTPServer
   main.cpp
   HTTPServer.cpp
   ThreadPool.cpp
@@ -734,9 +780,10 @@ updated: 2026-05-03
  if(UNIX)
   target_link_libraries(HTTPServer PRIVATE pthread)
  endif()
- ```
+```
 
 #### 2.4.2 目录结构
+
 ```
  HTTPServer/
  ├── CMakeLists.txt
@@ -753,10 +800,12 @@ updated: 2026-05-03
   ├── index.html
   ├── style.css
   └── script.js
- ```
+```
 
 ### 2.5 测试
+
 #### 2.5.1 功能测试
+
 ```bash
  # 编译
  mkdir build && cd build
@@ -772,21 +821,29 @@ updated: 2026-05-03
  # 或使用 curl 测试
  curl http://localhost:8080
  curl http://localhost:8080/nonexistent.html
- ```
+```
 
 ## 3. 项目三：简单的数据库系统
+
 ### 3.1 项目需求
+
 - **功能**: 支持基本的 CRUD 操作，存储和检索数据
 - **技术栈**: C++17, STL, 文件 I/O
 - **目标**: 构建一个简单的键值存储数据库
+
 ### 3.2 架构设计
+
 #### 3.2.1 模块划分
+
 - **Database**: 数据库核心，管理数据操作
 - **Storage**: 处理数据持久化
 - **Index**: 提供数据索引，加速查询
 - **API**: 提供用户接口
+
 ### 3.3 核心实现
+
 #### 3.3.1 Database 类
+
 ```cpp
  #include <iostream>
  #include <string>
@@ -858,9 +915,10 @@ updated: 2026-05-03
   std::unordered_map<std::string, std::string> data_;
   std::mutex mutex_;
  True};
- ```
+```
 
 #### 3.3.2 主函数
+
 ```cpp
  #include <iostream>
  #include <string>
@@ -903,26 +961,30 @@ updated: 2026-05-03
   }
   return 0;
  True}
- ```
+```
 
 ### 3.4 构建与部署
+
 #### 3.4.1 CMake 配置
+
 ```cmake
  cmake_minimum_required(VERSION 3.10)
  project(SimpleDatabase)
  set(CMAKE_CXX_STANDARD 17)
  set(CMAKE_CXX_STANDARD_REQUIRED ON)
  # 添加可执行文件
- add_executable(SimpleDatabase 
+ add_executable(SimpleDatabase
   main.cpp
   Database.cpp
  True)
  # 包含头文件目录
  target_include_directories(SimpleDatabase PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
- ```
+```
 
 ### 3.5 测试
+
 #### 3.5.1 功能测试
+
 ```bash
  # 编译
  mkdir build && cd build
@@ -942,40 +1004,54 @@ updated: 2026-05-03
  ./SimpleDatabase
  True> get age
  True> exit
- ```
+```
 
 ## 4. 最佳实践
+
 ### 4.1 代码组织
+
 - **模块化设计**: 将功能分解为独立的模块
 - **清晰的接口**: 定义明确的类和函数接口
 - **命名规范**: 使用一致的命名约定
 - **代码注释**: 为复杂代码添加注释
+
 ### 4.2 错误处理
+
 - **异常处理**: 使用异常处理错误情况
 - **错误日志**: 记录错误信息
 - **边界检查**: 检查输入参数和边界条件
 - **资源管理**: 使用 RAII 管理资源
+
 ### 4.3 性能优化
+
 - **内存管理**: 合理使用内存，避免内存泄漏
 - **并发处理**: 使用线程池处理并发任务
 - **I/O 优化**: 减少 I/O 操作，使用缓冲
 - **算法选择**: 选择合适的算法和数据结构
+
 ### 4.4 测试与调试
+
 - **单元测试**: 为关键功能编写单元测试
 - **集成测试**: 测试模块间的交互
 - **性能测试**: 测试系统性能
 - **调试工具**: 使用调试工具定位问题
+
 ### 4.5 部署与维护
+
 - **构建系统**: 使用 CMake 管理构建
 - **版本控制**: 使用 Git 管理代码
 - **文档**: 编写项目文档
 - **监控**: 监控系统运行状态
+
 ## 5. 延伸阅读
+
 - [C++ Core Guidelines](https://github.com/isocpp/CppCoreGuidelines)
 - [Effective C++](https://www.amazon.com/Effective-Specific-Improve-Programs-Designs/dp/0321334876)
 - [C++ Concurrency in Action](https://www.amazon.com/C-Concurrency-Action-Practical-Multithreading/dp/1933988770)
 - [Networking in C++](https://www.amazon.com/Network-Programming-Windows-Second-Edition/dp/0735617216)
 - [File System Library](https://en.cppreference.com/w/cpp/filesystem)
+
 ## 6. 更新日志
+
 - **2026-04-05**: 初始化项目实战，涵盖简易文件管理器的设计与核心实现
 - **2026-04-05**: 扩展内容，增加 HTTP 服务器和简单数据库系统项目

@@ -27,7 +27,9 @@
   --spacing-2xl: 48px;
   --spacing-3xl: 64px;
   --font-display: 'JetBrains Mono', monospace;
-  --font-body: 'Noto Sans SC', sans-serif;
+  --font-body:
+    'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei',
+    sans-serif;
   --font-code: 'JetBrains Mono', monospace;
   --transition-fast: 0.12s ease;
   --transition-base: 0.22s ease;
@@ -56,9 +58,16 @@
 
 *,
 *::before,
-*::after { margin: 0; padding: 0; box-sizing: border-box; }
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-html { font-size: 16px; scroll-behavior: smooth; }
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
 
 body {
   font-family: var(--font-body);
@@ -66,21 +75,44 @@ body {
   line-height: 1.85;
   color: var(--color-text);
   background: var(--color-bg);
-  transition: background var(--transition-base), color var(--transition-base);
+  transition:
+    background var(--transition-base),
+    color var(--transition-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-wrap: break-word;
 }
 
-a { color: var(--color-primary); text-decoration: none; }
-a:hover { color: var(--color-primary-hover); }
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--color-primary-hover);
+}
 
-::selection { background: var(--color-primary); color: var(--color-text-inverse); }
+::selection {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
 
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--color-border-light); }
-::-webkit-scrollbar-thumb:hover { background: var(--color-border); }
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-light);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border);
+}
 
-html[data-theme='dark'] ::-webkit-scrollbar-thumb { background: var(--color-border); }
-html[data-theme='dark'] ::-webkit-scrollbar-thumb:hover { background: var(--color-text-tertiary); }
+html[data-theme='dark'] ::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+}
+html[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-tertiary);
+}

@@ -1,9 +1,19 @@
-﻿---
-title: "操作系统"
-module: "cs-fundamentals"
-category: "Computer Science / Operating System"
-description: "操作系统核心原理：进程管理、内存管理、文件系统、I/O系统、并发与同步。"
-author: "fanquanpp"
+---
+order: 70
+tags:
+  - 'cs-fundamentals'
+  - 'oop'
+  - 'design-patterns'
+  - 'networking'
+  - 'memory'
+  - 'concurrency'
+  - 'data-structure'
+difficulty: 'intermediate'
+title: '操作系统'
+module: 'cs-fundamentals'
+category: 'Computer Science / Operating System'
+description: '操作系统核心原理：进程管理、内存管理、文件系统、I/O系统、并发与同步。'
+author: 'fanquanpp'
 ---
 
 ## 目录
@@ -26,11 +36,11 @@ author: "fanquanpp"
 
 操作系统是硬件与应用之间的**中间层**，提供三个核心抽象：
 
-| 抽象 | 对应硬件资源 | 接口 |
-|------|-------------|------|
-| 进程 | CPU + 寄存器 | fork/exec/wait |
-| 虚拟内存 | 物理内存 + 磁盘 | mmap/brk/malloc |
-| 文件 | 磁盘/设备 | open/read/write/close |
+| 抽象     | 对应硬件资源    | 接口                  |
+| -------- | --------------- | --------------------- |
+| 进程     | CPU + 寄存器    | fork/exec/wait        |
+| 虚拟内存 | 物理内存 + 磁盘 | mmap/brk/malloc       |
+| 文件     | 磁盘/设备       | open/read/write/close |
 
 ```
 操作系统在抽象层级中的位置 (参见 [概述](overview) 3.1节):
@@ -886,52 +896,52 @@ I/O调度算法:
 
 ### 8.1 进程状态速查
 
-| 状态 | 含义 | 转移条件 |
-|------|------|----------|
-| Created | 刚创建 | fork() |
-| Ready | 可运行 | 被调度器选中 -> Running |
-| Running | 正在执行 | 时间片完 -> Ready; IO -> Blocked |
-| Blocked | 等待事件 | 事件完成 -> Ready |
-| Terminated | 已终止 | exit() |
+| 状态       | 含义     | 转移条件                         |
+| ---------- | -------- | -------------------------------- |
+| Created    | 刚创建   | fork()                           |
+| Ready      | 可运行   | 被调度器选中 -> Running          |
+| Running    | 正在执行 | 时间片完 -> Ready; IO -> Blocked |
+| Blocked    | 等待事件 | 事件完成 -> Ready                |
+| Terminated | 已终止   | exit()                           |
 
 ### 8.2 同步原语速查
 
-| 原语 | 作用 | 开销 |
-|------|------|------|
-| 自旋锁 | 忙等待互斥 | 低(无上下文切换) |
-| 互斥锁 | 睡眠等待互斥 | 中(上下文切换) |
-| 信号量 | 计数同步 | 中 |
-| 条件变量 | 等待条件 | 中 |
-| 读写锁 | 读共享写互斥 | 中 |
-| RCU | 读无锁写延迟 | 低(读)高(写) |
+| 原语     | 作用         | 开销             |
+| -------- | ------------ | ---------------- |
+| 自旋锁   | 忙等待互斥   | 低(无上下文切换) |
+| 互斥锁   | 睡眠等待互斥 | 中(上下文切换)   |
+| 信号量   | 计数同步     | 中               |
+| 条件变量 | 等待条件     | 中               |
+| 读写锁   | 读共享写互斥 | 中               |
+| RCU      | 读无锁写延迟 | 低(读)高(写)     |
 
 ### 8.3 页面置换速查
 
-| 算法 | 策略 | 优缺点 |
-|------|------|--------|
-| OPT | 置换最远将来使用 | 理论最优，不可实现 |
-| FIFO | 置换最早进入 | 简单，有Belady异常 |
-| LRU | 置换最久未用 | 近似最优，实现代价高 |
-| Clock | LRU近似 | 实用，性能接近LRU |
-| LFU | 置换最少使用 | 适合热点数据，需老化 |
+| 算法  | 策略             | 优缺点               |
+| ----- | ---------------- | -------------------- |
+| OPT   | 置换最远将来使用 | 理论最优，不可实现   |
+| FIFO  | 置换最早进入     | 简单，有Belady异常   |
+| LRU   | 置换最久未用     | 近似最优，实现代价高 |
+| Clock | LRU近似          | 实用，性能接近LRU    |
+| LFU   | 置换最少使用     | 适合热点数据，需老化 |
 
 ### 8.4 系统调用速查
 
-| 类别 | 系统调用 | 功能 |
-|------|---------|------|
-| 进程 | fork/exec/wait/exit | 创建/替换/等待/退出 |
-| 文件 | open/read/write/close/mmap | 文件操作 |
-| 目录 | mkdir/rmdir/chdir/getcwd | 目录操作 |
-| 内存 | brk/mmap/munmap/mprotect | 内存管理 |
-| 信号 | kill/signal/sigaction | 信号处理 |
-| 网络 | socket/bind/listen/accept/connect | 网络通信 |
-| 管道 | pipe/dup2 | 进程间通信 |
+| 类别 | 系统调用                          | 功能                |
+| ---- | --------------------------------- | ------------------- |
+| 进程 | fork/exec/wait/exit               | 创建/替换/等待/退出 |
+| 文件 | open/read/write/close/mmap        | 文件操作            |
+| 目录 | mkdir/rmdir/chdir/getcwd          | 目录操作            |
+| 内存 | brk/mmap/munmap/mprotect          | 内存管理            |
+| 信号 | kill/signal/sigaction             | 信号处理            |
+| 网络 | socket/bind/listen/accept/connect | 网络通信            |
+| 管道 | pipe/dup2                         | 进程间通信          |
 
 ---
 
 ## 延伸阅读
 
-- *Operating System Concepts* -- Silberschatz, Galvin, Gagne
-- *Modern Operating Systems* -- Andrew S. Tanenbaum
-- *Understanding the Linux Kernel* -- Bovet & Cesati
-- *The Design and Implementation of the FreeBSD Operating System* -- McKusick et al.
+- _Operating System Concepts_ -- Silberschatz, Galvin, Gagne
+- _Modern Operating Systems_ -- Andrew S. Tanenbaum
+- _Understanding the Linux Kernel_ -- Bovet & Cesati
+- _The Design and Implementation of the FreeBSD Operating System_ -- McKusick et al.

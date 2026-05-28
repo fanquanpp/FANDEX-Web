@@ -1,12 +1,19 @@
-﻿---
-title: "JavaScript 练习题"
-module: "javascript"
+---
+order: 50
+tags:
+  - 'javascript'
+  - 'exercises'
+  - 'async'
+difficulty: 'intermediate'
+title: 'JavaScript 练习题'
+module: 'javascript'
 ---
 
 A. 0, 1, 2
 B. 3, 3, 3
 C. undefined, undefined, undefined
 D. 报错
+
 <details>
 <summary>查看答案</summary>
 **答案**: B
@@ -19,10 +26,9 @@ D. 报错
  const f = new Foo();
  ```
 
-A. `f.hasOwnProperty('x')` 返回 ``
-B. `Foo.prototype.isPrototypeOf(f)` 返回 ``
-C. `f.__proto__ === Foo` 返回 ``
-D. `Object.getPrototypeOf(f) === Object.prototype` 返回 ``
+A. `f.hasOwnProperty('x')` 返回 ``B. `Foo.prototype.isPrototypeOf(f)` 返回``
+C. `f.__proto__ === Foo` 返回 ``D. `Object.getPrototypeOf(f) === Object.prototype` 返回``
+
 <details>
 <summary>查看答案</summary>
 **答案**: B
@@ -40,6 +46,7 @@ A. 1, 2, 3, 4
 B. 1, 4, 2, 3
 C. 1, 4, 3, 2
 D. 1, 2, 4, 3
+
 <details>
 <summary>查看答案</summary>
 **答案**: B

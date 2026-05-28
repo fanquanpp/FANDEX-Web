@@ -1,10 +1,18 @@
 ---
-title: "LeetCode 刷题指南"
-module: "algorithm"
-category: "Algorithm/LeetCode"
-description: "系统化刷题方法论、题型分类与解题模板、时间管理与面试策略。"
-author: "fanquanpp"
+title: 'LeetCode 刷题指南'
+module: 'algorithm'
+category: 'Algorithm/LeetCode'
+description: '系统化刷题方法论、题型分类与解题模板、时间管理与面试策略。'
+author: 'fanquanpp'
+order: 60
+tags:
+  - 'algorithm'
+  - 'algorithm-leetcode'
+  - 'data-structure'
+  - 'devops'
+difficulty: 'intermediate'
 ---
+
 - [3. 高频题型详解](#3-高频题型详解)
 - [4. 刷题节奏与时间管理](#4-刷题节奏与时间管理)
 - [5. 面试策略](#5-面试策略)
@@ -47,15 +55,15 @@ author: "fanquanpp"
 
 ### 1.2 刷题的常见误区
 
-| 误区 | 正确做法 |
-|------|----------|
-| 只刷不总结 | 每题写一句话总结核心思路 |
-| 追求题量忽视质量 | 一题多解优于多题一解 |
-| 只看解答不手写 | 必须手写代码并提交 |
-| 跳过Easy直接Hard | Easy建立信心和基础 |
-| 只用一种语言 | 至少用Python和C++各写一遍 |
-| 忽视边界条件 | 列出所有边界case |
-| 不分析复杂度 | 每题必须分析时间和空间 |
+| 误区             | 正确做法                  |
+| ---------------- | ------------------------- |
+| 只刷不总结       | 每题写一句话总结核心思路  |
+| 追求题量忽视质量 | 一题多解优于多题一解      |
+| 只看解答不手写   | 必须手写代码并提交        |
+| 跳过Easy直接Hard | Easy建立信心和基础        |
+| 只用一种语言     | 至少用Python和C++各写一遍 |
+| 忽视边界条件     | 列出所有边界case          |
+| 不分析复杂度     | 每题必须分析时间和空间    |
 
 ### 1.3 解题四步法
 
@@ -72,18 +80,18 @@ author: "fanquanpp"
 
 ### 2.1 十大题型分类
 
-| 题型 | 核心技巧 | 代表题目 | 建议刷题数 |
-|------|----------|----------|-----------|
-| 数组/双指针 | 排序+双指针 | LC-1/15/11 | 20 |
-| 链表 | 快慢指针/反转 | LC-206/141/21 | 15 |
-| 树 | 递归/层序遍历 | LC-104/226/102 | 20 |
-| 图 | BFS/DFS/拓扑 | LC-200/207/210 | 15 |
-| 二分搜索 | 模板+边界 | LC-33/34/69 | 15 |
-| 回溯 | DFS+剪枝 | LC-46/78/39 | 15 |
-| 动态规划 | 状态定义+转移 | LC-70/322/72 | 25 |
-| 贪心 | 排序+局部最优 | LC-55/45/135 | 10 |
-| 滑动窗口 | 双指针+哈希 | LC-3/76/209 | 10 |
-| 栈/队列 | 单调栈/优先队列 | LC-20/155/239 | 10 |
+| 题型        | 核心技巧        | 代表题目       | 建议刷题数 |
+| ----------- | --------------- | -------------- | ---------- |
+| 数组/双指针 | 排序+双指针     | LC-1/15/11     | 20         |
+| 链表        | 快慢指针/反转   | LC-206/141/21  | 15         |
+| 树          | 递归/层序遍历   | LC-104/226/102 | 20         |
+| 图          | BFS/DFS/拓扑    | LC-200/207/210 | 15         |
+| 二分搜索    | 模板+边界       | LC-33/34/69    | 15         |
+| 回溯        | DFS+剪枝        | LC-46/78/39    | 15         |
+| 动态规划    | 状态定义+转移   | LC-70/322/72   | 25         |
+| 贪心        | 排序+局部最优   | LC-55/45/135   | 10         |
+| 滑动窗口    | 双指针+哈希     | LC-3/76/209    | 10         |
+| 栈/队列     | 单调栈/优先队列 | LC-20/155/239  | 10         |
 
 ### 2.2 双指针模板
 
@@ -227,7 +235,7 @@ def find_right_bound(nums, target):
 ```python
 def backtrack_template(nums):
     result = []
-    
+
     def backtrack(path, choices):
         if len(path) == len(nums):
             result.append(path[:])
@@ -238,13 +246,13 @@ def backtrack_template(nums):
             path.append(choice)
             backtrack(path, choices)
             path.pop()
-    
+
     backtrack([], nums)
     return result
 
 def combination_sum(candidates, target):
     result = []
-    
+
     def backtrack(start, path, remaining):
         if remaining == 0:
             result.append(path[:])
@@ -255,7 +263,7 @@ def combination_sum(candidates, target):
             path.append(candidates[i])
             backtrack(i, path, remaining - candidates[i])
             path.pop()
-    
+
     backtrack(0, [], target)
     return result
 ```
@@ -312,11 +320,11 @@ def dfs_template(root):
 
 ### 3.1 子集/排列/组合
 
-| 题型 | 特征 | 解法 |
-|------|------|------|
-| 子集 | 选或不选 | 回溯，每层选/不选 |
+| 题型 | 特征     | 解法                 |
+| ---- | -------- | -------------------- |
+| 子集 | 选或不选 | 回溯，每层选/不选    |
 | 排列 | 顺序有关 | 回溯，用used数组去重 |
-| 组合 | 顺序无关 | 回溯，用start去重 |
+| 组合 | 顺序无关 | 回溯，用start去重    |
 
 **去重技巧**：排序后跳过相同元素
 
@@ -369,6 +377,7 @@ vector<int> nextGreaterElement(vector<int>& nums) {
 ```
 
 **应用场景**：
+
 - 柱状图最大矩形（LC-84）
 - 每日温度（LC-739）
 - 接雨水（LC-42）
@@ -412,13 +421,13 @@ class DifferenceArray:
 
 ### 3.4 位运算技巧
 
-| 技巧 | 表达式 | 应用 |
-|------|--------|------|
-| 判断奇偶 | n & 1 | 代替 n % 2 |
-| 最低位1 | n & (-n) | 树状数组 |
-| 去掉最低位1 | n & (n-1) | 计数1的个数 |
-| 交换两数 | a ^= b; b ^= a; a ^= b | 无临时变量 |
-| 子集枚举 | for mask in range(1<<n) | 状态压缩DP |
+| 技巧        | 表达式                  | 应用        |
+| ----------- | ----------------------- | ----------- |
+| 判断奇偶    | n & 1                   | 代替 n % 2  |
+| 最低位1     | n & (-n)                | 树状数组    |
+| 去掉最低位1 | n & (n-1)               | 计数1的个数 |
+| 交换两数    | a ^= b; b ^= a; a ^= b  | 无临时变量  |
+| 子集枚举    | for mask in range(1<<n) | 状态压缩DP  |
 
 ```python
 def count_bits(n):
@@ -436,20 +445,20 @@ def count_bits(n):
 
 **入门期（1-4周）**：
 
-| 天数 | 内容 | 题量 |
-|------|------|------|
-| 第1-7天 | 数组+链表基础 | 2题/天 |
-| 第8-14天 | 树+递归 | 2题/天 |
-| 第15-21天 | 二分+栈/队列 | 2题/天 |
+| 天数      | 内容          | 题量   |
+| --------- | ------------- | ------ |
+| 第1-7天   | 数组+链表基础 | 2题/天 |
+| 第8-14天  | 树+递归       | 2题/天 |
+| 第15-21天 | 二分+栈/队列  | 2题/天 |
 | 第22-28天 | 哈希表+字符串 | 2题/天 |
 
 **进阶期（5-12周）**：
 
-| 天数 | 内容 | 题量 |
-|------|------|------|
-| 第5-6周 | 动态规划入门 | 3题/天 |
-| 第7-8周 | 回溯+DFS/BFS | 3题/天 |
-| 第9-10周 | 图算法 | 3题/天 |
+| 天数      | 内容            | 题量     |
+| --------- | --------------- | -------- |
+| 第5-6周   | 动态规划入门    | 3题/天   |
+| 第7-8周   | 回溯+DFS/BFS    | 3题/天   |
+| 第9-10周  | 图算法          | 3题/天   |
 | 第11-12周 | 综合练习+Hard题 | 2-3题/天 |
 
 **冲刺期（面试前2-4周）**：
@@ -460,19 +469,19 @@ def count_bits(n):
 
 ### 4.2 每日时间分配
 
-| 时段 | 活动 | 时长 |
-|------|------|------|
+| 时段 | 活动             | 时长  |
+| ---- | ---------------- | ----- |
 | 早晨 | 新题（头脑清醒） | 45min |
-| 午间 | 复习昨日题目 | 20min |
-| 晚间 | 总结+模板整理 | 30min |
+| 午间 | 复习昨日题目     | 20min |
+| 晚间 | 总结+模板整理    | 30min |
 
 ### 4.3 题目难度分配
 
-| 阶段 | Easy | Medium | Hard |
-|------|------|--------|------|
-| 入门期 | 60% | 40% | 0% |
-| 进阶期 | 20% | 60% | 20% |
-| 冲刺期 | 10% | 50% | 40% |
+| 阶段   | Easy | Medium | Hard |
+| ------ | ---- | ------ | ---- |
+| 入门期 | 60%  | 40%    | 0%   |
+| 进阶期 | 20%  | 60%    | 20%  |
+| 冲刺期 | 10%  | 50%    | 40%  |
 
 ---
 
@@ -507,14 +516,14 @@ def count_bits(n):
 
 ### 5.2 常见面试公司侧重
 
-| 公司 | 侧重方向 | 典型题目风格 |
-|------|----------|-------------|
-| Google | 算法设计+复杂度 | 图/DP/数学 |
-| Meta | 代码实现+速度 | 双指针/BFS/树 |
-| Amazon | 行为面试+基础 | 设计题/树/数组 |
-| Microsoft | 边界处理+工程 | 字符串/模拟 |
-| 字节跳动 | 算法难度+手写 | DP/图/贪心 |
-| 腾讯 | 基础扎实+变通 | 链表/树/排序 |
+| 公司      | 侧重方向        | 典型题目风格   |
+| --------- | --------------- | -------------- |
+| Google    | 算法设计+复杂度 | 图/DP/数学     |
+| Meta      | 代码实现+速度   | 双指针/BFS/树  |
+| Amazon    | 行为面试+基础   | 设计题/树/数组 |
+| Microsoft | 边界处理+工程   | 字符串/模拟    |
+| 字节跳动  | 算法难度+手写   | DP/图/贪心     |
+| 腾讯      | 基础扎实+变通   | 链表/树/排序   |
 
 ### 5.3 代码风格建议
 
@@ -544,46 +553,55 @@ def two_sum(nums, target):
 ### 6.1 必刷100题（按专题）
 
 **数组与双指针**：
+
 - LC-1 Two Sum / LC-15 3Sum / LC-11 Container With Most Water
 - LC-26 Remove Duplicates / LC-27 Remove Element / LC-283 Move Zeroes
 - LC-42 Trapping Rain Water / LC-75 Sort Colors
 
 **链表**：
+
 - LC-206 Reverse Linked List / LC-141 Linked List Cycle
 - LC-21 Merge Two Sorted Lists / LC-23 Merge K Sorted Lists
 - LC-19 Remove Nth From End / LC-160 Intersection of Two Linked Lists
 
 **树**：
+
 - LC-104 Max Depth / LC-226 Invert Binary Tree / LC-102 Level Order
 - LC-98 Validate BST / LC-236 Lowest Common Ancestor
 - LC-124 Binary Tree Max Path Sum / LC-297 Serialize/Deserialize
 
 **二分搜索**：
+
 - LC-33 Search in Rotated Array / LC-34 Find First and Last
 - LC-69 Sqrt(x) / LC-153 Find Min in Rotated Array
 - LC-162 Find Peak Element / LC-4 Median of Two Sorted Arrays
 
 **动态规划**：
+
 - LC-70 Climbing Stairs / LC-198 House Robber / LC-213 House Robber II
 - LC-322 Coin Change / LC-72 Edit Distance / LC-300 LIS
 - LC-1143 LCS / LC-139 Word Break / LC-312 Burst Balloons
 
 **图与搜索**：
+
 - LC-200 Number of Islands / LC-207 Course Schedule
 - LC-210 Course Schedule II / LC-133 Clone Graph
 - LC-127 Word Ladder / LC-785 Is Graph Bipartite
 
 **回溯**：
+
 - LC-46 Permutations / LC-78 Subsets / LC-39 Combination Sum
 - LC-17 Letter Combinations / LC-22 Generate Parentheses
 - LC-51 N-Queens / LC-37 Sudoku Solver
 
 **栈与队列**：
+
 - LC-20 Valid Parentheses / LC-155 Min Stack
 - LC-232 Implement Queue using Stacks / LC-239 Sliding Window Maximum
 - LC-84 Largest Rectangle in Histogram
 
 **字符串**：
+
 - LC-3 Longest Substring Without Repeating / LC-5 Longest Palindromic Substring
 - LC-76 Minimum Window Substring / LC-49 Group Anagrams
 
@@ -604,46 +622,46 @@ def two_sum(nums, target):
 
 ### 7.1 解题模式速查
 
-| 关键词 | 推荐算法/技巧 |
-|--------|---------------|
-| "有序数组" | 二分搜索 |
-| "最短路径" | BFS / Dijkstra |
-| "所有方案" | 回溯 |
-| "最大/最小" | DP / 贪心 / 二分答案 |
-| "连续子数组" | 滑动窗口 / 前缀和 |
-| "下一个更大" | 单调栈 |
-| "前K个" | 堆 / 快速选择 |
-| "去重" | 哈希表 / 排序 |
-| "拓扑排序" | Kahn / DFS后序 |
-| "环检测" | 快慢指针 / 并查集 / DFS颜色 |
-| "区间问题" | 排序+贪心 / DP |
-| "位运算" | 状态压缩 / 位掩码 |
+| 关键词       | 推荐算法/技巧               |
+| ------------ | --------------------------- |
+| "有序数组"   | 二分搜索                    |
+| "最短路径"   | BFS / Dijkstra              |
+| "所有方案"   | 回溯                        |
+| "最大/最小"  | DP / 贪心 / 二分答案        |
+| "连续子数组" | 滑动窗口 / 前缀和           |
+| "下一个更大" | 单调栈                      |
+| "前K个"      | 堆 / 快速选择               |
+| "去重"       | 哈希表 / 排序               |
+| "拓扑排序"   | Kahn / DFS后序              |
+| "环检测"     | 快慢指针 / 并查集 / DFS颜色 |
+| "区间问题"   | 排序+贪心 / DP              |
+| "位运算"     | 状态压缩 / 位掩码           |
 
 ### 7.2 数据结构选择速查
 
-| 需求 | 推荐数据结构 |
-|------|-------------|
-| O(1)查找 | 哈希表 |
-| 有序遍历 | BST / 红黑树 |
-| 最大/最小值 | 堆 |
-| 前缀查询 | Trie |
-| 最近使用 | 哈希表+双向链表 |
-| 区间查询 | 线段树 / 树状数组 |
-| 连通性 | 并查集 |
-| 最近更小/更大 | 单调栈 |
+| 需求          | 推荐数据结构      |
+| ------------- | ----------------- |
+| O(1)查找      | 哈希表            |
+| 有序遍历      | BST / 红黑树      |
+| 最大/最小值   | 堆                |
+| 前缀查询      | Trie              |
+| 最近使用      | 哈希表+双向链表   |
+| 区间查询      | 线段树 / 树状数组 |
+| 连通性        | 并查集            |
+| 最近更小/更大 | 单调栈            |
 
 ### 7.3 复杂度速查
 
-| n的范围 | 可接受的复杂度 |
-|---------|---------------|
-| n <= 10 | O(n!), O(2^n) |
-| n <= 20 | O(2^n), O(n^2 * 2^n) |
-| n <= 100 | O(n^3) |
-| n <= 1000 | O(n^2) |
-| n <= 10^5 | O(n sqrt(n)) |
-| n <= 10^6 | O(n log n) |
-| n <= 10^8 | O(n) |
-| n > 10^8 | O(log n), O(1) |
+| n的范围   | 可接受的复杂度        |
+| --------- | --------------------- |
+| n <= 10   | O(n!), O(2^n)         |
+| n <= 20   | O(2^n), O(n^2 \* 2^n) |
+| n <= 100  | O(n^3)                |
+| n <= 1000 | O(n^2)                |
+| n <= 10^5 | O(n sqrt(n))          |
+| n <= 10^6 | O(n log n)            |
+| n <= 10^8 | O(n)                  |
+| n > 10^8  | O(log n), O(1)        |
 
 ---
 

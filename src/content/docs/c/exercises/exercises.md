@@ -1,12 +1,19 @@
-﻿---
-title: "C 语言练习题"
-module: "c"
+---
+order: 50
+tags:
+  - 'c'
+  - 'exercises'
+  - 'memory'
+difficulty: 'intermediate'
+title: 'C 语言练习题'
+module: 'c'
 ---
 
 A. 5
 B. 6
 C. 编译错误
 D. 未定义行为
+
 <details>
 <summary>查看答案</summary>
 **答案**: B
@@ -35,6 +42,7 @@ A. 13 字节
 B. 16 字节
 C. 24 字节
 D. 8 字节
+
 <details>
 <summary>查看答案</summary>
 **答案**: B
@@ -62,6 +70,7 @@ A. 没有问题
 B. 编译错误
 C. 使用已释放的内存（悬空指针）
 D. 内存泄漏
+
 <details>
 <summary>查看答案</summary>
 **答案**: C

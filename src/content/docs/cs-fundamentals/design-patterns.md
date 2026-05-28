@@ -1,9 +1,20 @@
-﻿---
-title: "设计模式"
-module: "cs-fundamentals"
-category: "Computer Science / Design Patterns"
-description: "设计模式核心：创建型、结构型、行为型模式，SOLID原则，模式间关系与选择策略。"
-author: "fanquanpp"
+---
+order: 30
+tags:
+  - 'cs-fundamentals'
+  - 'oop'
+  - 'design-patterns'
+  - 'networking'
+  - 'memory'
+  - 'concurrency'
+  - 'reactive'
+  - 'data-structure'
+difficulty: 'intermediate'
+title: '设计模式'
+module: 'cs-fundamentals'
+category: 'Computer Science / Design Patterns'
+description: '设计模式核心：创建型、结构型、行为型模式，SOLID原则，模式间关系与选择策略。'
+author: 'fanquanpp'
 ---
 
 ## 目录
@@ -165,7 +176,7 @@ public:
 
 abstract class Creator {
     abstract Product factoryMethod();
-    
+
     void anOperation() {
         Product p = factoryMethod();
         p.operation();
@@ -252,18 +263,18 @@ class NutritionFacts {
     final int calories;
     final int fat;
     final int sodium;
-    
+
     private NutritionFacts(Builder b) {
         calories = b.calories;
         fat = b.fat;
         sodium = b.sodium;
     }
-    
+
     static class Builder {
         private int calories = 0;
         private int fat = 0;
         private int sodium = 0;
-        
+
         Builder calories(int v) { calories = v; return this; }
         Builder fat(int v)      { fat = v; return this; }
         Builder sodium(int v)   { sodium = v; return this; }
@@ -366,7 +377,7 @@ interface NewPrinter {
 
 class PrinterAdapter implements NewPrinter {
     private OldPrinter oldPrinter;
-    
+
     void print(String text) {
         oldPrinter.printOld(text);
     }
@@ -511,7 +522,7 @@ class HomeTheaterFacade {
     Projector projector;
     SoundSystem sound;
     DVDPlayer dvd;
-    
+
     void watchMovie(String movie) {
         projector.on();
         projector.setInput("DVD");
@@ -520,7 +531,7 @@ class HomeTheaterFacade {
         dvd.on();
         dvd.play(movie);
     }
-    
+
     void endMovie() {
         dvd.stop();
         dvd.off();
@@ -659,11 +670,11 @@ class Sorter {
 
 class EventBus {
     Map<Class, List<Consumer>> handlers;
-    
+
     <T> void subscribe(Class<T> type, Consumer<T> handler) {
         handlers.computeIfAbsent(type, k -> new ArrayList<>()).add(handler);
     }
-    
+
     <T> void publish(T event) {
         for (Consumer handler : handlers.getOrDefault(event.getClass(), List.of())) {
             handler.accept(event);
@@ -800,19 +811,19 @@ class RemoteControl {
 
 class BSTIterator implements Iterator<TreeNode> {
     Deque<TreeNode> stack;
-    
+
     BSTIterator(TreeNode root) {
         pushLeft(root);
     }
-    
+
     boolean hasNext() { return !stack.isEmpty(); }
-    
+
     TreeNode next() {
         TreeNode node = stack.pop();
         pushLeft(node.right);
         return node;
     }
-    
+
     void pushLeft(TreeNode node) {
         while (node != null) {
             stack.push(node);
@@ -857,10 +868,10 @@ abstract class DataProcessor {
         processData();
         writeData();
     }
-    
+
     abstract void readData();
     abstract void processData();
-    
+
     void writeData() {           // 钩子方法, 可选覆盖
         // 默认实现
     }
@@ -989,13 +1000,13 @@ class FileProcessor extends DataProcessor {
 class BoundedBuffer<T> {
     Queue<T> queue = new LinkedList<>();
     int capacity;
-    
+
     synchronized void put(T item) throws InterruptedException {
         while (queue.size() == capacity) wait();
         queue.add(item);
         notifyAll();
     }
-    
+
     synchronized T take() throws InterruptedException {
         while (queue.isEmpty()) wait();
         T item = queue.remove();
@@ -1025,22 +1036,22 @@ class BoundedBuffer<T> {
 class ReadWriteLock {
     int readers = 0;
     boolean writing = false;
-    
+
     synchronized void readLock() throws InterruptedException {
         while (writing) wait();
         readers++;
     }
-    
+
     synchronized void readUnlock() {
         readers--;
         if (readers == 0) notifyAll();
     }
-    
+
     synchronized void writeLock() throws InterruptedException {
         while (readers > 0 || writing) wait();
         writing = true;
     }
-    
+
     synchronized void writeUnlock() {
         writing = false;
         notifyAll();
@@ -1073,7 +1084,7 @@ class ReadWriteLock {
 class ThreadPool {
     BlockingQueue<Runnable> taskQueue;
     Worker[] workers;
-    
+
     ThreadPool(int nThreads) {
         taskQueue = new LinkedBlockingQueue<>();
         workers = new Worker[nThreads];
@@ -1082,11 +1093,11 @@ class ThreadPool {
             workers[i].start();
         }
     }
-    
+
     void submit(Runnable task) {
         taskQueue.put(task);
     }
-    
+
     class Worker extends Thread {
         void run() {
             while (true) {
@@ -1108,56 +1119,56 @@ class ThreadPool {
 
 ### 7.1 创建型模式速查
 
-| 模式 | 意图 | 关键词 |
-|------|------|--------|
-| Singleton | 唯一实例 | 全局访问点 |
-| Factory Method | 子类决定创建 | 延迟到子类 |
-| Abstract Factory | 创建一族对象 | 产品族 |
-| Builder | 分步构建复杂对象 | 链式调用 |
-| Prototype | 克隆创建对象 | 深拷贝/浅拷贝 |
+| 模式             | 意图             | 关键词        |
+| ---------------- | ---------------- | ------------- |
+| Singleton        | 唯一实例         | 全局访问点    |
+| Factory Method   | 子类决定创建     | 延迟到子类    |
+| Abstract Factory | 创建一族对象     | 产品族        |
+| Builder          | 分步构建复杂对象 | 链式调用      |
+| Prototype        | 克隆创建对象     | 深拷贝/浅拷贝 |
 
 ### 7.2 结构型模式速查
 
-| 模式 | 意图 | 关键词 |
-|------|------|--------|
-| Adapter | 接口转换 | 兼容性 |
-| Decorator | 动态添加职责 | 包装器 |
-| Composite | 树形结构 | 部分-整体 |
-| Facade | 简化接口 | 统一入口 |
-| Proxy | 控制访问 | 延迟/保护/远程 |
-| Flyweight | 共享细粒度对象 | 对象池 |
-| Bridge | 分离抽象与实现 | 多维度变化 |
+| 模式      | 意图           | 关键词         |
+| --------- | -------------- | -------------- |
+| Adapter   | 接口转换       | 兼容性         |
+| Decorator | 动态添加职责   | 包装器         |
+| Composite | 树形结构       | 部分-整体      |
+| Facade    | 简化接口       | 统一入口       |
+| Proxy     | 控制访问       | 延迟/保护/远程 |
+| Flyweight | 共享细粒度对象 | 对象池         |
+| Bridge    | 分离抽象与实现 | 多维度变化     |
 
 ### 7.3 行为型模式速查
 
-| 模式 | 意图 | 关键词 |
-|------|------|--------|
-| Strategy | 算法族互换 | 消除条件语句 |
-| Observer | 一对多通知 | 发布-订阅 |
-| State | 状态驱动行为 | 状态机 |
-| Command | 封装请求 | 撤销/队列/日志 |
-| Iterator | 顺序访问 | 遍历集合 |
-| Template Method | 算法骨架 | 好莱坞原则 |
-| Mediator | 对象间通信中介 | 解耦交互 |
-| Chain of Resp. | 请求处理链 | 逐级处理 |
-| Visitor | 分离操作与结构 | 双分派 |
-| Memento | 保存恢复状态 | 撤销快照 |
+| 模式            | 意图           | 关键词         |
+| --------------- | -------------- | -------------- |
+| Strategy        | 算法族互换     | 消除条件语句   |
+| Observer        | 一对多通知     | 发布-订阅      |
+| State           | 状态驱动行为   | 状态机         |
+| Command         | 封装请求       | 撤销/队列/日志 |
+| Iterator        | 顺序访问       | 遍历集合       |
+| Template Method | 算法骨架       | 好莱坞原则     |
+| Mediator        | 对象间通信中介 | 解耦交互       |
+| Chain of Resp.  | 请求处理链     | 逐级处理       |
+| Visitor         | 分离操作与结构 | 双分派         |
+| Memento         | 保存恢复状态   | 撤销快照       |
 
 ### 7.4 SOLID速查
 
-| 原则 | 含义 | 对应模式 |
-|------|------|----------|
-| SRP | 单一职责 | Facade, Mediator |
-| OCP | 开闭原则 | Strategy, Observer, Template Method |
-| LSP | 里氏替换 | 所有使用继承的模式 |
-| ISP | 接口隔离 | Adapter, Facade |
-| DIP | 依赖倒置 | Factory, Strategy, Observer |
+| 原则 | 含义     | 对应模式                            |
+| ---- | -------- | ----------------------------------- |
+| SRP  | 单一职责 | Facade, Mediator                    |
+| OCP  | 开闭原则 | Strategy, Observer, Template Method |
+| LSP  | 里氏替换 | 所有使用继承的模式                  |
+| ISP  | 接口隔离 | Adapter, Facade                     |
+| DIP  | 依赖倒置 | Factory, Strategy, Observer         |
 
 ---
 
 ## 延伸阅读
 
-- *Design Patterns: Elements of Reusable Object-Oriented Software* -- GoF
-- *Head First Design Patterns* -- Freeman & Robson
-- *Refactoring: Improving the Design of Existing Code* -- Martin Fowler
-- *Pattern-Oriented Software Architecture* -- Buschmann et al.
+- _Design Patterns: Elements of Reusable Object-Oriented Software_ -- GoF
+- _Head First Design Patterns_ -- Freeman & Robson
+- _Refactoring: Improving the Design of Existing Code_ -- Martin Fowler
+- _Pattern-Oriented Software Architecture_ -- Buschmann et al.

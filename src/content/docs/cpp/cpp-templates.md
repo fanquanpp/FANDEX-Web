@@ -1,19 +1,30 @@
-﻿---
-title: "C++ 模板 (C++ Templates)"
-module: "cpp"
-category: "C++ Basics"
-description: "函数模板、类模板、可变参数模板、模板元编程及类型 traits。 | Function templates, class templates, variadic templates, template metaprogramming, and type traits."
-author: "Anonymous"
 ---
+order: 90
+tags:
+  - 'cpp'
+  - 'memory'
+difficulty: 'intermediate'
+title: 'C++ 模板 (C++ Templates)'
+module: 'cpp'
+category: 'C++ Basics'
+description: '函数模板、类模板、可变参数模板、模板元编程及类型 traits。 | Function templates, class templates, variadic templates, template metaprogramming, and type traits.'
+author: 'Anonymous'
+---
+
 ## 目录
+
 1. [函数模板](#函数模板)
 2. [类模板](#类模板)
 3. [可变参数模板](#可变参数模板)
 4. [模板元编程](#模板元编程)
 5. [模板的最佳实践](#模板的最佳实践)
+
 ---
+
 ## 1. 函数模板
+
 函数模板允许定义可适用于不同类型的函数。
+
 ```cpp
  // 基本函数模板
  template <typename T>
@@ -27,10 +38,12 @@ author: "Anonymous"
   std::string s = max(std::string("hello"), std::string("world")); // T = std::string
   return 0;
  True}
- ```
+```
 
 ### 1.1 模板参数推导
+
 编译器会根据函数参数自动推导模板参数类型。
+
 ```cpp
  template <typename T>
  void print(T value) {
@@ -42,10 +55,12 @@ author: "Anonymous"
   print("Hello"); // T = const char*
   return 0;
  True}
- ```
+```
 
 ### 1.2 显式模板参数
+
 可以显式指定模板参数类型。
+
 ```cpp
  template <typename T>
  T add(T a, T b) {
@@ -59,10 +74,12 @@ author: "Anonymous"
   double result3 = add<double>(10, 20.5); // 显式指定为 double
   return 0;
  True}
- ```
+```
 
 ### 1.3 模板重载
+
 可以为特定类型提供重载版本。
+
 ```cpp
  // 通用版本
  template <typename T>
@@ -88,10 +105,12 @@ author: "Anonymous"
   max("hello", "world"); // 重载版本
   return 0;
  True}
- ```
+```
 
 ### 1.4 多个模板参数
+
 函数模板可以有多个模板参数。
+
 ```cpp
  // 多个模板参数
  template <typename T1, typename T2, typename T3>
@@ -104,10 +123,12 @@ author: "Anonymous"
   std::cout << "Max: " << result << std::endl;
   return 0;
  True}
- ```
+```
 
 ## 2. 类模板
+
 类模板允许定义可适用于不同类型的类。
+
 ```cpp
  // 基本类模板
  template <typename T>
@@ -160,10 +181,12 @@ author: "Anonymous"
   std::cout << stringStack.pop() << std::endl; // 输出 world
   return 0;
  True}
- ```
+```
 
 ### 2.1 模板参数默认值
+
 可以为模板参数提供默认值。
+
 ```cpp
  template <typename T, typename Allocator = std::allocator<T>>
  class MyVector {
@@ -193,10 +216,12 @@ author: "Anonymous"
  MyVector<int> v1;
  // 使用自定义分配器
  // MyVector<int, CustomAllocator<int>> v2;
- ```
+```
 
 ### 2.2 类模板特化
+
 可以为特定类型提供特化版本。
+
 ```cpp
  // 主模板
  template <typename T>
@@ -229,10 +254,12 @@ author: "Anonymous"
   MyType<int*>::print(); // 输出 Specialized for pointer
   return 0;
  True}
- ```
+```
 
 ## 3. 可变参数模板 (C++11)
+
 可变参数模板允许接受任意数量的模板参数。
+
 ```cpp
  // 递归终止条件
  void print() {
@@ -249,10 +276,12 @@ author: "Anonymous"
   print(1, 2.5, "hello", true); // 输出 1 2.5 hello 1
   return 0;
  True}
- ```
+```
 
 ### 3.1 折叠表达式 (C++17)
+
 折叠表达式是一种简化可变参数模板使用的语法。
+
 ```cpp
  // 使用折叠表达式求和
  template <typename... Args>
@@ -270,10 +299,12 @@ author: "Anonymous"
   print_fold(1, " ", 2.5, " ", "hello"); // 1 2.5 hello
   return 0;
  True}
- ```
+```
 
 ### 3.2 转发引用与完美转发
+
 可变参数模板常与转发引用一起使用，实现完美转发。
+
 ```cpp
  // 完美转发函数
  template <typename... Args>
@@ -286,10 +317,12 @@ author: "Anonymous"
   forward_args(1, "hello", std::move(x));
   return 0;
  True}
- ```
+```
 
 ## 4. 模板元编程
+
 模板元编程是一种在编译时执行计算的技术。
+
 ```cpp
  // 编译期计算阶乘
  template <int N>
@@ -323,10 +356,12 @@ author: "Anonymous"
   std::cout << "Fibonacci(10) = " << fib10 << std::endl;
   return 0;
  True}
- ```
+```
 
 ### 4.1 类型 traits
+
 类型 traits 是模板元编程的重要应用，用于在编译时获取类型信息。
+
 ```cpp
  // 自定义类型 trait
  template <typename T>
@@ -356,9 +391,10 @@ author: "Anonymous"
   process(3.14); // 处理非整型
   return 0;
  True}
- ```
+```
 
 ## 5. 模板的最佳实践
+
 1. **使用 `auto` 推导模板参数**：减少代码冗余，提高可读性。
 2. **使用概念 (C++20)**：约束模板参数，提供更清晰的错误信息。
 3. **避免过度特化**：只在必要时使用模板特化。
@@ -366,6 +402,9 @@ author: "Anonymous"
 5. **使用 `typename` 和 `template` 关键字**：在模板中正确使用这些关键字消除歧义。
 6. **合理使用默认模板参数**：简化模板的使用。
 7. **使用 SFINAE 技术**：在编译时选择合适的函数重载。
+
 ---
+
 ### 更新日志 (Changelog)
+
 - 2026-05-27: 从 C13_105 拆分，专注于模板（函数模板、类模板、可变参数模板、模板元编程）。

@@ -1,11 +1,18 @@
-﻿---
-title: "基础数据类型 (Basic Data Types)"
-module: "python"
-category: "Python Basics"
-description: "Python 核心内置类型：数字、字符串、布尔及 None。 | Core built-in types: Numbers, Strings, Booleans, and None."
-author: "Anonymous"
 ---
+order: 40
+tags:
+  - 'python'
+  - 'database'
+difficulty: 'beginner'
+title: '基础数据类型 (Basic Data Types)'
+module: 'python'
+category: 'Python Basics'
+description: 'Python 核心内置类型：数字、字符串、布尔及 None。 | Core built-in types: Numbers, Strings, Booleans, and None.'
+author: 'Anonymous'
+---
+
 ## 目录
+
 1. [数字](#数字)
 2. [字符串](#字符串)
 3. [布尔](#布尔)
@@ -13,14 +20,21 @@ author: "Anonymous"
 5. [类型转换](#类型转换)
 6. [类型检查](#类型检查)
 7. [最佳实践](#最佳实践)
+
 ---
+
 ## 1. 数字 (Numbers)
+
 Python 3 提供了三种数值类型：
+
 - **`int` (整型)**: 任意精度整数，在 Python 3 中不再有 `long` 类型。
 - **`float` (浮点型)**: 双精度浮点数（64位）。
 - **`complex` (复数)**: 形如 `3 + 4j`，其中 `j` 表示虚数单位。
+
 ### 1.1 整数类型
+
 #### 1.1.1 整数表示
+
 ```python
  # 十进制整数
  x = 123
@@ -30,9 +44,10 @@ Python 3 提供了三种数值类型：
  z = 0o123 # 83
  # 十六进制整数（以 0x 或 0X 开头）
  p = 0x1A # 26
- ```
+```
 
 #### 1.1.2 整数操作
+
 ```python
  # 基本算术运算
  addition = 10 + 5 # 15
@@ -49,19 +64,22 @@ Python 3 提供了三种数值类型：
  x *= 2 # x = x * 2 → 24
  x /= 4 # x = x / 4 → 6.0
  x //= 2 # x = x // 2 → 3.0（注意：结果是浮点数）
- ```
+```
 
 ### 1.2 浮点数类型
+
 #### 1.2.1 浮点数表示
+
 ```python
  # 普通浮点数
  pi = 3.14159
  # 科学记数法
  avogadro = 6.022e23 # 6.022 × 10²³
  small = 1.23e-4 # 1.23 × 10⁻⁴
- ```
+```
 
 #### 1.2.2 浮点数操作
+
 ```python
  # 基本算术运算
  f1 = 3.14 + 2.71 # 5.85
@@ -70,9 +88,10 @@ Python 3 提供了三种数值类型：
  f4 = 10.0 / 3.0 # 3.3333333333333335
  # 浮点数精度问题
  0.1 + 0.2 # 0.30000000000000004（注意：浮点数精度限制）
- ```
+```
 
 ### 1.3 复数类型
+
 ```python
  # 复数定义
  c1 = 3 + 4j
@@ -84,10 +103,12 @@ Python 3 提供了三种数值类型：
  print(c1.real) # 3.0（实部）
  print(c1.imag) # 4.0（虚部）
  print(c1.conjugate()) # 3 - 4j（共轭复数）
- ```
+```
 
 ### 1.4 数学函数
+
 Python 提供了 `math` 模块来支持更复杂的数学运算：
+
 ```python
  import math
  # 基本数学函数
@@ -107,11 +128,14 @@ Python 提供了 `math` 模块来支持更复杂的数学运算：
  # 其他函数
  print(math.sqrt(16)) # 4.0（平方根）
  print(math.factorial(5)) # 120（阶乘）
- ```
+```
 
 ## 2. 字符串 (Strings - `str`)
+
 字符串是不可变的序列类型，用于存储 Unicode 字符。
+
 ### 2.1 字符串定义
+
 ```python
  # 单引号字符串
  s1 = 'Hello, World!'
@@ -124,10 +148,12 @@ Python 提供了 `math` 模块来支持更复杂的数学运算：
  s4 = r'C:\\path\\to\\file' # 输出: C:\path\to\file
  # 字节字符串（Python 3）
  s5 = b'Hello' # 字节字符串，类型为 bytes
- ```
+```
 
 ### 2.2 字符串操作
+
 #### 2.2.1 字符串拼接
+
 ```python
  # 使用 + 运算符
  first_name = "Alice"
@@ -138,10 +164,12 @@ Python 提供了 `math` 模块来支持更复杂的数学运算：
  # 使用 f-string（Python 3.6+）
  age = 30
  message = f"My name is {full_name} and I am {age} years old."
- ```
+```
 
 #### 2.2.2 字符串切片
+
 字符串切片使用 `s[start:stop:step]` 语法：
+
 ```python
  s = "Hello, World!"
  # 获取单个字符
@@ -153,10 +181,12 @@ Python 提供了 `math` 模块来支持更复杂的数学运算：
  print(s[:5]) # 'Hello'（从开头到索引 4）
  print(s[::2]) # 'Hlo ol!'（步长为 2）
  print(s[::-1]) # '!dlroW ,olleH'（反转字符串）
- ```
+```
 
 #### 2.2.3 字符串方法
+
 Python 提供了丰富的字符串方法：
+
 ```python
  s = "Hello, World!"
  # 大小写转换
@@ -175,16 +205,19 @@ Python 提供了丰富的字符串方法：
  print(" Hello ".lstrip()) # 'Hello '
  print(" Hello ".rstrip()) # ' Hello'
  # 检查方法
- print(s.startswith("Hello")) #  
- print(s.endswith("!")) #  
+ print(s.startswith("Hello")) #
+ print(s.endswith("!")) #
  print(s.isalpha()) # False（包含非字母字符）
- print("123".isdigit()) #  
- print("Hello123".isalnum()) #  
- ```
+ print("123".isdigit()) #
+ print("Hello123".isalnum()) #
+```
 
 ### 2.3 字符串格式化
+
 Python 提供了多种字符串格式化方法：
+
 #### 2.3.1 f-string（推荐，Python 3.6+）
+
 ```python
  name = "Alice"
  age = 30
@@ -199,9 +232,10 @@ Python 提供了多种字符串格式化方法：
  print(f"Name: {name:>10}") # ' Alice'
  print(f"Name: {name:<10}") # 'Alice '
  print(f"Name: {name:^10}") # ' Alice '
- ```
+```
 
 #### 2.3.2 format() 方法
+
 ```python
  # 基本用法
  print("My name is {} and I am {} years old.".format(name, age))
@@ -212,9 +246,10 @@ Python 提供了多种字符串格式化方法：
  print("My name is {name} and I am {age} years old.".format(name="Bob", age=25))
  # 格式化选项
  print("Pi is approximately {:.2f}".format(pi)) # 3.14
- ```
+```
 
 #### 2.3.3 % 运算符
+
 ```python
  # 基本用法
  print("My name is %s and I am %d years old." % (name, age))
@@ -222,26 +257,31 @@ Python 提供了多种字符串格式化方法：
  print("Pi is approximately %.2f" % pi) # 3.14
  print("Age: %03d" % age) # 030
  print("Name: %10s" % name) # ' Alice'
- ```
+```
 
 ## 3. 布尔 (Booleans - `bool`)
-布尔类型只有两个值：`` 和 `False`。
+
+布尔类型只有两个值：``和`False`。
+
 ### 3.1 布尔运算
+
 ```python
  # 逻辑运算符
  print( and False) # False
- print( or False) #  
+ print( or False) #
  print(not True) # False
  # 比较运算符
- print(5 > 3) #  
+ print(5 > 3) #
  print(5 == 3) # False
- print(5 != 3) #  
- print(5 >= 3) #  
+ print(5 != 3) #
+ print(5 >= 3) #
  print(5 <= 3) # False
- ```
+```
 
 ### 3.2 布尔上下文
+
 在 Python 中，所有对象都可以在布尔上下文中使用（如 `if` 语句）：
+
 ```python
  # 布尔上下文中的评估
  if "Hello":
@@ -256,18 +296,24 @@ Python 提供了多种字符串格式化方法：
   print("None 为假")
  else:
   print("None 为假")
- ```
+```
 
 ### 3.3 Falsy 值
+
 以下值在布尔上下文中被视为 `False`：
+
 - `None`
 - `False`
 - 数字：`0`, `0.0`, `0j`（复数）
 - 序列和集合：`""`（空字符串）, `[]`（空列表）, `()`（空元组）, `{}`（空字典）, `set()`（空集合）
-所有其他值都被视为 ``。
+  所有其他值都被视为 ``。
+
 ## 4. 空值 (NoneType - `None`)
+
 `None` 是 Python 中的特殊值，表示「无」或「空」。
+
 ### 4.1 基本用法
+
 ```python
  # 赋值
  x = None
@@ -284,9 +330,10 @@ Python 提供了多种字符串格式化方法：
  def no_return():
   pass
  print(no_return()) # None
- ```
+```
 
 ### 4.2 注意事项
+
 ```python
  # None 不等于 0、False 或空字符串
  print(None == 0) # False
@@ -294,13 +341,16 @@ Python 提供了多种字符串格式化方法：
  print(None == "") # False
  # 使用 is 运算符检查 None（推荐）
  x = None
- print(x is None) #  
+ print(x is None) #
  print(x is not None) # False
- ```
+```
 
 ## 5. 类型转换 (Type Casting)
+
 Python 提供了内置函数来进行类型转换：
+
 ### 5.1 基本类型转换
+
 ```python
  # 转换为整数
  print(int("123")) # 123
@@ -317,15 +367,16 @@ Python 提供了内置函数来进行类型转换：
  print(str(True)) # ""
  print(str(None)) # "None"
  # 转换为布尔值
- print(bool(1)) #  
+ print(bool(1)) #
  print(bool(0)) # False
- print(bool("Hello")) #  
+ print(bool("Hello")) #
  print(bool("")) # False
  print(bool([])) # False
  print(bool(None)) # False
- ```
+```
 
 ### 5.2 高级类型转换
+
 ```python
  # 转换为列表
  print(list("Hello")) # ['H', 'e', 'l', 'l', 'o']
@@ -337,10 +388,12 @@ Python 提供了内置函数来进行类型转换：
  print(set([1, 2, 3, 2, 1])) # {1, 2, 3}（去重）
  # 转换为字典
  print(dict([("a", 1), ("b", 2)])) # {'a': 1, 'b': 2}
- ```
+```
 
 ## 6. 类型检查
+
 使用 `type()` 函数检查对象的类型：
+
 ```python
  print(type(42)) # <class 'int'>
  print(type(3.14)) # <class 'float'>
@@ -351,30 +404,41 @@ Python 提供了内置函数来进行类型转换：
  print(type((1, 2, 3))) # <class 'tuple'>
  print(type({"a": 1})) # <class 'dict'>
  # 使用 isinstance() 检查类型
- print(isinstance(42, int)) #  
- print(isinstance(3.14, float)) #  
- print(isinstance("Hello", str)) #  
- print(isinstance([1, 2, 3], list)) #  
+ print(isinstance(42, int)) #
+ print(isinstance(3.14, float)) #
+ print(isinstance("Hello", str)) #
+ print(isinstance([1, 2, 3], list)) #
  # 检查是否为多种类型之一
- print(isinstance(42, (int, float))) #  
- ```
+ print(isinstance(42, (int, float))) #
+```
 
 ## 7. 最佳实践
+
 ### 7.1 数字类型
+
 - **整数**：使用 `int` 类型存储整数，Python 会自动处理大整数。
 - **浮点数**：注意浮点数精度问题，如需精确计算，考虑使用 `decimal` 模块。
 - **复数**：仅在需要时使用复数类型。
+
 ### 7.2 字符串
+
 - **定义**：优先使用单引号或双引号，多行字符串使用三引号。
 - **格式化**：优先使用 f-string（Python 3.6+），它更简洁易读。
 - **操作**：字符串是不可变的，频繁修改字符串会创建新对象，考虑使用 `list` 或 `io.StringIO`。
+
 ### 7.3 布尔和 None
+
 - **布尔**：直接使用布尔值，避免使用 `== ` 或 `== False`。
 - **None**：使用 `is None` 和 `is not None` 检查 None 值，而不是 `== None`。
+
 ### 7.4 类型转换
+
 - **安全转换**：在转换前检查值是否有效，避免运行时错误。
 - **显式转换**：当类型不明确时，使用显式类型转换提高代码可读性。
+
 ---
+
 ### 更新日志 (Changelog)
+
 - 2026-04-05: 细化 Python 基本数据类型及常用操作。
 - 2026-04-05: 扩写内容，增加详细的数字类型操作、字符串方法、布尔运算、None 使用场景、类型转换和最佳实践等内容。

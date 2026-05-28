@@ -1,7 +1,18 @@
-﻿---
-title: "Java 项目示例：图书管理系统"
-module: "java"
 ---
+order: 140
+tags:
+  - 'java'
+  - 'project'
+  - 'oop'
+  - 'database'
+  - 'networking'
+  - 'functional'
+  - 'math'
+difficulty: 'intermediate'
+title: 'Java 项目示例：图书管理系统'
+module: 'java'
+---
+
 | 用户管理 | 注册、登录、用户信息维护 |
 | 借阅管理 | 借书、还书、借阅记录查询 |
 | 搜索功能 | 按书名/作者/分类搜索，支持模糊匹配 |
@@ -32,14 +43,14 @@ module: "java"
 
 ## 技术选型
 
-| 技术点 | 选型 | 理由 |
-|-------|------|------|
-| 数据模型 | POJO 类 + 封装 | OOP 原则，信息隐藏 |
-| 集合存储 | ArrayList + HashMap | 列表遍历 + 键值快速查找 |
-| 文件存储 | ObjectOutputStream/ObjectInputStream | 对象序列化，简单直接 |
-| 异常处理 | 自定义异常 + try-with-resources | 精确的错误处理 |
-| 搜索 | Stream API + 正则表达式 | 函数式风格，简洁高效 |
-| 日志 | java.util.logging | 标准库，无需外部依赖 |
+| 技术点   | 选型                                 | 理由                    |
+| -------- | ------------------------------------ | ----------------------- |
+| 数据模型 | POJO 类 + 封装                       | OOP 原则，信息隐藏      |
+| 集合存储 | ArrayList + HashMap                  | 列表遍历 + 键值快速查找 |
+| 文件存储 | ObjectOutputStream/ObjectInputStream | 对象序列化，简单直接    |
+| 异常处理 | 自定义异常 + try-with-resources      | 精确的错误处理          |
+| 搜索     | Stream API + 正则表达式              | 函数式风格，简洁高效    |
+| 日志     | java.util.logging                    | 标准库，无需外部依赖    |
 
 ## 完整代码
 

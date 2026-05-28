@@ -1,7 +1,19 @@
-﻿---
-title: "Python 项目示例：网页爬虫与数据分析"
-module: "python"
 ---
+order: 120
+tags:
+  - 'python'
+  - 'project'
+  - 'async'
+  - 'database'
+  - 'networking'
+  - 'css-layout'
+  - 'devops'
+  - 'math'
+difficulty: 'intermediate'
+title: 'Python 项目示例：网页爬虫与数据分析'
+module: 'python'
+---
+
 | HTML 解析 | 使用 BeautifulSoup 提取结构化数据 |
 | 反爬处理 | 请求头伪装、延时策略、重试机制 |
 | 数据清洗 | 使用 pandas 处理缺失值、异常值、重复数据 |
@@ -33,14 +45,14 @@ module: "python"
 
 ## 技术选型
 
-| 技术点 | 选型 | 理由 |
-|-------|------|------|
-| HTTP 请求 | requests | 最流行的 HTTP 库，API 简洁 |
-| HTML 解析 | BeautifulSoup | 容错性强，支持多种解析器 |
-| 数据处理 | pandas | 高性能数据分析，DataFrame 操作直观 |
-| 可视化 | matplotlib | 基础绑图库，灵活度高 |
-| 数据存储 | CSV/JSON | 通用格式，便于交换 |
-| 异常处理 | tenacity | 声明式重试库，支持指数退避 |
+| 技术点    | 选型          | 理由                               |
+| --------- | ------------- | ---------------------------------- |
+| HTTP 请求 | requests      | 最流行的 HTTP 库，API 简洁         |
+| HTML 解析 | BeautifulSoup | 容错性强，支持多种解析器           |
+| 数据处理  | pandas        | 高性能数据分析，DataFrame 操作直观 |
+| 可视化    | matplotlib    | 基础绑图库，灵活度高               |
+| 数据存储  | CSV/JSON      | 通用格式，便于交换                 |
+| 异常处理  | tenacity      | 声明式重试库，支持指数退避         |
 
 ## 完整代码
 

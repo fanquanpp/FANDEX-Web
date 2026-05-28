@@ -56,6 +56,9 @@ const breadcrumb = [
               </svg>
             </span>
             <span class="doc-list-title">{doc.data.title}</span>
+            <span class={`doc-list-difficulty diff-${doc.data.difficulty || 'intermediate'}`}>
+              {doc.data.difficulty === 'beginner' ? '入门' : doc.data.difficulty === 'advanced' ? '进阶' : '中级'}
+            </span>
             {doc.data.description && (
               <span class="doc-list-desc">{doc.data.description}</span>
             )}
@@ -145,6 +148,46 @@ const breadcrumb = [
   font-weight: 500;
   flex-shrink: 0;
   min-width: 120px;
+}
+
+.doc-list-difficulty {
+  font-size: 0.7em;
+  padding: 2px 8px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.diff-beginner {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.diff-intermediate {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.diff-advanced {
+  background: #fce4ec;
+  color: #c62828;
+}
+
+:root[data-theme="dark"] .diff-beginner {
+  background: #1b3a1b;
+  color: #81c784;
+}
+
+:root[data-theme="dark"] .diff-intermediate {
+  background: #3e2723;
+  color: #ffb74d;
+}
+
+:root[data-theme="dark"] .diff-advanced {
+  background: #3b1010;
+  color: #ef9a9a;
 }
 
 .doc-list-desc {

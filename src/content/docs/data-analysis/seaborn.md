@@ -1,9 +1,15 @@
-﻿---
-title: "Seaborn -- 统计可视化、热力图与分布图"
-module: "data-analysis"
-category: "Data Science / Seaborn"
-description: "Seaborn 高级统计可视化：分布图、关系图、分类图、热力图与多图网格"
-author: "fanquanpp"
+---
+order: 70
+tags:
+  - 'data-analysis'
+  - 'database'
+  - 'networking'
+difficulty: 'intermediate'
+title: 'Seaborn -- 统计可视化、热力图与分布图'
+module: 'data-analysis'
+category: 'Data Science / Seaborn'
+description: 'Seaborn 高级统计可视化：分布图、关系图、分类图、热力图与多图网格'
+author: 'fanquanpp'
 ---
 
 ## 目录
@@ -82,6 +88,7 @@ plt.show()
 ```
 
 **输出说明**：
+
 - `darkgrid`：深色背景 + 网格，适合数据密集型图表
 - `whitegrid`：白色背景 + 网格，最常用的分析风格
 - `dark`：深色背景无网格
@@ -214,6 +221,7 @@ plt.show()
 ```
 
 **输出说明**：一个散点图同时编码了四个变量：
+
 - x 轴：总账单
 - y 轴：小费
 - 颜色（hue）：用餐时间
@@ -276,6 +284,7 @@ plt.show()
 **输出说明**：箱线图展示五个统计量：最小值、Q1、中位数、Q3、最大值。箱体外的点是异常值（超过 1.5 IQR 的点）。`hue` 参数按吸烟状态分组，每个日期显示两个箱体。
 
 > **箱线图各部分解读**：
+>
 > - 箱体下边：Q1（25%分位数）
 > - 箱体中线：Q2（中位数）
 > - 箱体上边：Q3（75%分位数）
@@ -322,6 +331,7 @@ plt.show()
 ```
 
 **输出说明**：
+
 - `barplot`：柱高表示均值，误差棒表示 95% 置信区间
 - `pointplot`：点表示均值，连线便于比较不同类别间的趋势变化
 - 两者都计算均值和置信区间，但 pointplot 更适合展示交互效应
@@ -349,6 +359,7 @@ plt.show()
 ```
 
 **输出说明**：
+
 - `stripplot`：在类别轴上添加随机抖动，避免点重叠
 - `swarmplot`：智能排列点避免重叠，展示每个数据点的精确位置
 - `dodge=` 将 hue 组分开显示
@@ -394,6 +405,7 @@ plt.show()
 ```
 
 **输出说明**：
+
 - `mask` 参数隐藏上三角（因为相关矩阵是对称的）
 - `annot=` 显示相关系数数值
 - `cmap='coolwarm'` 使用发散配色，`center=0` 以 0 为中心
@@ -496,6 +508,7 @@ plt.show()
 ```
 
 **输出说明**：
+
 - `order=2` 使用二次多项式拟合而非线性
 - `residplot` 绘制残差（观测值 - 拟合值），如果残差随机分布在 0 附近，说明线性模型合适；如果有明显模式，说明需要更高阶模型
 
@@ -581,18 +594,19 @@ plt.show()
 ```
 
 **输出说明**：
+
 - **分类调色板**（Categorical）：区分离散类别，如 `deep`、`Set2`、`tab10`
 - **连续调色板**（Sequential）：编码有序数值，如 `viridis`、`rocket`、`Blues`
 - **发散调色板**（Diverging）：编码以中性值为中心的正负偏差，如 `coolwarm`、`vlag`、`RdBu`
 
 ### 9.2 调色板选择指南
 
-| 数据类型 | 推荐调色板 | 说明 |
-|----------|------------|------|
-| 分类变量 | `deep`、`Set2`、`tab10` | 颜色区分度高 |
-| 连续变量（正） | `viridis`、`rocket`、`mako` | 感知均匀 |
-| 连续变量（正负） | `coolwarm`、`vlag`、`RdBu` | 以中性色为中心 |
-| 色盲友好 | `colorblind` | Seaborn 内置 |
+| 数据类型         | 推荐调色板                  | 说明           |
+| ---------------- | --------------------------- | -------------- |
+| 分类变量         | `deep`、`Set2`、`tab10`     | 颜色区分度高   |
+| 连续变量（正）   | `viridis`、`rocket`、`mako` | 感知均匀       |
+| 连续变量（正负） | `coolwarm`、`vlag`、`RdBu`  | 以中性色为中心 |
+| 色盲友好         | `colorblind`                | Seaborn 内置   |
 
 ```python
 import seaborn as sns
@@ -665,37 +679,37 @@ plt.show()
 
 ### 11.1 图表类型速查
 
-| 分析目标 | 图表类型 | Seaborn 函数 |
-|----------|----------|-------------|
-| 单变量分布 | 直方图 | `sns.histplot()` |
-| 单变量分布（平滑） | KDE | `sns.kdeplot()` |
-| 累积分布 | ECDF | `sns.ecdfplot()` |
-| 双变量关系 | 散点图 | `sns.scatterplot()` |
-| 双变量趋势 | 线图 | `sns.lineplot()` |
-| 分类 vs 连续 | 箱线图 | `sns.boxplot()` |
-| 分类 vs 连续（分布） | 小提琴图 | `sns.violinplot()` |
-| 分类均值 | 条形图 | `sns.barplot()` |
-| 相关矩阵 | 热力图 | `sns.heatmap()` |
-| 回归关系 | 回归图 | `sns.regplot()` / `sns.lmplot()` |
+| 分析目标             | 图表类型 | Seaborn 函数                     |
+| -------------------- | -------- | -------------------------------- |
+| 单变量分布           | 直方图   | `sns.histplot()`                 |
+| 单变量分布（平滑）   | KDE      | `sns.kdeplot()`                  |
+| 累积分布             | ECDF     | `sns.ecdfplot()`                 |
+| 双变量关系           | 散点图   | `sns.scatterplot()`              |
+| 双变量趋势           | 线图     | `sns.lineplot()`                 |
+| 分类 vs 连续         | 箱线图   | `sns.boxplot()`                  |
+| 分类 vs 连续（分布） | 小提琴图 | `sns.violinplot()`               |
+| 分类均值             | 条形图   | `sns.barplot()`                  |
+| 相关矩阵             | 热力图   | `sns.heatmap()`                  |
+| 回归关系             | 回归图   | `sns.regplot()` / `sns.lmplot()` |
 
 ### 11.2 语义映射参数
 
-| 参数 | 作用 | 数据类型 |
-|------|------|----------|
-| `hue` | 颜色区分 | 分类/连续 |
-| `style` | 标记样式区分 | 分类 |
-| `size` | 标记大小区分 | 连续 |
-| `col` | 列方向分面 | 分类 |
-| `row` | 行方向分面 | 分类 |
+| 参数    | 作用         | 数据类型  |
+| ------- | ------------ | --------- |
+| `hue`   | 颜色区分     | 分类/连续 |
+| `style` | 标记样式区分 | 分类      |
+| `size`  | 标记大小区分 | 连续      |
+| `col`   | 列方向分面   | 分类      |
+| `row`   | 行方向分面   | 分类      |
 
 ### 11.3 统一接口
 
-| 接口 | kind 选项 | 分面支持 |
-|------|-----------|----------|
-| `sns.displot()` | hist, kde, ecdf | col, row |
-| `sns.relplot()` | scatter, line | col, row |
-| `sns.catplot()` | box, violin, bar, point, strip, swarm | col, row |
-| `sns.lmplot()` | reg | col, row, hue |
+| 接口            | kind 选项                             | 分面支持      |
+| --------------- | ------------------------------------- | ------------- |
+| `sns.displot()` | hist, kde, ecdf                       | col, row      |
+| `sns.relplot()` | scatter, line                         | col, row      |
+| `sns.catplot()` | box, violin, bar, point, strip, swarm | col, row      |
+| `sns.lmplot()`  | reg                                   | col, row, hue |
 
 ---
 

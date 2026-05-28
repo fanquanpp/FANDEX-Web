@@ -1,10 +1,18 @@
-﻿---
-title: "MySQL 练习题"
-module: "mysql"
 ---
+order: 40
+tags:
+  - 'mysql'
+  - 'exercises'
+  - 'database'
+difficulty: 'intermediate'
+title: 'MySQL 练习题'
+module: 'mysql'
+---
+
 B. `NULL, NULL, 1`
 C. `0, 1, 1`
 D. 报错
+
 <details>
 <summary>查看答案</summary>
 **答案**: B
@@ -53,6 +61,7 @@ A. 标量子查询
 B. 列子查询
 C. 相关子查询
 D. 派生表
+
 <details>
 <summary>查看答案</summary>
 **答案**: C
@@ -68,6 +77,7 @@ D. 派生表
 
 **输入**: 部门和员工数据
 **输出**: 部门名称、员工数量、平均薪资
+
 <details>
 <summary>查看参考答案</summary>
 ```sql
@@ -111,6 +121,7 @@ D. 派生表
 
 **输入**: A 账户 id=1，B 账户 id=2，转账金额 500
 **输出**: 两个账户余额更新，交易记录插入
+
 <details>
 <summary>查看参考答案</summary>
 ```sql

@@ -1,9 +1,21 @@
-﻿---
-title: "计算机科学概述"
-module: "cs-fundamentals"
-category: "Computer Science / Overview"
-description: "计算机科学学科全景图，知识体系脉络与核心抽象层级。"
-author: "fanquanpp"
+---
+order: 80
+tags:
+  - 'cs-fundamentals'
+  - 'oop'
+  - 'design-patterns'
+  - 'networking'
+  - 'memory'
+  - 'typescript'
+  - 'data-structure'
+  - 'algorithm'
+  - 'devops'
+difficulty: 'beginner'
+title: '计算机科学概述'
+module: 'cs-fundamentals'
+category: 'Computer Science / Overview'
+description: '计算机科学学科全景图，知识体系脉络与核心抽象层级。'
+author: 'fanquanpp'
 ---
 
 ## 目录
@@ -31,11 +43,11 @@ author: "fanquanpp"
 
 三个奠基性成果定义了学科的边界：
 
-| 成果 | 人物 | 年份 | 核心贡献 |
-|------|------|------|----------|
-| 图灵机模型 | Alan Turing | 1936 | 定义了"可计算"的精确边界 |
-| lambda演算 | Alonzo Church | 1936 | 从函数式角度定义可计算性 |
-| 信息论 | Claude Shannon | 1948 | 量化信息的度量与传输极限 |
+| 成果       | 人物           | 年份 | 核心贡献                 |
+| ---------- | -------------- | ---- | ------------------------ |
+| 图灵机模型 | Alan Turing    | 1936 | 定义了"可计算"的精确边界 |
+| lambda演算 | Alonzo Church  | 1936 | 从函数式角度定义可计算性 |
+| 信息论     | Claude Shannon | 1948 | 量化信息的度量与传输极限 |
 
 ### 1.2 与数学的边界
 
@@ -173,12 +185,12 @@ Layer 1: Physics Layer             -- Transistor, CMOS, Voltage Levels
 
 ### 3.3 跨层交互模式
 
-| 模式 | 描述 | 示例 |
-|------|------|------|
+| 模式     | 描述                 | 示例                             |
+| -------- | -------------------- | -------------------------------- |
 | 逐层调用 | 上层严格调用下层接口 | 应用 -> 系统调用 -> 内核 -> 驱动 |
-| 跨层优化 | 跳过中间层直接交互 | 用户态IO (DPDK) / 用户态网络栈 |
-| 层泄漏 | 下层细节穿透到上层 | CPU缓存行对齐影响程序性能 |
-| 反向通知 | 下层主动通知上层 | 中断 / 信号 / 回调 |
+| 跨层优化 | 跳过中间层直接交互   | 用户态IO (DPDK) / 用户态网络栈   |
+| 层泄漏   | 下层细节穿透到上层   | CPU缓存行对齐影响程序性能        |
+| 反向通知 | 下层主动通知上层     | 中断 / 信号 / 回调               |
 
 ### 3.4 抽象的代价
 
@@ -286,14 +298,14 @@ F     = 接受状态集合
 
 ### 4.4 三线交叉矩阵
 
-| 章节 | 体系结构 | 协议栈 | 状态机 |
-|------|----------|--------|--------|
-| architecture | 主导 | 辅助(总线协议) | 辅助(控制单元FSM) |
-| os | 主导(虚拟化) | 辅助(IPC协议) | 主导(进程/线程状态) |
-| network | 辅助(拓扑) | 主导(TCP/IP) | 主导(TCP FSM) |
-| compiler | 辅助(目标机) | 辅助(编译流水线) | 主导(词法/语法FSM) |
-| discrete-math | - | - | 主导(自动机理论) |
-| design-patterns | 辅助(架构模式) | 辅助(通信模式) | 主导(状态模式) |
+| 章节            | 体系结构       | 协议栈           | 状态机              |
+| --------------- | -------------- | ---------------- | ------------------- |
+| architecture    | 主导           | 辅助(总线协议)   | 辅助(控制单元FSM)   |
+| os              | 主导(虚拟化)   | 辅助(IPC协议)    | 主导(进程/线程状态) |
+| network         | 辅助(拓扑)     | 主导(TCP/IP)     | 主导(TCP FSM)       |
+| compiler        | 辅助(目标机)   | 辅助(编译流水线) | 主导(词法/语法FSM)  |
+| discrete-math   | -              | -                | 主导(自动机理论)    |
+| design-patterns | 辅助(架构模式) | 辅助(通信模式)   | 主导(状态模式)      |
 
 ---
 
@@ -372,25 +384,25 @@ PSPACE (多项式空间可解)
   LOGSPACE (对数空间可解)
 ```
 
-| 复杂性类 | 定义 | 典型问题 |
-|----------|------|----------|
-| P | O(n^k) 时间可解 | 排序、最短路径、矩阵乘法 |
-| NP | 多项式时间可验证 | 旅行商(判定版)、SAT、子集和 |
-| NP-complete | NP中最难的问题 | 3-SAT、图着色、背包 |
-| NP-hard | 至少和NP-complete一样难 | 停机问题、最优旅行商 |
-| PSPACE | 多项式空间可解 | QBF、地理游戏 |
+| 复杂性类    | 定义                    | 典型问题                    |
+| ----------- | ----------------------- | --------------------------- |
+| P           | O(n^k) 时间可解         | 排序、最短路径、矩阵乘法    |
+| NP          | 多项式时间可验证        | 旅行商(判定版)、SAT、子集和 |
+| NP-complete | NP中最难的问题          | 3-SAT、图着色、背包         |
+| NP-hard     | 至少和NP-complete一样难 | 停机问题、最优旅行商        |
+| PSPACE      | 多项式空间可解          | QBF、地理游戏               |
 
 **P vs NP问题**：P = NP 是否成立是千禧年数学难题之一。若P=NP，则所有可快速验证的问题都可快速求解，密码学体系将崩塌。
 
 ### 5.4 对后续模块的影响
 
-| 理论结果 | 影响的模块 | 具体影响 |
-|----------|------------|----------|
-| 停机问题不可判定 | [编译原理](compiler) | 无法构建完美的程序分析器 |
-| Chomsky层次 | [编译原理](compiler) | 正则语言/上下文无关语言决定词法/语法分析的能力边界 |
-| NP-completeness | [设计模式](design-patterns) | 某些优化问题需要启发式/近似算法 |
-| 信息熵 | [计算机网络](network) | 信道容量、数据压缩的理论极限 |
-| 自动机理论 | [离散数学](discrete-math) | DFA/NFA/正则表达式的等价性 |
+| 理论结果         | 影响的模块                  | 具体影响                                           |
+| ---------------- | --------------------------- | -------------------------------------------------- |
+| 停机问题不可判定 | [编译原理](compiler)        | 无法构建完美的程序分析器                           |
+| Chomsky层次      | [编译原理](compiler)        | 正则语言/上下文无关语言决定词法/语法分析的能力边界 |
+| NP-completeness  | [设计模式](design-patterns) | 某些优化问题需要启发式/近似算法                    |
+| 信息熵           | [计算机网络](network)       | 信道容量、数据压缩的理论极限                       |
+| 自动机理论       | [离散数学](discrete-math)   | DFA/NFA/正则表达式的等价性                         |
 
 ---
 
@@ -420,13 +432,13 @@ graph LR
 
 ### 6.3 与其他模块的交叉引用
 
-| 本模块章节 | 外部模块引用 | 交叉原因 |
-|------------|-------------|----------|
-| architecture | [C语言](c/overview\) | C的内存模型直接映射到硬件 |
-| os | [C++](cpp/overview\) | C++的线程模型与OS线程对应 |
-| compiler | [Java](java/overview\) | JVM是编译目标+运行时的统一体 |
-| network | [Java](java/overview\) | Java NIO/Netty与网络编程 |
-| design-patterns | [C++](cpp/overview\) / [Java](java/overview\) | 设计模式的语言实现差异 |
+| 本模块章节      | 外部模块引用                                  | 交叉原因                     |
+| --------------- | --------------------------------------------- | ---------------------------- |
+| architecture    | [C语言](c/overview\)                          | C的内存模型直接映射到硬件    |
+| os              | [C++](cpp/overview\)                          | C++的线程模型与OS线程对应    |
+| compiler        | [Java](java/overview\)                        | JVM是编译目标+运行时的统一体 |
+| network         | [Java](java/overview\)                        | Java NIO/Netty与网络编程     |
+| design-patterns | [C++](cpp/overview\) / [Java](java/overview\) | 设计模式的语言实现差异       |
 
 ---
 
@@ -434,27 +446,27 @@ graph LR
 
 ### 7.1 核心概念速查
 
-| 概念 | 一句话定义 | 所属主线 |
-|------|-----------|----------|
-| 冯诺依曼架构 | 存储程序 + 顺序执行 | 体系结构 |
-| 缓存一致性 | 多核间数据一致性协议 | 体系结构/协议栈 |
-| 进程 | 资源分配的基本单位 | 体系结构/状态机 |
-| 虚拟内存 | 地址空间的间接映射 | 体系结构 |
-| TCP三次握手 | 连接建立的状态同步 | 协议栈/状态机 |
-| 词法分析 | 字符流到Token流的FSM | 状态机 |
-| P vs NP | 验证与求解的复杂度鸿沟 | 计算理论 |
+| 概念         | 一句话定义             | 所属主线        |
+| ------------ | ---------------------- | --------------- |
+| 冯诺依曼架构 | 存储程序 + 顺序执行    | 体系结构        |
+| 缓存一致性   | 多核间数据一致性协议   | 体系结构/协议栈 |
+| 进程         | 资源分配的基本单位     | 体系结构/状态机 |
+| 虚拟内存     | 地址空间的间接映射     | 体系结构        |
+| TCP三次握手  | 连接建立的状态同步     | 协议栈/状态机   |
+| 词法分析     | 字符流到Token流的FSM   | 状态机          |
+| P vs NP      | 验证与求解的复杂度鸿沟 | 计算理论        |
 
 ### 7.2 抽象层级速查
 
-| 层级 | 关键抽象 | 接口类型 | 典型实现 |
-|------|---------|----------|----------|
-| L7 应用 | 用户功能 | API / GUI | 浏览器、编辑器 |
-| L6 运行时 | 类型/线程/GC | ABI / 字节码 | JVM、CLR、V8 |
-| L5 操作系统 | 进程/文件/Socket | 系统调用 | Linux、Windows |
-| L4 指令集 | 指令/寄存器 | ISA规范 | x86-64、ARMv8、RISC-V |
-| L3 微架构 | 流水线/缓存 | 微操作 | Intel Core、Apple M1 |
-| L2 数字逻辑 | 门/触发器/FSM | 布尔函数 | ALU、寄存器堆 |
-| L1 物理 | 晶体管/电压 | 电信号 | CMOS工艺 |
+| 层级        | 关键抽象         | 接口类型     | 典型实现              |
+| ----------- | ---------------- | ------------ | --------------------- |
+| L7 应用     | 用户功能         | API / GUI    | 浏览器、编辑器        |
+| L6 运行时   | 类型/线程/GC     | ABI / 字节码 | JVM、CLR、V8          |
+| L5 操作系统 | 进程/文件/Socket | 系统调用     | Linux、Windows        |
+| L4 指令集   | 指令/寄存器      | ISA规范      | x86-64、ARMv8、RISC-V |
+| L3 微架构   | 流水线/缓存      | 微操作       | Intel Core、Apple M1  |
+| L2 数字逻辑 | 门/触发器/FSM    | 布尔函数     | ALU、寄存器堆         |
+| L1 物理     | 晶体管/电压      | 电信号       | CMOS工艺              |
 
 ### 7.3 三大主线速查
 
@@ -476,8 +488,8 @@ graph LR
 
 ## 延伸阅读
 
-- *The Computer Science and Engineering Handbook* -- Tucker
-- *Introduction to the Theory of Computation* -- Michael Sipser
-- *Computer Science: An Overview* -- J. Glenn Brookshear
-- *Structure and Interpretation of Computer Programs* -- Abelson & Sussman
-- *The Art of Computer Programming* -- Donald Knuth
+- _The Computer Science and Engineering Handbook_ -- Tucker
+- _Introduction to the Theory of Computation_ -- Michael Sipser
+- _Computer Science: An Overview_ -- J. Glenn Brookshear
+- _Structure and Interpretation of Computer Programs_ -- Abelson & Sussman
+- _The Art of Computer Programming_ -- Donald Knuth

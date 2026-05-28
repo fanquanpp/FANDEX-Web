@@ -1,10 +1,17 @@
 ---
-title: "动态规划"
-module: "algorithm"
-category: "Algorithm/DynamicProgramming"
-description: "动态规划核心思想、状态定义与转移方程推导，涵盖背包、LCS、编辑距离、子序列等经典问题，附复杂度分析与多语言实现。"
-author: "fanquanpp"
+title: '动态规划'
+module: 'algorithm'
+category: 'Algorithm/DynamicProgramming'
+description: '动态规划核心思想、状态定义与转移方程推导，涵盖背包、LCS、编辑距离、子序列等经典问题，附复杂度分析与多语言实现。'
+author: 'fanquanpp'
+order: 10
+tags:
+  - 'algorithm'
+  - 'algorithm-dynamicprogramming'
+  - 'data-structure'
+difficulty: 'intermediate'
 ---
+
 - [3. 0-1 背包问题](#3-0-1-背包问题)
 - [4. 完全背包与多重背包](#4-完全背包与多重背包)
 - [5. 最长公共子序列 (LCS)](#5-最长公共子序列-lcs)
@@ -138,9 +145,10 @@ DP的核心价值：用空间换时间，将指数级的搜索空间压缩为多
 **状态定义**：dp[i][w] = 从前i个物品中选取，总重量不超过w时的最大价值。
 
 **转移方程**：
+
 - 不选第i个物品：dp[i][w] = dp[i-1][w]
-- 选第i个物品：dp[i][w] = dp[i-1][w-w[i]] + v[i]（前提：w >= w[i]）
-- 取两者最大值：dp[i][w] = max(dp[i-1][w], dp[i-1][w-w[i]] + v[i])
+- 选第i个物品：dp[i][w] = dp[i-1]w-w[i]] + v[i]（前提：w >= w[i]）
+- 取两者最大值：dp[i][w] = max(dp[i-1][w], dp[i-1]w-w[i]] + v[i])
 
 **填表可视化**（3个物品，W=5）：
 
@@ -293,11 +301,11 @@ int knapsackMultiple(vector<int>& weights, vector<int>& values,
 
 ### 4.3 三种背包对比
 
-| 类型 | 物品数量 | 内层遍历方向 | 时间复杂度 |
-|------|----------|-------------|-----------|
-| 0-1背包 | 1个 | 从大到小 | O(nW) |
-| 完全背包 | 无限 | 从小到大 | O(nW) |
-| 多重背包 | s[i]个 | 二进制拆分 | O(nW*logS) |
+| 类型     | 物品数量 | 内层遍历方向 | 时间复杂度  |
+| -------- | -------- | ------------ | ----------- |
+| 0-1背包  | 1个      | 从大到小     | O(nW)       |
+| 完全背包 | 无限     | 从小到大     | O(nW)       |
+| 多重背包 | s[i]个   | 二进制拆分   | O(nW\*logS) |
 
 ---
 
@@ -312,6 +320,7 @@ int knapsackMultiple(vector<int>& weights, vector<int>& values,
 **状态定义**：dp[i][j] = X[0..i-1]与Y[0..j-1]的LCS长度。
 
 **转移方程**：
+
 - 若X[i-1] == Y[j-1]：dp[i][j] = dp[i-1][j-1] + 1
 - 若X[i-1] != Y[j-1]：dp[i][j] = max(dp[i-1][j], dp[i][j-1])
 
@@ -425,12 +434,13 @@ string lcsString(const string& text1, const string& text2) {
 **状态定义**：dp[i][j] = word1[0..i-1]转换为word2[0..j-1]的最少操作数。
 
 **转移方程**：
+
 - 若word1[i-1] == word2[j-1]：dp[i][j] = dp[i-1][j-1]（无需操作）
 - 若word1[i-1] != word2[j-1]：
- - 插入：dp[i][j-1] + 1（在word1中插入word2[j-1]）
- - 删除：dp[i-1][j] + 1（删除word1[i-1]）
- - 替换：dp[i-1][j-1] + 1（将word1[i-1]替换为word2[j-1]）
- - dp[i][j] = min(插入, 删除, 替换)
+- 插入：dp[i][j-1] + 1（在word1中插入word2[j-1]）
+- 删除：dp[i-1][j] + 1（删除word1[i-1]）
+- 替换：dp[i-1][j-1] + 1（将word1[i-1]替换为word2[j-1]）
+- dp[i][j] = min(插入, 删除, 替换)
 
 ### 6.3 复杂度分析
 
@@ -566,10 +576,10 @@ int lisBinary(const vector<int>& nums) {
 
 ### 7.4 复杂度对比
 
-| 方法 | 时间 | 空间 | 能否还原序列 |
-|------|------|------|-------------|
-| O(n^2) DP | O(n^2) | O(n) | 是 |
-| O(n log n) 贪心+二分 | O(n log n) | O(n) | 需额外记录 |
+| 方法                 | 时间       | 空间 | 能否还原序列 |
+| -------------------- | ---------- | ---- | ------------ |
+| O(n^2) DP            | O(n^2)     | O(n) | 是           |
+| O(n log n) 贪心+二分 | O(n log n) | O(n) | 需额外记录   |
 
 ---
 
@@ -580,6 +590,7 @@ int lisBinary(const vector<int>& nums) {
 **状态定义**：dp[i][j] = s[i..j]中最长回文子序列的长度。
 
 **转移方程**：
+
 - 若s[i] == s[j]：dp[i][j] = dp[i+1][j-1] + 2
 - 若s[i] != s[j]：dp[i][j] = max(dp[i+1][j], dp[i][j-1])
 
@@ -664,11 +675,11 @@ int maxSubarray(const vector<int>& nums) {
 
 ### 8.4 子序列 vs 子串：状态定义差异
 
-| 问题 | 子序列（不连续） | 子串（连续） |
-|------|-----------------|-------------|
-| LCS | dp[i][j]从dp[i-1][j-1]转移 | 最长公共子串需连续匹配 |
-| 回文 | dp[i][j]从dp[i+1][j-1]转移 | 中心扩展法 |
-| 递增 | dp[i]从所有j<i转移 | 需要连续递增条件 |
+| 问题 | 子序列（不连续）           | 子串（连续）           |
+| ---- | -------------------------- | ---------------------- |
+| LCS  | dp[i][j]从dp[i-1][j-1]转移 | 最长公共子串需连续匹配 |
+| 回文 | dp[i][j]从dp[i+1][j-1]转移 | 中心扩展法             |
+| 递增 | dp[i]从所有j<i转移         | 需要连续递增条件       |
 
 ---
 
@@ -723,7 +734,7 @@ int tsp(vector<vector<int>>& dist) {
 }
 ```
 
-复杂度：O(2^n * n^2)，空间O(2^n * n)。
+复杂度：O(2^n _ n^2)，空间O(2^n _ n)。
 
 ### 9.2 单调队列优化
 
@@ -750,35 +761,35 @@ def sliding_window_max(nums, k):
 
 ### 9.3 斜率优化
 
-当转移方程可以写成 dp[i] = min(dp[j] + a[i]*b[j] + c[i] + d[j]) 的形式时，可以通过凸包维护将O(n^2)优化为O(n log n)或O(n)。
+当转移方程可以写成 dp[i] = min(dp[j] + a[i]\*b[j] + c[i] + d[j]) 的形式时，可以通过凸包维护将O(n^2)优化为O(n log n)或O(n)。
 
 ### 9.4 优化前后复杂度对比
 
-| 优化技术 | 适用场景 | 优化前 | 优化后 |
-|----------|----------|--------|--------|
-| 滚动数组 | 依赖前一行/列 | O(mn)空间 | O(n)空间 |
-| 位压缩 | 集合状态 | O(2^n * n) | O(2^n)空间 |
-| 单调队列 | 窗口最值转移 | O(n^2) | O(n) |
-| 斜率优化 | 凸包转移 | O(n^2) | O(n log n) |
-| 四边形不等式 | 区间DP | O(n^3) | O(n^2) |
+| 优化技术     | 适用场景      | 优化前      | 优化后     |
+| ------------ | ------------- | ----------- | ---------- |
+| 滚动数组     | 依赖前一行/列 | O(mn)空间   | O(n)空间   |
+| 位压缩       | 集合状态      | O(2^n \* n) | O(2^n)空间 |
+| 单调队列     | 窗口最值转移  | O(n^2)      | O(n)       |
+| 斜率优化     | 凸包转移      | O(n^2)      | O(n log n) |
+| 四边形不等式 | 区间DP        | O(n^3)      | O(n^2)     |
 
 ---
 
 ## 10. DP速查表
 
-| 问题 | 状态定义 | 转移方程 | 时间 | 空间 |
-|------|----------|----------|------|------|
-| 斐波那契 | dp[i]: 第i项 | dp[i]=dp[i-1]+dp[i-2] | O(n) | O(1) |
-| 爬楼梯 | dp[i]: 到第i阶方法数 | dp[i]=dp[i-1]+dp[i-2] | O(n) | O(1) |
-| 0-1背包 | dp[i][w]: 前i个容量w | max(dp[i-1][w], dp[i-1][w-wi]+vi) | O(nW) | O(W) |
-| 完全背包 | dp[w]: 容量w最大价值 | dp[w]=max(dp[w], dp[w-wi]+vi) | O(nW) | O(W) |
-| LCS | dp[i][j]: 前i前j | 见5.2节 | O(mn) | O(mn) |
-| 编辑距离 | dp[i][j]: 前i前j | 见6.2节 | O(mn) | O(min(m,n)) |
-| LIS | dp[i]: 以i结尾 | max(dp[j]+1) | O(nlogn) | O(n) |
-| 最长回文子序列 | dp[i][j]: s[i..j] | 见8.1节 | O(n^2) | O(n^2) |
-| 最大子数组 | curr: 当前和 | curr=max(x,curr+x) | O(n) | O(1) |
-| 零钱兑换 | dp[a]: 金额a最少硬币 | dp[a]=min(dp[a-ci]+1) | O(n*amount) | O(amount) |
-| TSP | dp[mask][i] | 见9.1节 | O(2^n*n^2) | O(2^n*n) |
+| 问题           | 状态定义             | 转移方程                          | 时间         | 空间        |
+| -------------- | -------------------- | --------------------------------- | ------------ | ----------- |
+| 斐波那契       | dp[i]: 第i项         | dp[i]=dp[i-1]+dp[i-2]             | O(n)         | O(1)        |
+| 爬楼梯         | dp[i]: 到第i阶方法数 | dp[i]=dp[i-1]+dp[i-2]             | O(n)         | O(1)        |
+| 0-1背包        | dp[i][w]: 前i个容量w | max(dp[i-1][w], dp[i-1][w-wi]+vi) | O(nW)        | O(W)        |
+| 完全背包       | dp[w]: 容量w最大价值 | dp[w]=max(dp[w], dp[w-wi]+vi)     | O(nW)        | O(W)        |
+| LCS            | dp[i][j]: 前i前j     | 见5.2节                           | O(mn)        | O(mn)       |
+| 编辑距离       | dp[i][j]: 前i前j     | 见6.2节                           | O(mn)        | O(min(m,n)) |
+| LIS            | dp[i]: 以i结尾       | max(dp[j]+1)                      | O(nlogn)     | O(n)        |
+| 最长回文子序列 | dp[i][j]: s[i..j]    | 见8.1节                           | O(n^2)       | O(n^2)      |
+| 最大子数组     | curr: 当前和         | curr=max(x,curr+x)                | O(n)         | O(1)        |
+| 零钱兑换       | dp[a]: 金额a最少硬币 | dp[a]=min(dp[a-ci]+1)             | O(n\*amount) | O(amount)   |
+| TSP            | dp[mask][i]          | 见9.1节                           | O(2^n\*n^2)  | O(2^n\*n)   |
 
 ---
 

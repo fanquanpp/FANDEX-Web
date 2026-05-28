@@ -1,11 +1,18 @@
-﻿---
-title: "内置数据结构 (Built-in Data Structures)"
-module: "python"
-category: "Python Basics"
-description: "列表、元组、集合、字典的底层实现与常用操作。 | Detailed guide on List, Tuple, Set, and Dictionary."
-author: "Anonymous"
 ---
+order: 10
+tags:
+  - 'python'
+  - 'database'
+difficulty: 'intermediate'
+title: '内置数据结构 (Built-in Data Structures)'
+module: 'python'
+category: 'Python Basics'
+description: '列表、元组、集合、字典的底层实现与常用操作。 | Detailed guide on List, Tuple, Set, and Dictionary.'
+author: 'Anonymous'
+---
+
 ## 目录
+
 1. [列表](#列表)
 2. [元组](#元组)
 3. [字典](#字典)
@@ -13,10 +20,15 @@ author: "Anonymous"
 5. [数据结构对比](#数据结构对比)
 6. [数据结构的最佳实践](#数据结构的最佳实践)
 7. [高级数据结构](#高级数据结构)
+
 ---
+
 ## 1. 列表 (List - `list`)
+
 列表是Python中最常用的数据结构之一，它是一个有序、可变的序列，允许存储重复元素。
+
 ### 1.1 列表的创建
+
 ```python
  # 创建空列表
  empty_list = []
@@ -36,9 +48,10 @@ author: "Anonymous"
  copy1 = original.copy()
  copy2 = list(original)
  copy3 = original[:] # 切片复制
- ```
+```
 
 ### 1.2 列表的访问
+
 ```python
  fruits = ["apple", "banana", "cherry"]
  # 通过索引访问元素
@@ -51,13 +64,14 @@ author: "Anonymous"
  print(fruits[1:]) # 输出: ['banana', 'cherry'] (从索引1到结束)
  print(fruits[::-1]) # 输出: ['cherry', 'banana', 'apple'] (反转列表)
  # 检查元素是否存在
- print("apple" in fruits) # 输出:  
+ print("apple" in fruits) # 输出:
  print("orange" in fruits) # 输出: False
  # 获取列表长度
  print(len(fruits)) # 输出: 3
- ```
+```
 
 ### 1.3 列表的修改
+
 ```python
  fruits = ["apple", "banana", "cherry"]
  # 修改元素
@@ -84,9 +98,10 @@ author: "Anonymous"
  # 清空列表
  fruits.clear()
  print(fruits) # 输出: []
- ```
+```
 
 ### 1.4 列表的常用方法
+
 ```python
  numbers = [3, 1, 4, 1, 5, 9, 2, 6]
  # 排序
@@ -110,18 +125,23 @@ author: "Anonymous"
  # 列表重复
  repeated = [1, 2] * 3
  print(repeated) # 输出: [1, 2, 1, 2, 1, 2]
- ```
+```
 
 ### 1.5 列表的性能特点
+
 - **实现**: 基于动态数组
 - **访问**: O(1)（通过索引）
 - **插入/删除**:
- - 末尾: O(1)
- - 中间: O(n)（需要移动元素）
+- 末尾: O(1)
+- 中间: O(n)（需要移动元素）
 - **查找**: O(n)（线性搜索）
+
 ## 2. 元组 (Tuple - `tuple`)
+
 元组是一个有序、不可变的序列，允许存储重复元素。
+
 ### 2.1 元组的创建
+
 ```python
  # 创建元组
  empty_tuple = ()
@@ -141,9 +161,10 @@ author: "Anonymous"
  print(list_to_tuple) # 输出: (1, 2, 3)
  string_to_tuple = tuple("hello")
  print(string_to_tuple) # 输出: ('h', 'e', 'l', 'l', 'o')
- ```
+```
 
 ### 2.2 元组的访问
+
 ```python
  fruits = ("apple", "banana", "cherry")
  # 通过索引访问元素
@@ -156,14 +177,15 @@ author: "Anonymous"
  print(fruits[1:]) # 输出: ('banana', 'cherry')
  print(fruits[::-1]) # 输出: ('cherry', 'banana', 'apple')
  # 检查元素是否存在
- print("apple" in fruits) # 输出:  
+ print("apple" in fruits) # 输出:
  # 获取元组长度
  print(len(fruits)) # 输出: 3
  # 元组的不可变性
  # fruits[1] = "grape" # 错误: 'tuple' object does not support item assignment
- ```
+```
 
 ### 2.3 元组的解包
+
 ```python
  # 基本解包
  coordinates = (10, 20, 30)
@@ -184,9 +206,10 @@ author: "Anonymous"
   return "Alice", 30, "New York"
  name, age, city = get_user()
  print(name, age, city) # 输出: Alice 30 New York
- ```
+```
 
 ### 2.4 元组的常用方法
+
 ```python
  numbers = (3, 1, 4, 1, 5, 9)
  # 统计元素出现次数
@@ -201,16 +224,21 @@ author: "Anonymous"
  # 元组重复
  repeated = (1, 2) * 3
  print(repeated) # 输出: (1, 2, 1, 2, 1, 2)
- ```
+```
 
 ### 2.5 元组的应用场景
+
 - **作为字典的键**（因为元组不可变）
 - **函数返回多个值**
 - **保护数据不被修改**
 - **性能优化**（元组比列表更节省内存，访问速度更快）
+
 ## 3. 字典 (Dictionary - `dict`)
+
 字典是一种映射类型，存储键值对，Python 3.7+ 保证插入顺序。
+
 ### 3.1 字典的创建
+
 ```python
  # 创建空字典
  empty_dict = {}
@@ -229,9 +257,10 @@ author: "Anonymous"
  # 字典推导式
  squares = {x: x**2 for x in range(5)}
  print(squares) # 输出: {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
- ```
+```
 
 ### 3.2 字典的访问
+
 ```python
  person = {"name": "Alice", "age": 30, "city": "New York"}
  # 通过键访问值
@@ -241,7 +270,7 @@ author: "Anonymous"
  print(person.get("name")) # 输出: Alice
  print(person.get("country", "Unknown")) # 输出: Unknown（键不存在时返回默认值）
  # 检查键是否存在
- print("name" in person) # 输出:  
+ print("name" in person) # 输出:
  print("country" in person) # 输出: False
  # 获取所有键
  print(person.keys()) # 输出: dict_keys(['name', 'age', 'city'])
@@ -249,9 +278,10 @@ author: "Anonymous"
  print(person.values()) # 输出: dict_values(['Alice', 30, 'New York'])
  # 获取所有键值对
  print(person.items()) # 输出: dict_items([('name', 'Alice'), ('age', 30), ('city', 'New York')])
- ```
+```
 
 ### 3.3 字典的修改
+
 ```python
  person = {"name": "Alice", "age": 30, "city": "New York"}
  # 添加或修改键值对
@@ -273,9 +303,10 @@ author: "Anonymous"
  # 清空字典
  person.clear()
  print(person) # 输出: {}
- ```
+```
 
 ### 3.4 字典的遍历
+
 ```python
  person = {"name": "Alice", "age": 30, "city": "New York"}
  # 遍历键
@@ -290,17 +321,22 @@ author: "Anonymous"
  # 遍历键值对
  for key, value in person.items():
   print(f"{key}: {value}")
- ```
+```
 
 ### 3.5 字典的性能特点
+
 - **实现**: 基于哈希表
 - **访问**: O(1)（平均情况）
 - **插入/删除**: O(1)（平均情况）
 - **查找**: O(1)（平均情况）
 - **键的要求**: 必须是不可变类型（如字符串、数字、元组）
+
 ## 4. 集合 (Set - `set`)
+
 集合是一个无序、不重复的元素集合。
+
 ### 4.1 集合的创建
+
 ```python
  # 创建空集合
  empty_set = set() # 注意: {} 创建的是空字典
@@ -315,9 +351,10 @@ author: "Anonymous"
  # 集合推导式
  squares = {x**2 for x in range(5)}
  print(squares) # 输出: {0, 1, 4, 9, 16}
- ```
+```
 
 ### 4.2 集合的操作
+
 ```python
  fruits = {"apple", "banana", "cherry"}
  # 添加元素
@@ -338,9 +375,10 @@ author: "Anonymous"
  # 清空集合
  fruits.clear()
  print(fruits) # 输出: set()
- ```
+```
 
 ### 4.3 集合运算
+
 ```python
  set1 = {1, 2, 3, 4, 5}
  set2 = {4, 5, 6, 7, 8}
@@ -362,60 +400,79 @@ author: "Anonymous"
  print(set1.symmetric_difference(set2)) # 同上
  # 子集检查
  set3 = {1, 2, 3}
- print(set3.issubset(set1)) # 输出:  
+ print(set3.issubset(set1)) # 输出:
  # 超集检查
- print(set1.issuperset(set3)) # 输出:  
+ print(set1.issuperset(set3)) # 输出:
  # 不相交检查
  set4 = {6, 7, 8}
- print(set1.isdisjoint(set4)) # 输出:  
- ```
+ print(set1.isdisjoint(set4)) # 输出:
+```
 
 ### 4.4 集合的性能特点
+
 - **实现**: 基于哈希表
 - **查找**: O(1)（平均情况）
 - **插入/删除**: O(1)（平均情况）
 - **元素要求**: 必须是不可变类型
+
 ## 5. 数据结构对比
-| 类型 | 有序 | 可变 | 重复 | 性能 (查找) | 适用场景 |
-|---|---|---|---|---|---|
-| `list` | Yes | Yes | Yes | $O(n)$ | 需要有序且可能修改的数据 |
-| `tuple` | Yes | No | Yes | $O(n)$ | 需要有序且不可修改的数据，作为字典键 |
-| `dict` | Yes* | Yes | No (Key) | $O(1)$ | 需要键值对映射，快速查找 |
-| `set` | No | Yes | No | $O(1)$ | 需要去重，集合运算 |
+
+| 类型    | 有序  | 可变 | 重复     | 性能 (查找) | 适用场景                             |
+| ------- | ----- | ---- | -------- | ----------- | ------------------------------------ |
+| `list`  | Yes   | Yes  | Yes      | $O(n)$      | 需要有序且可能修改的数据             |
+| `tuple` | Yes   | No   | Yes      | $O(n)$      | 需要有序且不可修改的数据，作为字典键 |
+| `dict`  | Yes\* | Yes  | No (Key) | $O(1)$      | 需要键值对映射，快速查找             |
+| `set`   | No    | Yes  | No       | $O(1)$      | 需要去重，集合运算                   |
+
 - Python 3.7+ 保证字典的插入顺序
+
 ## 6. 数据结构的最佳实践
+
 ### 6.1 列表的最佳实践
+
 - **使用列表推导式**：简洁高效地创建列表
 - **避免频繁在列表开头插入**：这会导致 O(n) 的时间复杂度
 - **使用 `append()` 而不是 `+`**：`append()` 是 O(1)，而 `+` 是 O(n)
 - **使用 `in` 检查元素**：虽然是 O(n)，但对于小列表是可接受的
 - **排序前考虑是否需要**：排序是 O(n log n) 操作
+
 ### 6.2 元组的最佳实践
+
 - **使用元组存储相关数据**：如坐标、日期等
 - **作为函数返回值**：方便多值返回
 - **作为字典键**：因为元组不可变
 - **使用拆包简化代码**：提高可读性
 - **注意单元素元组的语法**：需要加逗号 `(1,)`
+
 ### 6.3 字典的最佳实践
+
 - **使用 `get()` 方法**：避免键不存在的错误
 - **使用字典推导式**：简洁高效地创建字典
 - **遍历键值对使用 `items()`**：比分别遍历键和值更高效
 - **使用 `defaultdict`**：处理不存在的键（来自 `collections` 模块）
 - **使用 `OrderedDict`**：需要保持插入顺序的旧版本 Python（3.7+ 已不需要）
+
 ### 6.4 集合的最佳实践
+
 - **用于去重**：快速去除重复元素
 - **用于集合运算**：交集、并集、差集等
 - **用于快速成员检查**：比列表的 `in` 操作更快
 - **注意集合是无序的**：不要依赖元素顺序
 - **元素必须是不可变的**：不能包含列表、字典等可变类型
+
 ### 6.5 性能考虑
+
 - **小数据集**：选择最符合语义的数据结构
 - **大数据集**：考虑查找、插入、删除的性能
 - **内存使用**：元组比列表更节省内存
 - **操作频率**：根据最频繁的操作选择合适的数据结构
+
 ## 7. 高级数据结构
+
 Python 标准库中还提供了一些高级数据结构：
+
 ### 7.1 有序字典 (`OrderedDict`)
+
 ```python
  from collections import OrderedDict
  # 在 Python 3.7+ 中，普通字典已经保持插入顺序
@@ -428,9 +485,10 @@ Python 标准库中还提供了一些高级数据结构：
  # 移动元素到末尾
  od.move_to_end('a')
  print(list(od.keys())) # 输出: ['b', 'c', 'a']
- ```
+```
 
 ### 7.2 默认字典 (`defaultdict`)
+
 ```python
  from collections import defaultdict
  # 自动为不存在的键提供默认值
@@ -444,9 +502,10 @@ Python 标准库中还提供了一些高级数据结构：
  d['a'].append(2)
  d['b'].append(3)
  print(d) # 输出: defaultdict(<class 'list'>, {'a': [1, 2], 'b': [3]})
- ```
+```
 
 ### 7.3 计数器 (`Counter`)
+
 ```python
  from collections import Counter
  # 统计元素出现次数
@@ -456,9 +515,10 @@ Python 标准库中还提供了一些高级数据结构：
  print(c['a']) # 输出: 3
  # 获取最常见的元素
  print(c.most_common(2)) # 输出: [('a', 3), ('b', 2)]
- ```
+```
 
 ### 7.4 双端队列 (`deque`)
+
 ```python
  from collections import deque
  # 双端队列，支持高效的两端操作
@@ -475,10 +535,12 @@ Python 标准库中还提供了一些高级数据结构：
  # 从左侧移除
  print(dq.popleft()) # 输出: 0
  print(dq) # 输出: deque([1, 2, 3])
- ```
+```
 
 ---
+
 ### 更新日志 (Changelog)
+
 - 2026-04-05: 细化内置容器性能对比。
 - 2026-04-05: 扩写内容，增加详细的列表、元组、字典、集合的创建、访问、修改、常用方法、性能特点和最佳实践等内容。
 

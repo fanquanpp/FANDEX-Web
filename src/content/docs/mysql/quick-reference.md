@@ -1,12 +1,19 @@
-﻿---
-title: "MySQL 快速查阅 (Quick Reference)"
-module: "mysql"
-category: "MySQL Reference"
-description: "MySQL 常用指令速查手册 | Quick reference for common MySQL commands."
-author: "Anonymous"
 ---
+order: 120
+tags:
+  - 'mysql'
+  - 'database'
+  - 'math'
+difficulty: 'intermediate'
+title: 'MySQL 快速查阅 (Quick Reference)'
+module: 'mysql'
+category: 'MySQL Reference'
+description: 'MySQL 常用指令速查手册 | Quick reference for common MySQL commands.'
+author: 'Anonymous'
 ---
+
 ## 目录
+
 1. [数据库操作](#数据库操作)
 2. [表操作](#表操作)
 3. [数据类型](#数据类型)
@@ -17,15 +24,20 @@ author: "Anonymous"
 8. [用户与权限](#用户与权限)
 9. [事务管理](#事务管理)
 10. [常用函数](#常用函数)
+
 ---
+
 ## 1. 数据库操作
+
 ### 创建数据库
+
 ```sql
  CREATE DATABASE dbname;
  CREATE DATABASE IF NOT EXISTS dbname;
- ```
+```
 
 ### 创建数据库（指定字符集）
+
 ```sql
  CREATE DATABASE dbname
   CHARACTER SET utf8mb4
@@ -34,16 +46,18 @@ author: "Anonymous"
  CREATE DATABASE ecommerce
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
- ```
+```
 
 ### 修改数据库字符集
+
 ```sql
  ALTER DATABASE dbname
   CHARACTER SET gbk
   COLLATE gbk_chinese_ci;
- ```
+```
 
 ### 查看数据库
+
 ```sql
  SHOW DATABASES;
  SHOW CREATE DATABASE dbname;
@@ -52,22 +66,27 @@ author: "Anonymous"
   SUM(data_length + index_length) / 1024 / 1024 AS '大小(MB)'
  from information_schema.tables
  GROUP BY table_schema;
- ```
+```
 
 ### 使用数据库
+
 ```sql
  use dbname;
- ```
+```
 
 ### 删除数据库
+
 ```sql
  DROP DATABASE dbname;
  DROP DATABASE IF EXISTS dbname;
- ```
+```
 
 ---
+
 ## 2. 表操作
+
 ### 创建表
+
 ```sql
  CREATE TABLE tablename (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -86,9 +105,10 @@ author: "Anonymous"
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
  True) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
- ```
+```
 
 ### 查看表
+
 ```sql
  SHOW TABLES;
  DESC tablename;
@@ -100,9 +120,10 @@ author: "Anonymous"
   index_length / 1024 / 1024 AS '索引大小(MB)'
  from information_schema.tables
  WHERE table_schema = DATABASE();
- ```
+```
 
 ### 修改表结构
+
 ```sql
  True-- 添加列
  ALTER TABLE tablename ADD COLUMN colname type;
@@ -119,20 +140,23 @@ author: "Anonymous"
  ALTER TABLE users MODIFY COLUMN age SMALLINT UNSIGNED;
  ALTER TABLE users CHANGE COLUMN phone mobile VARCHAR(20);
  ALTER TABLE users DROP COLUMN age;
- ```
+```
 
 ### 删除表
+
 ```sql
  DROP TABLE tablename;
  DROP TABLE IF EXISTS tablename;
- ```
+```
 
 ### 清空表
+
 ```sql
  TRUNCATE TABLE tablename;
- ```
+```
 
 ### 复制表
+
 ```sql
  True-- 复制结构
  CREATE TABLE newtable LIKE oldtable;
@@ -140,11 +164,14 @@ author: "Anonymous"
  CREATE TABLE newtable AS SELECT * FROM oldtable;
  True-- 复制部分数据
  CREATE TABLE active_users AS SELECT * FROM users WHERE status = 1;
- ```
+```
 
 ---
+
 ## 3. 数据类型
+
 ### 字符型
+
 - CHAR(n) - 定长字符串，最多255字符
 - VARCHAR(n) - 变长字符串，最多65535字符
 - TEXT - 长文本，最多65535字符
@@ -153,7 +180,9 @@ author: "Anonymous"
 - ENUM - 枚举类型
 - SET - 集合类型
 - BLOB - 二进制大对象
+
 ### 数值型
+
 - TINYINT - 微整数 (-128~127)
 - SMALLINT - 小整数 (-32768~32767)
 - MEDIUMINT - 中等整数
@@ -162,15 +191,21 @@ author: "Anonymous"
 - FLOAT - 单精度浮点
 - DOUBLE - 双精度浮点
 - DECIMAL(M,D) - 定点数
+
 ### 日期时间型
+
 - DATE - 日期 (YYYY-MM-DD)
 - TIME - 时间 (HH:MM:SS)
 - DATETIME - 日期时间
 - TIMESTAMP - 时间戳
 - YEAR - 年份
+
 ---
+
 ## 4. 约束类型
+
 ### 常用约束
+
 ```sql
  CREATE TABLE tablename (
   id INT PRIMARY KEY AUTO_INCREMENT, -- 主键 + 自增
@@ -181,20 +216,24 @@ author: "Anonymous"
   user_id INT,
   FOREIGN KEY (user_id) REFERENCES users(id) -- 外键
  True);
- ```
+```
 
 ### 外键约束选项
+
 ```sql
  forEIGN KEY (col) REFERENCES parent_table(col)
   ON DELETE CASCADE -- 级联删除
   ON UPDATE CASCADE -- 级联更新
   ON DELETE SET NULL -- 删除时设为NULL
   ON DELETE RESTRICT -- 限制删除
- ```
+```
 
 ---
+
 ## 5. 数据操作
+
 ### 插入数据
+
 ```sql
  True-- 单行插入
  inSERT INTO table(col1, col2) VALUES(val1, val2);
@@ -209,7 +248,7 @@ author: "Anonymous"
  True-- 替换插入
  replace INTO table(cols) VALUES(vals);
  True-- 示例：插入用户数据
- inSERT INTO users(username, email, password) 
+ inSERT INTO users(username, email, password)
  VALUES ('zhangsan', 'zhang@example.com', '123456');
  True-- 示例：批量插入用户
  inSERT INTO users(username, email, password) VALUES
@@ -220,9 +259,10 @@ author: "Anonymous"
  inSERT INTO users(id, username, email)
  VALUES (1, 'zhangsan_new', 'zhang_new@example.com')
  ON DUPLICATE KEY UPDATE username = VALUES(username), email = VALUES(email);
- ```
+```
 
 ### 更新数据
+
 ```sql
  UPDATE table SET col = val WHERE condition;
  UPDATE table SET col1 = val1, col2 = val2 WHERE condition;
@@ -235,9 +275,10 @@ author: "Anonymous"
  JOIN users u ON o.user_id = u.id
  SET o.user_name = u.username
  WHERE o.user_name IS NULL;
- ```
+```
 
 ### 删除数据
+
 ```sql
  delete FROM table WHERE condition; -- 按条件删除
  delete FROM table; -- 删除所有行
@@ -250,11 +291,14 @@ author: "Anonymous"
  delete o FROM orders o
  JOIN users u ON o.user_id = u.id
  WHERE u.status = 0;
- ```
+```
 
 ---
+
 ## 6. 数据查询
+
 ### 基础查询
+
 ```sql
  SELECT * FROM table;
  SELECT col1, col2 FROM table;
@@ -264,9 +308,10 @@ author: "Anonymous"
  SELECT id, username, email FROM users WHERE status = 1;
  True-- 示例：查询用户数量
  SELECT COUNT(*) AS user_count FROM users;
- ```
+```
 
 ### 条件查询
+
 ```sql
  True-- 比较运算
  SELECT * FROM table WHERE col = value;
@@ -294,9 +339,10 @@ author: "Anonymous"
  SELECT * FROM users WHERE username LIKE '%zhang%';
  True-- 示例：查询未填写手机号的用户
  SELECT * FROM users WHERE phone IS NULL;
- ```
+```
 
 ### 排序与分页
+
 ```sql
  True-- 排序
  SELECT * FROM table ORDER BY col ASC;
@@ -310,37 +356,39 @@ author: "Anonymous"
  SELECT * FROM users ORDER BY created_at DESC;
  True-- 示例：分页查询（第3页，每页10条）
  SELECT * FROM users ORDER BY created_at DESC LIMIT 20, 10;
- ```
+```
 
 ### 分组查询
+
 ```sql
  True-- 基本分组
  SELECT col, COUNT(*) FROM table GROUP BY col;
  True-- 分组过滤
- SELECT col, AVG(price) FROM table 
- GROUP BY col 
+ SELECT col, AVG(price) FROM table
+ GROUP BY col
  HAVING AVG(price) > 100;
  True-- 示例：统计每个城市的用户数
- SELECT city, COUNT(*) AS user_count 
- from users 
- GROUP BY city 
+ SELECT city, COUNT(*) AS user_count
+ from users
+ GROUP BY city
  ORDER BY user_count DESC;
  True-- 示例：统计每月注册用户数
- SELECT DATE_FORMAT(created_at, '%Y-%m') AS month, 
+ SELECT DATE_FORMAT(created_at, '%Y-%m') AS month,
   COUNT(*) AS register_count
- from users 
- GROUP BY month 
+ from users
+ GROUP BY month
  ORDER BY month;
  True-- 示例：统计订单金额大于1000的用户
  SELECT user_id, SUM(amount) AS total_amount
  from orders
  GROUP BY user_id
  HAVING total_amount > 1000;
- ```
+```
 
 ### 聚合函数
+
 ```sql
- SELECT 
+ SELECT
   COUNT(*) AS total, -- 统计行数
   SUM(price) AS sum, -- 求和
   AVG(price) AS avg, -- 平均值
@@ -348,7 +396,7 @@ author: "Anonymous"
   MIN(price) AS min -- 最小值
  from table;
  True-- 示例：统计订单数据
- SELECT 
+ SELECT
   COUNT(*) AS order_count,
   SUM(amount) AS total_amount,
   AVG(amount) AS avg_amount,
@@ -356,9 +404,10 @@ author: "Anonymous"
   MIN(amount) AS min_amount
  from orders
  WHERE created_at BETWEEN '2024-01-01' AND '2024-01-31';
- ```
+```
 
 ### 多表连接
+
 ```sql
  True-- 内连接
  SELECT * FROM a INNER JOIN b ON a.id = b.id;
@@ -375,7 +424,7 @@ author: "Anonymous"
  from employees e1
  JOIN employees e2 ON e1.manager_id = e2.id;
  True-- 示例：查询订单及用户信息
- SELECT o.id, o.amount, o.created_at, 
+ SELECT o.id, o.amount, o.created_at,
   u.username, u.email
  from orders o
  JOIN users u ON o.user_id = u.id
@@ -385,11 +434,14 @@ author: "Anonymous"
  from users u
  LEFT JOIN orders o ON u.id = o.user_id
  GROUP BY u.id;
- ```
+```
 
 ---
+
 ## 7. 索引操作
+
 ### 创建索引
+
 ```sql
  True-- 普通索引
  CREATE INDEX idx_name ON table(col);
@@ -406,27 +458,32 @@ author: "Anonymous"
  CREATE UNIQUE INDEX idx_users_username ON users(username);
  True-- 示例：创建复合索引
  CREATE INDEX idx_orders_user_date ON orders(user_id, created_at);
- ```
+```
 
 ### 查看索引
+
 ```sql
  SHOW INDEX FROM table;
  True-- 查看表的索引情况
- SELECT index_name, column_name 
- from information_schema.statistics 
+ SELECT index_name, column_name
+ from information_schema.statistics
  WHERE table_schema = DATABASE() AND table_name = 'users';
- ```
+```
 
 ### 删除索引
+
 ```sql
  DROP INDEX idx_name ON table;
  True-- 示例：删除索引
  DROP INDEX idx_users_email ON users;
- ```
+```
 
 ---
+
 ## 8. 用户与权限
+
 ### 用户管理
+
 ```sql
  True-- 创建用户
  CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
@@ -441,9 +498,10 @@ author: "Anonymous"
  CREATE USER 'readonly'@'%' IDENTIFIED BY 'read123';
  True-- 示例：创建管理员用户
  CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin123';
- ```
+```
 
 ### 权限管理
+
 ```sql
  True-- 授予权限
  GRANT ALL PRIVILEGES ON dbname.* TO 'username'@'localhost';
@@ -460,18 +518,23 @@ author: "Anonymous"
  GRANT SELECT, INSERT, UPDATE, DELETE ON ecommerce.* TO 'appuser'@'%';
  True-- 示例：授予管理员权限
  GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' WITH GRANT OPTION;
- ```
+```
 
 ### 常用权限
+
 - ALL PRIVILEGES - 所有权限
 - SELECT, INSERT, UPDATE, DELETE - 基本操作
 - CREATE, DROP - 创建/删除
 - GRANT OPTION - 授权权限
 - ALTER - 修改表结构
 - INDEX - 创建索引
+
 ---
+
 ## 9. 事务管理
+
 ### 基本操作
+
 ```sql
  True-- 开始事务
  START TRANSACTION;
@@ -499,25 +562,31 @@ author: "Anonymous"
   ROLLBACK TO order_saved;
  END IF;
  commit;
- ```
+```
 
 ### 隔离级别
+
 ```sql
  True-- 查看当前隔离级别
  SELECT @@transaction_isolation;
  True-- 设置隔离级别
  SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
  SET GLOBAL TRANSACTION ISOLATION LEVEL REPEATABLE READ;
- ```
+```
 
 ### 隔离级别说明
+
 - READ UNCOMMITTED - 最低级别，可能读取未提交数据
 - READ COMMITTED - 读取已提交数据
 - REPEATABLE READ - 可重复读（MySQL默认）
 - SERIALIZABLE - 最高级别，串行执行
+
 ---
+
 ## 10. 常用函数
+
 ### 字符串函数
+
 ```sql
  CONCAT('Hello', ' ', 'World') -- 拼接字符串
  SUBSTRING('Hello', 1, 3) -- 截取字符串
@@ -536,9 +605,10 @@ author: "Anonymous"
  SELECT SUBSTRING(email, INSTR(email, '@') + 1) AS domain FROM users;
  True-- 示例：生成用户名
  SELECT LOWER(CONCAT(SUBSTRING(first_name, 1, 1), last_name)) AS username FROM users;
- ```
+```
 
 ### 日期函数
+
 ```sql
  NOW() -- 当前日期时间
  CURDATE() -- 当前日期
@@ -560,9 +630,10 @@ author: "Anonymous"
  SELECT TIMESTAMPDIFF(YEAR, birthday, CURDATE()) AS age FROM users;
  True-- 示例：获取本周一日期
  SELECT DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY) AS monday;
- ```
+```
 
 ### 数值函数
+
 ```sql
  ABS(-10) -- 绝对值
  ROUND(3.14159, 2) -- 四舍五入
@@ -580,14 +651,15 @@ author: "Anonymous"
  SELECT FLOOR(RAND() * 9000 + 1000) AS captcha;
  True-- 示例：计算商品折扣后价格
  SELECT price * 0.8 AS discounted_price FROM products;
- ```
+```
 
 ### 条件函数
+
 ```sql
  if(age >= 18, '成人', '未成年') -- 条件判断
  ifNULL(email, '未填写') -- NULL替换
  NULLIF(a, b) -- 相等返回NULL
- case 
+ case
   WHEN score >= 90 THEN '优秀'
   WHEN score >= 60 THEN '及格'
   ELSE '不及格'
@@ -595,9 +667,9 @@ author: "Anonymous"
  True-- 示例：根据状态显示文本
  SELECT id, username, IF(status = 1, '活跃', '禁用') AS status_text FROM users;
  True-- 示例：显示用户等级
- SELECT 
+ SELECT
   username,
-  CASE 
+  CASE
   WHEN points >= 1000 THEN 'VIP'
   WHEN points >= 500 THEN '高级会员'
   ELSE '普通会员'
@@ -605,11 +677,14 @@ author: "Anonymous"
  from users;
  True-- 示例：处理空值
  SELECT name, IFNULL(phone, '未填写') AS phone FROM customers;
- ```
+```
 
 ---
+
 ## 附录：常用命令
+
 ### 服务器管理
+
 ```bash
  # 启动服务
  systemctl start mysql # Linux
@@ -624,9 +699,10 @@ author: "Anonymous"
  # 登录
  mysql -u username -p
  mysql -u username -p -h host -P port
- ```
+```
 
 ### 备份与恢复
+
 ```bash
  # 备份数据库
  mysqldump -u username -p dbname > backup.sql
@@ -640,9 +716,10 @@ author: "Anonymous"
  mysqldump -u username -p dbname | gzip > backup.sql.gz
  # 恢复压缩备份
  gunzip < backup.sql.gz | mysql -u username -p dbname
- ```
+```
 
 ### 查看系统信息
+
 ```sql
  SELECT VERSION(); -- 版本
  SELECT USER(); -- 当前用户
@@ -651,8 +728,10 @@ author: "Anonymous"
  SHOW VARIABLES; -- 配置变量
  SHOW PROCESSLIST; -- 进程列表
  SHOW VARIABLES LIKE 'slow_query%'; -- 慢查询状态
- ```
+```
 
 ---
+
 ### 更新日志 (Changelog)
+
 - 2026-04-30: 基于数据库常用指令.txt 创建快速查阅文档，使用文本+代码块格式

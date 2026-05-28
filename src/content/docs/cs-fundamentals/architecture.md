@@ -1,9 +1,18 @@
 ---
-title: "计算机体系结构"
-module: "cs-fundamentals"
-category: "Computer Science / Architecture"
-description: "计算机体系结构核心原理：冯诺依曼模型、指令集设计、流水线、存储层次、并行体系。"
-author: "fanquanpp"
+title: '计算机体系结构'
+module: 'cs-fundamentals'
+category: 'Computer Science / Architecture'
+description: '计算机体系结构核心原理：冯诺依曼模型、指令集设计、流水线、存储层次、并行体系。'
+author: 'fanquanpp'
+order: 10
+tags:
+  - 'cs-fundamentals'
+  - 'computer-science---architecture'
+  - 'oop'
+  - 'database'
+  - 'networking'
+  - 'concurrency'
+difficulty: 'intermediate'
 ---
 
 ## 目录
@@ -73,6 +82,7 @@ Reg = Register File (寄存器堆)
 ```
 
 **缓解策略**：
+
 - 缓存分离：L1 Cache分为L1I（指令）和L1D（数据），在缓存层实现哈佛体系
 - 预取：提前将指令/数据加载到缓存
 - 乱序执行：在等待访存时执行其他指令
@@ -101,13 +111,13 @@ Reg = Register File (寄存器堆)
 
 **对比**：
 
-| 特性 | 冯诺依曼 | 哈佛 |
-|------|----------|------|
-| 指令/数据存储 | 统一 | 分离 |
-| 总线 | 共享 | 独立 |
-| 带宽 | 受限 | 双倍 |
-| 灵活性 | 高（代码即数据） | 低 |
-| 典型应用 | 通用计算机 | DSP、微控制器 |
+| 特性          | 冯诺依曼         | 哈佛          |
+| ------------- | ---------------- | ------------- |
+| 指令/数据存储 | 统一             | 分离          |
+| 总线          | 共享             | 独立          |
+| 带宽          | 受限             | 双倍          |
+| 灵活性        | 高（代码即数据） | 低            |
+| 典型应用      | 通用计算机       | DSP、微控制器 |
 
 > 跨模块引用：[C语言](c/overview)的函数指针特性直接利用了冯诺依曼体系中"代码即数据"的本质。[操作系统](os)的虚拟内存管理通过MMU在冯诺依曼体系上实现了地址空间的隔离。
 
@@ -144,15 +154,15 @@ ISA作为接口契约:
 
 ### 2.2 CISC vs RISC
 
-| 维度 | CISC (x86) | RISC (ARM/RISC-V) |
-|------|------------|-------------------|
-| 指令长度 | 可变 (1-15字节) | 固定 (4字节) |
-| 指令数量 | 多 (>1000) | 少 (<200) |
-| 寻址模式 | 丰富 | 简单 (Load/Store) |
-| 微操作 | 需要解码为微操作 | 指令即微操作 |
-| 编码密度 | 高 | 低 |
-| 流水线 | 复杂 | 简单 |
-| 功耗 | 高 | 低 |
+| 维度     | CISC (x86)       | RISC (ARM/RISC-V) |
+| -------- | ---------------- | ----------------- |
+| 指令长度 | 可变 (1-15字节)  | 固定 (4字节)      |
+| 指令数量 | 多 (>1000)       | 少 (<200)         |
+| 寻址模式 | 丰富             | 简单 (Load/Store) |
+| 微操作   | 需要解码为微操作 | 指令即微操作      |
+| 编码密度 | 高               | 低                |
+| 流水线   | 复杂             | 简单              |
+| 功耗     | 高               | 低                |
 
 **设计哲学差异**：
 
@@ -791,51 +801,51 @@ Relaxed Consistency [ARM/RISC-V]:
 
 ### 7.1 ISA速查
 
-| 特性 | x86-64 | ARMv8 | RISC-V |
-|------|--------|-------|--------|
-| 类型 | CISC | RISC | RISC |
-| 指令长度 | 1-15B | 4B | 4B(可扩展) |
-| 通用寄存器 | 16 | 31 | 31 |
-| 地址宽度 | 48/57b | 48b | 39/48/57b |
-| 字节序 | Little | 双端 | Little |
-| 特权级 | Ring 0-3 | EL0-EL3 | U/S/M |
+| 特性       | x86-64   | ARMv8   | RISC-V     |
+| ---------- | -------- | ------- | ---------- |
+| 类型       | CISC     | RISC    | RISC       |
+| 指令长度   | 1-15B    | 4B      | 4B(可扩展) |
+| 通用寄存器 | 16       | 31      | 31         |
+| 地址宽度   | 48/57b   | 48b     | 39/48/57b  |
+| 字节序     | Little   | 双端    | Little     |
+| 特权级     | Ring 0-3 | EL0-EL3 | U/S/M      |
 
 ### 7.2 流水线冒险速查
 
-| 冒险类型 | 原因 | 解决方案 |
-|----------|------|----------|
-| RAW | 真数据依赖 | 前递/转发 |
-| WAR | 反依赖 | 寄存器重命名 |
-| WAW | 输出依赖 | 寄存器重命名 |
-| 控制 | 分支 | 预测/延迟槽 |
-| 结构 | 资源冲突 | 资源复制/分离 |
+| 冒险类型 | 原因       | 解决方案      |
+| -------- | ---------- | ------------- |
+| RAW      | 真数据依赖 | 前递/转发     |
+| WAR      | 反依赖     | 寄存器重命名  |
+| WAW      | 输出依赖   | 寄存器重命名  |
+| 控制     | 分支       | 预测/延迟槽   |
+| 结构     | 资源冲突   | 资源复制/分离 |
 
 ### 7.3 存储层次速查
 
-| 层级 | 延迟 | 容量 | 管理 |
-|------|------|------|------|
-| 寄存器 | ~0.3ns | ~1KB | 编译器 |
-| L1 | ~1ns | ~64KB | 硬件 |
-| L2 | ~4ns | ~1MB | 硬件 |
-| L3 | ~12ns | ~32MB | 硬件 |
-| DRAM | ~100ns | ~32GB | OS |
-| SSD | ~100us | ~1TB | OS |
-| HDD | ~10ms | ~10TB | OS |
+| 层级   | 延迟   | 容量  | 管理   |
+| ------ | ------ | ----- | ------ |
+| 寄存器 | ~0.3ns | ~1KB  | 编译器 |
+| L1     | ~1ns   | ~64KB | 硬件   |
+| L2     | ~4ns   | ~1MB  | 硬件   |
+| L3     | ~12ns  | ~32MB | 硬件   |
+| DRAM   | ~100ns | ~32GB | OS     |
+| SSD    | ~100us | ~1TB  | OS     |
+| HDD    | ~10ms  | ~10TB | OS     |
 
 ### 7.4 缓存一致性速查
 
-| MESI状态 | 含义 | 可读 | 可写 | 与内存一致 |
-|----------|------|------|------|-----------|
-| M | 已修改 | 是 | 是 | 否 |
-| E | 独占 | 是 | 是 | 是 |
-| S | 共享 | 是 | 否(需升级) | 是 |
-| I | 无效 | 否 | 否 | - |
+| MESI状态 | 含义   | 可读 | 可写       | 与内存一致 |
+| -------- | ------ | ---- | ---------- | ---------- |
+| M        | 已修改 | 是   | 是         | 否         |
+| E        | 独占   | 是   | 是         | 是         |
+| S        | 共享   | 是   | 否(需升级) | 是         |
+| I        | 无效   | 否   | 否         | -          |
 
 ---
 
 ## 延伸阅读
 
-- *Computer Architecture: A Quantitative Approach* -- Hennessy & Patterson
-- *Computer Organization and Design: RISC-V Edition* -- Patterson & Hennessy
-- *Modern Processor Design: Fundamentals of Superscalar Processors* -- Shen & Lipasti
-- *A Primer on Memory Consistency and Cache Coherence* -- Sorin, Hill, Wood
+- _Computer Architecture: A Quantitative Approach_ -- Hennessy & Patterson
+- _Computer Organization and Design: RISC-V Edition_ -- Patterson & Hennessy
+- _Modern Processor Design: Fundamentals of Superscalar Processors_ -- Shen & Lipasti
+- _A Primer on Memory Consistency and Cache Coherence_ -- Sorin, Hill, Wood

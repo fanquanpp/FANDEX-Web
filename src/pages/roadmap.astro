@@ -1,0 +1,344 @@
+---
+import Layout from '@/components/Layout.astro'
+import SEO from '@/components/SEO.astro'
+import { modules, categoryLabels, categoryOrder } from '@/lib/modules'
+
+const base = import.meta.env.BASE_URL
+
+const roadmap = [
+  {
+    phase: 'Phase 1',
+    label: '基础工具',
+    desc: '所有开发者的必备技能，建议最先掌握',
+    items: [
+      { id: 'markdown', arrow: 'right' },
+      { id: 'git', arrow: 'right' },
+      { id: 'github', arrow: null },
+    ],
+  },
+  {
+    phase: 'Phase 2',
+    label: 'Web 前端基础',
+    desc: '前端开发三件套，按顺序学习',
+    items: [
+      { id: 'html5', arrow: 'right' },
+      { id: 'css', arrow: 'right' },
+      { id: 'javascript', arrow: null },
+    ],
+  },
+  {
+    phase: 'Phase 3A',
+    label: '前端进阶',
+    desc: 'JavaScript 掌握后的进阶路线',
+    items: [
+      { id: 'typescript', arrow: 'right' },
+      { id: 'vue3', arrow: null },
+    ],
+  },
+  {
+    phase: 'Phase 3B',
+    label: '后端与数据',
+    desc: '全栈开发必备的数据与存储技能',
+    items: [
+      { id: 'python', arrow: 'right' },
+      { id: 'mysql', arrow: 'right' },
+      { id: 'data-analysis', arrow: null },
+    ],
+  },
+  {
+    phase: 'Phase 3C',
+    label: '系统编程',
+    desc: '深入底层，理解计算机本质',
+    items: [
+      { id: 'c', arrow: 'right' },
+      { id: 'cpp', arrow: 'right' },
+      { id: 'java', arrow: null },
+    ],
+  },
+  {
+    phase: 'Phase 4',
+    label: '计算机科学',
+    desc: '理论与实践结合，构建完整知识体系',
+    items: [
+      { id: 'algorithm', arrow: 'right' },
+      { id: 'cs-fundamentals', arrow: null },
+    ],
+  },
+  {
+    phase: 'Phase 5',
+    label: '扩展语言',
+    desc: '按需学习，拓展技术栈',
+    items: [
+      { id: 'lua', arrow: null },
+    ],
+  },
+]
+---
+
+<Layout title="学习路线图">
+  <SEO slot="head" title="学习路线图" description="CODEX 知识库推荐学习路线，从零基础到全栈开发者" />
+
+  <div class="roadmap-page">
+    <div class="roadmap-header">
+      <h1 class="roadmap-title">学习路线图</h1>
+      <p class="roadmap-subtitle">从零基础到全栈开发者的推荐学习路径</p>
+    </div>
+
+    <div class="roadmap-timeline">
+      {roadmap.map((phase, idx) => (
+        <div class="timeline-phase">
+          <div class="phase-marker">
+            <span class="phase-number">{phase.phase}</span>
+          </div>
+          <div class="phase-content">
+            <div class="phase-header">
+              <h2 class="phase-label">{phase.label}</h2>
+              <p class="phase-desc">{phase.desc}</p>
+            </div>
+            <div class="phase-modules">
+              {phase.items.map(item => {
+                const m = modules.find(mod => mod.id === item.id)
+                if (!m) return null
+                return (
+                  <div class="roadmap-module-row">
+                    <a href={`${base}${m.id}`} class="roadmap-module-card" style={`--module-color:${m.color}`}>
+                      <span class="rm-color-bar"></span>
+                      <div class="rm-body">
+                        <span class="rm-title">{m.title}</span>
+                        <span class="rm-desc">{m.description}</span>
+                      </div>
+                    </a>
+                    {item.arrow && (
+                      <span class="rm-arrow">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="9 18 15 12 9 6" />
+                        </svg>
+                      </span>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="roadmap-legend">
+      <h3 class="legend-title">学习建议</h3>
+      <ul class="legend-list">
+        <li>Phase 1-2 为所有开发者必学基础，建议按顺序完成</li>
+        <li>Phase 3A/3B/3C 为三条平行路线，可根据兴趣选择一条或多条</li>
+        <li>Phase 4 建议在掌握至少一门编程语言后开始</li>
+        <li>Phase 5 为扩展语言，按需学习即可</li>
+        <li>每个模块内的文档已按难度排序: beginner -> intermediate -> advanced</li>
+      </ul>
+    </div>
+  </div>
+</Layout>
+
+<style>
+.roadmap-page {
+  padding: var(--spacing-lg) var(--spacing-xl);
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+
+.roadmap-header {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.roadmap-title {
+  font-family: var(--font-display);
+  font-size: 1.4em;
+  margin: 0 0 var(--spacing-xs);
+}
+
+.roadmap-subtitle {
+  font-size: 0.88em;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.roadmap-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  padding-left: 80px;
+}
+
+.roadmap-timeline::before {
+  content: '';
+  position: absolute;
+  left: 30px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-border-light);
+}
+
+.timeline-phase {
+  display: flex;
+  position: relative;
+  margin-bottom: var(--spacing-xl);
+}
+
+.phase-marker {
+  position: absolute;
+  left: -80px;
+  top: 0;
+  width: 60px;
+  text-align: right;
+}
+
+.phase-number {
+  display: inline-block;
+  padding: 2px 8px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-light);
+  font-family: var(--font-display);
+  font-size: 0.7em;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.phase-content {
+  flex: 1;
+}
+
+.phase-header {
+  margin-bottom: var(--spacing-md);
+}
+
+.phase-label {
+  font-family: var(--font-display);
+  font-size: 1.1em;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.phase-desc {
+  font-size: 0.82em;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.phase-modules {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.roadmap-module-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.roadmap-module-card {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border-light);
+  background: var(--color-bg-card);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  overflow: hidden;
+}
+
+.roadmap-module-card:hover {
+  border-color: var(--module-color);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.rm-color-bar {
+  width: 4px;
+  align-self: stretch;
+  background: var(--module-color);
+}
+
+.rm-body {
+  padding: var(--spacing-sm) var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rm-title {
+  font-family: var(--font-display);
+  font-size: 0.88em;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.rm-desc {
+  font-size: 0.72em;
+  color: var(--color-text-tertiary);
+}
+
+.rm-arrow {
+  color: var(--color-text-tertiary);
+  display: flex;
+  align-items: center;
+}
+
+.roadmap-legend {
+  margin-top: var(--spacing-2xl);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--color-border-light);
+  background: var(--color-bg-card);
+}
+
+.legend-title {
+  font-family: var(--font-display);
+  font-size: 0.95em;
+  font-weight: 600;
+  margin: 0 0 var(--spacing-sm);
+}
+
+.legend-list {
+  padding-left: var(--spacing-lg);
+  margin: 0;
+  font-size: 0.85em;
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+  .roadmap-page {
+    padding: var(--spacing-md);
+  }
+
+  .roadmap-timeline {
+    padding-left: 0;
+  }
+
+  .roadmap-timeline::before {
+    display: none;
+  }
+
+  .phase-marker {
+    display: none;
+  }
+
+  .timeline-phase {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .phase-modules {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .roadmap-module-row {
+    width: 100%;
+  }
+
+  .rm-desc {
+    display: none;
+  }
+}
+</style>
