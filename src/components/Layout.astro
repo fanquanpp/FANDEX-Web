@@ -86,44 +86,6 @@ const base = import.meta.env.BASE_URL
   const backdrop = document.getElementById('sidebar-backdrop')
   const toggle = document.getElementById('nav-toggle')
   const mobileBtn = document.getElementById('mobile-sidebar-btn')
-  const main = document.getElementById('app-main')
-
-  if (main) {
-    let savedScrollTop = 0
-    let resizeTimer: ReturnType<typeof setTimeout> | null = null
-
-    main.addEventListener('scroll', () => {
-      savedScrollTop = main.scrollTop
-    })
-
-    window.addEventListener('resize', () => {
-      requestAnimationFrame(() => {
-        if (main.scrollTop === 0 && savedScrollTop > 0) {
-          main.scrollTop = savedScrollTop
-        }
-      })
-      if (resizeTimer) clearTimeout(resizeTimer)
-      resizeTimer = setTimeout(() => {
-        if (main.scrollTop === 0 && savedScrollTop > 0) {
-          main.scrollTop = savedScrollTop
-        }
-      }, 150)
-    })
-
-    const observer = new MutationObserver(() => {
-      if (main.scrollTop === 0 && savedScrollTop > 0) {
-        requestAnimationFrame(() => {
-          main.scrollTop = savedScrollTop
-        })
-      }
-    })
-    observer.observe(main, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      characterData: true,
-    })
-  }
 
   function openSidebar() {
     document.body.classList.add('sidebar-open')
