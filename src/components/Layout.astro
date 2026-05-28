@@ -90,6 +90,25 @@ const base = import.meta.env.BASE_URL
   const main = document.getElementById('app-main')
   const progress = document.getElementById('read-progress')
 
+  if (main) {
+    let savedScrollTop = 0
+    let resizeTimer: ReturnType<typeof setTimeout> | null = null
+
+    main.addEventListener('scroll', () => {
+      savedScrollTop = main.scrollTop
+    })
+
+    window.addEventListener('resize', () => {
+      requestAnimationFrame(() => {
+        main.scrollTop = savedScrollTop
+      })
+      if (resizeTimer) clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(() => {
+        main.scrollTop = savedScrollTop
+      }, 150)
+    })
+  }
+
   function openSidebar() {
     document.body.classList.add('sidebar-open')
   }
