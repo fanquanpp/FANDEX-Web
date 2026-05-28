@@ -213,33 +213,6 @@
   }
 }
 
-.toc {
-  margin-bottom: var(--spacing-lg);
-}
-
-@media (max-width: 768px) {
-  .toc {
-    margin-bottom: var(--spacing-md);
-  }
-}
-
-.toc-link {
-  display: block;
-  padding: 3px 0;
-  color: var(--color-text-secondary);
-  font-size: 0.85em;
-  line-height: 1.6;
-  transition: color var(--transition-fast);
-}
-
-.toc-link:hover {
-  color: var(--color-primary);
-}
-.toc-link.active {
-  color: var(--color-primary);
-  font-weight: 500;
-}
-
 .sidebar-file-link {
   display: block;
   padding: var(--spacing-sm) var(--spacing-md);

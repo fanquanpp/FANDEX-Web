@@ -30,16 +30,17 @@ const hasHeadings = visibleHeadings.length > 0
 
   <nav class="sidebar-nav">
     <div class="sidebar-module-header">
-      <span class="sidebar-module-color-bar" style={`background:${meta?.color || '#6366f1'}`}></span>
-      <span class="sidebar-module-title">{meta?.title || moduleId}</span>
-    </div>
-
-    {hasHeadings && (
-      <div class="sidebar-toggle-group" id="sidebar-toggle-group">
-        <button class="sidebar-toggle-btn active" id="sidebar-toggle-chapters" data-panel="chapters">章节</button>
-        <button class="sidebar-toggle-btn" id="sidebar-toggle-outline" data-panel="outline">资料</button>
+      <div class="sidebar-module-title-group">
+        <span class="sidebar-module-color-bar" style={`background:${meta?.color || '#6366f1'}`}></span>
+        <span class="sidebar-module-title">{meta?.title || moduleId}</span>
       </div>
-    )}
+      {hasHeadings && (
+        <div class="sidebar-toggle-group" id="sidebar-toggle-group">
+          <button class="sidebar-toggle-btn active" id="sidebar-toggle-chapters" data-panel="chapters">章节</button>
+          <button class="sidebar-toggle-btn" id="sidebar-toggle-outline" data-panel="outline">资料</button>
+        </div>
+      )}
+    </div>
 
     <a href={base} class="sidebar-back">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
@@ -116,15 +117,23 @@ const hasHeadings = visibleHeadings.length > 0
 .sidebar-module-header {
   display: flex;
   align-items: center;
-  gap: var(--spacing-xs);
+  justify-content: space-between;
   padding: var(--spacing-sm) var(--spacing-md);
   margin-bottom: var(--spacing-xs);
+}
+
+.sidebar-module-title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  min-width: 0;
 }
 
 .sidebar-module-color-bar {
   width: 4px;
   height: 18px;
   border-radius: 2px;
+  flex-shrink: 0;
 }
 
 .sidebar-module-title {
@@ -132,25 +141,28 @@ const hasHeadings = visibleHeadings.length > 0
   font-size: 0.85em;
   font-weight: 600;
   color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .sidebar-toggle-group {
   display: flex;
   gap: 0;
-  padding: 0 var(--spacing-md);
-  margin-bottom: var(--spacing-xs);
+  flex-shrink: 0;
 }
 
 .sidebar-toggle-btn {
-  flex: 1;
-  padding: 4px 0;
+  padding: 2px 8px;
   border: 1px solid var(--color-border);
+  border-radius: 0;
   background: transparent;
   color: var(--color-text-secondary);
   font-family: var(--font-display);
-  font-size: 0.78em;
+  font-size: 0.75em;
   cursor: pointer;
   transition: all var(--transition-fast);
+  white-space: nowrap;
 }
 
 .sidebar-toggle-btn:first-child {
@@ -161,6 +173,10 @@ const hasHeadings = visibleHeadings.length > 0
   background: var(--color-primary);
   color: #fff;
   border-color: var(--color-primary);
+}
+
+.sidebar-toggle-btn.active + .sidebar-toggle-btn {
+  border-left-color: var(--color-primary);
 }
 
 .sidebar-toggle-btn:not(.active):hover {
