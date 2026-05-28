@@ -48,6 +48,12 @@ const base = import.meta.env.BASE_URL
           </a>
         </div>
         <div class="nav-right">
+          <button class="nav-back-to-top" id="nav-back-to-top" aria-label="返回顶部" title="返回顶部">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="18 15 12 9 6 15" />
+            </svg>
+            <span class="nav-back-to-top-text">返回顶部</span>
+          </button>
           <ThemeToggle client:load />
         </div>
       </header>
@@ -104,6 +110,14 @@ const base = import.meta.env.BASE_URL
   })
 
   if (backdrop) backdrop.addEventListener('click', closeSidebar)
+
+  const backToTopBtn = document.getElementById('nav-back-to-top')
+  const mainEl = document.getElementById('app-main')
+  if (backToTopBtn && mainEl) {
+    backToTopBtn.addEventListener('click', () => {
+      mainEl.scrollTo({ top: 0, behavior: 'smooth' })
+    })
+  }
 
   document.addEventListener('astro:page-load', closeSidebar)
 
