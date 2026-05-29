@@ -130,7 +130,9 @@ MyNotebook-main/
 │   └── robots.txt                  # SEO
 ├── scripts/                        # 工具脚本
 │   ├── build-glossary-index.mjs    # 术语索引构建
-│   └── qa-check.mjs                # 质量检查
+│   ├── clean-true-prefix.mjs       # Obsidian 导出残留清理
+│   ├── content-audit.mjs           # 内容质量审计
+│   └── qa-check.mjs                # 预发布质量检查
 ├── src/                            # Astro 项目源码
 │   ├── components/                 # Astro 组件
 │   ├── content/                    # 内容集合 (唯一数据源)
