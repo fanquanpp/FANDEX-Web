@@ -38,7 +38,7 @@ jobs:
           git config user.email "github-actions@users.noreply.github.com"
           git add public/data/search-index.json
           git add public/data/glossary-index.json
-          git diff --cached --quiet || git commit -m "chore: update search and glossary indexes"
+          git diff --cached --quiet || git commit -m "chore: update search and glossary indexes [skip ci]"
           git push origin main || echo "Push failed, likely no changes"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

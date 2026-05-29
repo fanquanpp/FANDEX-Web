@@ -3,6 +3,7 @@ dist/
 .astro/
 .trae/
 .DS_Store
+Thumbs.db
 *.local
 .env
 .env.*
@@ -10,5 +11,3 @@ dist/
 *.log
 npm-debug.log*
 .obsidian/
-.obsidian/workspace.json
-.obsidian/plugins/
