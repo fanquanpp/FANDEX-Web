@@ -42,15 +42,6 @@ const hasSidebar = Astro.slots.has('sidebar')
     <div class="app-layout" class:list={{ 'no-sidebar': !hasSidebar }}>
       <header class="app-nav">
         <div class="nav-left">
-          {hasSidebar && (
-            <button class="nav-toggle" id="nav-toggle" aria-label="菜单">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </svg>
-            </button>
-          )}
           <a href={base} class="nav-logo">
             <span class="logo-mark"></span>
             <span class="logo-text">{SITE.title}<span class="logo-home-suffix">-主页</span></span>
@@ -333,7 +324,7 @@ const hasSidebar = Astro.slots.has('sidebar')
 </script>
 
 <style>
-.nav-left { display: flex; align-items: center; gap: var(--spacing-sm); }
+.nav-left { display: flex; align-items: center; }
 .nav-right { display: flex; align-items: center; gap: var(--spacing-sm); }
 .nav-logo { display: flex; align-items: center; cursor: pointer; }
 .nav-logo:hover { opacity: 0.85; }
@@ -343,17 +334,6 @@ const hasSidebar = Astro.slots.has('sidebar')
   background: var(--color-text); color: var(--color-bg);
   font-weight: 700; font-size: 0.8em; font-family: var(--font-display); letter-spacing: 0.1em;
 }
-
-.nav-toggle {
-  display: none;
-  align-items: center; justify-content: center;
-  width: 44px; height: 44px;
-  border: 1px solid var(--color-border);
-  background: var(--color-bg-card);
-  color: var(--color-text-secondary);
-  cursor: pointer;
-}
-.nav-toggle:hover { background: var(--color-bg-hover); color: var(--color-primary); }
 
 .sidebar-backdrop {
   display: none;

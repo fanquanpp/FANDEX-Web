@@ -51,7 +51,7 @@ const breadcrumb = [
   <Sidebar slot="sidebar" moduleId={module} currentSlug={slug} headings={headings} />
 
   <div class="doc-page">
-    <Breadcrumb items={breadcrumb} />
+    <Breadcrumb items={breadcrumb} hasSidebar />
     {(() => {
       const prereqs = doc.data.prerequisites?.length > 0
         ? doc.data.prerequisites
