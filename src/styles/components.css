@@ -432,3 +432,139 @@
 .term-popup-link:hover {
   text-decoration: underline;
 }
+
+.term-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.term-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.term-modal-content {
+  position: relative;
+  background: var(--color-bg);
+  border-radius: 12px;
+  max-width: 90%;
+  max-height: 80vh;
+  overflow: auto;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.term-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.term-modal-title {
+  margin: 0;
+  font-size: 1.1em;
+  color: var(--color-primary);
+  font-family: var(--font-display);
+}
+
+.term-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.term-modal-close:hover {
+  color: var(--color-text);
+}
+
+.term-modal-def {
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  margin-bottom: 12px;
+}
+
+.term-modal-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: 0.9em;
+}
+
+.term-modal-link:hover {
+  text-decoration: underline;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .term-abbr {
+    cursor: pointer;
+  }
+}
+
+.code-run-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--color-bg-secondary, var(--color-bg-card));
+  border: 1px solid var(--color-border-light);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.8em;
+  font-family: var(--font-display);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+  color: var(--color-text-secondary);
+}
+
+.code-run-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.code-result {
+  margin-top: 8px;
+  padding: 12px;
+  font-family: var(--font-code);
+  font-size: 0.85em;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  border-radius: 0 4px 4px 0;
+}
+
+.code-result-success {
+  background: var(--color-bg-card);
+  border-left: 3px solid var(--color-success);
+  color: var(--color-text);
+}
+
+.code-result-error {
+  background: #fce4ec;
+  border-left: 3px solid #c62828;
+  color: #c62828;
+}
+
+[data-theme='dark'] .code-result-error {
+  background: #3b1010;
+}
+
+@keyframes code-run-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -76,12 +76,56 @@ const statusLabel = computed(() => {
 });
 
 function handleToggle() {
-  status.value = toggleStatus(props.slug);
-  document.dispatchEvent(
-    new CustomEvent('fandex-progress-change', {
-      detail: { slug: props.slug, status: status.value },
-    })
-  );
+  const btn = document.querySelector('.progress-btn') as HTMLElement;
+  if (!btn || btn.getAttribute('aria-busy') === 'true') return;
+
+  const originalHTML = btn.innerHTML;
+  btn.setAttribute('aria-busy', 'true');
+  btn.innerHTML = `
+    <span style="display:inline-flex;align-items:center;gap:4px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" style="animation:progress-spin 1s linear infinite">
+        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="31.4" stroke-dashoffset="10"/>
+      </svg>
+      <span class="progress-label">保存中</span>
+    </span>
+  `;
+
+  try {
+    status.value = toggleStatus(props.slug);
+    document.dispatchEvent(
+      new CustomEvent('fandex-progress-change', {
+        detail: { slug: props.slug, status: status.value },
+      })
+    );
+
+    btn.innerHTML = `
+      <span style="display:inline-flex;align-items:center;gap:4px;animation:progress-fade-in-out 2.5s forwards">
+        <svg width="14" height="14" viewBox="0 0 24 24" style="color:#10b981">
+          <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+        </svg>
+        <span class="progress-label">已保存</span>
+      </span>
+    `;
+
+    setTimeout(() => {
+      btn.innerHTML = originalHTML;
+      btn.removeAttribute('aria-busy');
+    }, 2500);
+  } catch {
+    btn.innerHTML = `
+      <span style="display:inline-flex;align-items:center;gap:4px;color:#ef4444">
+        <svg width="14" height="14" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+        </svg>
+        <span class="progress-label">失败</span>
+      </span>
+    `;
+
+    setTimeout(() => {
+      btn.innerHTML = originalHTML;
+      btn.removeAttribute('aria-busy');
+    }, 2500);
+  }
 }
 
 function handleExport() {
@@ -191,5 +235,29 @@ function handleImport(e: Event) {
 .progress-import:hover {
   color: var(--color-primary);
   border-color: var(--color-primary);
+}
+
+@keyframes progress-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes progress-fade-in-out {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 </style>

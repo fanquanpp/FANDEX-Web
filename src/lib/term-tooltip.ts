@@ -16,17 +16,73 @@ async function loadGlossary() {
   }
 }
 
-function escapeHtml(text: string) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
-
 function createTermRegex(terms: string[]) {
   const escapedTerms = terms
     .sort((a, b) => b.length - a.length)
     .map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
   return new RegExp(`(?:^|\\W)(${escapedTerms.join('|')})(?:$|\\W)`, 'g');
+}
+
+function isMobile() {
+  return window.innerWidth <= 768;
+}
+
+function closeTermModal() {
+  const existing = document.querySelector('.term-modal');
+  if (existing) {
+    existing.remove();
+    document.body.style.overflow = '';
+  }
+}
+
+function showTermModal(term: string, data: { module: string; def: string; slug: string }) {
+  closeTermModal();
+
+  const modal = document.createElement('div');
+  modal.className = 'term-modal';
+
+  const overlay = document.createElement('div');
+  overlay.className = 'term-modal-overlay';
+
+  const content = document.createElement('div');
+  content.className = 'term-modal-content';
+
+  const header = document.createElement('div');
+  header.className = 'term-modal-header';
+
+  const h3 = document.createElement('h3');
+  h3.className = 'term-modal-title';
+  h3.textContent = term;
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'term-modal-close';
+  closeBtn.setAttribute('aria-label', '关闭');
+  closeBtn.textContent = '✕';
+
+  header.appendChild(h3);
+  header.appendChild(closeBtn);
+
+  const defDiv = document.createElement('div');
+  defDiv.className = 'term-modal-def';
+  defDiv.textContent = data.def;
+
+  const link = document.createElement('a');
+  link.className = 'term-modal-link';
+  link.href = `${import.meta.env.BASE_URL}${data.slug}`;
+  link.textContent = '查看详情 →';
+
+  content.appendChild(header);
+  content.appendChild(defDiv);
+  content.appendChild(link);
+  modal.appendChild(overlay);
+  modal.appendChild(content);
+  document.body.appendChild(modal);
+  document.body.style.overflow = 'hidden';
+
+  closeBtn.addEventListener('click', closeTermModal);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeTermModal();
+  });
 }
 
 function createTooltip(
@@ -36,6 +92,7 @@ function createTooltip(
   const tip = document.createElement('span');
   tip.className = 'term-tip';
   tip.setAttribute('data-term', term);
+  tip.setAttribute('tabindex', '0');
 
   const abbr = document.createElement('abbr');
   abbr.className = 'term-abbr';
@@ -58,6 +115,30 @@ function createTooltip(
 
   tip.appendChild(abbr);
   tip.appendChild(popup);
+
+  if (isMobile()) {
+    tip.style.cursor = 'pointer';
+    tip.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      showTermModal(term, data);
+    });
+  }
+
+  tip.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (isMobile()) {
+        showTermModal(term, data);
+      } else {
+        popup.style.display = 'block';
+        setTimeout(() => {
+          popup.style.display = '';
+        }, 3000);
+      }
+    }
+  });
+
   return tip;
 }
 
@@ -121,6 +202,7 @@ function walkTextNodes(
       if (!parent) return NodeFilter.FILTER_REJECT;
       if (SKIP_TAGS.has(parent.tagName)) return NodeFilter.FILTER_REJECT;
       if (parent.classList.contains('term-tip')) return NodeFilter.FILTER_REJECT;
+      if (parent.classList.contains('term-modal')) return NodeFilter.FILTER_REJECT;
       if (!parent.closest('p, li, td, th, dd, dt, blockquote')) return NodeFilter.FILTER_REJECT;
       const text = node.textContent || '';
       if (text.trim().length < 2) return NodeFilter.FILTER_REJECT;
