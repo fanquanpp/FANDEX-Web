@@ -99,7 +99,7 @@ function handleToggle() {
     );
 
     btn.innerHTML = `
-      <span style="display:inline-flex;align-items:center;gap:4px;animation:progress-fade-in-out 2.5s forwards">
+      <span style="display:inline-flex;align-items:center;gap:4px;animation:progress-fade-in-out 0.8s forwards">
         <svg width="14" height="14" viewBox="0 0 24 24" style="color:#10b981">
           <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
         </svg>
@@ -110,7 +110,7 @@ function handleToggle() {
     setTimeout(() => {
       btn.innerHTML = originalHTML;
       btn.removeAttribute('aria-busy');
-    }, 2500);
+    }, 800);
   } catch {
     btn.innerHTML = `
       <span style="display:inline-flex;align-items:center;gap:4px;color:#ef4444">
@@ -124,7 +124,7 @@ function handleToggle() {
     setTimeout(() => {
       btn.innerHTML = originalHTML;
       btn.removeAttribute('aria-busy');
-    }, 2500);
+    }, 1200);
   }
 }
 
@@ -250,10 +250,10 @@ function handleImport(e: Event) {
   0% {
     opacity: 0;
   }
-  20% {
+  25% {
     opacity: 1;
   }
-  80% {
+  75% {
     opacity: 1;
   }
   100% {
