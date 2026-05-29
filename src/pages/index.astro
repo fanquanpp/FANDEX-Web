@@ -39,6 +39,16 @@ allDocs.forEach(doc => {
     </div>
     <div class="hero-sticky-spacer" id="hero-sticky-spacer"></div>
     <section class="hero">
+      <div class="hero-search">
+        <svg class="hero-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input
+          type="text"
+          id="module-search"
+          class="hero-search-input"
+          placeholder="搜索模块名称或描述..."
+          autocomplete="off"
+        />
+      </div>
       <div class="hero-stats">
         <div class="stat-item">
           <span class="stat-num">{modules.length}</span>
@@ -64,16 +74,6 @@ allDocs.forEach(doc => {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
           标签索引
         </a>
-      </div>
-      <div class="hero-search" id="hero-search">
-        <svg class="hero-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input
-          type="text"
-          id="module-search"
-          class="hero-search-input"
-          placeholder="搜索模块名称或描述..."
-          autocomplete="off"
-        />
       </div>
     </section>
 
@@ -184,6 +184,28 @@ allDocs.forEach(doc => {
   opacity: 0;
 }
 
+.hero-sticky.scrolled .hero-stats {
+  opacity: 0;
+  max-height: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.hero-sticky.scrolled-deep .hero-search {
+  opacity: 0;
+  max-height: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.hero-stats {
+  transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease;
+}
+
+.hero-search {
+  transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease, border-color var(--transition-fast);
+}
+
 .hero-sticky-spacer {
   height: 0;
 }
@@ -223,10 +245,6 @@ allDocs.forEach(doc => {
   margin: 0 auto var(--spacing-lg);
   border: 1px solid var(--color-border);
   background: var(--color-bg-card);
-  transition: border-color var(--transition-fast);
-  position: sticky;
-  top: var(--hero-sticky-bottom, 148px);
-  z-index: 40;
 }
 
 .hero-search:focus-within {
@@ -410,16 +428,9 @@ allDocs.forEach(doc => {
 <script>
   const heroSticky = document.getElementById('hero-sticky')
   const heroSpacer = document.getElementById('hero-sticky-spacer')
-  const heroSearch = document.getElementById('hero-search')
-
   if (heroSticky && heroSpacer) {
     const sync = () => {
       heroSpacer.style.height = heroSticky.offsetHeight + 'px'
-      if (heroSearch) {
-        const navEl = document.querySelector('.app-nav')
-        const navH = navEl ? navEl.offsetHeight : 56
-        heroSearch.style.setProperty('--hero-sticky-bottom', (navH + heroSticky.offsetHeight) + 'px')
-      }
     }
     sync()
     window.addEventListener('resize', sync)
@@ -430,12 +441,16 @@ allDocs.forEach(doc => {
     if (scrollTicking) return
     scrollTicking = true
     requestAnimationFrame(() => {
-      if (heroSticky) {
-        if (window.scrollY > 10) {
-          heroSticky.classList.add('scrolled')
-        } else {
-          heroSticky.classList.remove('scrolled')
-        }
+      const y = window.scrollY
+      if (y > 10) {
+        heroSticky.classList.add('scrolled')
+      } else {
+        heroSticky.classList.remove('scrolled')
+      }
+      if (y > 60) {
+        heroSticky.classList.add('scrolled-deep')
+      } else {
+        heroSticky.classList.remove('scrolled-deep')
       }
       scrollTicking = false
     })
