@@ -181,7 +181,7 @@ const base = import.meta.env.BASE_URL
   initCopyButtons()
 
   function initMermaid() {
-    const mermaidBlocks = document.querySelectorAll('code.language-mermaid')
+    const mermaidBlocks = document.querySelectorAll('pre[data-language="mermaid"] code, code.language-mermaid')
     if (mermaidBlocks.length === 0) return
 
     const script = document.createElement('script')
@@ -193,7 +193,7 @@ const base = import.meta.env.BASE_URL
         securityLevel: 'loose',
       })
       mermaidBlocks.forEach(async (block, i) => {
-        const pre = block.parentElement
+        const pre = block.closest('pre')
         if (!pre) return
         const code = block.textContent || ''
         const id = `mermaid-svg-${i}`

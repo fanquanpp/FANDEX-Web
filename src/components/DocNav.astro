@@ -56,7 +56,8 @@ const next = currentIndex >= 0 && currentIndex < sorted.length - 1 ? sorted[curr
   background: var(--color-bg-card);
   color: var(--color-text-secondary);
   text-decoration: none;
-  max-width: 45%;
+  flex: 1;
+  min-width: 0;
 }
 
 .nav-btn:hover {
@@ -76,7 +77,20 @@ const next = currentIndex >= 0 && currentIndex < sorted.length - 1 ? sorted[curr
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 200px;
   display: block;
+}
+
+@media (max-width: 768px) {
+  .doc-nav {
+    gap: var(--spacing-sm);
+  }
+
+  .nav-btn {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+
+  .nav-title {
+    font-size: 0.75em;
+  }
 }
 </style>
