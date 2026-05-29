@@ -73,7 +73,9 @@ const statusLabel = computed(() => {
 function handleToggle() {
   status.value = toggleStatus(props.slug);
   document.dispatchEvent(
-    new CustomEvent('fanex-progress-change', { detail: { slug: props.slug, status: status.value } })
+    new CustomEvent('fandex-progress-change', {
+      detail: { slug: props.slug, status: status.value },
+    })
   );
 }
 
@@ -83,7 +85,7 @@ function handleExport() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'fanex-progress.json';
+  a.download = 'fandex-progress.json';
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -102,7 +104,7 @@ function handleImport(e: Event) {
     if (ok) {
       const p = getProgress(props.slug);
       if (p) status.value = p.status;
-      document.dispatchEvent(new CustomEvent('fanex-progress-change'));
+      document.dispatchEvent(new CustomEvent('fandex-progress-change'));
     }
   };
   reader.readAsText(file);

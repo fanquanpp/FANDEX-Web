@@ -7,7 +7,7 @@ import { rehypeLazyImages } from './src/lib/rehype-lazy-images';
 
 export default defineConfig({
   site: 'https://fanquanpp.github.io',
-  base: '/MyNotebook/',
+  base: '/FANDEX/',
   prefetch: {
     prefetchAll: false,
     defaultStrategy: 'hover',

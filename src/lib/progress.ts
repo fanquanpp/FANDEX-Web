@@ -1,5 +1,5 @@
-const STORAGE_KEY = 'fanex-progress';
-const DB_NAME = 'fanex-progress-db';
+const STORAGE_KEY = 'fandex-progress';
+const DB_NAME = 'fandex-progress-db';
 const DB_STORE = 'progress';
 const DB_VERSION = 1;
 

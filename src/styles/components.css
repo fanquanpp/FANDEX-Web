@@ -60,6 +60,12 @@
   font-family: var(--font-display);
   letter-spacing: 0.1em;
 }
+
+.logo-home-suffix {
+  font-weight: 400;
+  opacity: 0.7;
+  margin-left: 2px;
+}
 .nav-right {
   display: flex;
   align-items: center;

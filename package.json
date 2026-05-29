@@ -1,12 +1,12 @@
 {
-  "name": "codex-knowledge-os",
+  "name": "fandex",
   "version": "4.0.0",
   "private": true,
   "type": "module",
   "description": "Comprehensive tech learning notebook - refactored v4",
   "scripts": {
     "dev": "astro dev",
-    "build": "node scripts/build-glossary-index.mjs && astro build && pagefind --site dist",
+    "build": "node scripts/build-glossary-index.mjs && node scripts/build-search-index.mjs && astro build && pagefind --site dist",
     "preview": "astro preview",
     "prepare": "husky",
     "qa": "node scripts/qa-check.mjs"

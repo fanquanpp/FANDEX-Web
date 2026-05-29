@@ -143,16 +143,20 @@ const careerPaths = [
 ---
 
 <Layout title="学习路线图">
-  <SEO slot="head" title="学习路线图" description="FANEX 知识库推荐学习路线，从零基础到全栈开发者" />
+  <SEO slot="head" title="学习路线图" description="FANDEX 知识库推荐学习路线，从零基础到全栈开发者" />
 
   <div class="roadmap-page">
     <div class="roadmap-header">
       <h1 class="roadmap-title">学习路线图</h1>
+      <a href={base} class="back-home-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 6 6 12 18 18"/></svg>
+        返回主页
+      </a>
     </div>
 
     <section class="career-paths">
       <div class="category-header">
-        <span class="category-tag">职业方向路径</span>
+        <span class="category-tag">路径</span>
       </div>
       <div class="path-grid">
         {careerPaths.map(path => (
@@ -212,40 +216,6 @@ const careerPaths = [
       ))}
     </div>
 
-    <div class="roadmap-legend">
-      <h3 class="legend-title">学习建议</h3>
-      <div class="legend-grid">
-        <div class="legend-item">
-          <span class="legend-phase" style={`background:#6366f1`}>Phase 0-1</span>
-          <span class="legend-text">所有开发者必学基础，建议按顺序完成</span>
-        </div>
-        <div class="legend-item">
-          <span class="legend-phase" style={`background:#f59e0b`}>Phase 2</span>
-          <span class="legend-text">Web 开发核心，HTML/CSS/JS 缺一不可</span>
-        </div>
-        <div class="legend-item">
-          <span class="legend-phase" style={`background:#f59e0b`}>Phase 3A</span>
-          <span class="legend-text">前端方向：TS 类型安全 + Vue 组件化开发</span>
-        </div>
-        <div class="legend-item">
-          <span class="legend-phase" style={`background:#ef4444`}>Phase 3B</span>
-          <span class="legend-text">数据方向：Python 编程 → 数据存储 → 分析可视化</span>
-        </div>
-        <div class="legend-item">
-          <span class="legend-phase" style={`background:#10b981`}>Phase 3C</span>
-          <span class="legend-text">系统方向：C 底层 → C++ 泛型 → Java 企业级</span>
-        </div>
-        <div class="legend-item">
-          <span class="legend-phase" style={`background:#8b5cf6`}>Phase 4</span>
-          <span class="legend-text">掌握至少一门语言后开始，理论与实践并重</span>
-        </div>
-        <div class="legend-item">
-          <span class="legend-phase" style={`background:#10b981`}>Phase 5</span>
-          <span class="legend-text">按需学习，拓展技术栈与领域专用语言</span>
-        </div>
-      </div>
-      <p class="legend-note">Phase 3A / 3B / 3C 为三条平行路线，可根据兴趣选择一条或多条。每个模块内的文档已按 beginner → intermediate → advanced 排序。</p>
-    </div>
   </div>
 </Layout>
 
@@ -258,7 +228,15 @@ const careerPaths = [
 
 .roadmap-header {
   margin-bottom: var(--spacing-2xl);
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--color-bg);
+  padding: var(--spacing-md) 0;
+  border-bottom: 1px solid var(--color-border-light);
 }
 
 .roadmap-title {
@@ -266,6 +244,24 @@ const careerPaths = [
   font-size: 1.8em;
   margin: 0;
   letter-spacing: 0.02em;
+}
+
+.back-home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  color: var(--color-text-secondary);
+  font-size: 0.85em;
+  border: 1px solid var(--color-border-light);
+  background: var(--color-bg-card);
+  text-decoration: none;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.back-home-btn:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 .roadmap-timeline {
@@ -430,58 +426,6 @@ const careerPaths = [
   align-items: center;
 }
 
-.roadmap-legend {
-  margin-top: var(--spacing-2xl);
-  padding: var(--spacing-lg) var(--spacing-xl);
-  border: 1px solid var(--color-border-light);
-  background: var(--color-bg-card);
-}
-
-.legend-title {
-  font-family: var(--font-display);
-  font-size: 1em;
-  font-weight: 700;
-  margin: 0 0 var(--spacing-md);
-}
-
-.legend-grid {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-}
-
-.legend-phase {
-  display: inline-block;
-  padding: 2px 8px;
-  font-family: var(--font-display);
-  font-size: 0.72em;
-  font-weight: 700;
-  color: #fff;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.legend-text {
-  font-size: 0.88em;
-  color: var(--color-text-secondary);
-  line-height: 1.5;
-}
-
-.legend-note {
-  margin: var(--spacing-md) 0 0;
-  padding-top: var(--spacing-md);
-  border-top: 1px solid var(--color-border-light);
-  font-size: 0.82em;
-  color: var(--color-text-tertiary);
-  line-height: 1.6;
-}
-
 .career-paths {
   margin-bottom: var(--spacing-2xl);
 }
@@ -642,7 +586,7 @@ const careerPaths = [
   function updateRoadmapProgress() {
     let progress: Record<string, { status: string }> = {}
     try {
-      const raw = localStorage.getItem('fanex-progress')
+      const raw = localStorage.getItem('fandex-progress')
       if (raw) progress = JSON.parse(raw)
     } catch { /* ignore */ }
 
@@ -661,6 +605,6 @@ const careerPaths = [
   }
 
   updateRoadmapProgress()
-  document.addEventListener('fanex-progress-change', updateRoadmapProgress)
+  document.addEventListener('fandex-progress-change', updateRoadmapProgress)
   document.addEventListener('astro:page-load', updateRoadmapProgress)
 </script>

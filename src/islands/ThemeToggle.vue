@@ -4,7 +4,7 @@ import { ref, onMounted } from 'vue';
 const theme = ref<'light' | 'dark'>('light');
 
 onMounted(() => {
-  const saved = localStorage.getItem('fanex-theme');
+  const saved = localStorage.getItem('fandex-theme');
   if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     theme.value = 'dark';
     document.documentElement.setAttribute('data-theme', 'dark');
@@ -16,7 +16,7 @@ onMounted(() => {
 function toggle() {
   theme.value = theme.value === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', theme.value);
-  localStorage.setItem('fanex-theme', theme.value);
+  localStorage.setItem('fandex-theme', theme.value);
 }
 </script>
 

@@ -256,3 +256,50 @@ const breadcrumb = [
   }
 }
 </style>
+
+<script>
+  function initMapMermaid() {
+    const mermaidPres = document.querySelectorAll('pre.mermaid')
+    if (mermaidPres.length === 0) return
+
+    if ((window as any).mermaid) {
+      renderMapMermaid(mermaidPres)
+      return
+    }
+
+    const script = document.createElement('script')
+    script.src = 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js'
+    script.onload = () => {
+      (window as any).mermaid.initialize({
+        startOnLoad: false,
+        theme: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default',
+        securityLevel: 'loose',
+      })
+      renderMapMermaid(mermaidPres)
+    }
+    document.head.appendChild(script)
+  }
+
+  async function renderMapMermaid(mermaidPres: NodeListOf<Element>) {
+    for (let i = 0; i < mermaidPres.length; i++) {
+      const pre = mermaidPres[i] as HTMLElement
+      const code = pre.textContent || ''
+      const id = `map-mermaid-${Date.now()}-${i}`
+      try {
+        const { svg } = await (window as any).mermaid.render(id, code)
+        const container = document.createElement('div')
+        container.className = 'mermaid-output'
+        container.innerHTML = svg
+        pre.replaceWith(container)
+      } catch {
+        const errDiv = document.createElement('div')
+        errDiv.className = 'mermaid-error'
+        errDiv.textContent = 'Mermaid 渲染失败'
+        pre.replaceWith(errDiv)
+      }
+    }
+  }
+
+  initMapMermaid()
+  document.addEventListener('astro:page-load', initMapMermaid)
+</script>
