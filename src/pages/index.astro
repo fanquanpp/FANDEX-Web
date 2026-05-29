@@ -423,16 +423,13 @@ allDocs.forEach(doc => {
     window.addEventListener('resize', sync)
   }
 
-  const homeMain = document.querySelector('.home-main') as HTMLElement | null
-  if (homeMain && heroSticky) {
-    homeMain.addEventListener('scroll', () => {
-      if (homeMain.scrollTop > 10) {
-        heroSticky.classList.add('scrolled')
-      } else {
-        heroSticky.classList.remove('scrolled')
-      }
-    })
-  }
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 10) {
+      heroSticky.classList.add('scrolled')
+    } else {
+      heroSticky.classList.remove('scrolled')
+    }
+  })
 
   const searchInput = document.getElementById('module-search') as HTMLInputElement | null
   if (searchInput) {
