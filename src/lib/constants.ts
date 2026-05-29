@@ -1,5 +1,5 @@
 export const SITE = {
-  title: 'CODEX',
+  title: 'FANEX',
   subtitle: '资料库',
   url: 'https://fanquanpp.github.io/MyNotebook',
   author: 'fanquanpp',

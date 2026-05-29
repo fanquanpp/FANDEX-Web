@@ -18,7 +18,7 @@ const base = import.meta.env.BASE_URL
     <link rel="stylesheet" href={`${base}fonts/fonts.css`} />
     <script is:inline>
       (function() {
-        var t = localStorage.getItem('codex-theme');
+        var t = localStorage.getItem('fanex-theme');
         if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
           document.documentElement.setAttribute('data-theme', 'dark');
         }
@@ -32,7 +32,6 @@ const base = import.meta.env.BASE_URL
         <a href={base} class="nav-logo">
           <span class="logo-mark"></span>
           <span class="logo-text">{SITE.title}</span>
-          <span class="logo-subtitle">资料库</span>
         </a>
       </div>
       <div class="nav-right">
@@ -102,14 +101,6 @@ const base = import.meta.env.BASE_URL
   background: var(--color-text); color: var(--color-bg);
   font-weight: 700; font-size: 0.8em; font-family: var(--font-display); letter-spacing: 0.1em;
 }
-.logo-subtitle {
-  display: flex; align-items: center; height: 28px; padding: 0 8px;
-  background: var(--color-bg-card); color: var(--color-text-secondary);
-  font-weight: 500; font-size: 0.7em; font-family: var(--font-display); letter-spacing: 0.05em;
-  border: 1px solid var(--color-border-light);
-  border-left: none;
-}
-
 .home-main {
   min-height: calc(100vh - var(--nav-height));
   min-height: calc(100dvh - var(--nav-height));

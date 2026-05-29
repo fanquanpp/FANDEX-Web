@@ -19,7 +19,7 @@ const topModules = modules.slice(0, 6)
     <link rel="stylesheet" href={`${base}fonts/fonts.css`} />
     <script is:inline>
       (function() {
-        var t = localStorage.getItem('codex-theme');
+        var t = localStorage.getItem('fanex-theme');
         if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
           document.documentElement.setAttribute('data-theme', 'dark');
         }

@@ -19,7 +19,7 @@ const hasSidebar = Astro.slots.has('sidebar')
     <link rel="stylesheet" href={`${base}fonts/fonts.css`} />
     <script is:inline>
       (function() {
-        var t = localStorage.getItem('codex-theme');
+        var t = localStorage.getItem('fanex-theme');
         if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
           document.documentElement.setAttribute('data-theme', 'dark');
         }
@@ -48,7 +48,6 @@ const hasSidebar = Astro.slots.has('sidebar')
           <a href={base} class="nav-logo">
             <span class="logo-mark"></span>
             <span class="logo-text">{SITE.title}</span>
-            <span class="logo-subtitle">资料库</span>
           </a>
         </div>
         <div class="nav-right">

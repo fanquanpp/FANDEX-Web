@@ -8,8 +8,8 @@ const base = import.meta.env.BASE_URL
 const roadmap = [
   {
     phase: 'Phase 0',
-    label: '零基础准备',
-    desc: '从未接触过编程? 从这里开始',
+    label: '编程准备',
+    desc: '零基础入门：环境搭建、工具配置与学习路线规划',
     color: '#6366f1',
     items: [
       { id: 'getting-started', arrow: null },
@@ -17,8 +17,8 @@ const roadmap = [
   },
   {
     phase: 'Phase 1',
-    label: '基础工具',
-    desc: '所有开发者的必备技能，建议最先掌握',
+    label: '开发工具链',
+    desc: '文档写作与版本控制是所有协作开发的基础，建议最先掌握',
     color: '#6366f1',
     items: [
       { id: 'markdown', arrow: 'right' },
@@ -28,8 +28,8 @@ const roadmap = [
   },
   {
     phase: 'Phase 2',
-    label: 'Web 前端基础',
-    desc: '前端开发三件套，按顺序学习',
+    label: 'Web 基础',
+    desc: '前端开发三大核心技术，按 HTML → CSS → JS 顺序学习',
     color: '#f59e0b',
     items: [
       { id: 'html5', arrow: 'right' },
@@ -39,8 +39,8 @@ const roadmap = [
   },
   {
     phase: 'Phase 3A',
-    label: '前端进阶',
-    desc: 'JavaScript 掌握后的进阶路线',
+    label: '前端工程化',
+    desc: 'JavaScript 之后的进阶路线：静态类型 + 现代框架',
     color: '#f59e0b',
     items: [
       { id: 'typescript', arrow: 'right' },
@@ -49,8 +49,8 @@ const roadmap = [
   },
   {
     phase: 'Phase 3B',
-    label: '后端与数据',
-    desc: '全栈开发必备的数据与存储技能',
+    label: '数据与后端',
+    desc: '服务端开发、数据存储与分析的完整链路',
     color: '#ef4444',
     items: [
       { id: 'python', arrow: 'right' },
@@ -61,7 +61,7 @@ const roadmap = [
   {
     phase: 'Phase 3C',
     label: '系统编程',
-    desc: '深入底层，理解计算机本质',
+    desc: '从底层硬件到企业级应用，理解计算机运行本质',
     color: '#10b981',
     items: [
       { id: 'c', arrow: 'right' },
@@ -72,7 +72,7 @@ const roadmap = [
   {
     phase: 'Phase 4',
     label: '计算机科学',
-    desc: '理论与实践结合，构建完整知识体系',
+    desc: '数据结构、算法、操作系统与网络——构建完整理论体系',
     color: '#8b5cf6',
     items: [
       { id: 'algorithm', arrow: 'right' },
@@ -81,76 +81,93 @@ const roadmap = [
   },
   {
     phase: 'Phase 5',
-    label: '扩展语言',
-    desc: '按需学习，拓展技术栈',
+    label: '扩展技能',
+    desc: '按需拓展的技术栈与领域专用语言',
     color: '#10b981',
     items: [
       { id: 'lua', arrow: null },
     ],
   },
 ]
+
+const careerPaths = [
+  {
+    label: '全栈入门',
+    color: '#6366f1',
+    steps: [
+      { id: 'getting-started', label: '入门指南' },
+      { id: 'markdown', label: 'Markdown' },
+      { id: 'git', label: 'Git' },
+      { id: 'github', label: 'GitHub' },
+      { id: 'html5', label: 'HTML5' },
+      { id: 'css', label: 'CSS' },
+      { id: 'javascript', label: 'JavaScript' },
+    ],
+  },
+  {
+    label: '前端工程师',
+    color: '#f59e0b',
+    steps: [
+      { id: 'javascript', label: 'JavaScript' },
+      { id: 'typescript', label: 'TypeScript' },
+      { id: 'vue3', label: 'Vue 3' },
+    ],
+  },
+  {
+    label: '数据工程师',
+    color: '#ef4444',
+    steps: [
+      { id: 'python', label: 'Python' },
+      { id: 'mysql', label: 'MySQL' },
+      { id: 'data-analysis', label: '数据分析' },
+    ],
+  },
+  {
+    label: '系统开发者',
+    color: '#10b981',
+    steps: [
+      { id: 'c', label: 'C' },
+      { id: 'cpp', label: 'C++' },
+      { id: 'java', label: 'Java' },
+    ],
+  },
+  {
+    label: 'CS 理论',
+    color: '#8b5cf6',
+    steps: [
+      { id: 'algorithm', label: '算法' },
+      { id: 'cs-fundamentals', label: 'CS基础' },
+    ],
+  },
+]
 ---
 
 <Layout title="学习路线图">
-  <SEO slot="head" title="学习路线图" description="CODEX 知识库推荐学习路线，从零基础到全栈开发者" />
+  <SEO slot="head" title="学习路线图" description="FANEX 知识库推荐学习路线，从零基础到全栈开发者" />
 
   <div class="roadmap-page">
     <div class="roadmap-header">
       <h1 class="roadmap-title">学习路线图</h1>
-      <p class="roadmap-subtitle">从零基础到全栈开发者的推荐学习路径</p>
     </div>
 
-    <section class="learning-paths">
+    <section class="career-paths">
       <div class="category-header">
-        <span class="category-tag">预设学习路径</span>
+        <span class="category-tag">职业方向路径</span>
       </div>
       <div class="path-grid">
-        <div class="path-card">
-          <div class="path-label">入门路径</div>
-          <div class="path-flow">
-            <a href={`${base}markdown`} class="path-node">Markdown</a>
-            <span class="path-arrow">&rarr;</span>
-            <a href={`${base}git`} class="path-node">Git</a>
-            <span class="path-arrow">&rarr;</span>
-            <a href={`${base}github`} class="path-node">GitHub</a>
-            <span class="path-arrow">&rarr;</span>
-            <a href={`${base}html5`} class="path-node">HTML5</a>
-            <span class="path-arrow">&rarr;</span>
-            <a href={`${base}css`} class="path-node">CSS</a>
-            <span class="path-arrow">&rarr;</span>
-            <a href={`${base}javascript`} class="path-node">JavaScript</a>
+        {careerPaths.map(path => (
+          <div class="path-card">
+            <div class="path-label" style={`color:${path.color}`}>{path.label}</div>
+            <div class="path-flow">
+              {path.steps.map((step, i) => (
+                <>
+                  <a href={`${base}${step.id}`} class="path-node" style={`border-color:${path.color}30`}>{step.label}</a>
+                  {i < path.steps.length - 1 && <span class="path-arrow">&rarr;</span>}
+                </>
+              ))}
+            </div>
           </div>
-        </div>
-        <div class="path-card">
-          <div class="path-label">前端方向</div>
-          <div class="path-flow">
-            <a href={`${base}javascript`} class="path-node">JavaScript</a>
-            <span class="path-arrow">&rarr;</span>
-            <a href={`${base}typescript`} class="path-node">TypeScript</a>
-            <span class="path-arrow">&rarr;</span>
-            <a href={`${base}vue3`} class="path-node">Vue 3</a>
-          </div>
-        </div>
-        <div class="path-card">
-          <div class="path-label">数据方向</div>
-          <div class="path-flow">
-            <a href={`${base}python`} class="path-node">Python</a>
-            <span class="path-arrow">&rarr;</span>
-            <a href={`${base}data-analysis`} class="path-node">数据分析</a>
-            <span class="path-sep">|</span>
-            <a href={`${base}mysql`} class="path-node">MySQL</a>
-          </div>
-        </div>
-        <div class="path-card">
-          <div class="path-label">系统/后端方向</div>
-          <div class="path-flow">
-            <a href={`${base}c`} class="path-node">C</a>
-            <span class="path-arrow">&rarr;</span>
-            <a href={`${base}cpp`} class="path-node">C++</a>
-            <span class="path-sep">|</span>
-            <a href={`${base}java`} class="path-node">Java</a>
-          </div>
-        </div>
+        ))}
       </div>
     </section>
 
@@ -158,7 +175,7 @@ const roadmap = [
       {roadmap.map((phase, idx) => (
         <div class="timeline-phase">
           <div class="phase-marker">
-            <span class="phase-number">{phase.phase}</span>
+            <span class="phase-number" style={`background:${phase.color}`}>{phase.phase}</span>
           </div>
           <div class="phase-content">
             <div class="phase-header">
@@ -197,13 +214,37 @@ const roadmap = [
 
     <div class="roadmap-legend">
       <h3 class="legend-title">学习建议</h3>
-      <ul class="legend-list">
-        <li>Phase 1-2 为所有开发者必学基础，建议按顺序完成</li>
-        <li>Phase 3A/3B/3C 为三条平行路线，可根据兴趣选择一条或多条</li>
-        <li>Phase 4 建议在掌握至少一门编程语言后开始</li>
-        <li>Phase 5 为扩展语言，按需学习即可</li>
-        <li>每个模块内的文档已按难度排序: beginner -> intermediate -> advanced</li>
-      </ul>
+      <div class="legend-grid">
+        <div class="legend-item">
+          <span class="legend-phase" style={`background:#6366f1`}>Phase 0-1</span>
+          <span class="legend-text">所有开发者必学基础，建议按顺序完成</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-phase" style={`background:#f59e0b`}>Phase 2</span>
+          <span class="legend-text">Web 开发核心，HTML/CSS/JS 缺一不可</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-phase" style={`background:#f59e0b`}>Phase 3A</span>
+          <span class="legend-text">前端方向：TS 类型安全 + Vue 组件化开发</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-phase" style={`background:#ef4444`}>Phase 3B</span>
+          <span class="legend-text">数据方向：Python 编程 → 数据存储 → 分析可视化</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-phase" style={`background:#10b981`}>Phase 3C</span>
+          <span class="legend-text">系统方向：C 底层 → C++ 泛型 → Java 企业级</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-phase" style={`background:#8b5cf6`}>Phase 4</span>
+          <span class="legend-text">掌握至少一门语言后开始，理论与实践并重</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-phase" style={`background:#10b981`}>Phase 5</span>
+          <span class="legend-text">按需学习，拓展技术栈与领域专用语言</span>
+        </div>
+      </div>
+      <p class="legend-note">Phase 3A / 3B / 3C 为三条平行路线，可根据兴趣选择一条或多条。每个模块内的文档已按 beginner → intermediate → advanced 排序。</p>
     </div>
   </div>
 </Layout>
@@ -223,14 +264,8 @@ const roadmap = [
 .roadmap-title {
   font-family: var(--font-display);
   font-size: 1.8em;
-  margin: 0 0 var(--spacing-sm);
-  letter-spacing: 0.02em;
-}
-
-.roadmap-subtitle {
-  font-size: 0.95em;
-  color: var(--color-text-secondary);
   margin: 0;
+  letter-spacing: 0.02em;
 }
 
 .roadmap-timeline {
@@ -281,7 +316,6 @@ const roadmap = [
 .phase-number {
   display: inline-block;
   padding: 4px 10px;
-  background: var(--color-primary);
   color: var(--color-text-inverse);
   font-family: var(--font-display);
   font-size: 0.72em;
@@ -403,7 +437,52 @@ const roadmap = [
   background: var(--color-bg-card);
 }
 
-.learning-paths {
+.legend-title {
+  font-family: var(--font-display);
+  font-size: 1em;
+  font-weight: 700;
+  margin: 0 0 var(--spacing-md);
+}
+
+.legend-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.legend-phase {
+  display: inline-block;
+  padding: 2px 8px;
+  font-family: var(--font-display);
+  font-size: 0.72em;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.legend-text {
+  font-size: 0.88em;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.legend-note {
+  margin: var(--spacing-md) 0 0;
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border-light);
+  font-size: 0.82em;
+  color: var(--color-text-tertiary);
+  line-height: 1.6;
+}
+
+.career-paths {
   margin-bottom: var(--spacing-2xl);
 }
 
@@ -445,7 +524,6 @@ const roadmap = [
   font-family: var(--font-display);
   font-size: 0.78em;
   font-weight: 600;
-  color: var(--color-primary);
   white-space: nowrap;
   min-width: 90px;
 }
@@ -476,27 +554,6 @@ const roadmap = [
 .path-arrow {
   color: var(--color-text-tertiary);
   font-size: 0.85em;
-}
-
-.path-sep {
-  color: var(--color-text-tertiary);
-  font-size: 0.85em;
-  margin: 0 4px;
-}
-
-.legend-title {
-  font-family: var(--font-display);
-  font-size: 1em;
-  font-weight: 700;
-  margin: 0 0 var(--spacing-md);
-}
-
-.legend-list {
-  padding-left: var(--spacing-lg);
-  margin: 0;
-  font-size: 0.9em;
-  color: var(--color-text-secondary);
-  line-height: 2;
 }
 
 @media (max-width: 768px) {
@@ -574,6 +631,10 @@ const roadmap = [
     font-size: 0.75em;
     padding: 2px 8px;
   }
+
+  .legend-item {
+    flex-wrap: wrap;
+  }
 }
 </style>
 
@@ -581,7 +642,7 @@ const roadmap = [
   function updateRoadmapProgress() {
     let progress: Record<string, { status: string }> = {}
     try {
-      const raw = localStorage.getItem('codex-progress')
+      const raw = localStorage.getItem('fanex-progress')
       if (raw) progress = JSON.parse(raw)
     } catch { /* ignore */ }
 
@@ -600,6 +661,6 @@ const roadmap = [
   }
 
   updateRoadmapProgress()
-  document.addEventListener('codex-progress-change', updateRoadmapProgress)
+  document.addEventListener('fanex-progress-change', updateRoadmapProgress)
   document.addEventListener('astro:page-load', updateRoadmapProgress)
 </script>

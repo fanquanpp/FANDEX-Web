@@ -87,6 +87,11 @@ const hasHeadings = visibleHeadings.length > 0
           术语表
         </a>
       </div>
+      <div class="sidebar-kmap-link">
+        <a href={`${base}${moduleId}/map`} class="sidebar-file-link">
+          知识地图
+        </a>
+      </div>
     </div>
   </nav>
 </aside>
@@ -242,6 +247,10 @@ const hasHeadings = visibleHeadings.length > 0
   border-top: 1px solid var(--color-border-light);
 }
 
+.sidebar-kmap-link {
+  padding-top: var(--spacing-xs);
+}
+
 .sidebar-scroll {
   flex: 1;
   min-height: 0;
@@ -287,7 +296,7 @@ const hasHeadings = visibleHeadings.length > 0
   function updateSidebarProgress() {
     let progress: Record<string, { status: string }> = {}
     try {
-      const raw = localStorage.getItem('codex-progress')
+      const raw = localStorage.getItem('fanex-progress')
       if (raw) progress = JSON.parse(raw)
     } catch { /* ignore */ }
 
@@ -304,7 +313,7 @@ const hasHeadings = visibleHeadings.length > 0
   }
 
   updateSidebarProgress()
-  document.addEventListener('codex-progress-change', updateSidebarProgress)
+  document.addEventListener('fanex-progress-change', updateSidebarProgress)
   document.addEventListener('astro:page-load', updateSidebarProgress)
 
   const toggleGroup = document.getElementById('sidebar-toggle-group')
