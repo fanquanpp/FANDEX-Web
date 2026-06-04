@@ -103,12 +103,6 @@ const hasHeadings = visibleHeadings.length > 0
         <span class="all-modules-current-bar" style={`background:${meta?.color || '#6366f1'}`}></span>
         <span class="all-modules-current-name">{meta?.title || moduleId}</span>
       </div>
-      <button class="all-modules-back-btn" id="all-modules-back-btn" aria-label="返回章节">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <polyline points="18 6 6 12 18 18" />
-        </svg>
-        返回
-      </button>
     </div>
     <div class="all-modules-section-title">全部模块</div>
     <ul class="all-modules-list">
@@ -336,25 +330,6 @@ const hasHeadings = visibleHeadings.length > 0
   padding: var(--spacing-sm) var(--spacing-md) var(--spacing-xs);
 }
 
-.all-modules-back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: none;
-  border: 1px solid var(--color-border-light);
-  color: var(--color-text-secondary);
-  font-family: var(--font-display);
-  font-size: 0.78em;
-  padding: 3px 10px;
-  cursor: pointer;
-  transition: color var(--transition-fast), border-color var(--transition-fast);
-}
-
-.all-modules-back-btn:hover {
-  color: var(--color-primary);
-  border-color: var(--color-primary);
-}
-
 .all-modules-list {
   list-style: none;
   padding: 0;
@@ -403,37 +378,13 @@ const hasHeadings = visibleHeadings.length > 0
 }
 
 .progress-indicator {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--color-border);
-  margin-right: 6px;
-  flex-shrink: 0;
-  vertical-align: middle;
-  transition: background var(--transition-fast);
-}
-
-.sidebar-file-link.progress-done .progress-indicator {
-  background: #10b981;
-}
-
-.sidebar-file-link.progress-reading .progress-indicator {
-  background: #f59e0b;
+  display: none;
 }
 
 .sidebar-file-link.active {
   color: var(--color-primary);
   background: var(--color-bg-hover);
   font-weight: 600;
-  border-left-color: var(--color-primary);
-}
-
-.sidebar-file-link.active .progress-indicator {
-  background: var(--color-primary);
-  width: 8px;
-  height: 8px;
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
 }
 
 @media (max-width: 768px) {
@@ -450,7 +401,6 @@ const hasHeadings = visibleHeadings.length > 0
   const outlineBtn = document.getElementById('sidebar-toggle-outline')
   const chaptersPanel = document.getElementById('sidebar-panel-chapters')
   const outlinePanel = document.getElementById('sidebar-panel-outline')
-  const allModulesBackBtn = document.getElementById('all-modules-back-btn')
 
   function showChapterView() {
     if (sidebar) sidebar.classList.remove('is-modules-view')
@@ -480,12 +430,6 @@ const hasHeadings = visibleHeadings.length > 0
 
   if (chaptersBtn) chaptersBtn.addEventListener('click', showChapterView)
   if (outlineBtn) outlineBtn.addEventListener('click', showOutlineView)
-
-  if (allModulesBackBtn) {
-    allModulesBackBtn.addEventListener('click', () => {
-      showChapterView()
-    })
-  }
 
   document.addEventListener('fandex-switch-modules', () => {
     showModulesView()

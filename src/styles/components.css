@@ -261,9 +261,10 @@
   padding: var(--spacing-sm) var(--spacing-md);
   color: var(--color-text-secondary);
   font-size: 0.85em;
-  border-left: 3px solid transparent;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -276,7 +277,6 @@
 
 .sidebar-file-link.active {
   color: var(--color-primary);
-  border-left-color: var(--color-primary);
   font-weight: 500;
 }
 
