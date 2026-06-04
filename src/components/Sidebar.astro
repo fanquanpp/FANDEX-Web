@@ -422,6 +422,20 @@ const hasHeadings = visibleHeadings.length > 0
   background: #f59e0b;
 }
 
+.sidebar-file-link.active {
+  color: var(--color-primary);
+  background: var(--color-bg-hover);
+  font-weight: 600;
+  border-left-color: var(--color-primary);
+}
+
+.sidebar-file-link.active .progress-indicator {
+  background: var(--color-primary);
+  width: 8px;
+  height: 8px;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
 @media (max-width: 768px) {
   .sidebar-close-btn {
     display: block;

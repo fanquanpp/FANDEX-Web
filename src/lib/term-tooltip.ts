@@ -104,7 +104,6 @@ function createTooltip(
 
   const abbr = document.createElement('abbr');
   abbr.className = 'term-abbr';
-  abbr.title = data.def;
   abbr.textContent = term;
 
   const popup = document.createElement('span');
@@ -124,12 +123,36 @@ function createTooltip(
   tip.appendChild(abbr);
   tip.appendChild(popup);
 
+  function positionPopup() {
+    const rect = abbr.getBoundingClientRect();
+    const popupWidth = Math.min(320, window.innerWidth - 16);
+    let left = rect.left;
+    let top = rect.bottom + 6;
+    if (left + popupWidth > window.innerWidth - 8) {
+      left = window.innerWidth - popupWidth - 8;
+    }
+    if (left < 8) left = 8;
+    if (top + 200 > window.innerHeight) {
+      top = rect.top - 6;
+      popup.style.transform = 'translateY(-100%)';
+    } else {
+      popup.style.transform = '';
+    }
+    popup.style.left = left + 'px';
+    popup.style.top = top + 'px';
+    popup.style.maxWidth = popupWidth + 'px';
+  }
+
   if (isMobile()) {
     tip.style.cursor = 'pointer';
     tip.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
       showTermModal(term, data);
+    });
+  } else {
+    tip.addEventListener('mouseenter', () => {
+      positionPopup();
     });
   }
 
@@ -139,6 +162,7 @@ function createTooltip(
       if (isMobile()) {
         showTermModal(term, data);
       } else {
+        positionPopup();
         popup.style.display = 'block';
         setTimeout(() => {
           popup.style.display = '';

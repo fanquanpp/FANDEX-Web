@@ -1,5 +1,5 @@
 .prose {
-  max-width: var(--content-width);
+  max-width: 100%;
   margin: 0 auto;
   line-height: 1.9;
 }
@@ -439,6 +439,7 @@
 
   .prose table {
     display: block;
+    width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
