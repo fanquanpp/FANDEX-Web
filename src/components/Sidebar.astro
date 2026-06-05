@@ -473,6 +473,26 @@ const hasHeadings = visibleHeadings.length > 0
       }
     })
 
+    // Outline link click → scroll #app-main to heading
+    outlineLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault()
+        const slug = (link as HTMLElement).getAttribute('data-outline-slug')
+        if (!slug) return
+        const target = document.getElementById(slug)
+        if (!target) return
+        const main = document.getElementById('app-main')
+        if (main) {
+          const mainRect = main.getBoundingClientRect()
+          const targetRect = target.getBoundingClientRect()
+          main.scrollTo({
+            top: main.scrollTop + targetRect.top - mainRect.top - 20,
+            behavior: 'smooth',
+          })
+        }
+      })
+    })
+
     if (headingElements.length > 0) {
       let activeSlug = ''
       const mainEl = document.getElementById('app-main')
