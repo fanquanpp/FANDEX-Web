@@ -28,7 +28,7 @@ allDocs.forEach(doc => {
 ---
 
 <HomeLayout title="首页">
-  <SEO slot="head" title="FANDEX - 开发者知识库" description="28个模块的技术学习笔记，覆盖编程语言·前端工程·数据技术·数学基础·基础设施·新兴领域全栈知识体系" type="website" />
+  <SEO slot="head" title="FANDEX - 开发者知识库" description="35个模块的技术学习笔记，覆盖编程语言·前端工程·数据技术·数学基础·基础设施·新兴领域全栈知识体系" type="website" />
 
   <div class="home-page">
     <section class="hero">
@@ -114,6 +114,8 @@ allDocs.forEach(doc => {
         <ModuleCard mod={modules.find(m => m.id === 'python')!} color="#ef4444" />
         <ModuleCard mod={modules.find(m => m.id === 'mysql')!} color="#ef4444" />
         <ModuleCard mod={modules.find(m => m.id === 'sql')!} color="#ef4444" />
+        <ModuleCard mod={modules.find(m => m.id === 'postgresql')!} color="#ef4444" />
+        <ModuleCard mod={modules.find(m => m.id === 'redis')!} color="#ef4444" />
         <ModuleCard mod={modules.find(m => m.id === 'data-analysis')!} color="#ef4444" />
       </div>
     </section>
@@ -144,6 +146,9 @@ allDocs.forEach(doc => {
       </div>
       <div class="feature-grid">
         <ModuleCard mod={modules.find(m => m.id === 'devops')!} color="#f97316" />
+        <ModuleCard mod={modules.find(m => m.id === 'networking')!} color="#f97316" />
+        <ModuleCard mod={modules.find(m => m.id === 'cybersecurity')!} color="#f97316" />
+        <ModuleCard mod={modules.find(m => m.id === 'cloud-computing')!} color="#f97316" />
         <ModuleCard mod={modules.find(m => m.id === 'iot')!} color="#f97316" />
       </div>
     </section>
@@ -154,6 +159,8 @@ allDocs.forEach(doc => {
       </div>
       <div class="feature-grid">
         <ModuleCard mod={modules.find(m => m.id === 'agent')!} color="#06b6d4" />
+        <ModuleCard mod={modules.find(m => m.id === 'harmonyos')!} color="#06b6d4" />
+        <ModuleCard mod={modules.find(m => m.id === 'software-testing')!} color="#06b6d4" />
       </div>
     </section>
 

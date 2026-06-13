@@ -9,8 +9,8 @@
 [![在线阅读](https://img.shields.io/badge/在线阅读-fanquanpp.github.io%2FFANDEX-2563eb?style=for-the-badge&logo=github&logoColor=white)](https://fanquanpp.github.io/FANDEX/)
 [![Astro 5](https://img.shields.io/badge/Astro-5-ff5d01?style=flat-square&logo=astro&logoColor=white)](https://astro.build)
 [![Vue 3](https://img.shields.io/badge/Vue-3-42b883?style=flat-square&logo=vuedotjs&logoColor=white)](https://vuejs.org)
-[![文档数](https://img.shields.io/badge/文档-326+-0ea5e9?style=flat-square)](https://fanquanpp.github.io/FANDEX/)
-[![模块数](https://img.shields.io/badge/模块-28-8b5cf6?style=flat-square)](https://fanquanpp.github.io/FANDEX/)
+[![文档数](https://img.shields.io/badge/文档-369+-0ea5e9?style=flat-square)](https://fanquanpp.github.io/FANDEX/)
+[![模块数](https://img.shields.io/badge/模块-35-8b5cf6?style=flat-square)](https://fanquanpp.github.io/FANDEX/)
 
 </div>
 
@@ -23,13 +23,13 @@
 | 基础工具   | 入门指南 · Git · GitHub · Markdown                                         |
 | 编程语言   | C · C++ · Java · Kotlin · C# · JavaScript · TypeScript · Python · Go · Lua |
 | Web 前端   | HTML5 · CSS · Vue 3 · React                                                |
-| 数据技术   | MySQL · SQL · 数据分析                                                     |
+| 数据技术   | MySQL · SQL · PostgreSQL · Redis · 数据分析                                |
 | 计算机科学 | 算法与数据结构 · 计算机基础                                                |
 | 数学基础   | 高等数学 · 离散数学                                                        |
-| 基础设施   | 运维 · 物联网                                                              |
-| 新兴领域   | AI Agent                                                                   |
+| 基础设施   | 运维 · 网络技术 · 网络安全 · 云计算 · 物联网                               |
+| 新兴领域   | AI Agent · 鸿蒙开发 · 软件测试                                             |
 
-> 326 篇文档 · 27 篇术语表 · 28 个模块 · 交互式测验 · 知识地图
+> 369 篇文档 · 27 篇术语表 · 35 个模块 · 交互式测验 · 知识地图
 
 ## 功能特性
 
@@ -83,14 +83,16 @@ git checkout
 
 ```
 src/content/docs/
-├── algorithm/        # 算法与数据结构
 ├── agent/            # AI Agent
+├── algorithm/        # 算法与数据结构
 ├── c/                # C 语言
 ├── calculus/         # 高等数学
+├── cloud-computing/  # 云计算
 ├── cpp/              # C++
 ├── csharp/           # C#
 ├── cs-fundamentals/  # 计算机基础
 ├── css/              # CSS
+├── cybersecurity/    # 网络安全
 ├── data-analysis/    # 数据分析
 ├── devops/           # 运维
 ├── discrete-math/    # 离散数学
@@ -98,6 +100,7 @@ src/content/docs/
 ├── git/              # Git
 ├── github/           # GitHub
 ├── go/               # Go
+├── harmonyos/        # 鸿蒙开发
 ├── html5/            # HTML5
 ├── iot/              # 物联网
 ├── java/             # Java
@@ -106,8 +109,12 @@ src/content/docs/
 ├── lua/              # Lua
 ├── markdown/         # Markdown
 ├── mysql/            # MySQL
+├── networking/       # 网络技术
+├── postgresql/       # PostgreSQL
 ├── python/           # Python
 ├── react/            # React
+├── redis/            # Redis
+├── software-testing/ # 软件测试
 ├── sql/              # SQL
 ├── typescript/       # TypeScript
 └── vue3/             # Vue 3
