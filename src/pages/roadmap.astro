@@ -1,7 +1,7 @@
 ---
 import Layout from '@/components/Layout.astro'
 import SEO from '@/components/SEO.astro'
-import { modules, categoryLabels, categoryOrder } from '@/lib/modules'
+import { modules, categoryLabels, categoryOrder, categoryColors } from '@/lib/modules'
 
 const base = import.meta.env.BASE_URL
 
@@ -123,7 +123,7 @@ const roadmap = [
 const careerPaths = [
   {
     label: '全栈入门',
-    color: '#6366f1',
+    color: categoryColors.toolchain,
     steps: [
       { id: 'getting-started', label: '入门指南' },
       { id: 'markdown', label: 'Markdown' },
@@ -136,7 +136,7 @@ const careerPaths = [
   },
   {
     label: '前端工程师',
-    color: '#42b883',
+    color: categoryColors['dev-lang'],
     steps: [
       { id: 'javascript', label: 'JavaScript' },
       { id: 'typescript', label: 'TypeScript' },
@@ -146,7 +146,7 @@ const careerPaths = [
   },
   {
     label: '后端工程师',
-    color: '#3776ab',
+    color: categoryColors['dev-lang'],
     steps: [
       { id: 'python', label: 'Python' },
       { id: 'java', label: 'Java' },
@@ -157,7 +157,7 @@ const careerPaths = [
   },
   {
     label: '系统开发者',
-    color: '#00599c',
+    color: categoryColors['dev-lang'],
     steps: [
       { id: 'c', label: 'C' },
       { id: 'cpp', label: 'C++' },
@@ -167,7 +167,7 @@ const careerPaths = [
   },
   {
     label: '数据工程师',
-    color: '#4479a1',
+    color: categoryColors.database,
     steps: [
       { id: 'python', label: 'Python' },
       { id: 'mysql', label: 'MySQL' },
@@ -177,7 +177,7 @@ const careerPaths = [
   },
   {
     label: 'DevOps 工程师',
-    color: '#f97316',
+    color: categoryColors['eng-infra'],
     steps: [
       { id: 'git', label: 'Git' },
       { id: 'devops', label: 'DevOps' },
@@ -187,7 +187,7 @@ const careerPaths = [
   },
   {
     label: '安全工程师',
-    color: '#ef4444',
+    color: categoryColors['eng-infra'],
     steps: [
       { id: 'networking', label: '网络技术' },
       { id: 'cybersecurity', label: '网络安全' },
@@ -196,7 +196,7 @@ const careerPaths = [
   },
   {
     label: 'AI 工程师',
-    color: '#06b6d4',
+    color: categoryColors['eng-infra'],
     steps: [
       { id: 'python', label: 'Python' },
       { id: 'agent', label: 'AI Agent' },
@@ -205,7 +205,7 @@ const careerPaths = [
   },
   {
     label: '移动开发',
-    color: '#0a59f7',
+    color: categoryColors['dev-lang'],
     steps: [
       { id: 'javascript', label: 'JavaScript' },
       { id: 'typescript', label: 'TypeScript' },
@@ -216,7 +216,7 @@ const careerPaths = [
   },
   {
     label: 'CS 理论',
-    color: '#8b5cf6',
+    color: categoryColors['comp-sci'],
     steps: [
       { id: 'algorithm', label: '算法' },
       { id: 'cs-fundamentals', label: 'CS基础' },

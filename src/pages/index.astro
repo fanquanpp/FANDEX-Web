@@ -2,7 +2,7 @@
 import HomeLayout from '@/components/HomeLayout.astro'
 import SEO from '@/components/SEO.astro'
 import ModuleCard from '@/components/ModuleCard.astro'
-import { modules, categoryLabels, getModulesByCategory, categoryOrder } from '@/lib/modules'
+import { modules, categoryLabels, categoryColors, getModulesByCategory, categoryOrder } from '@/lib/modules'
 import { getCollection } from 'astro:content'
 
 const allDocs = await getCollection('docs')
@@ -17,6 +17,7 @@ const grouped = categoryOrder
   .map(cat => ({
     key: cat,
     label: categoryLabels[cat],
+    color: categoryColors[cat],
     modules: getModulesByCategory(cat),
   }))
   .filter(g => g.modules.length > 0)
@@ -65,7 +66,7 @@ allDocs.forEach(doc => {
     {grouped.map(group => (
       <section class="category-section" data-category={group.key}>
         <div class="category-header">
-          <span class="category-tag">{group.label}</span>
+          <span class="category-tag" style={`color:${group.color}`}>{group.label}</span>
         </div>
         <div class="feature-grid">
           {group.modules.map(mod => (
