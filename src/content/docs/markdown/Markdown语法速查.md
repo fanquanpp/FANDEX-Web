@@ -11,7 +11,7 @@ author: 'fanquanpp'
 updated: 2026-05-03
 ---
 
-## 1 . Markdown
+## 1. Markdown
 
 Markdown John Gruber Aaron Swartz 2004 HTMLPDF
 
@@ -362,7 +362,7 @@ Markdown
 [TOC]
 ```
 
-## 18 . HTML
+## 18. HTML
 
 Markdown HTML
 
@@ -499,7 +499,7 @@ Markdown Markdown
 -
 - Markdown
 
-## 23 . Markdown
+## 23. Markdown
 
 ### 23.1 GitHub Flavored Markdown (GFM)
 
@@ -612,7 +612,7 @@ $$
 $$
 ```
 
-## 24 . Markdown
+## 24. Markdown
 
 ### 24.1
 
@@ -634,7 +634,7 @@ $$
 -
 -
 
-## 25 . Markdown
+## 25. Markdown
 
 ### 25.1
 
@@ -716,7 +716,7 @@ $$
 -
 -
 
-## 27 . Markdown
+## 27. Markdown
 
 ### 27.1 CommonMark
 
