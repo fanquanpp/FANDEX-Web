@@ -7,14 +7,14 @@ export const categoryLabels: Record<string, string> = {
   data: '数据技术',
 };
 
-/** 每个分类一种统一颜色，同分类内所有模块共享 — 低饱和缓和色系 */
+/** 每个分类一种统一颜色 — 正常饱和度、清晰可辨 */
 const C = {
-  toolchain: '#7c83db',
-  'dev-lang': '#d47070',
-  database: '#5d9e85',
-  'comp-sci': '#9b7ec8',
-  'eng-infra': '#cc8a5c',
-  data: '#bfa04e',
+  toolchain: '#5c6bc0',
+  'dev-lang': '#e05555',
+  database: '#2e9e6a',
+  'comp-sci': '#8e5fbf',
+  'eng-infra': '#e07b39',
+  data: '#c49a20',
 } as const;
 
 export const categoryColors: Record<string, string> = C;
@@ -23,7 +23,7 @@ export const modules = [
   // ── 工具链 ──
   {
     id: 'getting-started',
-    title: '入门指南',
+    title: 'Getting Started',
     description: '零基础环境搭建与学习规划',
     categories: ['toolchain'],
   },
@@ -31,20 +31,10 @@ export const modules = [
     id: 'markdown',
     title: 'Markdown',
     description: '文档标记与写作规范',
-    categories: ['toolchain', 'dev-lang'],
+    categories: ['toolchain'],
   },
-  {
-    id: 'git',
-    title: 'Git',
-    description: '版本控制与分支管理',
-    categories: ['toolchain', 'dev-lang'],
-  },
-  {
-    id: 'github',
-    title: 'GitHub',
-    description: '代码协作与CI/CD',
-    categories: ['toolchain', 'dev-lang'],
-  },
+  { id: 'git', title: 'Git', description: '版本控制与分支管理', categories: ['toolchain'] },
+  { id: 'github', title: 'GitHub', description: '代码协作与CI/CD', categories: ['toolchain'] },
 
   // ── 开发语言 ──
   { id: 'html5', title: 'HTML5', description: 'Web结构与语义', categories: ['dev-lang'] },
@@ -83,13 +73,13 @@ export const modules = [
   { id: 'lua', title: 'Lua', description: '嵌入式脚本引擎', categories: ['dev-lang'] },
   {
     id: 'harmonyos',
-    title: '鸿蒙开发',
+    title: 'HarmonyOS',
     description: 'HarmonyOS应用开发',
     categories: ['dev-lang'],
   },
-  { id: 'sql', title: 'SQL', description: '结构化查询语言', categories: ['database', 'dev-lang'] },
 
   // ── 数据库 ──
+  { id: 'sql', title: 'SQL', description: '结构化查询语言', categories: ['database'] },
   { id: 'mysql', title: 'MySQL', description: '关系型数据存储', categories: ['database'] },
   {
     id: 'postgresql',
@@ -107,60 +97,50 @@ export const modules = [
   // ── 计算机科学 ──
   {
     id: 'algorithm',
-    title: '算法与数据结构',
+    title: 'Algorithm',
     description: '复杂度分析与算法设计',
-    categories: ['comp-sci', 'dev-lang'],
-  },
-  {
-    id: 'cs-fundamentals',
-    title: '计算机基础',
-    description: '体系结构·操作系统·网络·编译',
     categories: ['comp-sci'],
   },
   {
-    id: 'calculus',
-    title: '高等数学',
-    description: '微积分与数学分析',
-    categories: ['comp-sci', 'data'],
+    id: 'cs-fundamentals',
+    title: 'CS Fundamentals',
+    description: '体系结构·操作系统·网络·编译',
+    categories: ['comp-sci'],
   },
+  { id: 'calculus', title: 'Calculus', description: '微积分与数学分析', categories: ['comp-sci'] },
   {
     id: 'discrete-math',
-    title: '离散数学',
+    title: 'Discrete Math',
     description: '组合·图论·代数系统',
     categories: ['comp-sci'],
   },
 
   // ── 工程与基础设施 ──
-  {
-    id: 'devops',
-    title: 'DevOps',
-    description: '运维与SRE实践',
-    categories: ['eng-infra', 'toolchain'],
-  },
+  { id: 'devops', title: 'DevOps', description: '运维与SRE实践', categories: ['eng-infra'] },
   {
     id: 'networking',
-    title: '网络技术',
+    title: 'Networking',
     description: '协议·路由·系统管理',
     categories: ['eng-infra', 'comp-sci'],
   },
   {
     id: 'cybersecurity',
-    title: '网络安全',
+    title: 'Cybersecurity',
     description: '攻防·渗透·应急响应',
     categories: ['eng-infra'],
   },
   {
     id: 'cloud-computing',
-    title: '云计算',
+    title: 'Cloud Computing',
     description: '云架构与容器编排',
-    categories: ['eng-infra', 'data'],
+    categories: ['eng-infra'],
   },
-  { id: 'iot', title: '物联网', description: '嵌入式与边缘计算', categories: ['eng-infra'] },
+  { id: 'iot', title: 'IoT', description: '嵌入式与边缘计算', categories: ['eng-infra'] },
   {
     id: 'software-testing',
-    title: '软件测试',
+    title: 'Software Testing',
     description: '质量保障与测试工程',
-    categories: ['eng-infra', 'dev-lang'],
+    categories: ['eng-infra'],
   },
   {
     id: 'agent',
@@ -172,9 +152,9 @@ export const modules = [
   // ── 数据技术 ──
   {
     id: 'data-analysis',
-    title: '数据分析',
+    title: 'Data Analysis',
     description: '统计建模与可视化',
-    categories: ['data', 'dev-lang'],
+    categories: ['data'],
   },
 ] as const;
 
