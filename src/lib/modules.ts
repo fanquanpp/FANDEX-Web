@@ -4,6 +4,9 @@ export const categoryLabels: Record<string, string> = {
   'web-frontend': '前端工程',
   data: '数据技术',
   cs: '计算理论',
+  math: '数学基础',
+  infrastructure: '基础设施',
+  emerging: '新兴领域',
 };
 
 export const modules = [
@@ -127,6 +130,70 @@ export const modules = [
     category: 'cs',
     color: '#8b5cf6',
   },
+  {
+    id: 'kotlin',
+    title: 'Kotlin',
+    description: 'JVM现代编程语言',
+    category: 'programming',
+    color: '#10b981',
+  },
+  {
+    id: 'go',
+    title: 'Go',
+    description: '云原生系统编程',
+    category: 'programming',
+    color: '#10b981',
+  },
+  {
+    id: 'csharp',
+    title: 'C#',
+    description: '.NET生态核心语言',
+    category: 'programming',
+    color: '#10b981',
+  },
+  { id: 'sql', title: 'SQL', description: '结构化查询语言', category: 'data', color: '#ef4444' },
+  {
+    id: 'react',
+    title: 'React',
+    description: '组件化前端框架',
+    category: 'web-frontend',
+    color: '#f59e0b',
+  },
+  {
+    id: 'calculus',
+    title: '高等数学',
+    description: '微积分与数学分析',
+    category: 'math',
+    color: '#ec4899',
+  },
+  {
+    id: 'discrete-math',
+    title: '离散数学',
+    description: '组合与图论基础',
+    category: 'math',
+    color: '#ec4899',
+  },
+  {
+    id: 'agent',
+    title: 'AI Agent',
+    description: '智能体架构与应用',
+    category: 'emerging',
+    color: '#06b6d4',
+  },
+  {
+    id: 'devops',
+    title: '运维',
+    description: 'DevOps与SRE实践',
+    category: 'infrastructure',
+    color: '#f97316',
+  },
+  {
+    id: 'iot',
+    title: '物联网',
+    description: '嵌入式与边缘计算',
+    category: 'infrastructure',
+    color: '#f97316',
+  },
 ] as const;
 
 export function getModule(id: string) {
@@ -142,7 +209,16 @@ export function docSlug(id: string): string {
   return (id.split('/').pop() || id).replace(/\.md$/, '');
 }
 
-export const categoryOrder = ['basic-tools', 'programming', 'web-frontend', 'data', 'cs'];
+export const categoryOrder = [
+  'basic-tools',
+  'programming',
+  'web-frontend',
+  'data',
+  'cs',
+  'math',
+  'infrastructure',
+  'emerging',
+];
 
 export const modulePrerequisites: Record<string, string[]> = {
   github: ['git'],
@@ -151,15 +227,25 @@ export const modulePrerequisites: Record<string, string[]> = {
   javascript: ['html5', 'css'],
   typescript: ['javascript'],
   vue3: ['javascript', 'html5', 'css'],
+  react: ['javascript', 'html5', 'css'],
   python: [],
   'data-analysis': ['python'],
   mysql: [],
+  sql: [],
   c: [],
   cpp: ['c'],
+  csharp: [],
   java: [],
+  kotlin: ['java'],
+  go: [],
   lua: [],
   algorithm: [],
   'cs-fundamentals': [],
+  'discrete-math': [],
+  calculus: [],
+  agent: ['python'],
+  devops: ['git', 'linux'],
+  iot: ['c', 'python'],
   git: [],
   markdown: [],
 };
