@@ -7,14 +7,14 @@ export const categoryLabels: Record<string, string> = {
   data: '数据技术',
 };
 
-/** 每个分类一种统一颜色，同分类内所有模块共享 */
+/** 每个分类一种统一颜色，同分类内所有模块共享 — 低饱和缓和色系 */
 const C = {
-  toolchain: '#6366f1',
-  'dev-lang': '#dc2626',
-  database: '#16a34a',
-  'comp-sci': '#9333ea',
-  'eng-infra': '#ea580c',
-  data: '#ca8a04',
+  toolchain: '#7c83db',
+  'dev-lang': '#d47070',
+  database: '#5d9e85',
+  'comp-sci': '#9b7ec8',
+  'eng-infra': '#cc8a5c',
+  data: '#bfa04e',
 } as const;
 
 export const categoryColors: Record<string, string> = C;

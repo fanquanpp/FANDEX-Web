@@ -687,7 +687,7 @@ const moduleMapJson = JSON.stringify(
       const html = docs
         .slice(0, 50)
         .map((d: any) => {
-          const mod = MODULE_MAP[d.module] || { title: d.module, color: '#6366f1' };
+          const mod = MODULE_MAP[d.module] || { title: d.module, color: categoryColors.toolchain };
           const diff = d.difficulty || '';
           const diffLabel = DIFFICULTY_LABELS[diff] || diff;
           const tags = (d.tags || [])

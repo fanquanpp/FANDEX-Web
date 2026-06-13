@@ -59,7 +59,7 @@ const breadcrumb = [
         return (
           <section class="tag-group">
             <h2 class="tag-group-title">
-              <span class="group-bar" style={`background:${meta ? categoryColors[getPrimaryCategory(meta)] : '#6366f1'}`}></span>
+              <span class="group-bar" style={`background:${meta ? categoryColors[getPrimaryCategory(meta)] : categoryColors.toolchain}`}></span>
               <a href={`${base}${mod}/`} class="group-link">{meta?.title || mod}</a>
               <span class="group-count">{modDocs.length}</span>
             </h2>

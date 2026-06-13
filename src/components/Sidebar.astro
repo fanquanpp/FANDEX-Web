@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content'
-import { getModule, modules, docSlug, categoryColors } from '@/lib/modules'
+import { getModule, modules, docSlug, categoryColors, getPrimaryCategory } from '@/lib/modules'
 
 const { moduleId, currentSlug, headings, sortedDocs } = Astro.props as {
   moduleId: string
@@ -31,7 +31,7 @@ const hasHeadings = visibleHeadings.length > 0
     <div class="sidebar-top">
       <div class="sidebar-module-header">
         <div class="sidebar-module-title-group">
-          <span class="sidebar-module-color-bar" style={`background:${meta?.color || '#6366f1'}`}></span>
+          <span class="sidebar-module-color-bar" style={`background:${meta ? categoryColors[getPrimaryCategory(meta)] : categoryColors.toolchain}`}></span>
           <span class="sidebar-module-title">{meta?.title || moduleId}</span>
         </div>
         <div class="sidebar-toggle-group" id="sidebar-toggle-group">
@@ -99,7 +99,7 @@ const hasHeadings = visibleHeadings.length > 0
   <div class="sidebar-all-modules" id="sidebar-all-modules">
     <div class="all-modules-header">
       <div class="all-modules-current">
-        <span class="all-modules-current-bar" style={`background:${meta?.color || '#6366f1'}`}></span>
+        <span class="all-modules-current-bar" style={`background:${meta ? categoryColors[getPrimaryCategory(meta)] : categoryColors.toolchain}`}></span>
         <span class="all-modules-current-name">{meta?.title || moduleId}</span>
       </div>
     </div>
