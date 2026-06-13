@@ -10,11 +10,11 @@ export const categoryLabels: Record<string, string> = {
 /** 每个分类一种统一颜色，同分类内所有模块共享 */
 const C = {
   toolchain: '#6366f1',
-  'dev-lang': '#3178c6',
-  database: '#4479a1',
-  'comp-sci': '#8b5cf6',
-  'eng-infra': '#f97316',
-  data: '#0ea5e9',
+  'dev-lang': '#dc2626',
+  database: '#16a34a',
+  'comp-sci': '#9333ea',
+  'eng-infra': '#ea580c',
+  data: '#ca8a04',
 } as const;
 
 export const categoryColors: Record<string, string> = C;
