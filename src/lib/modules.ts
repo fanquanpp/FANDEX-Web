@@ -7,14 +7,14 @@ export const categoryLabels: Record<string, string> = {
   data: '数据技术',
 };
 
-/** 每个分类一种统一颜色 — 正常饱和度、清晰可辨 */
+/** 每个分类一种统一颜色 — 高饱和清晰可辨 */
 const C = {
-  toolchain: '#5c6bc0',
-  'dev-lang': '#e05555',
-  database: '#2e9e6a',
-  'comp-sci': '#8e5fbf',
-  'eng-infra': '#e07b39',
-  data: '#c49a20',
+  toolchain: '#4f5bd5',
+  'dev-lang': '#d63031',
+  database: '#00b894',
+  'comp-sci': '#8854d0',
+  'eng-infra': '#e17055',
+  data: '#f9a825',
 } as const;
 
 export const categoryColors: Record<string, string> = C;
