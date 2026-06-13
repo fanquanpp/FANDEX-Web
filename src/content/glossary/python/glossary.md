@@ -3,16 +3,7 @@ title: 'Glossary'
 module: 'python'
 ---
 
----
-
-title: 'Python 高级特性名词注释 (Advanced Features Glossary)'
-module: 'python'
-category: 'Advanced Features'
-description: 'Python 高级特性：装饰器/元编程/并发/内存管理/调试等 | Python advanced: decorators, metaprogramming, concurrency, memory management, debugging'
-author: 'fanquanpp'
-updated: '2026-05-29'
-
----
+## Python 高级特性名词注释 (Advanced Features Glossary)
 
 ## A
 
@@ -265,16 +256,7 @@ updated: '2026-05-29'
 | ------ | --------- | ------------------------ |
 | 零拷贝 | Zero-Copy | 避免不必要数据复制的技术 |
 
----
-
-title: 'Python 核心语言名词注释 (Core Language Glossary)'
-module: 'python'
-category: 'Core Language'
-description: 'Python 核心语言概念：变量/数据类型/函数/类/控制流等 | Python core language: variables, data types, functions, classes, control flow'
-author: 'fanquanpp'
-updated: '2026-05-29'
-
----
+## Python 核心语言名词注释 (Core Language Glossary)
 
 ## A
 
@@ -539,16 +521,7 @@ updated: '2026-05-29'
 | zip 函数 | zip Function | 将多个序列打包为元组列表  |
 | 零值     | Zero Value   | 数值类型的零值 `0` 或空值 |
 
----
-
-title: 'Python 标准库名词注释 (Standard Library Glossary)'
-module: 'python'
-category: 'Standard Library'
-description: 'Python 标准库：os/sys/re/itertools/functools/collections 等 | Python standard library: os, sys, re, itertools, functools, collections'
-author: 'fanquanpp'
-updated: '2026-05-29'
-
----
+## Python 标准库名词注释 (Standard Library Glossary)
 
 ## A
 

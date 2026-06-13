@@ -3,16 +3,7 @@ title: 'Glossary'
 module: 'css'
 ---
 
----
-
-title: 'CSS 专有名词查阅表'
-module: 'css'
-category: 'CSS'
-description: 'CSS 专有名词注释查阅表 - 包含核心概念、视觉属性、高级特性三大分类'
-author: 'fanquanpp'
-updated: 2026-05-29
-
----
+## CSS 专有名词查阅表
 
 ## 名词列表
 
@@ -104,14 +95,7 @@ CSS 术语表已完整补全，分为三个独立文件：
 - [CSS 视觉属性术语表](css-glossary-visual.md)
 - [CSS 高级特性术语表](css-glossary-advanced.md)
 
----
-
-title: "CSS 高级名词注释 (Advanced Glossary)"
-module: "css"
-category: "Advanced"
-description: "CSS 高级：变量/函数/容器查询/层级/逻辑属性等 | CSS advanced: variables, functions, container queries, layers, logical properties"
-
----
+## CSS 高级名词注释 (Advanced Glossary)
 
 ## A
 
@@ -279,14 +263,7 @@ description: "CSS 高级：变量/函数/容器查询/层级/逻辑属性等 | C
 | :nth-child()   | :nth-child()   | 结构伪类，匹配父元素中第 n 个子元素，支持公式 `An+B` |
 | :nth-of-type() | :nth-of-type() | 结构伪类，匹配同类型第 n 个兄弟元素                  |
 
----
-
-title: "CSS 核心概念名词注释 (Core Concepts Glossary)"
-module: "css"
-category: "Core Concepts"
-description: "CSS 核心概念：选择器/盒模型/布局/定位等 | CSS core: selectors, box model, layout, positioning"
-
----
+## CSS 核心概念名词注释 (Core Concepts Glossary)
 
 ## A
 
@@ -439,14 +416,7 @@ description: "CSS 核心概念：选择器/盒模型/布局/定位等 | CSS core
 | ------- | ------- | ------------------------------------------------------ |
 | z-index | z-index | 定位元素的堆叠顺序，数值越大越靠前，仅对已定位元素有效 |
 
----
-
-title: "CSS 视觉名词注释 (Visual Glossary)"
-module: "css"
-category: "Visual"
-description: "CSS 视觉：颜色/字体/背景/变换/动画等 | CSS visual: colors, fonts, backgrounds, transforms, animations"
-
----
+## CSS 视觉名词注释 (Visual Glossary)
 
 ## A
 

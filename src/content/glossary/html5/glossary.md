@@ -3,29 +3,13 @@ title: 'Glossary'
 module: 'html5'
 ---
 
----
-
-title: "HTML5 专有名词查阅表"
-module: "html5"
-category: "HTML5"
-description: "HTML5 专有名词注释查阅表"
-author: "fanquanpp"
-updated: 2026-05-03
-
----
+## HTML5 专有名词查阅表
 
 ## 名词列表
 
 内容整理中，敬请期待。
 
----
-
-title: "HTML5 高级名词注释 (Advanced Glossary)"
-module: "html5"
-category: "Advanced"
-description: "HTML5 高级：Web Components/Service Worker/WebRTC/PWA等 | HTML5 advanced: Web Components, Service Worker, WebRTC, PWA"
-
----
+## HTML5 高级名词注释 (Advanced Glossary)
 
 ## A
 
@@ -220,14 +204,7 @@ description: "HTML5 高级：Web Components/Service Worker/WebRTC/PWA等 | HTML5
 | ------ | ------------ | --------------------------------------------------------------- |
 | 暂存区 | Staging Area | Service Worker 安装时的缓存准备阶段，`install` 事件中预缓存资源 |
 
----
-
-title: "HTML5 API 名词注释 (API Glossary)"
-module: "html5"
-category: "API"
-description: "HTML5 API：Canvas/WebGL/拖放/地理定位/存储等 | HTML5 API: Canvas, WebGL, Drag&Drop, Geolocation, Storage"
-
----
+## HTML5 API 名词注释 (API Glossary)
 
 ## A
 
@@ -411,14 +388,7 @@ description: "HTML5 API：Canvas/WebGL/拖放/地理定位/存储等 | HTML5 API
 | -------------- | -------------- | ----------------------------------------------------- |
 | XMLHttpRequest | XMLHttpRequest | 传统 AJAX 请求对象，已被 Fetch API 取代，但仍广泛使用 |
 
----
-
-title: "HTML5 核心名词注释 (Core Glossary)"
-module: "html5"
-category: "Core"
-description: "HTML5 核心：标签/属性/表单/语义化等 | HTML5 core: tags, attributes, forms, semantics"
-
----
+## HTML5 核心名词注释 (Core Glossary)
 
 ## A
 
@@ -609,16 +579,7 @@ description: "HTML5 核心：标签/属性/表单/语义化等 | HTML5 core: tag
 | -------- | -------- | --------------------------------------------------------------- |
 | WAI-ARIA | WAI-ARIA | Web 无障碍倡议 - 无障碍富互联网应用，规范定义了角色、状态和属性 |
 
----
-
-title: 'HTML5 语义/性能/无障碍名词注释 (Semantic/Performance/A11y Glossary)'
-module: 'html5'
-category: 'Semantic'
-description: 'HTML5 语义标签/性能优化/无障碍访问相关术语 | HTML5 semantic tags, performance optimization, accessibility'
-author: 'fanquanpp'
-updated: '2026-05-29'
-
----
+## HTML5 语义/性能/无障碍名词注释 (Semantic/Performance/A11y Glossary)
 
 ## A
 
