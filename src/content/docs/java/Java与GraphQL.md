@@ -1,0 +1,23 @@
+---
+order: 75
+title: 'Java与GraphQL'
+module: 'java'
+category: 'Java'
+difficulty: 'intermediate'
+description: 'GraphQL API开发'
+author: 'fanquanpp'
+updated: 2026-06-14
+---
+
+## 1. Spring for GraphQL
+
+```java
+@Controller
+public class UserGraphQLController {
+  @QueryMapping
+  public User user(@Argument Long id) { return userService.getUser(id); }
+
+  @SchemaMapping
+  public List<Post> posts(User user) { return postService.getByUser(user.getId()); }
+}
+```

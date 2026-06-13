@@ -1,0 +1,54 @@
+---
+order: 53
+title: 'Server-Components'
+module: 'react'
+category: 'React'
+difficulty: 'advanced'
+description: 'React服务器组件详解'
+author: 'fanquanpp'
+updated: 2026-06-14
+---
+
+## 1. 服务器组件概述
+
+```jsx
+// ServerComponent.server.jsx — 只在服务器运行
+async function ServerComponent() {
+  const data = await db.query('SELECT * FROM posts');
+  return <PostList posts={data} />;
+}
+
+// ClientComponent.client.jsx — 在浏览器运行
+('use client');
+function ClientComponent() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount((c) => c + 1)}>{count}</button>;
+}
+```
+
+## 2. 服务器组件限制
+
+| 限制               | 说明           |
+| ------------------ | -------------- |
+| 不能使用 useState  | 无状态         |
+| 不能使用 useEffect | 无副作用       |
+| 不能使用浏览器 API | 只在服务器运行 |
+| 不能使用事件处理   | 无交互         |
+| 可以直接访问数据库 | 服务器端能力   |
+
+## 3. 组合模式
+
+```jsx
+// 服务器组件可以导入客户端组件
+import ClientButton from './ClientButton.client';
+
+function ServerPage() {
+  const data = await fetchData();
+  return (
+    <div>
+      <h1>{data.title}</h1>
+      <ClientButton onClick={handleClick}>Click</ClientButton>
+    </div>
+  );
+}
+```

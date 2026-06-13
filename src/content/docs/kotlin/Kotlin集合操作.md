@@ -1,0 +1,27 @@
+---
+order: 62
+title: 'Kotlin集合操作'
+module: 'kotlin'
+category: 'Kotlin'
+difficulty: 'beginner'
+description: '函数式集合操作'
+author: 'fanquanpp'
+updated: 2026-06-14
+---
+
+## 1. 常用操作
+
+```kotlin
+val result = users
+  .filter { it.age > 18 }
+  .map { it.name }
+  .sorted()
+  .distinct()
+
+// 聚合
+val totalAge = users.sumOf { it.age }
+val grouped = users.groupBy { it.city }
+
+// 关联
+val userMap = users.associateBy { it.id }
+```
