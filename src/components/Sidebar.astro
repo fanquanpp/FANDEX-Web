@@ -58,7 +58,7 @@ const hasHeadings = visibleHeadings.length > 0
           {sorted.map(doc => {
             const slug = docSlug(doc.id)
             const href = `${base}${moduleId}/${slug}/`
-            const isActive = currentPath === href || currentPath === href + '/' || (currentSlug && currentSlug === slug)
+            const isActive = currentSlug && currentSlug === slug
             return (
               <li>
                 <a href={href} class={`sidebar-file-link${isActive ? ' active' : ''}`} data-progress-slug={`${moduleId}/${slug}`}>
