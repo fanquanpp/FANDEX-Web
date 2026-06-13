@@ -653,6 +653,10 @@ const moduleMapJson = JSON.stringify(
       renderResults(results, query);
     }
 
+    function escapeHtml(str: string): string {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
     function renderResults(docs: any[], query: string) {
       const hasActiveSearch = query || moduleSelect.value;
 
@@ -687,17 +691,17 @@ const moduleMapJson = JSON.stringify(
           const diff = d.difficulty || '';
           const diffLabel = DIFFICULTY_LABELS[diff] || diff;
           const tags = (d.tags || [])
-            .map((t: string) => `<span class="result-tag-chip">${t}</span>`)
+            .map((t: string) => `<span class="result-tag-chip">${escapeHtml(t)}</span>`)
             .join('');
 
-          return `<a href="${base}${d.slug}/" class="result-card">
+          return `<a href="${base}${escapeHtml(d.slug)}/" class="result-card">
             <div class="result-header">
               <span class="result-module-dot" style="background:${mod.color}"></span>
-              <span class="result-module-name">${mod.title}</span>
-              <span class="result-title">${d.title}</span>
-              ${diff ? `<span class="result-difficulty ${diff}">${diffLabel}</span>` : ''}
+              <span class="result-module-name">${escapeHtml(mod.title)}</span>
+              <span class="result-title">${escapeHtml(d.title)}</span>
+              ${diff ? `<span class="result-difficulty ${diff}">${escapeHtml(diffLabel)}</span>` : ''}
             </div>
-            ${d.description ? `<p class="result-desc">${d.description}</p>` : ''}
+            ${d.description ? `<p class="result-desc">${escapeHtml(d.description)}</p>` : ''}
             ${tags ? `<div class="result-tags">${tags}</div>` : ''}
           </a>`;
         })

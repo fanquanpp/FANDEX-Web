@@ -1,16 +1,29 @@
-const CACHE_NAME = 'fandex-v3';
+/** @type {string} 缓存版本号，更新时修改以清除旧缓存 */
+const CACHE_NAME = 'fandex-v4';
+/** @type {string} 站点基础路径 */
 const BASE = '/FANDEX/';
 
+/** @type {string[]} 预缓存资源列表 */
 const PRECACHE_URLS = [BASE, BASE + 'data/glossary-index.json'];
 
+/** @type {Set<string>} 含 hash 的资源扩展名，可长期缓存 */
 const HASHED_EXTS = new Set(['.css', '.js', '.woff2', '.woff', '.ttf']);
-const STALE_REVALIDATE_EXTS = new Set(['.json', '.html', '.webp', '.svg', '.png', '.avif']);
+/** @type {Set<string>} 需要网络优先的 JSON 数据文件扩展名 */
+const JSON_DATA_PATTERN = /\/data\/[^/]+\.json$/;
 
+/**
+ * Service Worker 安装事件：预缓存关键资源
+ * @param {ExtendableEvent} event
+ */
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS)));
   self.skipWaiting();
 });
 
+/**
+ * Service Worker 激活事件：清除旧版本缓存
+ * @param {ExtendableEvent} event
+ */
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches
@@ -22,6 +35,13 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
+/**
+ * Fetch 事件：根据资源类型选择缓存策略
+ * - 含 hash 的资源（CSS/JS/字体）：Cache First
+ * - JSON 数据文件（search-index/glossary-index）：Network First（确保数据新鲜）
+ * - HTML/图片/其他：Stale While Revalidate
+ * @param {FetchEvent} event
+ */
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   if (event.request.method !== 'GET') return;
@@ -32,13 +52,24 @@ self.addEventListener('fetch', (event) => {
 
   if (HASHED_EXTS.has(ext)) {
     event.respondWith(cacheFirstLong(event.request));
-  } else if (STALE_REVALIDATE_EXTS.has(ext) || isHTML) {
+  } else if (JSON_DATA_PATTERN.test(url.pathname)) {
+    event.respondWith(networkFirst(event.request));
+  } else if (ext === '.json' || STALE_REVALIDATE_EXTS.has(ext) || isHTML) {
     event.respondWith(staleWhileRevalidate(event.request));
   } else {
     event.respondWith(staleWhileRevalidate(event.request));
   }
 });
 
+/** @type {Set<string>} Stale While Revalidate 适用的扩展名 */
+const STALE_REVALIDATE_EXTS = new Set(['.webp', '.svg', '.png', '.avif']);
+
+/**
+ * Cache First 策略：优先从缓存读取，缓存未命中时回退网络
+ * 适用于含 hash 的静态资源（文件名变化即视为新资源）
+ * @param {Request} request
+ * @returns {Promise<Response>}
+ */
 async function cacheFirstLong(request) {
   const cached = await caches.match(request);
   if (cached) return cached;
@@ -54,6 +85,32 @@ async function cacheFirstLong(request) {
   }
 }
 
+/**
+ * Network First 策略：优先从网络获取，网络失败时回退缓存
+ * 适用于需要保持新鲜的数据文件（如搜索索引、术语索引）
+ * @param {Request} request
+ * @returns {Promise<Response>}
+ */
+async function networkFirst(request) {
+  try {
+    const response = await fetch(request);
+    if (response.ok) {
+      const cache = await caches.open(CACHE_NAME);
+      cache.put(request, response.clone());
+    }
+    return response;
+  } catch {
+    const cached = await caches.match(request);
+    return cached || new Response('Offline', { status: 503, statusText: 'Offline' });
+  }
+}
+
+/**
+ * Stale While Revalidate 策略：先返回缓存，后台更新
+ * 适用于 HTML 页面和图片资源
+ * @param {Request} request
+ * @returns {Promise<Response>}
+ */
 async function staleWhileRevalidate(request) {
   const cached = await caches.match(request);
   const fetchPromise = fetch(request)
@@ -69,6 +126,10 @@ async function staleWhileRevalidate(request) {
   return cached || fetchPromise;
 }
 
+/**
+ * 通知所有客户端缓存已更新
+ * @returns {Promise<void>}
+ */
 async function notifyUpdate() {
   const clients = await self.clients.matchAll({ type: 'window' });
   clients.forEach((client) => {
@@ -76,6 +137,11 @@ async function notifyUpdate() {
   });
 }
 
+/**
+ * 从路径中提取文件扩展名
+ * @param {string} path
+ * @returns {string}
+ */
 function getExt(path) {
   const idx = path.lastIndexOf('.');
   if (idx <= 0) return '';

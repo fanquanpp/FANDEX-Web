@@ -327,6 +327,18 @@
   transform: translateY(-2px);
 }
 
+.module-card.card-hovered {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='dark'] .module-card.card-hovered {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar-animated {
+  transition: transform 0.25s ease;
+}
+
 .doc-nav {
   display: flex;
   justify-content: space-between;

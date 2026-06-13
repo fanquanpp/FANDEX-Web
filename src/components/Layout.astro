@@ -233,7 +233,7 @@ const hasSidebar = Astro.slots.has('sidebar')
       mermaid.initialize({
         startOnLoad: false,
         theme: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default',
-        securityLevel: 'loose',
+        securityLevel: 'strict',
       })
       mermaidBlocks.forEach(async (block, i) => {
         const pre = block.closest('pre')
@@ -334,17 +334,6 @@ const hasSidebar = Astro.slots.has('sidebar')
 </script>
 
 <style>
-.nav-left { display: flex; align-items: center; }
-.nav-right { display: flex; align-items: center; gap: var(--spacing-sm); }
-.nav-logo { display: flex; align-items: center; cursor: pointer; }
-.nav-logo:hover { opacity: 0.85; }
-.logo-mark { display: inline-block; width: 8px; height: 28px; background: var(--color-primary); }
-.logo-text {
-  display: flex; align-items: center; height: 28px; padding: 0 8px;
-  background: var(--color-text); color: var(--color-bg);
-  font-weight: 700; font-size: 0.8em; font-family: var(--font-display); letter-spacing: 0.1em;
-}
-
 .sidebar-backdrop {
   display: none;
   position: fixed;
@@ -355,40 +344,9 @@ const hasSidebar = Astro.slots.has('sidebar')
 }
 body.sidebar-open .sidebar-backdrop { display: block; }
 
-.mobile-nav {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 56px;
-  background: var(--color-nav-bg);
-  backdrop-filter: blur(12px);
-  border-top: 1px solid var(--color-border);
-  z-index: 100;
-  justify-content: space-around;
-  align-items: center;
-}
+.nav-toggle { display: none; }
 
 @media (max-width: 768px) {
   .nav-toggle { display: flex; }
-  .mobile-nav { display: flex; }
 }
-
-.mobile-nav-link {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  padding: 4px 12px;
-  min-height: 48px;
-  justify-content: center;
-  font-size: 0.65em;
-  color: var(--color-text-tertiary);
-  border: none;
-  background: none;
-  cursor: pointer;
-  font-family: inherit;
-}
-.mobile-nav-link:hover { color: var(--color-primary); }
 </style>

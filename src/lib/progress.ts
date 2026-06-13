@@ -177,10 +177,4 @@ if (typeof window !== 'undefined' && typeof window.addEventListener === 'functio
       window.dispatchEvent(new CustomEvent('progress-sync'));
     }
   });
-  if (typeof BroadcastChannel !== 'undefined') {
-    const channel = new BroadcastChannel('fandex-progress');
-    channel.onmessage = () => {
-      window.dispatchEvent(new CustomEvent('progress-sync'));
-    };
-  }
 }

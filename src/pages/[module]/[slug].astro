@@ -6,13 +6,13 @@ import Breadcrumb from '@/components/Breadcrumb.astro'
 import DocNav from '@/components/DocNav.astro'
 import ProgressToggle from '@/islands/ProgressToggle.vue'
 import QuizBlock from '@/islands/QuizBlock.vue'
-import { getModule, modulePrerequisites } from '@/lib/modules'
+import { getModule, modulePrerequisites, docSlug } from '@/lib/modules'
 import { getCollection } from 'astro:content'
 
 export async function getStaticPaths() {
   const docs = await getCollection('docs')
   return docs.map(doc => {
-    const slug = (doc.id.split('/').pop() || doc.id).replace(/\.md$/, '')
+    const slug = docSlug(doc.id)
     return {
       params: { module: doc.data.module, slug },
       props: { doc },
@@ -24,6 +24,10 @@ const { doc } = Astro.props as any
 const { module, slug } = Astro.params as { module: string; slug: string }
 const { Content, headings } = await doc.render()
 const meta = getModule(module || '')
+
+// Pre-fetch sorted docs for Sidebar to avoid duplicate getCollection calls
+const allModuleDocs = await getCollection('docs', ({ data }) => data.module === module)
+const sortedDocs = allModuleDocs.sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
 
 function computeReadingTime(body: string, readingTime?: number): number {
   if (readingTime && readingTime > 0) return readingTime
@@ -48,7 +52,7 @@ const breadcrumb = [
     description={doc.data.description}
     canonical={`${Astro.site}${Astro.url.pathname}`}
   />
-  <Sidebar slot="sidebar" moduleId={module} currentSlug={slug} headings={headings} />
+  <Sidebar slot="sidebar" moduleId={module} currentSlug={slug} headings={headings} sortedDocs={sortedDocs} />
 
   <div class="doc-page">
     <Breadcrumb items={breadcrumb} hasSidebar />

@@ -4,10 +4,43 @@
       class="progress-btn"
       :title="statusLabel"
       :aria-label="statusLabel"
+      :aria-busy="busyState === 'saving'"
       @click="handleToggle"
     >
-      <span class="progress-dot"></span>
-      <span class="progress-label">{{ statusLabel }}</span>
+      <span v-if="busyState === 'saving'" class="progress-busy">
+        <svg width="14" height="14" viewBox="0 0 24 24" class="progress-spin-icon">
+          <circle
+            cx="12"
+            cy="12"
+            r="10"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-dasharray="31.4"
+            stroke-dashoffset="10"
+          />
+        </svg>
+        <span class="progress-label">保存中</span>
+      </span>
+      <span v-else-if="busyState === 'saved'" class="progress-busy progress-saved">
+        <svg width="14" height="14" viewBox="0 0 24 24" style="color: #10b981">
+          <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+        </svg>
+        <span class="progress-label">已保存</span>
+      </span>
+      <span v-else-if="busyState === 'error'" class="progress-busy progress-error">
+        <svg width="14" height="14" viewBox="0 0 24 24">
+          <path
+            fill="currentColor"
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
+          />
+        </svg>
+        <span class="progress-label">失败</span>
+      </span>
+      <span v-else class="progress-default">
+        <span class="progress-dot"></span>
+        <span class="progress-label">{{ statusLabel }}</span>
+      </span>
     </button>
     <button class="progress-export" title="导出进度" aria-label="导出进度" @click="handleExport">
       <svg
@@ -62,6 +95,7 @@ const props = defineProps<{
 }>();
 
 const status = ref<DocStatus>('unread');
+const busyState = ref<'idle' | 'saving' | 'saved' | 'error'>('idle');
 const fileInput = ref<HTMLInputElement | null>(null);
 
 onMounted(() => {
@@ -76,19 +110,9 @@ const statusLabel = computed(() => {
 });
 
 function handleToggle() {
-  const btn = document.querySelector('.progress-btn') as HTMLElement;
-  if (!btn || btn.getAttribute('aria-busy') === 'true') return;
+  if (busyState.value === 'saving') return;
 
-  const originalHTML = btn.innerHTML;
-  btn.setAttribute('aria-busy', 'true');
-  btn.innerHTML = `
-    <span style="display:inline-flex;align-items:center;gap:4px;">
-      <svg width="14" height="14" viewBox="0 0 24 24" style="animation:progress-spin 1s linear infinite">
-        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="31.4" stroke-dashoffset="10"/>
-      </svg>
-      <span class="progress-label">保存中</span>
-    </span>
-  `;
+  busyState.value = 'saving';
 
   try {
     status.value = toggleStatus(props.slug);
@@ -98,32 +122,14 @@ function handleToggle() {
       })
     );
 
-    btn.innerHTML = `
-      <span style="display:inline-flex;align-items:center;gap:4px;animation:progress-fade-in-out 0.8s forwards">
-        <svg width="14" height="14" viewBox="0 0 24 24" style="color:#10b981">
-          <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-        </svg>
-        <span class="progress-label">已保存</span>
-      </span>
-    `;
-
+    busyState.value = 'saved';
     setTimeout(() => {
-      btn.innerHTML = originalHTML;
-      btn.removeAttribute('aria-busy');
+      busyState.value = 'idle';
     }, 800);
   } catch {
-    btn.innerHTML = `
-      <span style="display:inline-flex;align-items:center;gap:4px;color:#ef4444">
-        <svg width="14" height="14" viewBox="0 0 24 24">
-          <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-        </svg>
-        <span class="progress-label">失败</span>
-      </span>
-    `;
-
+    busyState.value = 'error';
     setTimeout(() => {
-      btn.innerHTML = originalHTML;
-      btn.removeAttribute('aria-busy');
+      busyState.value = 'idle';
     }, 1200);
   }
 }
@@ -191,6 +197,21 @@ function handleImport(e: Event) {
   color: var(--color-primary);
 }
 
+.progress-default,
+.progress-busy {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.progress-saved {
+  animation: progress-fade-in-out 0.8s forwards;
+}
+
+.progress-error {
+  color: #ef4444;
+}
+
 .progress-dot {
   width: 8px;
   height: 8px;
@@ -247,6 +268,10 @@ function handleImport(e: Event) {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.progress-spin-icon {
+  animation: progress-spin 1s linear infinite;
 }
 
 @keyframes progress-fade-in-out {

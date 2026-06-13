@@ -3,6 +3,7 @@ const GLOSSARY_URL = `${import.meta.env.BASE_URL}data/glossary-index.json`;
 
 let glossaryData: Record<string, { module: string; def: string; slug: string }> | null = null;
 let cachedRegex: RegExp | null = null;
+let cachedTermsHash: string = '';
 
 async function loadGlossary() {
   if (glossaryData !== null) return glossaryData;
@@ -272,9 +273,11 @@ export async function initTermTooltip() {
 
   const terms = Object.keys(data);
   const termsData = new Map(Object.entries(data));
+  const termsHash = terms.join(',');
 
-  if (!cachedRegex) {
+  if (!cachedRegex || cachedTermsHash !== termsHash) {
     cachedRegex = createTermRegex(terms);
+    cachedTermsHash = termsHash;
   }
 
   walkTextNodes(article, cachedRegex, termsData, MAX_MATCHES);

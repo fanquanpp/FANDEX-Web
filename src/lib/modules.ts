@@ -137,6 +137,11 @@ export function getModulesByCategory(category: string) {
   return modules.filter((m) => m.category === category);
 }
 
+/** 从 content collection id 中提取 slug（文件名去除 .md 后缀） */
+export function docSlug(id: string): string {
+  return (id.split('/').pop() || id).replace(/\.md$/, '');
+}
+
 export const categoryOrder = ['basic-tools', 'programming', 'web-frontend', 'data', 'cs'];
 
 export const modulePrerequisites: Record<string, string[]> = {

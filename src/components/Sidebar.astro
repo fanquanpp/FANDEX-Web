@@ -1,18 +1,17 @@
 ---
 import { getCollection } from 'astro:content'
-import { getModule, modules } from '@/lib/modules'
+import { getModule, modules, docSlug } from '@/lib/modules'
 
-const { moduleId, currentSlug, headings } = Astro.props as {
+const { moduleId, currentSlug, headings, sortedDocs } = Astro.props as {
   moduleId: string
   currentSlug?: string
   headings?: { depth: number; slug: string; text: string }[]
+  sortedDocs?: any[]
 }
 
-const docs = await getCollection('docs', ({ data }) => data.module === moduleId)
-const sorted = docs.sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
+const docs = sortedDocs || await getCollection('docs', ({ data }) => data.module === moduleId)
+const sorted = sortedDocs ? docs : docs.sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
 const meta = getModule(moduleId)
-
-function docSlug(id: string) { return (id.split('/').pop() || id).replace(/\.md$/, '') }
 
 const currentPath = Astro.url.pathname
 const base = import.meta.env.BASE_URL
