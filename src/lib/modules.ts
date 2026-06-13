@@ -180,7 +180,7 @@ export const modules = [
   {
     id: 'cs-fundamentals',
     title: 'CS Fundamentals',
-    icon: '计基',
+    icon: '计概',
     description: '体系结构·操作系统·网络·编译',
     categories: ['comp-sci'],
   },

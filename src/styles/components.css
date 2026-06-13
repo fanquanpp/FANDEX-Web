@@ -232,7 +232,7 @@
     z-index: 150;
   }
 
-  .mobile-nav-item {
+  .mobile-nav-link {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -247,15 +247,15 @@
     transition: color var(--transition-fast);
   }
 
-  .mobile-nav-item:hover {
+  .mobile-nav-link:hover {
     color: var(--color-primary);
   }
 
-  .mobile-nav-item:active {
+  .mobile-nav-link:active {
     color: var(--color-primary);
   }
 
-  .mobile-nav-item svg {
+  .mobile-nav-link svg {
     width: 20px;
     height: 20px;
   }
