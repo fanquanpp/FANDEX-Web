@@ -4,6 +4,8 @@ import sitemap from '@astrojs/sitemap';
 import vue from '@astrojs/vue';
 import { remarkAdmonition } from './src/lib/remark-admonition';
 import { rehypeLazyImages } from './src/lib/rehype-lazy-images';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 export default defineConfig({
   site: 'https://fanquanpp.github.io',
@@ -24,8 +26,8 @@ export default defineConfig({
   },
   integrations: [mdx(), sitemap(), vue()],
   markdown: {
-    remarkPlugins: [remarkAdmonition],
-    rehypePlugins: [rehypeLazyImages],
+    remarkPlugins: [remarkMath, remarkAdmonition],
+    rehypePlugins: [rehypeKatex, rehypeLazyImages],
     shikiConfig: {
       themes: { light: 'github-light', dark: 'github-dark' },
       defaultColor: false,

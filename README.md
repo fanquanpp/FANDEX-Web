@@ -4,7 +4,7 @@
 
 **开发者知识库** · fanquanpp + memex
 
-覆盖开发语言 · 数据库 · 计算机科学 · 工程基础设施 · 数据技术
+覆盖工具链 · 开发语言 · 数据库 · 计算机科学 · 工程基础设施 · 数据技术
 
 [![在线阅读](https://img.shields.io/badge/在线阅读-fanquanpp.github.io%2FFANDEX-2563eb?style=for-the-badge&logo=github&logoColor=white)](https://fanquanpp.github.io/FANDEX/)
 [![Astro 5](https://img.shields.io/badge/Astro-5-ff5d01?style=flat-square&logo=astro&logoColor=white)](https://astro.build)
@@ -18,13 +18,14 @@
 
 ## 模块总览
 
-| 类别           | 模块                                                                                                                                                     |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 开发语言       | 入门指南 · Git · GitHub · Markdown · HTML5 · CSS · JavaScript · TypeScript · Vue 3 · React · C · C++ · Java · Kotlin · C# · Python · Go · Lua · 鸿蒙开发 |
-| 数据库         | MySQL · SQL · PostgreSQL · Redis                                                                                                                         |
-| 计算机科学     | 算法与数据结构 · 计算机基础 · 高等数学 · 离散数学                                                                                                        |
-| 工程与基础设施 | DevOps · 网络技术 · 网络安全 · 云计算 · 物联网 · 软件测试 · AI Agent                                                                                     |
-| 数据技术       | 数据分析                                                                                                                                                 |
+| 类别           | 模块                                                                                                                |
+| :------------- | :------------------------------------------------------------------------------------------------------------------ |
+| 工具链         | 入门指南 · Markdown · Git · GitHub                                                                                  |
+| 开发语言       | HTML5 · CSS · JavaScript · TypeScript · Vue 3 · React · C · C++ · Java · Kotlin · C# · Python · Go · Lua · 鸿蒙开发 |
+| 数据库         | MySQL · SQL · PostgreSQL · Redis                                                                                    |
+| 计算机科学     | 算法与数据结构 · 计算机基础 · 高等数学 · 离散数学                                                                   |
+| 工程与基础设施 | DevOps · 网络技术 · 网络安全 · 云计算 · 物联网 · 软件测试 · AI Agent                                                |
+| 数据技术       | 数据分析                                                                                                            |
 
 > 381 篇文档 · 27 篇术语表 · 35 个模块 · 交互式测验 · 知识地图
 
