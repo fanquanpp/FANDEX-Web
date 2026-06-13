@@ -13,7 +13,7 @@ const C = {
   'dev-lang': '#d63031',
   database: '#00b894',
   'comp-sci': '#8854d0',
-  'eng-infra': '#e17055',
+  'eng-infra': '#e05a2b',
   data: '#f9a825',
 } as const;
 
