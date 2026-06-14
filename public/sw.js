@@ -1,18 +1,27 @@
+/**
+ * FANDEX Service Worker
+ * 缓存策略：
+ * - HTML 页面：不缓存，直接走网络（浏览器自带条件请求机制）
+ * - 含 hash 的资源（CSS/JS/字体）：Cache First（长期缓存）
+ * - JSON 数据文件：Network First
+ * - 图片/其他：Stale While Revalidate
+ */
+
 /** @type {string} 缓存版本号，更新时修改以清除旧缓存 */
-const CACHE_NAME = 'fandex-v5';
+const CACHE_NAME = 'fandex-v6';
 /** @type {string} 站点基础路径 */
 const BASE = '/FANDEX/';
 
-/** @type {string[]} 预缓存资源列表 */
-const PRECACHE_URLS = [BASE, BASE + 'data/glossary-index.json'];
+/** @type {string[]} 预缓存资源列表（仅静态资源，不含 HTML） */
+const PRECACHE_URLS = [BASE + 'data/glossary-index.json'];
 
 /** @type {Set<string>} 含 hash 的资源扩展名，可长期缓存 */
 const HASHED_EXTS = new Set(['.css', '.js', '.woff2', '.woff', '.ttf']);
-/** @type {Set<string>} 需要网络优先的 JSON 数据文件扩展名 */
+/** @type {RegExp} 需要网络优先的 JSON 数据文件 */
 const JSON_DATA_PATTERN = /\/data\/[^/]+\.json$/;
 
 /**
- * Service Worker 安装事件：预缓存关键资源
+ * Service Worker 安装事件：预缓存关键资源，跳过等待立即激活
  * @param {ExtendableEvent} event
  */
 self.addEventListener('install', (event) => {
@@ -21,7 +30,7 @@ self.addEventListener('install', (event) => {
 });
 
 /**
- * Service Worker 激活事件：清除旧版本缓存
+ * Service Worker 激活事件：清除旧版本缓存，立即接管所有客户端
  * @param {ExtendableEvent} event
  */
 self.addEventListener('activate', (event) => {
@@ -37,10 +46,7 @@ self.addEventListener('activate', (event) => {
 
 /**
  * Fetch 事件：根据资源类型选择缓存策略
- * - 含 hash 的资源（CSS/JS/字体）：Cache First
- * - JSON 数据文件（search-index/glossary-index）：Network First
- * - HTML 页面：Network First（确保用户始终看到最新版本）
- * - 图片/其他：Stale While Revalidate
+ * HTML 页面不经过 SW 缓存，确保用户始终看到最新版本
  * @param {FetchEvent} event
  */
 self.addEventListener('fetch', (event) => {
@@ -51,21 +57,20 @@ self.addEventListener('fetch', (event) => {
   const ext = getExt(url.pathname);
   const isHTML = ext === '' || ext === '.html' || url.pathname.endsWith('/');
 
+  // HTML 页面：不缓存，直接走网络，由浏览器管理缓存
+  if (isHTML) return;
+
   if (HASHED_EXTS.has(ext)) {
     event.respondWith(cacheFirstLong(event.request));
   } else if (JSON_DATA_PATTERN.test(url.pathname)) {
     event.respondWith(networkFirst(event.request));
-  } else if (isHTML) {
-    event.respondWith(networkFirstWithCacheFallback(event.request));
-  } else if (STALE_REVALIDATE_EXTS.has(ext) || ext === '.json') {
-    event.respondWith(staleWhileRevalidate(event.request));
   } else {
     event.respondWith(staleWhileRevalidate(event.request));
   }
 });
 
 /** @type {Set<string>} Stale While Revalidate 适用的扩展名 */
-const STALE_REVALIDATE_EXTS = new Set(['.webp', '.svg', '.png', '.avif']);
+const STALE_REVALIDATE_EXTS = new Set(['.webp', '.svg', '.png', '.avif', '.json']);
 
 /**
  * Cache First 策略：优先从缓存读取，缓存未命中时回退网络
@@ -90,7 +95,7 @@ async function cacheFirstLong(request) {
 
 /**
  * Network First 策略：优先从网络获取，网络失败时回退缓存
- * 适用于需要保持新鲜的数据文件（如搜索索引、术语索引）
+ * 适用于需要保持新鲜的数据文件
  * @param {Request} request
  * @returns {Promise<Response>}
  */
@@ -109,31 +114,8 @@ async function networkFirst(request) {
 }
 
 /**
- * Network First + 缓存回退策略（HTML 专用）
- * 优先从网络获取最新 HTML，确保用户始终看到最新版本
- * 网络失败时回退缓存（离线可用）
- * 网络成功时更新缓存并通知客户端
- * @param {Request} request
- * @returns {Promise<Response>}
- */
-async function networkFirstWithCacheFallback(request) {
-  try {
-    const response = await fetch(request);
-    if (response.ok) {
-      const cache = await caches.open(CACHE_NAME);
-      cache.put(request, response.clone());
-      notifyUpdate();
-    }
-    return response;
-  } catch {
-    const cached = await caches.match(request);
-    return cached || new Response('Offline', { status: 503, statusText: 'Offline' });
-  }
-}
-
-/**
  * Stale While Revalidate 策略：先返回缓存，后台更新
- * 适用于 HTML 页面和图片资源
+ * 适用于图片等可容忍短暂过期的资源
  * @param {Request} request
  * @returns {Promise<Response>}
  */
@@ -144,23 +126,11 @@ async function staleWhileRevalidate(request) {
       if (response.ok) {
         const cache = await caches.open(CACHE_NAME);
         cache.put(request, response.clone());
-        notifyUpdate();
       }
       return response;
     })
     .catch(() => cached || new Response('Offline', { status: 503, statusText: 'Offline' }));
   return cached || fetchPromise;
-}
-
-/**
- * 通知所有客户端缓存已更新
- * @returns {Promise<void>}
- */
-async function notifyUpdate() {
-  const clients = await self.clients.matchAll({ type: 'window' });
-  clients.forEach((client) => {
-    client.postMessage({ type: 'sw-update' });
-  });
 }
 
 /**
