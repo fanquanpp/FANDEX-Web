@@ -6,6 +6,10 @@ import { remarkAdmonition } from './src/lib/remark-admonition';
 import { rehypeLazyImages } from './src/lib/rehype-lazy-images';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import remarkGfm from 'remark-gfm';
+import remarkEmoji from 'remark-emoji';
+import rehypeSlug from 'rehype-slug';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 export default defineConfig({
   site: 'https://fanquanpp.github.io',
@@ -26,8 +30,13 @@ export default defineConfig({
   },
   integrations: [mdx(), sitemap(), vue()],
   markdown: {
-    remarkPlugins: [remarkMath, remarkAdmonition],
-    rehypePlugins: [rehypeKatex, rehypeLazyImages],
+    remarkPlugins: [remarkGfm, remarkEmoji, remarkMath, remarkAdmonition],
+    rehypePlugins: [
+      rehypeSlug,
+      [rehypeAutolinkHeadings, { behavior: 'wrap' }],
+      rehypeKatex,
+      rehypeLazyImages,
+    ],
     shikiConfig: {
       themes: { light: 'github-light', dark: 'github-dark' },
       defaultColor: false,

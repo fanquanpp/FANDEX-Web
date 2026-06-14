@@ -3,7 +3,7 @@
   "version": "4.0.0",
   "private": true,
   "type": "module",
-  "description": "开发者知识库 — 38 模块 · 1195 篇文档 · Astro 5 + Vue 3",
+  "description": "开发者知识库 — 45 模块 · 1521 篇文档 · Astro 5 + Vue 3",
   "scripts": {
     "dev": "astro dev",
     "build": "node scripts/build-glossary-index.mjs && node scripts/build-search-index.mjs && astro build && pagefind --site dist",
@@ -20,7 +20,11 @@
     "@astrojs/vue": "^5.0.0",
     "astro": "^5.5.0",
     "fuse.js": "^7.3.0",
+    "rehype-autolink-headings": "^7.1.0",
     "rehype-katex": "^7.0.1",
+    "rehype-slug": "^6.0.0",
+    "remark-emoji": "^5.0.2",
+    "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0",
     "vue": "^3.5.0"
   },

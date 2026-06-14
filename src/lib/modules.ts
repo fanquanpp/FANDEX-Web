@@ -270,6 +270,34 @@ export const modules = [
     description: '智能体架构与应用',
     categories: ['eng-infra', 'data'],
   },
+  {
+    id: 'software-engineering',
+    title: 'Software Engineering',
+    icon: '软工',
+    description: '需求·设计·重构·度量',
+    categories: ['eng-infra'],
+  },
+  {
+    id: 'software-architecture',
+    title: 'Software Architecture',
+    icon: '架构',
+    description: '架构风格·质量属性·领域驱动',
+    categories: ['eng-infra'],
+  },
+  {
+    id: 'engineering-practices',
+    title: 'Engineering Practices',
+    icon: '实践',
+    description: 'Code Review·On-Call·事故复盘',
+    categories: ['eng-infra'],
+  },
+  {
+    id: 'career',
+    title: 'Career',
+    icon: '职发',
+    description: '面试·晋升·学习路线',
+    categories: ['eng-infra'],
+  },
 
   // ── 数据技术 ──
   {
@@ -277,6 +305,27 @@ export const modules = [
     title: 'Data Analysis',
     icon: '数据',
     description: '统计建模与可视化',
+    categories: ['data'],
+  },
+  {
+    id: 'big-data',
+    title: 'Big Data',
+    icon: '大数据',
+    description: 'HDFS·Spark·Kafka·Flink',
+    categories: ['data'],
+  },
+  {
+    id: 'machine-learning',
+    title: 'Machine Learning',
+    icon: 'ML',
+    description: '监督·无监督·强化学习',
+    categories: ['data'],
+  },
+  {
+    id: 'deep-learning',
+    title: 'Deep Learning',
+    icon: 'DL',
+    description: 'CNN·RNN·Transformer',
     categories: ['data'],
   },
 ] as const;

@@ -115,3 +115,155 @@ html[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
     scroll-behavior: auto !important;
   }
 }
+
+/* ===== Admonition Styles ===== */
+.admonition {
+  --admonition-bg: var(--color-bg-card);
+  --admonition-border: var(--color-border-light);
+  --admonition-text: var(--color-text);
+  --admonition-title-text: var(--color-text);
+
+  padding: var(--spacing-md) var(--spacing-lg);
+  margin: var(--spacing-lg) 0;
+  border-left: 4px solid var(--admonition-border);
+  border-radius: 6px;
+  background: var(--admonition-bg);
+  color: var(--admonition-text);
+  font-size: 0.95em;
+  line-height: 1.75;
+}
+
+.admonition .admonition-title {
+  font-weight: 700;
+  font-size: 0.95em;
+  margin-bottom: var(--spacing-sm);
+  padding-bottom: var(--spacing-xs);
+  color: var(--admonition-title-text);
+}
+
+.admonition .admonition-title::before {
+  margin-right: 6px;
+  font-style: normal;
+}
+
+.admonition p:last-child {
+  margin-bottom: 0;
+}
+
+.admonition .admonition {
+  margin-top: var(--spacing-md);
+  margin-bottom: 0;
+}
+
+/* --- note --- */
+.admonition-note {
+  --admonition-border: #448aff;
+  --admonition-bg: #e8f0fe;
+  --admonition-title-text: #1a56db;
+}
+.admonition-note .admonition-title::before {
+  content: '\2139\FE0E';
+}
+
+/* --- tip --- */
+.admonition-tip {
+  --admonition-border: #00c853;
+  --admonition-bg: #e8f5e9;
+  --admonition-title-text: #1b8a3e;
+}
+.admonition-tip .admonition-title::before {
+  content: '\1F4A1';
+}
+
+/* --- warning --- */
+.admonition-warning {
+  --admonition-border: #ff9100;
+  --admonition-bg: #fff3e0;
+  --admonition-title-text: #c56200;
+}
+.admonition-warning .admonition-title::before {
+  content: '\26A0\FE0E';
+}
+
+/* --- danger --- */
+.admonition-danger {
+  --admonition-border: #ff1744;
+  --admonition-bg: #ffebee;
+  --admonition-title-text: #c41234;
+}
+.admonition-danger .admonition-title::before {
+  content: '\1F6D1';
+}
+
+/* --- caution --- */
+.admonition-caution {
+  --admonition-border: #ff6d00;
+  --admonition-bg: #fff8e1;
+  --admonition-title-text: #bf5600;
+}
+.admonition-caution .admonition-title::before {
+  content: '\1F525';
+}
+
+/* --- info --- */
+.admonition-info {
+  --admonition-border: #2979ff;
+  --admonition-bg: #e3f2fd;
+  --admonition-title-text: #1565c0;
+}
+.admonition-info .admonition-title::before {
+  content: '\2139\FE0E';
+}
+
+/* --- important --- */
+.admonition-important {
+  --admonition-border: #aa00ff;
+  --admonition-bg: #f3e5f5;
+  --admonition-title-text: #7b1fa2;
+}
+.admonition-important .admonition-title::before {
+  content: '\2757';
+}
+
+/* ===== Dark Theme Admonition Overrides ===== */
+[data-theme='dark'] .admonition-note {
+  --admonition-border: #6ea8fe;
+  --admonition-bg: #1a2744;
+  --admonition-title-text: #93b5ff;
+}
+
+[data-theme='dark'] .admonition-tip {
+  --admonition-border: #55efc4;
+  --admonition-bg: #122e20;
+  --admonition-title-text: #6ee7b7;
+}
+
+[data-theme='dark'] .admonition-warning {
+  --admonition-border: #ffb74d;
+  --admonition-bg: #2e2214;
+  --admonition-title-text: #ffcc80;
+}
+
+[data-theme='dark'] .admonition-danger {
+  --admonition-border: #ef5350;
+  --admonition-bg: #2e1416;
+  --admonition-title-text: #ff8a80;
+}
+
+[data-theme='dark'] .admonition-caution {
+  --admonition-border: #ffa726;
+  --admonition-bg: #2e2010;
+  --admonition-title-text: #ffcc80;
+}
+
+[data-theme='dark'] .admonition-info {
+  --admonition-border: #64b5f6;
+  --admonition-bg: #142438;
+  --admonition-title-text: #90caf9;
+}
+
+[data-theme='dark'] .admonition-important {
+  --admonition-border: #ce93d8;
+  --admonition-bg: #261430;
+  --admonition-title-text: #e1bee7;
+}

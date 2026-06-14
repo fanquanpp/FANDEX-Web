@@ -1,32 +1,64 @@
 ---
-order: 56
+order: 105
 title: '类型注解与mypy'
 module: 'python'
-category: 'Python'
-difficulty: 'intermediate'
-description: 'Python类型系统与静态检查'
+category: 'dev-lang'
+difficulty: 'advanced'
+description: 'Python类型注解与mypy静态检查详解。'
 author: 'fanquanpp'
 updated: 2026-06-14
 ---
 
-## 1. 类型注解
+## 1. 基本类型注解
 
 ```python
-from typing import Optional, Union, List, Dict, Callable
-
 def greet(name: str, age: int = 0) -> str:
-  return f"Hello, {name}!"
+    return f"Hello, {name}! You are {age}."
 
-def process(data: list[int] | None = None) -> dict[str, float]:
-  return {}
-
-# 类型别名
-type Vector = list[float]
-type Matrix = list[Vector]
+# 变量注解
+x: int = 42
+names: list[str] = ["Alice", "Bob"]
+scores: dict[str, float] = {"Alice": 95.0}
 ```
 
-## 2. mypy
+## 2. 高级类型
+
+```python
+from typing import Optional, Union, Literal, Callable, TypeVar, Generic
+
+# Optional
+def find(id: int) -> Optional[User]: ...
+
+# Union
+def process(data: Union[str, bytes]) -> None: ...
+
+# Literal
+def set_mode(mode: Literal["read", "write"]) -> None: ...
+
+# Callable
+def apply(fn: Callable[[int], str], value: int) -> str: ...
+
+# 泛型
+T = TypeVar('T')
+class Stack(Generic[T]):
+    def push(self, item: T) -> None: ...
+    def pop(self) -> T: ...
+```
+
+## 3. mypy 使用
 
 ```bash
-mypy --strict my_module.py
+pip install mypy
+mypy src/
+mypy src/ --strict
+```
+
+## 4. pyproject.toml 配置
+
+```toml
+[tool.mypy]
+python_version = "3.12"
+strict = true
+disallow_untyped_defs = true
+warn_return_any = true
 ```
