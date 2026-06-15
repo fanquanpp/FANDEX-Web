@@ -29,13 +29,13 @@ allDocs.forEach(doc => {
 ---
 
 <HomeLayout title="首页">
-  <SEO slot="head" title="FANDEX - 计算机自学教程" description="从零基础到计算机专业毕业生水平的系统化自学教程，覆盖工具链·开发语言·数据库·计算机科学·工程基础设施·数据技术与AI全栈知识体系" type="website" />
+  <SEO slot="head" title="FANDEX" description="一条从零到精通的渐进式学习路径，陪你走过工具链·开发语言·数据库·计算机科学·工程基础设施·数据技术与AI" type="website" />
 
   <div class="home-page">
     <section class="hero">
-      <div class="hero-badge">SELF-STUDY</div>
+      <div class="hero-badge">Zero to Mastery</div>
       <h1 class="hero-title"><span class="hero-title-fan">FAN</span>DEX</h1>
-      <p class="hero-desc">从零基础到计算机专业毕业生水平的系统化自学教程</p>
+      <p class="hero-desc">循序渐进，从第一行代码到理解整个世界</p>
       <div class="hero-stats">
         <div class="stat-item">
           <span class="stat-num">{modules.length}</span>
@@ -66,8 +66,11 @@ allDocs.forEach(doc => {
 
     {grouped.map(group => (
       <section class="category-section" data-category={group.key}>
-        <div class="category-header">
+        <div class="category-header" data-toggle>
           <span class="category-tag" style={`color:${group.color}`}>{group.label}</span>
+          <button class="category-toggle" aria-label="折叠/展开" title="折叠/展开">
+            <svg class="toggle-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
         </div>
         <div class="feature-grid">
           {group.modules.map(mod => (
@@ -189,16 +192,19 @@ allDocs.forEach(doc => {
 .category-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--spacing-sm);
   padding: var(--spacing-sm) var(--spacing-md);
   background: var(--color-bg-card);
   border: 1px solid var(--color-border-light);
   border-bottom: none;
+  cursor: pointer;
+  user-select: none;
 }
 
 .category-tag {
   font-family: var(--font-display);
-  font-size: 0.72rem;
+  font-size: 0.85rem;
   font-weight: 700;
   color: var(--color-primary);
   letter-spacing: 0.05em;
@@ -219,6 +225,34 @@ allDocs.forEach(doc => {
 }
 
 .feature-grid.hidden {
+  display: none;
+}
+
+.category-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--color-text-tertiary);
+  transition: color var(--transition-fast);
+}
+
+.category-toggle:hover {
+  color: var(--color-text-secondary);
+}
+
+.toggle-icon {
+  transition: transform 0.2s ease;
+}
+
+.category-header.collapsed .toggle-icon {
+  transform: rotate(-90deg);
+}
+
+.category-header.collapsed + .feature-grid {
   display: none;
 }
 
@@ -276,3 +310,11 @@ allDocs.forEach(doc => {
   }
 }
 </style>
+
+<script>
+document.querySelectorAll('.category-header[data-toggle]').forEach(header => {
+  header.addEventListener('click', () => {
+    header.classList.toggle('collapsed')
+  })
+})
+</script>
