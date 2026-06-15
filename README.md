@@ -187,7 +187,7 @@ FANDEX/
 ├── scripts/               # 工具脚本
 │   ├── build-glossary-index.mjs   # 术语索引构建
 │   ├── build-search-index.mjs     # 搜索索引构建
-│   ├── clean-true-prefix.mjs      # AI 痕迹清理
+│   ├── generate-cheatsheet-highlights.js  # 速查表高亮生成
 │   ├── content-audit.mjs          # 内容质量审计
 │   └── qa-check.mjs               # 预发布质量检查
 ├── src/
@@ -206,7 +206,8 @@ FANDEX/
 │   ├── islands/           # Vue 岛屿组件
 │   │   ├── ThemeToggle.vue         # 暗色模式切换
 │   │   ├── ProgressToggle.vue      # 阅读进度追踪
-│   │   └── QuizBlock.vue           # 交互测验
+│   │   ├── QuizBlock.vue           # 交互测验
+│   │   └── CheatSheet.vue          # 语法速查组件
 │   ├── lib/               # 工具函数
 │   │   ├── constants.ts            # 站点常量
 │   │   ├── modules.ts              # 模块定义与前置关系
