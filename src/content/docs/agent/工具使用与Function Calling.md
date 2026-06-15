@@ -6,7 +6,7 @@ category: 'AI Agent'
 difficulty: 'intermediate'
 description: 'Function Calling 原理、工具定义、MCP 协议、RAG 检索增强生成与知识库构建。'
 author: 'fanquanpp'
-updated: 2026-06-14
+updated: 2026-06-15
 ---
 
 ## 1. Function Calling 原理
@@ -210,17 +210,17 @@ print(answer)
 
 MCP（Model Context Protocol）是 Anthropic 提出的**开放协议**，标准化了 LLM 与外部工具/数据源的交互方式：
 
-```
-┌──────────┐     MCP      ┌──────────┐
-│  LLM 应用 │ ←──────────→ │ MCP 服务器 │
-│ (Client)  │   标准协议    │ (Server)  │
-└──────────┘              └──────────┘
-                               │
-                    ┌──────────┼──────────┐
-                    ↓          ↓          ↓
-              ┌────────┐ ┌────────┐ ┌────────┐
-              │ 文件系统 │ │ 数据库  │ │ Web API │
-              └────────┘ └────────┘ └────────┘
+```mermaid
+graph TB
+  Client[LLM 应用<br/>Client]
+  Server[MCP 服务器<br/>Server]
+  FS[文件系统]
+  DB[数据库]
+  API[Web API]
+  Client <-->|MCP 标准协议| Server
+  Server --> FS
+  Server --> DB
+  Server --> API
 ```
 
 ### 3.2 MCP 服务器实现

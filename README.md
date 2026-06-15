@@ -2,9 +2,9 @@
 
 # FANDEX
 
-**计算机自学教程** · fanquanpp + memex
+**循序渐进的自学之旅** · fanquanpp + memex
 
-循序渐进，从第一行代码到理解整个世界。工具链 · 开发语言 · 数据库 · 计算机科学 · 工程基础设施 · 数据技术与AI
+从第一行代码到理解整个世界，一段无需前置门槛的渐进式学习路径。覆盖工具链、开发语言、数据库、计算机科学、工程基础设施与数据技术六大领域，以结构化的文档体系陪伴每一位自学者走完从入门到精通的完整旅程。
 
 [![在线阅读](https://img.shields.io/badge/在线阅读-fanquanpp.github.io%2FFANDEX-2563eb?style=for-the-badge&logo=github&logoColor=white)](https://fanquanpp.github.io/FANDEX/)
 [![Astro 5](https://img.shields.io/badge/Astro-5-ff5d01?style=flat-square&logo=astro&logoColor=white)](https://astro.build)
@@ -15,6 +15,14 @@
 </div>
 
 ---
+
+> 桌面端浏览器可获得最佳阅读体验，移动端亦可正常访问，部分交互细节仍在持续打磨中。
+
+## 关于
+
+FANDEX 是一份面向零基础学习者的计算机自学教程，力求以系统化的知识组织方式，帮助自学者逐步建立从编程入门到计算机专业毕业生水平的完整知识体系。每一篇文档都经过结构化编排，包含概念讲解、代码示例与实践要点，无需任何先修课程即可开始学习。
+
+六大领域环环相扣：工具链奠定操作基础，开发语言打开编程世界，数据库承载持久化能力，计算机科学构建理论根基，工程与基础设施连接理论与实践，数据技术与AI延伸至前沿应用。各模块之间通过前置知识关系自然衔接，学习者可按需跳转，亦可循序渐进。
 
 ## 模块总览
 
@@ -229,14 +237,7 @@ FANDEX/
 
 ## 构建流程
 
-```
-npm run build
-  │
-  ├── 1. build-glossary-index.mjs  →  public/data/glossary-index.json
-  ├── 2. build-search-index.mjs    →  public/data/search-index.json
-  ├── 3. astro build               →  dist/ (静态 HTML + 资源)
-  └── 4. pagefind --site dist      →  dist/pagefind/ (搜索索引)
-```
+构建过程依次执行四个步骤：首先由 `build-glossary-index.mjs` 生成术语索引至 `public/data/glossary-index.json`，随后 `build-search-index.mjs` 生成搜索索引至 `public/data/search-index.json`，然后 Astro 执行静态站点构建输出至 `dist/` 目录，最后 Pagefind 基于构建产物生成客户端搜索索引至 `dist/pagefind/`。
 
 ## 部署
 
@@ -256,7 +257,7 @@ Settings → Pages → Source 选择 **GitHub Actions** 即可。
 
 ## 免责声明
 
-本项目所有内容仅供个人学习与参考使用，不构成任何形式的专业建议、担保或承诺。详见 [免责声明](https://fanquanpp.github.io/FANDEX/)。
+本项目所有内容仅供个人学习与参考使用，不构成任何形式的专业建议、担保或承诺。详见 [免责声明](https://fanquanpp.github.io/FANDEX/getting-started/%E5%85%8D%E8%B4%A3%E5%A3%B0%E6%98%8E/)。
 
 ## 许可证
 

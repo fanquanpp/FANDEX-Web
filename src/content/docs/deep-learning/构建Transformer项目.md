@@ -4,6 +4,7 @@ description: '十三节课,一个模型,没有捷径——从零构建完整deco
 module: 'deep-learning'
 difficulty: 'advanced'
 tags: ['Transformer', '从零构建', 'nanoGPT', '训练', 'Shakespeare']
+updated: 2026-06-15
 ---
 
 # 从零构建Transformer — 毕业项目
@@ -27,33 +28,23 @@ tags: ['Transformer', '从零构建', 'nanoGPT', '训练', 'Shakespeare']
 
 架构,标注:
 
-```
-输入token (B, N)
-   │
-   ▼
-token嵌入 + 位置嵌入  ◀── 第04课 (RoPE选项)
-   │
-   ▼
-┌──── block × L ────────────────────┐
-│  RMSNorm                          │  ◀── 第05课
-│  MultiHeadAttention (因果)        │  ◀── 第03课 + 07 (因果掩码)
-│  残差                             │
-│  RMSNorm                          │
-│  SwiGLU FFN                       │  ◀── 第05课
-│  残差                             │
-└──────────────────────────────────┘
-   │
-   ▼
-最终RMSNorm
-   │
-   ▼
-lm_head (与token嵌入绑定)
-   │
-   ▼
-logits (B, N, V)
-   │
-   ▼
-移位一交叉熵                        ◀── 第07课
+```mermaid
+graph TD
+    Input["输入token (B, N)"] --> Embed["token嵌入 + 位置嵌入"]
+    Embed --> Block["block x L"]
+    Block --> FinalNorm["最终RMSNorm"]
+    FinalNorm --> LMHead["lm_head 与token嵌入绑定"]
+    LMHead --> Logits["logits (B, N, V)"]
+    Logits --> Loss["移位一交叉熵"]
+
+    subgraph Block["block x L"]
+        direction TB
+        RN1["RMSNorm"] --> MHA["MultiHeadAttention 因果"]
+        MHA --> Res1["残差"]
+        Res1 --> RN2["RMSNorm"]
+        RN2 --> FFN["SwiGLU FFN"]
+        FFN --> Res2["残差"]
+    end
 ```
 
 ### 我们交付什么

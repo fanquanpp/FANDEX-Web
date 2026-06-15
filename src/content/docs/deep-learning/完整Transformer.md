@@ -38,11 +38,11 @@ tags: ['Transformer', '编码器', '解码器', '残差连接', 'RMSNorm', 'SwiG
 
 ### 编码器块(用于BERT, T5编码器)
 
-```
-x → LN → MHA(self) → + → LN → FFN → + → out
-                     ^              ^
-                     |              |
-                     └── residual ──┘
+```mermaid
+graph LR
+    X["x"] --> LN1["LN"] --> MHA["MHA(self)"] --> A1["+"] --> LN2["LN"] --> FFN --> A2["+"] --> OUT["out"]
+    X -->|"残差"| A1
+    A1 -->|"残差"| A2
 ```
 
 编码器是双向的。没有掩码。所有位置看到所有位置。

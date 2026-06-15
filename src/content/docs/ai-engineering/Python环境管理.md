@@ -4,6 +4,7 @@ description: '使用 uv、venv、conda 创建隔离虚拟环境，编写 pyproje
 module: 'ai-engineering'
 difficulty: 'beginner'
 tags: ['Python', '虚拟环境', 'uv', 'conda', '依赖管理', 'pyproject.toml']
+updated: 2026-06-15
 ---
 
 # Python 环境管理
@@ -126,16 +127,16 @@ conda install pytorch torchvision torchaudio pytorch-cuda=12.4 -c pytorch -c nvi
 
 ```
 ai-engineering-from-scratch/
-├── .venv/                    <-- 共享轻量环境，用于阶段 0-3
-├── phases/
-│   ├── 04-neural-networks/
-│   │   └── .venv/            <-- PyTorch 环境
-│   ├── 05-cnns/
-│   │   └── .venv/            <-- 相同的 PyTorch 环境（符号链接或共享）
-│   ├── 08-transformers/
-│   │   └── .venv/            <-- 可能需要不同的 transformer 版本
-│   └── 11-llm-apis/
-│       └── .venv/            <-- API SDKs，不需要 torch
+  .venv/                    <-- 共享轻量环境，用于阶段 0-3
+  phases/
+    04-neural-networks/
+      .venv/                <-- PyTorch 环境
+    05-cnns/
+      .venv/                <-- 相同的 PyTorch 环境（符号链接或共享）
+    08-transformers/
+      .venv/                <-- 可能需要不同的 transformer 版本
+    11-llm-apis/
+      .venv/                <-- API SDKs，不需要 torch
 ```
 
 `code/env_setup.sh` 中的脚本会创建本课程的基础环境。

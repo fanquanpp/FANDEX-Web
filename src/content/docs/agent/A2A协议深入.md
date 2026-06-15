@@ -2,6 +2,7 @@
 title: A2A协议深入
 description: 'Google 于 2025 年 4 月宣布 A2A；到 2026 年 4 月，规范位于 https://a2a-protocol.org/latest/specification/，150+ 组织支持它。A2A 是 MCP (Lesson 13) 的水平补充：MCP 是垂直的（Agent ↔ ...'
 module: agent
+updated: 2026-06-15
 ---
 
 # A2A — Agent 到 Agent 协议
@@ -53,16 +54,18 @@ GET https://agent.example.com/.well-known/agent.json
 
 ### 发现流程
 
-```
-Client                     Agent server
-  ├──GET /.well-known/agent.json──>
-  <──Agent Card JSON─────────────
-  ├──POST /tasks {skill, input}──>
-  <──201 task_id, state=submitted
-  ├──GET /tasks/{id}──────────────>
-  <──state=working, 42% done──────
-  ├──GET /tasks/{id}──────────────>
-  <──state=completed, artifacts──
+```mermaid
+sequenceDiagram
+  participant C as Client
+  participant S as Agent server
+  C->>S: GET /.well-known/agent.json
+  S-->>C: Agent Card JSON
+  C->>S: POST /tasks {skill, input}
+  S-->>C: 201 task_id, state=submitted
+  C->>S: GET /tasks/{id}
+  S-->>C: state=working, 42% done
+  C->>S: GET /tasks/{id}
+  S-->>C: state=completed, artifacts
 ```
 
 或使用流式：SSE 订阅 `/tasks/{id}/events` 获取推送更新。
