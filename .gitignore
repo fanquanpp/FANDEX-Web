@@ -12,6 +12,30 @@ Thumbs.db
 npm-debug.log*
 .obsidian/
 .uploads/
+.cache/
+
+# 构建生成的数据文件
 public/data/glossary-index.json
 public/data/search-index.json
-.cache/
+
+# IDE / 编辑器
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS 生成文件
+Desktop.ini
+ehthumbs.db
+
+# 压缩包 / 二进制产物
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# Code Wiki (generated)
+CODE_WIKI.md
+Code-Wiki.md
