@@ -74,6 +74,86 @@ allDocs.forEach(doc => {
       </div>
     </section>
 
+    <!-- FANDEX 生态区域：三项目联动入口 -->
+    <section class="ecosystem-section">
+      <div class="ecosystem-header">
+        <span class="ecosystem-tag">FANDEX 生态</span>
+        <p class="ecosystem-desc">同一知识体系，三种使用形态。内容基准统一以本仓库为准，各仓库代码独立、内容关联</p>
+      </div>
+      <div class="ecosystem-grid">
+        <!-- FANDEX-Web 当前站点 -->
+        <article class="eco-card eco-card-current">
+          <div class="eco-card-header">
+            <div class="eco-icon eco-icon-web">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+            </div>
+            <div class="eco-card-title-group">
+              <h3 class="eco-card-title">FANDEX-web</h3>
+              <span class="eco-card-badge">当前站点</span>
+            </div>
+          </div>
+          <p class="eco-card-positioning">线上学习平台 · 内容基准仓库</p>
+          <p class="eco-card-detail">全部项目的根本内容源，51 模块 1993 篇文档，浏览器直接访问，交互测验与知识地图</p>
+          <div class="eco-card-tech">Astro 5 + Vue 3 + Pagefind</div>
+          <a href="https://fanquanpp.github.io/FANDEX-web/" class="eco-card-link eco-card-link-current" target="_blank" rel="noopener noreferrer">
+            <span>在线阅读</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </a>
+        </article>
+
+        <!-- FANDEX-exe 桌面端 -->
+        <article class="eco-card">
+          <div class="eco-card-header">
+            <div class="eco-icon eco-icon-exe">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+            </div>
+            <div class="eco-card-title-group">
+              <h3 class="eco-card-title">FANDEX-exe</h3>
+              <span class="eco-card-badge eco-card-badge-download">下载</span>
+            </div>
+          </div>
+          <p class="eco-card-positioning">Windows 桌面端 · 离线学习平台</p>
+          <p class="eco-card-detail">完全离线访问，内置静态服务器，桌面级系统集成，离线 ZIP 包与移动端导出产物</p>
+          <div class="eco-card-tech">Electron 33 + Astro 5 + TypeScript</div>
+          <a href="https://github.com/fanquanpp/FANDEX-exe/releases" class="eco-card-link" target="_blank" rel="noopener noreferrer">
+            <span>下载桌面端</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </a>
+        </article>
+
+        <!-- FANDEX-App 移动端 -->
+        <article class="eco-card">
+          <div class="eco-card-header">
+            <div class="eco-icon eco-icon-app">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                <line x1="12" y1="18" x2="12.01" y2="18"/>
+              </svg>
+            </div>
+            <div class="eco-card-title-group">
+              <h3 class="eco-card-title">FANDEX-App</h3>
+              <span class="eco-card-badge eco-card-badge-download">下载</span>
+            </div>
+          </div>
+          <p class="eco-card-positioning">Android 移动端 · 离线速查应用</p>
+          <p class="eco-card-detail">完全离线，17 模块 207 篇语法速查文档，Kotlin + Jetpack Compose 原生渲染，中英日三语界面</p>
+          <div class="eco-card-tech">Kotlin + Jetpack Compose + Material 3</div>
+          <a href="https://fanquanpp.github.io/FANDEX-App/" class="eco-card-link" target="_blank" rel="noopener noreferrer">
+            <span>下载 APP</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </a>
+        </article>
+      </div>
+    </section>
+
     <!-- 按分类展示模块卡片 -->
     {grouped.map(group => (
       <section class="category-section" data-category={group.key}>
@@ -95,6 +175,19 @@ allDocs.forEach(doc => {
 
     <!-- 页脚 -->
     <footer class="home-footer">
+      <div class="footer-eco-links">
+        <a href="https://github.com/fanquanpp/FANDEX-web" target="_blank" rel="noopener noreferrer" class="footer-eco-link footer-eco-link-current">
+          FANDEX-web · 线上平台
+        </a>
+        <span class="footer-divider">|</span>
+        <a href="https://github.com/fanquanpp/FANDEX-exe" target="_blank" rel="noopener noreferrer" class="footer-eco-link">
+          FANDEX-exe · 桌面端
+        </a>
+        <span class="footer-divider">|</span>
+        <a href="https://github.com/fanquanpp/FANDEX-App" target="_blank" rel="noopener noreferrer" class="footer-eco-link">
+          FANDEX-App · 移动端
+        </a>
+      </div>
       <div class="footer-links">
         <a href="https://github.com/fanquanpp/FANDEX-web#开源共享与免责声明" target="_blank" rel="noopener noreferrer">免责声明</a>
         <span class="footer-divider">|</span>
@@ -227,6 +320,179 @@ allDocs.forEach(doc => {
   opacity: 0.8;
 }
 
+/* ========== FANDEX 生态区域 ========== */
+.ecosystem-section {
+  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-lg) 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.ecosystem-header {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.ecosystem-tag {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  padding: 3px 12px;
+  margin-bottom: var(--spacing-sm);
+}
+
+.ecosystem-desc {
+  font-size: 0.82rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+  font-weight: 400;
+}
+
+/* 生态卡片网格 */
+.ecosystem-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--color-border-light);
+  border: 1px solid var(--color-border-light);
+  overflow: hidden;
+}
+
+/* 生态卡片 */
+.eco-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-md);
+  background: var(--color-bg-card);
+  transition: background var(--transition-fast);
+}
+
+.eco-card:hover {
+  background: var(--color-bg-hover, rgba(128,128,128,0.04));
+}
+
+/* 当前站点卡片高亮 */
+.eco-card-current {
+  background: var(--color-bg-card);
+  border-left: 3px solid var(--color-primary);
+}
+
+.eco-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: 4px;
+}
+
+.eco-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-hover, rgba(128,128,128,0.08));
+}
+
+.eco-icon-web { color: var(--color-primary); }
+.eco-icon-exe { color: #47848f; }
+.eco-icon-app { color: #42b883; }
+
+.eco-card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.eco-card-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.eco-card-badge {
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.eco-card-badge-download {
+  color: var(--color-text-tertiary);
+  border-color: var(--color-border);
+}
+
+.eco-card-positioning {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.eco-card-detail {
+  font-size: 0.78rem;
+  color: var(--color-text-tertiary);
+  margin: 0;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.eco-card-tech {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  color: var(--color-text-tertiary);
+  opacity: 0.7;
+  padding: 4px 0;
+  border-top: 1px dashed var(--color-border-light);
+}
+
+.eco-card-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  padding: 6px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+  margin-top: 4px;
+}
+
+.eco-card-link:hover {
+  color: var(--color-text);
+  border-color: var(--color-text-secondary);
+  background: var(--color-bg-hover, rgba(128,128,128,0.06));
+}
+
+.eco-card-link-current {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.eco-card-link-current:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  background: var(--color-bg-hover, rgba(128,128,128,0.06));
+}
+
 /* 分类区域 */
 .category-section {
   margin-bottom: var(--spacing-lg);
@@ -337,6 +603,37 @@ allDocs.forEach(doc => {
   color: var(--color-primary);
 }
 
+/* 页脚生态联动链接 */
+.footer-eco-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px dashed var(--color-border-light);
+}
+
+.footer-eco-link {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-tertiary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.footer-eco-link:hover {
+  color: var(--color-text-secondary);
+}
+
+.footer-eco-link-current {
+  color: var(--color-primary);
+}
+
+.footer-eco-link-current:hover {
+  color: var(--color-primary);
+}
+
 .footer-stats {
   color: var(--color-text-tertiary);
 }
@@ -380,6 +677,29 @@ allDocs.forEach(doc => {
 
   .stat-num {
     font-size: 1.1em;
+  }
+
+  /* 生态区域移动端：单列布局 */
+  .ecosystem-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .eco-card {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .eco-card-detail {
+    font-size: 0.72rem;
+  }
+
+  /* 页脚生态链接移动端：换行显示 */
+  .footer-eco-links {
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+
+  .footer-eco-link {
+    font-size: 0.72rem;
   }
 
   .feature-grid {
